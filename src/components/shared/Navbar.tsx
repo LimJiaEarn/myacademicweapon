@@ -1,6 +1,13 @@
 "use client"
 
 import { SignedIn, SignedOut, UserButton, SignIn, SignUp } from "@clerk/nextjs";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+  SheetClose
+} from "@/components/ui/sheet";
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -44,7 +51,7 @@ const Navbar = () => {
           </SignedIn>
 
           <SignedOut>
-            <ul className="flex_center">
+            <ul className="flex_center gap-4">
                 {navLinks.map((link) => {
 
                   const isActive = link.route === pathname;
@@ -79,10 +86,99 @@ const Navbar = () => {
         </div>
         
         {/* Mobile Navigation */}
-        <div className="fixed md:hidden right-2">
+        <div className="fixed md:hidden right-2 flex gap-4">
             <SignedIn>
               <UserButton afterSignOutUrl="/"/>
             </SignedIn>
+
+            <Sheet>
+              <SheetTrigger>
+                <Image src="/icons/menu.svg" alt="menu" height={32} width={32}/>
+              </SheetTrigger>
+
+              <SheetContent className="w-64">
+                <SheetHeader>
+                <div className="flex flex-col items-center justify-center">
+
+                  <Link href="/" className="flex items-center justify-center gap-2 mb-10">
+                    <Image src="/images/logo.png" alt="logo" width={160} height={160}/>
+                  </Link>
+
+                  <SignedIn>
+                    <ul className="flex_col_center gap-4">
+                      {navLinks.map((link) => {
+
+                        const isActive = link.route === pathname;
+
+                        return (
+                          <li key={link.id} className={`flex w-full transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                            <SheetClose asChild>
+                              <Link href={link.route} className="flex gap-2">
+                                <Image src={link.icon} alt="icon" height={24} width={24}/>
+                                <p className="font-bold">{link.label}</p>
+                              </Link>
+                            </SheetClose>
+                            
+                          </li>
+                          )
+                      })}
+                    </ul>
+                    
+                    {/* This User Button renders but features are unusable, commented out till fix found*/}
+                    {/* <div className="mt-10">
+                      <UserButton afterSignOutUrl="/"/>
+                    </div> */}
+                  </SignedIn>
+
+                  <SignedOut>
+                    <ul className="flex_col_center gap-4">
+                        {navLinks.map((link) => {
+
+                          const isActive = link.route === pathname;
+
+                          return (
+                            <li key={link.id} className={`flex w-full px-4 transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                              <SheetClose asChild>
+                                <Link href={link.route} className="flex gap-2">
+                                  <Image src={link.icon} alt="icon" height={24} width={24}/>
+                                  <p className="font-bold">{link.label}</p>
+                                </Link>
+                              </SheetClose>
+                            </li>                  
+                            )
+                        })}
+
+                        <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-700'}`}>
+                          <SheetClose asChild>
+                            <Link href='/sign-in' className="flex gap-2">
+                              <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
+                              <p className="font-bold">Sign In</p>
+                            </Link>
+                          </SheetClose>
+                        </li>
+
+                        <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-700'}`}>
+                          <SheetClose asChild>
+                            <Link href='/sign-up' className="flex gap-2">
+                              <Image src="/icons/sign-up.svg" alt="icon" height={24} width={24}/>
+                              <p className="font-bold">Sign Up</p>
+                            </Link>
+                          </SheetClose>
+                        </li>
+
+                      </ul>
+                  </SignedOut>
+
+
+
+                </div>
+                
+
+                </SheetHeader>
+              </SheetContent>
+            
+            </Sheet>
+
         </div>
 
     </nav>

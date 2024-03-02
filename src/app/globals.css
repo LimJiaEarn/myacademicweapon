@@ -63,14 +63,23 @@ body {
 
   }
 
-
-
   .flex_between{
 
     @apply flex justify-between items-center
 
   }
 
+  .flex_col_center{
+
+    @apply flex flex-col justify-center items-center 
+
+  }
+
+  .flex_col_between{
+
+    @apply flex flex-col justify-between items-center
+
+  }
 
 
 
