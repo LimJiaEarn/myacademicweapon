@@ -1,6 +1,6 @@
 "use client"
 
-import { UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, SignIn, SignUp } from "@clerk/nextjs";
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,29 +23,67 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex_between gap-4">
+          <SignedIn>
+            <ul className="flex_center gap-4">
+              {navLinks.map((link) => {
 
-          <ul className="flex_center">
-            {navLinks.map((link) => {
+                const isActive = link.route === pathname;
 
-              const isActive = link.route === pathname;
+                return (
+                  <li key={link.id} className={`flex w-full transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                    <Link href={link.route} className="flex gap-2">
+                      <Image src={link.icon} alt="icon" height={24} width={24}/>
+                      <p className="font-bold">{link.label}</p>
+                    </Link>
+                  </li>
+                  )
+              })}
+            </ul>
 
-              return (
-                <li key={link.id} className={`flex w-full px-4 transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
-                  <Link href={link.route} className="flex gap-2">
-                    <Image src={link.icon} alt="icon" height={24} width={24}/>
-                    <p className="font-bold">{link.label}</p>
+            <UserButton afterSignOutUrl="/"/>
+          </SignedIn>
+
+          <SignedOut>
+            <ul className="flex_center">
+                {navLinks.map((link) => {
+
+                  const isActive = link.route === pathname;
+
+                  return (
+                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                      <Link href={link.route} className="flex gap-2">
+                        <Image src={link.icon} alt="icon" height={24} width={24}/>
+                        <p className="font-bold">{link.label}</p>
+                      </Link>
+                    </li>                  
+                    )
+                })}
+
+                <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-700'}`}>
+                  <Link href='/sign-in' className="flex gap-2">
+                    <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
+                    <p className="font-bold">Sign In</p>
                   </Link>
                 </li>
-              
-                )
 
-            })}
-          </ul>
+                <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-700'}`}>
+                  <Link href='/sign-up' className="flex gap-2">
+                    <Image src="/icons/sign-up.svg" alt="icon" height={24} width={24}/>
+                    <p className="font-bold">Sign Up</p>
+                  </Link>
+                </li>
 
-          <UserButton showName/>
+              </ul>
+          </SignedOut>
+
         </div>
-
-
+        
+        {/* Mobile Navigation */}
+        <div className="fixed md:hidden right-2">
+            <SignedIn>
+              <UserButton afterSignOutUrl="/"/>
+            </SignedIn>
+        </div>
 
     </nav>
   )
