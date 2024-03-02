@@ -2,40 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Remove all default margin and padding */
+
 *,
+
 *::before,
+
 *::after {
+
   margin: 0;
+
   padding: 0;
+
   box-sizing: border-box; /* This ensures that padding and borders are included in the total width and height of the elements */
+
 }
+
 html {
+
   scroll-behavior: smooth;
+
 }
+
+
+
 
 
 :root {
+
   font-size: 16px;
+
 }
+
+
 
 body {
 
+
+
 }
+
+
 
 @layer utilities {
 
+
+
   .debugger{
+
     @apply border-4 border-red-500
+
   }
+
+
 
   .flex_center{
+
     @apply flex justify-center items-center 
+
   }
 
+
+
   .flex_between{
+
     @apply flex justify-between items-center
+
   }
+
+
+
 
 
 }
