@@ -1,7 +1,16 @@
+import Card from "../components/shared/Card";
+
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    
+    <div className="">
+      HomePage
+
+
+
+
+    </div>
   )
 }
 

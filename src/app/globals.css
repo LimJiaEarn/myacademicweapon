@@ -25,10 +25,6 @@ html {
 
 }
 
-
-
-
-
 :root {
 
   font-size: 16px;
@@ -38,9 +34,7 @@ html {
 
 
 body {
-
-
-
+  @apply bg-gray-50;
 }
 
 

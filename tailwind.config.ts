@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss"
 
-const config = {
+const config: Config = {
   darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -18,6 +18,17 @@ const config = {
       },
     },
     extend: {
+      colors: {
+
+        // Background Colors
+        'warm_beige': 'hsl(30, 20%, 90%)',
+        'teal_green': 'hsl(160, 40%, 70%)',
+
+        // Primary Colors
+        'soft_sky_blue': 'hsl(200, 30%, 80%)', // Approximation of Soft Sky Blue
+        'earthy_brown': 'hsl(25, 50%, 50%)', // Approximation of Earthy Brown
+
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -35,6 +46,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+}
 
 export default config
