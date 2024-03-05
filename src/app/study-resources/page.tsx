@@ -8,13 +8,18 @@ interface LevelCardProps {
 
 const LevelCard = ({ h2text, para }: LevelCardProps) => {
   return (
-    <div className="flex flex-col items-center gap-4">
+
+    <div className="flex flex-col items-center gap-4 ">
+
       <h2>
         {h2text}
       </h2>
+
       <p>
         {para}
       </p>
+
+
     </div>
   )
 }
@@ -23,7 +28,7 @@ const StudyResourcesPage = () => {
 
   return (
 
-    <div className="w-full flex flex-col items-center sm:flex-row sm:items-start gap-8 mx-2 my-4">
+    <div className="w-full flex flex-col items-center sm:flex-row sm:items-start gap-8 px-2 my-4 purple_gradient">
 
       {/* Sidebar for navigating between different levels of resources */}
       <div className="w-[250px] bg-gray-300 rounded-xl flex_col_center sm:flex_center py-2 gap-6">
