@@ -7,6 +7,12 @@ export const navLinks = [
   },
   {
     id:"navLink2",
+    label: "About Us",
+    route: "/about-us",
+    icon: "/icons/home.svg",
+  },
+  {
+    id:"navLink3",
     label: "Study Resources",
     route: "/study-resources",
     icon: "/icons/study-resources.svg",
@@ -25,3 +31,25 @@ export const testimonials = [
     name: "",
   }
 ]
+
+
+export const studyResources = [
+  {
+    id:"studyResources1",
+    label: "Primary",
+    route: "/study-resources/primary",
+    desc: ""
+  },
+  {
+    id:"studyResources2",
+    label: "Secondary",
+    route: "/study-resources/secondary",
+    desc: ""
+  },
+  {
+    id:"studyResources3",
+    label: "JC",
+    route: "/study-resources/jc",
+    desc: ""
+  }
+];

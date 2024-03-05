@@ -1,11 +1,14 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { authMiddleware, redirectToSignIn  } from "@clerk/nextjs";
+import { NextResponse } from 'next/server';
  
 export default authMiddleware({
+
   // Routes that can be accessed while signed out
-  publicRoutes: ['/'],
+  publicRoutes: ['/', '/about-us', '/study-resources', '/study-resources/jc', '/study-resources/secondary', '/study-resources/primary'],
+
   // Routes that can always be accessed, and have
   // no authentication information
-  ignoredRoutes: ['/study-resources', '/'],
+  ignoredRoutes: ['/study-resources', '/about-us']
 });
  
 export const config = {

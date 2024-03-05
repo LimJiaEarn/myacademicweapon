@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
 
-    <nav className="px-6 xl:px-10 flex_between border-b bg-teal_green">
+    <nav className="px-6 xl:px-10 flex_between border-b bg-teal_green max-w-[100%]">
 
         <div className="flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
@@ -86,7 +86,7 @@ const Navbar = () => {
         </div>
         
         {/* Mobile Navigation */}
-        <div className="fixed md:hidden right-2 flex gap-4">
+        <div className="md:hidden right-2 flex gap-4">
             <SignedIn>
               <UserButton afterSignOutUrl="/"/>
             </SignedIn>
