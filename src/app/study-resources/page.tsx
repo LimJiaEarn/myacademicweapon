@@ -1,52 +1,15 @@
 import Link from 'next/link';
 import { studyResources } from '../../../constants';
 
-interface LevelCardProps {
-  h2text: string;
-  para: string;
-}
-
-const LevelCard = ({ h2text, para }: LevelCardProps) => {
-  return (
-
-    <div className="flex flex-col items-center gap-4 ">
-
-      <h2>
-        {h2text}
-      </h2>
-
-      <p>
-        {para}
-      </p>
-
-
-    </div>
-  )
-}
 
 const StudyResourcesPage = () => {
 
   return (
 
-    <div className="w-full flex flex-col items-center sm:flex-row sm:items-start gap-8 px-2 my-4 purple_gradient">
-
-      {/* Sidebar for navigating between different levels of resources */}
-      <div className="w-[250px] bg-gray-300 rounded-xl flex_col_center sm:flex_center py-2 gap-6">
-        {studyResources?.map( (curr) => {
-        return(
-          <div key={curr.id}>
-            <Link href={curr.route} className="flex gap-2">
-              {curr.label} Resources
-            </Link>
-          </div>
-        )
-        })}
-        
-      </div>
-
-      {/* Hero and Description Sections */}
+    <div className="w-full flex_center sm:items-start gap-8 px-2 my-4">      
       <div className="max-w-[100%] flex_col_center px-4">
-        
+
+        {/* Hero and Description Sections */}
         <div className="flex_col_center gap-4">
 
           <h1 className="text-2xl font-bold text-center max-w-[80ch]">
@@ -63,13 +26,15 @@ const StudyResourcesPage = () => {
 
         </div>
         
-        <LevelCard h2text="PSLE Resources" para="Coming Soon!" />
 
-        
 
-        
+
+
+
+
+
+
       </div>
-
     </div>
 
   )
