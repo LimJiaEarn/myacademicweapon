@@ -28,22 +28,25 @@ export const testimonials = [
 
 
 export const studyResources = [
-  // {
-  //   id:"studyResources1",
-  //   label: "Primary",
-  //   route: "/study-resources/primary",
-  //   desc: ""
-  // },
+  {
+    id:"studyResources1",
+    label: "Primary",
+    route: "", // Coming Soon
+    title: "Primary Pupils' Pavilion",
+    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!"
+  },
   {
     id:"studyResources2",
     label: "Secondary",
     route: "/study-resources/secondary",
-    desc: ""
+    title: "Secondary Scholars Sanctum",
+    desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!"
   },
-  // {
-  //   id:"studyResources3",
-  //   label: "JC",
-  //   route: "/study-resources/jc",
-  //   desc: ""
-  // }
+  {
+    id:"studyResources3",
+    label: "JC",
+    route: "", // Coming Soon
+    title: "Tertiary Titans Tower",
+    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!"
+  }
 ];
