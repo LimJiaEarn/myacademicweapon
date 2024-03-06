@@ -8,25 +8,24 @@ const WelcomeSection = () => {
 
 const { user } = useUser();
 
-console.log(user?.firstName);
 
   return (
-    <div>
+    <section className="flex_col_center">
 
-        {user ? 
-        <p>Welcome {user.firstName} !</p>
-        :
-        <p> 
-            Sign in to track your progress !
-            <Link href="/sign-in" className="flex gap-2">
-                Sign in !
-            </Link>
-        </p>
-        }
+      {user ? 
+      <p className="py-4 md:py-6 text-3xl md:text-4xl ">Welcome <span className="font-bold">{user.firstName}</span> !</p>
+      :
+      <p> 
+          Sign in to track your progress !
+          <Link href="/sign-in" className="flex gap-2">
+              Sign in !
+          </Link>
+      </p>
+      }
+      
+      
 
-
-
-    </div>
+    </section>
   )
 }
 

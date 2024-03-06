@@ -33,20 +33,23 @@ export const studyResources = [
     label: "Primary",
     route: "", // Coming Soon
     title: "Primary Pupils' Pavilion",
-    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!"
+    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!",
+    image: "/images/pri-section.webp"
   },
   {
     id:"studyResources2",
     label: "Secondary",
     route: "/study-resources/secondary",
     title: "Secondary Scholars Sanctum",
-    desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!"
+    desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!",
+    image: "/images/sec-section.webp"
   },
   {
     id:"studyResources3",
     label: "JC",
     route: "", // Coming Soon
     title: "Tertiary Titans Tower",
-    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!"
+    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
+    image: "/images/jc-section.webp"
   }
 ];
