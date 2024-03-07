@@ -20,11 +20,11 @@ const Navbar = () => {
 
   return (
 
-    <nav className="px-6 xl:px-10 flex_between border-b bg-teal_green max-w-[100%]">
+    <nav className="px-6 py-2 xl:px-10 flex_between border-b bg-teal_green max-w-[100%]">
 
         <div className="flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
-                <Image src="/images/logo.png" alt="logo" width={180} height={180}/>
+                <Image src="/images/BigLogo.svg" alt="logo" width={150} height={120}/>
           </Link>
         </div>
 
