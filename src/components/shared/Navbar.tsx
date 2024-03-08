@@ -1,6 +1,6 @@
 "use client"
 
-import { SignedIn, SignedOut, UserButton, SignIn, SignUp } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
   Sheet,
   SheetContent,

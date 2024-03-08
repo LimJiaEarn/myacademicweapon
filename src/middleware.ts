@@ -4,11 +4,11 @@ import { NextResponse } from 'next/server';
 export default authMiddleware({
 
   // Routes that can be accessed while signed out
-  publicRoutes: ['/', '/about-us', '/study-resources', '/study-resources/jc', '/study-resources/secondary', '/study-resources/primary'],
+  publicRoutes: ['/', '/sign-in', '/study-resources','/study-resources/(.*)'],
 
   // Routes that can always be accessed, and have
   // no authentication information
-  ignoredRoutes: ['/study-resources', '/about-us']
+  ignoredRoutes: []
 });
  
 export const config = {

@@ -60,7 +60,6 @@ export const secondaryContent = [
     id:"secondaryResources1",
     title: "E Math",
     resources: [
-      "Notes/Summaries",
       "Topical TYS Papers",
       "Topical Prelim Papers",
       "Yearly TYS Papers",
@@ -71,7 +70,6 @@ export const secondaryContent = [
     id:"secondaryResources2",
     title: "A Math",
     resources: [
-      "Notes/Summaries",
       "Topical TYS Papers",
       "Topical Prelim Papers",
       "Yearly TYS Papers",
@@ -80,17 +78,57 @@ export const secondaryContent = [
   }
 ]
 
+// This type is used to define the shape of our data.
+export type TopicalStudyResource = {
+  topicName: string
+  status: "Completed" | "Incomplete"
+  url: string
+}
 
-const resourcesDetails = {
-  "E Math": [
-    { id: "e-math-paper-1", name: "E Math Paper 1", url: "/resources/e-math-paper-1.pdf" },
-    { id: "e-math-paper-2", name: "E Math Paper 2", url: "/resources/e-math-paper-2.pdf" },
-    // More E Math resources...
-  ],
-  "A Math": [
-    { id: "a-math-paper-1", name: "A Math Paper 1", url: "/resources/a-math-paper-1.pdf" },
-    { id: "a-math-paper-2", name: "A Math Paper 2", url: "/resources/a-math-paper-2.pdf" },
-    // More A Math resources...
-  ],
-  // More subjects...
-};
+export type YearlyStudyResource = {
+  year: number
+  schoolName: string
+  status: "Completed" | "Incomplete"
+  url: string
+}
+
+// Test Data
+export const TopicalStudyResourceData : TopicalStudyResource[] = [
+  {
+    topicName: "Algebra",
+    status: "Completed",
+    url: "https://www.google.com"
+  },
+  {
+    topicName: "Coordinate Geometry",
+    status: "Incomplete",
+    url: "https://www.google.com"
+  },
+  {
+    topicName: "Factor theorem",
+    status: "Incomplete",
+    url: "https://www.google.com"
+  },
+]
+
+// Test Data
+export const YearlyStudyResourceData : YearlyStudyResource[] = [
+  {
+    year: 2021,
+    status: "Completed",
+    schoolName: "Anderson Sec",
+    url: "https://www.google.com"
+  },
+  {
+    year: 2022,
+    status: "Incomplete",
+    schoolName: "Nan Chiau High",
+    url: "https://www.google.com"
+  },
+  {
+    year: 2023,
+    status: "Incomplete",
+    schoolName: "Woodlands Sec",
+    url: "https://www.google.com"
+  },  
+]
