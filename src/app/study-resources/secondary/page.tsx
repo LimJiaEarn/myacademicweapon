@@ -80,8 +80,17 @@ const SecondaryResourcesLayout = () => {
               },
             },
             {
-              accessorKey: "status",
-              header: "Status",
+              accessorKey: 'status', // Accessor matches the key from your data
+              header: 'Status',
+              cell: info => {
+                const status = info.getValue() as "Completed" | "Incomplete";
+                const buttonClass = status === 'Completed' ? 'bg-green-300' : 'bg-red-300'; // Green for "Completed", red for "Incomplete"
+                return (
+                  <button className={`${buttonClass} text-white px-4 py-2 rounded-full`}>
+                    {status}
+                  </button>
+                );
+              },
             },
           ]
           );   
@@ -105,8 +114,17 @@ const SecondaryResourcesLayout = () => {
               },
             },
             {
-              accessorKey: "status",
-              header: "Status",
+              accessorKey: 'status', // Accessor matches the key from your data
+              header: 'Status',
+              cell: info => {
+                const status = info.getValue() as "Completed" | "Incomplete";
+                const buttonClass = status === 'Completed' ? 'bg-green-300' : 'bg-red-300'; // Green for "Completed", red for "Incomplete"
+                return (
+                  <button className={`${buttonClass} text-white px-4 py-2 rounded-full`}>
+                    {status}
+                  </button>
+                );
+              },
             },
           ]
           );   

@@ -25,13 +25,15 @@ import {
 } from "@/components/ui/table"
 
 // Define an interface that includes schoolName
-interface DataWithURL {
+interface RowData {
+  status: "Completed" | "Incomplete";
   url: string;
 }
 
+
 // Type guard function to check if the data includes schoolName
-function isDataWithURL(data: any): data is DataWithURL {
-  return (data as DataWithURL).url !== undefined;
+function isDataWithURL(data: any): data is RowData {
+  return (data as RowData).url !== undefined;
 }
 
 interface DataTableProps<TData, TValue> {
@@ -116,11 +118,12 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTa
                   }}
                 >
 
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <TableCell key={cell.id} >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                  )})}
 
                 </TableRow>
               ))
