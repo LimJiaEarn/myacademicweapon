@@ -78,35 +78,41 @@ export const secondaryContent = [
   }
 ]
 
-// This type is used to define the shape of our data.
-export type TopicalStudyResource = {
-  topicName: string
-  status: "Completed" | "Incomplete"
-  url: string
+// Define an interface for the shared properties
+export interface StudyResource {
+  _id: string;
+  status: boolean;
+  url: string;
 }
 
-export type YearlyStudyResource = {
-  year: number
-  schoolName: string
-  status: "Completed" | "Incomplete"
-  url: string
+// Define separate interfaces for Topical and Yearly resources
+export interface TopicalStudyResource extends StudyResource {
+  topicName: string;
+}
+
+export interface YearlyStudyResource extends StudyResource {
+  year: number;
+  schoolName: string;
 }
 
 // Test Data
 export const TopicalStudyResourceData : TopicalStudyResource[] = [
   {
+    _id : "123",
     topicName: "Algebra",
-    status: "Completed",
+    status: true,
     url: "https://www.google.com"
   },
   {
+    _id : "124",
     topicName: "Coordinate Geometry",
-    status: "Incomplete",
+    status: false,
     url: "https://www.google.com"
   },
   {
+    _id : "125",
     topicName: "Factor theorem",
-    status: "Incomplete",
+    status: false,
     url: "https://www.google.com"
   },
 ]
@@ -114,20 +120,23 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
 // Test Data
 export const YearlyStudyResourceData : YearlyStudyResource[] = [
   {
+    _id : "145",
     year: 2021,
-    status: "Completed",
+    status: true,
     schoolName: "Anderson Sec",
     url: "https://www.google.com"
   },
   {
+    _id : "146",
     year: 2022,
-    status: "Incomplete",
+    status: true,
     schoolName: "Nan Chiau High",
     url: "https://www.google.com"
   },
   {
+    _id : "147",
     year: 2023,
-    status: "Incomplete",
+    status: false,
     schoolName: "Woodlands Sec",
     url: "https://www.google.com"
   },  

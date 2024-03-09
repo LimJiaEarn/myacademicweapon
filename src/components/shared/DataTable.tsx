@@ -26,7 +26,8 @@ import {
 
 // Define an interface that includes schoolName
 interface RowData {
-  status: "Completed" | "Incomplete";
+  id: string;
+  status: boolean;
   url: string;
 }
 
@@ -61,7 +62,9 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTa
       sorting,
       columnFilters,
     },
-  })
+  });
+
+  
 
   return (
     <div className="w-full">

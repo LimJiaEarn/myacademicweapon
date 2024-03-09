@@ -7,30 +7,46 @@ import { useState, useEffect } from 'react';
 
 
 // Dependencies for Table
-import { secondaryContent, TopicalStudyResource, YearlyStudyResource, YearlyStudyResourceData, TopicalStudyResourceData } from '../../../../constants';
+import { StudyResource, TopicalStudyResource, YearlyStudyResource, secondaryContent, YearlyStudyResourceData, TopicalStudyResourceData } from '../../../../constants';
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { DataTable } from "@/components/shared/DataTable";
 
+
+
+
 const SecondaryResourcesLayout = () => {
 
   // The Main Subject student has chosen
-  const [subjectSelection, setsubjectSelection] = useState("");
+  const [subjectSelection, setsubjectSelection] = useState<string>("");
 
   // The Resource Selected
   // Formated by [Main Subject _ <Topical/Yearly> _ <Prelim/TYS> Papers ]
-  const [resourceSelection, setresourceSelection] = useState("");
+  const [resourceSelection, setresourceSelection] = useState<string>("");
 
   // Sets which column a student wants to filter by
   const [filterColumn, setfilterColumn] = useState("status");
 
   // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
-  const [tableColumns, settableColumns] = useState<ColumnDef<YearlyStudyResource | TopicalStudyResource>[]>([]);
+  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResource>[]>([]);
 
   // The data to populate the table
-  const [tableData, settableData] = useState<YearlyStudyResource[] | TopicalStudyResource[]>([]);
-
+  const [tableData, settableData] = useState<StudyResource[]>([]);
+  
+  const onToggleStatus = (rowId: string) => {
+  
+    settableData((prevData: StudyResource[]) =>
+      prevData.map(item => {
+        if (item._id === rowId) {
+          return { ...item, status: !item.status };
+        }
+        return item;
+      })
+    );
+      
+  };
+  
 
   useEffect(() => {
       
@@ -80,18 +96,26 @@ const SecondaryResourcesLayout = () => {
               },
             },
             {
-              accessorKey: 'status', // Accessor matches the key from your data
+              accessorKey: 'status', // This should match the key in your data for the status
               header: 'Status',
               cell: info => {
-                const status = info.getValue() as "Completed" | "Incomplete";
-                const buttonClass = status === 'Completed' ? 'bg-green-300' : 'bg-red-300'; // Green for "Completed", red for "Incomplete"
+                const rowId = info.row.original._id; // Access the id of the row
+                const status = info.getValue() as boolean; // This is your boolean status
+                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
+            
                 return (
-                  <button className={`${buttonClass} text-white px-4 py-2 rounded-full`}>
-                    {status}
+                  <button
+                    className={`${buttonClass} text-white px-4 py-2 rounded-full`}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent row click event
+                      onToggleStatus(rowId); // Call the toggleStatus function passed as a prop
+                    }}
+                  >
+                    {status ? 'Completed' : 'Incomplete'}
                   </button>
                 );
               },
-            },
+            }
           ]
           );   
           settableData(YearlyStudyResourceData);
@@ -114,18 +138,26 @@ const SecondaryResourcesLayout = () => {
               },
             },
             {
-              accessorKey: 'status', // Accessor matches the key from your data
+              accessorKey: 'status', // This should match the key in your data for the status
               header: 'Status',
               cell: info => {
-                const status = info.getValue() as "Completed" | "Incomplete";
-                const buttonClass = status === 'Completed' ? 'bg-green-300' : 'bg-red-300'; // Green for "Completed", red for "Incomplete"
+                const rowId = info.row.original._id; // Access the id of the row
+                const status = info.getValue() as boolean; // This is your boolean status
+                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
+            
                 return (
-                  <button className={`${buttonClass} text-white px-4 py-2 rounded-full`}>
-                    {status}
+                  <button
+                    className={`${buttonClass} text-white px-4 py-2 rounded-full`}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent row click event
+                      onToggleStatus(rowId); // Call the toggleStatus function passed as a prop
+                    }}
+                  >
+                    {status ? 'Completed' : 'Incomplete'}
                   </button>
                 );
               },
-            },
+            }
           ]
           );   
           settableData(TopicalStudyResourceData);
