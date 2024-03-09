@@ -35,7 +35,7 @@ const SecondaryResourcesLayout = () => {
   const [tableData, settableData] = useState<StudyResource[]>([]);
   
   const onToggleStatus = (rowId: string) => {
-  
+    
     settableData((prevData: StudyResource[]) =>
       prevData.map(item => {
         if (item._id === rowId) {
@@ -70,6 +70,29 @@ const SecondaryResourcesLayout = () => {
         settableColumns(
           [
             {
+              accessorKey: 'status', // This should match the key in your data for the status
+              header: 'Status',
+              cell: info => {
+                const rowId = info.row.original._id; // Access the id of the row
+                const status = info.getValue() as boolean; // This is your boolean status
+                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
+                return (
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={status} // Checkbox is checked if status is true (Completed)
+                      onChange={(e) => {
+                        e.stopPropagation(); // Prevent row click event
+                        onToggleStatus(rowId); // Toggle the status when checkbox changes
+                      }}
+                      className="mr-2"
+                    />
+                    <span className={`${buttonClass} text-white px-4 py-2 rounded-full`} >{status ? 'Completed' : 'Incomplete'}</span>
+                  </div>
+                );
+              },
+            },
+            {
               accessorKey: "year",
               header: ({ column }) => {
                 return (
@@ -94,28 +117,19 @@ const SecondaryResourcesLayout = () => {
                   </button>
                 )
               },
-            },
-            {
-              accessorKey: 'status', // This should match the key in your data for the status
-              header: 'Status',
               cell: info => {
-                const rowId = info.row.original._id; // Access the id of the row
-                const status = info.getValue() as boolean; // This is your boolean status
-                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
-            
                 return (
-                  <button
-                    className={`${buttonClass} text-white px-4 py-2 rounded-full`}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent row click event
-                      onToggleStatus(rowId); // Call the toggleStatus function passed as a prop
-                    }}
+                  <div
+                    className="font-bold hover:text-blue-600 font-underline"
+                    onClick={() => {window.open(info.row.original.url, '_blank');}}
                   >
-                    {status ? 'Completed' : 'Incomplete'}
-                  </button>
+                    {info.getValue() as string}
+                  </div>
                 );
               },
-            }
+              
+            },
+
           ]
           );   
           settableData(YearlyStudyResourceData);
@@ -124,6 +138,29 @@ const SecondaryResourcesLayout = () => {
       else{
         settableColumns(
           [
+            {
+              accessorKey: 'status', // This should match the key in your data for the status
+              header: 'Status',
+              cell: info => {
+                const rowId = info.row.original._id; // Access the id of the row
+                const status = info.getValue() as boolean; // This is your boolean status
+                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
+                return (
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={status} // Checkbox is checked if status is true (Completed)
+                      onChange={(e) => {
+                        e.stopPropagation(); // Prevent row click event
+                        onToggleStatus(rowId); // Toggle the status when checkbox changes
+                      }}
+                      className="mr-2"
+                    />
+                    <span className={`${buttonClass} text-white px-4 py-2 rounded-full`}>{status ? 'Completed' : 'Incomplete'}</span>
+                  </div>
+                );
+              },
+            },
             {
               accessorKey: "topicName",
               header: ({ column }) => {
@@ -136,28 +173,18 @@ const SecondaryResourcesLayout = () => {
                   </button>
                 )
               },
-            },
-            {
-              accessorKey: 'status', // This should match the key in your data for the status
-              header: 'Status',
               cell: info => {
-                const rowId = info.row.original._id; // Access the id of the row
-                const status = info.getValue() as boolean; // This is your boolean status
-                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
-            
                 return (
-                  <button
-                    className={`${buttonClass} text-white px-4 py-2 rounded-full`}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent row click event
-                      onToggleStatus(rowId); // Call the toggleStatus function passed as a prop
-                    }}
+                  <div
+                    className="font-bold hover:text-blue-600 font-underline"
+                    onClick={() => {window.open(info.row.original.url, '_blank');}}
                   >
-                    {status ? 'Completed' : 'Incomplete'}
-                  </button>
+                    {info.getValue() as string}
+                  </div>
                 );
               },
-            }
+            },
+
           ]
           );   
           settableData(TopicalStudyResourceData);

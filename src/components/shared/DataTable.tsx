@@ -114,11 +114,6 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTa
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className={`hover:bg-slate-200 cursor-pointer`}
-                  onClick={() => {
-                    if (isDataWithURL(row.original)) {
-                      window.open(row.original.url, '_blank');
-                    }
-                  }}
                 >
 
                   {row.getVisibleCells().map((cell) => {
