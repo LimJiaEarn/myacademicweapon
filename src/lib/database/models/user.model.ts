@@ -1,17 +1,10 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { Schema, model, models } from "mongoose";
 
-interface IUser extends Document {
-  clerkUserId: string; // Clerk's unique identifier for the user
-  // Add any other application-specific fields here
-  completedTopicals: [Schema.Types.ObjectId]; // References to completed topical papers
-  completedYearlys: [Schema.Types.ObjectId]; // References to completed yearly papers
-}
-
-const UserSchema: Schema = new Schema({
-  clerkUserId: {
+const UserSchema = new Schema({
+  clerkId: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
@@ -23,6 +16,10 @@ const UserSchema: Schema = new Schema({
     required: true,
     unique: true,
   },
+  photo: {
+    type: String,
+    required: true,
+  },
   firstName: {
     type: String,
   },
@@ -33,10 +30,55 @@ const UserSchema: Schema = new Schema({
     type: Number,
     default: 1,
   },
-  completedTopicals: [{ type: Schema.Types.ObjectId, ref: 'TopicalStudyResource' }],
-  completedYearlys: [{ type: Schema.Types.ObjectId, ref: 'YearlyStudyResource' }],
+  creditBalance: {
+    type: Number,
+    default: 10,
+  },
 });
 
-const User = mongoose.model<IUser>('User', UserSchema);
+const User = models?.User || model("User", UserSchema);
 
 export default User;
+
+// import mongoose, { Schema, Document } from 'mongoose';
+
+// interface IUser extends Document {
+//   clerkUserId: string; // Clerk's unique identifier for the user
+//   // Add any other application-specific fields here
+//   completedTopicals: [Schema.Types.ObjectId]; // References to completed topical papers
+//   completedYearlys: [Schema.Types.ObjectId]; // References to completed yearly papers
+// }
+
+// const UserSchema: Schema = new Schema({
+//   clerkUserId: {
+//     type: String,
+//     required: true,
+//     unique: true
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//     unique: true,
+//   },
+//   username: {
+//     type: String,
+//     required: true,
+//     unique: true,
+//   },
+//   firstName: {
+//     type: String,
+//   },
+//   lastName: {
+//     type: String,
+//   },
+//   planId: {
+//     type: Number,
+//     default: 1,
+//   },
+//   completedTopicals: [{ type: Schema.Types.ObjectId, ref: 'TopicalStudyResource' }],
+//   completedYearlys: [{ type: Schema.Types.ObjectId, ref: 'YearlyStudyResource' }],
+// });
+
+// const User = mongoose.model<IUser>('User', UserSchema);
+
+// export default User;
