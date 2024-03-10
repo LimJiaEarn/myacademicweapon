@@ -1,9 +1,7 @@
-import Card from "../components/shared/Card";
 
 
 const HomePage = () => {
 
-  console.log("Printed at Home Page");
 
   return (
     
