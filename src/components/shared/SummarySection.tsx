@@ -9,15 +9,18 @@ interface SummarySectionProps{
 }
 
 const SummarySection = (props:SummarySectionProps) => {
-
 const { user } = useUser();
+
+let mongoDbId: string | undefined = undefined;
+mongoDbId = (user?.publicMetadata as { userId: string }).userId; // MongoDB's _id stored as public metadata in clerk
 
 
   return (
     <section className="flex_col_center mb-4">
-
+     
       {user ? 
       <div>
+         <p>{mongoDbId}</p>
         <p className="py-4 md:py-6 text-3xl md:text-4xl ">Welcome <span className="font-bold">{user.firstName}</span> !</p>
         {props.subjectSelection ?
         <div className="flex_col_center gap-2">

@@ -1,33 +1,42 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
-interface StudyResourceBase extends Document {
-  status: boolean;
-  url: string;
+// Initialize models and discriminators once and cache them
+let StudyResource, TopicalStudyResource, YearlyStudyResource;
+
+function initializeModels() {
+  if (StudyResource) {
+    return { StudyResource, TopicalStudyResource, YearlyStudyResource };
+  }
+
+  const StudyResourceSchema = new Schema({
+    status: { type: Boolean, required: true },
+    url: { type: String, required: true },
+    level: { type: String, required: true },
+  }, { discriminatorKey: 'type' });
+
+  StudyResource = mongoose.models.StudyResource || mongoose.model('StudyResource', StudyResourceSchema);
+
+  const TopicalStudyResourceSchema = new Schema({
+    topicName: { type: String, required: true },
+    assessment: { type: String, required: true },
+  });
+
+  const YearlyStudyResourceSchema = new Schema({
+    year: { type: Number, required: true },
+    schoolName: { type: String, required: true },
+    assessment: { type: String, required: true },
+  });
+
+  // Use mongoose.model.discriminators to check for existing discriminators
+  TopicalStudyResource = StudyResource.discriminators?.TopicalStudyResource ||
+    StudyResource.discriminator('TopicalStudyResource', TopicalStudyResourceSchema);
+
+  YearlyStudyResource = StudyResource.discriminators?.YearlyStudyResource ||
+    StudyResource.discriminator('YearlyStudyResource', YearlyStudyResourceSchema);
+
+  return { StudyResource, TopicalStudyResource, YearlyStudyResource };
 }
 
-interface TopicalStudyResource extends StudyResourceBase {
-  topicName: string;
-}
+const { StudyResource: ExportedStudyResource, TopicalStudyResource: ExportedTopicalStudyResource, YearlyStudyResource: ExportedYearlyStudyResource } = initializeModels();
 
-interface YearlyStudyResource extends StudyResourceBase {
-  year: number;
-  schoolName: string;
-}
-
-const StudyResourceSchema: Schema = new Schema({
-  status: { type: Boolean, required: true },
-  url: { type: String, required: true },
-}, { discriminatorKey: 'type' });
-
-const StudyResource: Model<StudyResourceBase> = mongoose.model<StudyResourceBase>('StudyResource', StudyResourceSchema);
-
-const TopicalStudyResource = StudyResource.discriminator<TopicalStudyResource>('TopicalStudyResource', new Schema({
-  topicName: { type: String, required: true },
-}));
-
-const YearlyStudyResource = StudyResource.discriminator<YearlyStudyResource>('YearlyStudyResource', new Schema({
-  year: { type: Number, required: true },
-  schoolName: { type: String, required: true },
-}));
-
-export { StudyResource, TopicalStudyResource, YearlyStudyResource };
+export { ExportedStudyResource as StudyResource, ExportedTopicalStudyResource as TopicalStudyResource, ExportedYearlyStudyResource as YearlyStudyResource };

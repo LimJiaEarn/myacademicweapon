@@ -1,5 +1,10 @@
 import Link from 'next/link';
+import type { Metadata } from "next";
 import { studyResources } from '../../../constants';
+
+export const metadata: Metadata = {
+  title: "Study Resources",
+};
 
 interface StudyResourcesSectionCardProps {
   title: string;

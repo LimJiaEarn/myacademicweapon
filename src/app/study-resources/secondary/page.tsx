@@ -13,9 +13,7 @@ import { ArrowUpDown } from "lucide-react"
 import { DataTable } from "@/components/shared/DataTable";
 
 
-
-
-const SecondaryResourcesLayout = () => {
+const SecondaryResourcesPage = () => {
 
   // The Main Subject student has chosen
   const [subjectSelection, setsubjectSelection] = useState<string>("");
@@ -46,7 +44,6 @@ const SecondaryResourcesLayout = () => {
     );
       
   };
-  
 
   useEffect(() => {
       
@@ -245,4 +242,4 @@ const SecondaryResourcesLayout = () => {
   );
 }
 
-export default SecondaryResourcesLayout;
+export default SecondaryResourcesPage;
