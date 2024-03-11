@@ -14,6 +14,11 @@ Create Function:
   (StudyResource, TopicalStudyResource, or YearlyStudyResource).
 */
 export async function createStudyResource(data : StudyResourceData) {
+
+  console.log("Inside createStudyResource with data:");
+  console.log(data)
+
+
   try {
     await connectToDatabase();
 
