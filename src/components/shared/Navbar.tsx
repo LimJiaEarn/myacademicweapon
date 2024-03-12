@@ -93,7 +93,7 @@ const Navbar = () => {
 
             <Sheet>
               <SheetTrigger>
-                <Image src="/icons/menu.svg" alt="menu" height={32} width={32}/>
+                <Image src="/images/BigLogo.svg" alt="menu" height={32} width={32}/>
               </SheetTrigger>
 
               <SheetContent className="w-64">

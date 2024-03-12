@@ -13,7 +13,7 @@ Create Function:
   It creates a new resource using the appropriate model
   (StudyResource, TopicalStudyResource, or YearlyStudyResource).
 */
-export async function createStudyResource(data : StudyResourceData) {
+export async function createStudyResource(data : StudyResourceInterface) {
 
   console.log("Inside createStudyResource with data:");
   console.log(data)
