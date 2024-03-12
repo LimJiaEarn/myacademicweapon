@@ -9,9 +9,8 @@ interface SummarySectionProps{
 }
 
 const SummarySection = (props:SummarySectionProps) => {
-  const { user } = useUser();
 
-  console.log(user);
+  const { user } = useUser();
 
   let mongoDbId: string | undefined = undefined;
   if (user)

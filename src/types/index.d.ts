@@ -1,5 +1,5 @@
 
-// ====== USER PARAMS
+// USER PARAMS
 declare type CreateUserParams = {
   clerkId: string;
   email: string;
@@ -16,31 +16,39 @@ declare type UpdateUserParams = {
   photo: string;
 };
 
-// ====== RESOURCE PARAMS
-interface BaseStudyResource {
+
+// RESOURCE PARAMS
+
+interface StudyResourceInterface {
+  _id: string; // MongoDB ID
   status: boolean;
-  url: string;
   level: "Primary" | "Secondary" | "JC";
-  type?: string; // Optional field to determine the specific model to create
+  subject: string;
+  url: string;
+  likes: number;
+  avgStars: number;
+  userStarred: number;
+  type?: string; // Optional field to determine the specific model to create in MongoDB
+  workingSolution?:string;
+  videoSolution?:string;
 }
 
-interface TopicalStudyResourceData extends BaseStudyResource {
+interface TopicalStudyResource extends StudyResourceInterface {
   topicName: string;
-  assessment: "Prelims" | "TYS" | "MYE";
 }
 
-interface YearlyStudyResourceData extends BaseStudyResource {
+interface YearlyStudyResource extends StudyResourceInterface {
+  assessment: string;
   year: number;
   schoolName: string;
-  assessment: "Prelims" | "TYS" | "MYE";
 }
 
 // Union type for StudyResource function parameters
-declare type StudyResourceData = BaseStudyResource | TopicalStudyResourceData | YearlyStudyResourceData;
+declare type StudyResourceInterface = BaseStudyResource | TopicalStudyResource | YearlyStudyResource;
 
 declare type GetStudyResourcesParams = {
   level: "Primary" | "Secondary" | "JC";
-  assessment?: "Prelims" | "TYS" | "MYE";
+  assessment?: string;
 };
 
 declare type UpdateStudyResourceParams = {
@@ -48,8 +56,7 @@ declare type UpdateStudyResourceParams = {
   url?: string;
   level?: "Primary" | "Secondary" | "JC";
   topicName?: string; // For TopicalStudyResource
-  assessment?: "Prelims" | "TYS" | "MYE";
+  assessment?: string;
   year?: number; // For YearlyStudyResource
   schoolName?: string; // For YearlyStudyResource
-  // Add any other fields that might be updated
 };

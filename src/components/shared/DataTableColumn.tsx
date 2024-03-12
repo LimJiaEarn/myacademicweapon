@@ -1,0 +1,139 @@
+// tableColumns.ts
+import { CellContext, ColumnDef, Column } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import Tag from '@/components/shared/Tag';
+
+
+// Define a type for your toggle status function
+type ToggleStatusFunction = (rowId: string) => void;
+
+// Utility Cell Components
+
+const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStatus: ToggleStatusFunction) => {
+    const rowId = info.row.original._id; // Access the id of the row
+    const status = info.getValue() as boolean; // This is your boolean status
+    const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
+    return (
+    <div className="w-[80px] flex_center">
+        <input
+            type="checkbox"
+            checked={status} // Checkbox is checked if status is true (Completed)
+            onChange={(e) => {
+                e.stopPropagation(); // Prevent row click event
+                onToggleStatus(rowId); // Toggle the status when checkbox changes
+            }}
+            className="mr-2"
+        />
+        <span  className={`${buttonClass} text-white px-1 py-1 rounded-full text-xs`}>{status ? 'Completed' : 'Incomplete'}</span>
+    </div>
+    );
+}
+
+const likesCell = (info: CellContext<StudyResourceInterface, unknown>, onToggleStatus: ToggleStatusFunction) => {
+    const rowId = info.row.original._id; // Access the id of the row
+    const likes = info.getValue() as number; // This is your boolean status
+    return (
+    <div className="w-[80px] flex_center" >
+        <button onClick={() => onToggleStatus(rowId)}>
+            {likes}
+        </button>
+    </div>
+    );
+}
+
+const headerCell = (column : Column<any, any>, headerTitle : string, withSort : boolean) => {
+    return (
+        <div className="flex_center">
+            <p>{headerTitle}</p>
+            {withSort &&
+                <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </button>
+            }   
+        </div>
+    )
+}
+
+
+
+export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction): ColumnDef<StudyResourceInterface>[] =>
+[
+    // Status
+    {
+        accessorKey: 'status', // This should match the key in your data for the status
+        header: 'Status',
+        cell: info => statusCell(info, onToggleStatus),
+    },
+    // Year
+    {
+        accessorKey: "year",
+        header: ({ column }) => headerCell(column, "Year", true),
+    },
+    // Assessment
+    {
+        accessorKey: "assessment",
+        header: ({ column }) => headerCell(column, "Assessment", true),
+    },
+    // schoolName
+    {
+        accessorKey: "schoolName",
+        header: ({ column }) => headerCell(column, "School", true),
+        cell: info => {
+
+            return (
+            <div
+                className="flex_center"
+                onClick={() => {window.open(info.row.original.url, '_blank');}}
+            >
+
+                <p className="font-bold hover:text-blue-600 font-underline">{info.getValue() as string}</p>
+                {
+                    info.row.original.workingSolution ?
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/> : <></>
+                }
+                {
+                    info.row.original.videoSolution ?
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/> : <></>
+                }
+                
+            </div>
+            );
+        },
+    },
+    // likes
+    {
+        accessorKey: "likes",
+        header: ({ column }) => headerCell(column, "Likes", true),
+        cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
+    },
+];
+
+export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction): ColumnDef<StudyResourceInterface>[] => [
+    // Status
+    {
+        accessorKey: 'status', // This should match the key in your data for the status
+        header: 'Status',
+        cell: info => statusCell(info, onToggleStatus),
+    },
+    // topicName
+    {
+        accessorKey: "topicName",
+        header: ({ column }) => headerCell(column, "Topic Name", true),
+        cell: info => {
+            return (
+            <div
+                className="font-bold hover:text-blue-600 font-underline"
+                onClick={() => {window.open(info.row.original.url, '_blank');}}
+            >
+                {info.getValue() as string}
+            </div>
+            );
+        },
+    },
+    // likes
+    {
+        accessorKey: "likes",
+        header: ({ column }) => headerCell(column, "Likes", true),
+        cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
+    },
+];

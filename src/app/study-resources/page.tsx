@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
-import { studyResources } from '../../../constants';
+import { studyResourcesNav } from '../../../constants';
 
 export const metadata: Metadata = {
   title: "Study Resources",
@@ -73,7 +73,7 @@ const StudyResourcesPage = () => {
         </div>
         
         <div className="flex_col_center gap-4">
-          {studyResources.map((studyResource, index) => {
+          {studyResourcesNav.map((studyResource, index) => {
 
           return (
           <StudyResourcesSectionCard

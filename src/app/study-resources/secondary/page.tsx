@@ -7,10 +7,14 @@ import { useState, useEffect } from 'react';
 
 
 // Dependencies for Table
-import { StudyResource, TopicalStudyResource, YearlyStudyResource, secondaryContent, YearlyStudyResourceData, TopicalStudyResourceData } from '../../../../constants';
+import { secondaryContentNav } from '../../../../constants';
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
 import { DataTable } from "@/components/shared/DataTable";
+import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTableColumn";
+
+
+// Temporary test data
+import { YearlyStudyResourceData, TopicalStudyResourceData } from '../../../../constants';
 
 
 const SecondaryResourcesPage = () => {
@@ -22,19 +26,16 @@ const SecondaryResourcesPage = () => {
   // Formated by [Main Subject _ <Topical/Yearly> _ <Prelim/TYS> Papers ]
   const [resourceSelection, setresourceSelection] = useState<string>("");
 
-  // Sets which column a student wants to filter by
-  const [filterColumn, setfilterColumn] = useState("status");
-
   // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
-  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResource>[]>([]);
+  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
 
   // The data to populate the table
-  const [tableData, settableData] = useState<StudyResource[]>([]);
+  const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
   
   const onToggleStatus = (rowId: string) => {
     
-    settableData((prevData: StudyResource[]) =>
+    settableData((prevData: StudyResourceInterface[]) =>
       prevData.map(item => {
         if (item._id === rowId) {
           return { ...item, status: !item.status };
@@ -46,10 +47,7 @@ const SecondaryResourcesPage = () => {
   };
 
   useEffect(() => {
-      
-      
     const resourcesDecoded : string[] = resourceSelection?.split('_');
-
     const resourceSubject : string = resourcesDecoded[0]; // Extract Subject
     const resourceType1 : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly
     const resourceType2 : string =  resourcesDecoded[1]?.split(' ')[1]; // Extract TYS / Prelim
@@ -64,127 +62,19 @@ const SecondaryResourcesPage = () => {
 
       // Yearly layout
       if (resourceType1==="Yearly"){
-        settableColumns(
-          [
-            {
-              accessorKey: 'status', // This should match the key in your data for the status
-              header: 'Status',
-              cell: info => {
-                const rowId = info.row.original._id; // Access the id of the row
-                const status = info.getValue() as boolean; // This is your boolean status
-                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
-                return (
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={status} // Checkbox is checked if status is true (Completed)
-                      onChange={(e) => {
-                        e.stopPropagation(); // Prevent row click event
-                        onToggleStatus(rowId); // Toggle the status when checkbox changes
-                      }}
-                      className="mr-2"
-                    />
-                    <span className={`${buttonClass} text-white px-4 py-2 rounded-full`} >{status ? 'Completed' : 'Incomplete'}</span>
-                  </div>
-                );
-              },
-            },
-            {
-              accessorKey: "year",
-              header: ({ column }) => {
-                return (
-                  <button
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                  >
-                    Year
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </button>
-                )
-              }
-            },
-            {
-              accessorKey: "schoolName",
-              header: ({ column }) => {
-                return (
-                  <button
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                  >
-                    School
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </button>
-                )
-              },
-              cell: info => {
-                return (
-                  <div
-                    className="font-bold hover:text-blue-600 font-underline"
-                    onClick={() => {window.open(info.row.original.url, '_blank');}}
-                  >
-                    {info.getValue() as string}
-                  </div>
-                );
-              },
-              
-            },
+        
+        settableColumns(getYearlyColumns(onToggleStatus));
 
-          ]
-          );   
-          settableData(YearlyStudyResourceData);
+        // `YearlyStudyResourceData` to get from APi
+        settableData(YearlyStudyResourceData);
       }
       // Topical Layout
       else{
-        settableColumns(
-          [
-            {
-              accessorKey: 'status', // This should match the key in your data for the status
-              header: 'Status',
-              cell: info => {
-                const rowId = info.row.original._id; // Access the id of the row
-                const status = info.getValue() as boolean; // This is your boolean status
-                const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
-                return (
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={status} // Checkbox is checked if status is true (Completed)
-                      onChange={(e) => {
-                        e.stopPropagation(); // Prevent row click event
-                        onToggleStatus(rowId); // Toggle the status when checkbox changes
-                      }}
-                      className="mr-2"
-                    />
-                    <span className={`${buttonClass} text-white px-4 py-2 rounded-full`}>{status ? 'Completed' : 'Incomplete'}</span>
-                  </div>
-                );
-              },
-            },
-            {
-              accessorKey: "topicName",
-              header: ({ column }) => {
-                return (
-                  <button
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                  >
-                    Topic
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </button>
-                )
-              },
-              cell: info => {
-                return (
-                  <div
-                    className="font-bold hover:text-blue-600 font-underline"
-                    onClick={() => {window.open(info.row.original.url, '_blank');}}
-                  >
-                    {info.getValue() as string}
-                  </div>
-                );
-              },
-            },
 
-          ]
-          );   
-          settableData(TopicalStudyResourceData);
+        settableColumns(getTopicalColumns(onToggleStatus));
+
+        // `TopicalStudyResourceData` to get from APi
+        settableData(TopicalStudyResourceData);
       }
 
 
@@ -198,36 +88,23 @@ const SecondaryResourcesPage = () => {
         <SummarySection subjectSelection={subjectSelection}/>
 
         <SubjectsContentNav
-          contents={secondaryContent}
+          contents={secondaryContentNav}
           subjectSelection={subjectSelection}
           onSelectionClick={setsubjectSelection}
           setsubjectContent={setresourceSelection}
         />
 
         {subjectSelection ?
-          <div className="flex_col_center">
-
-            <p className="text-center">Filter By:</p>
-            
-            <div className="flex_center gap-2">
-              <button className="px-2 md:px-4 py-2 rounded-xl bg-slate-300 hover:bg-slate-200" onClick={() => setfilterColumn("status")}>
-                Status
-              </button>
-
-              <button className="px-2 md:px-4 py-2 rounded-xl bg-slate-300 hover:bg-slate-200" onClick={() => setfilterColumn("schoolName")}>
-                School
-              </button>
-            </div>
-
-            <DataTable columns={tableColumns} data={tableData} filterColumn={filterColumn}/>
-
+          <div className="w-full px-2 md:px-6 flex_col_center">
+            <DataTable columns={tableColumns} data={tableData}/>
           </div>
         :
-          <div className="text-slate-400 py-4 flex_col_center gap-2">
+          // Render a CTA image
+          <div className="py-4 flex_col_center gap-4">
             
             <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
             
-            Select a subject to begin!
+            <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
           </div>
         }
 

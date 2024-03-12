@@ -23,31 +23,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-// Define an interface that includes schoolName
-interface RowData {
-  id: string;
-  status: boolean;
-  url: string;
-}
 
-
-// Type guard function to check if the data includes schoolName
-function isDataWithURL(data: any): data is RowData {
-  return (data as RowData).url !== undefined;
-}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  filterColumn : string
 }
 
 
-export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const [filterColumn, setFilterColumn] = useState("schoolName")
 
   const table = useReactTable({
     data,
@@ -64,21 +61,128 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTa
     },
   });
 
-  
 
+
+
+  // Filtering Usestates
+  const [statusValue, setStatusValue] = useState("");
+  const [assessmentValue, setAssessmentValue] = useState("");
+  const [topicName, setTopicName] = useState("");
+
+  const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
+  
   return (
     <div className="w-full">
 
-      <div className="flex items-center py-4">
-        <input
-          placeholder={`Filtering ${filterColumn} ...`}
-          value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn(filterColumn)?.setFilterValue(event.target.value)}
-          className="max-w-sm"
-        />
+      <div className="flex justify-evenly items-center py-4 gap-4">
+
+        
+        {/* Status Filter Select */}
+        <Select
+          onValueChange={(value) => {
+            if (value === CLEAR_FILTER_VALUE) {
+              table.getColumn("status")?.setFilterValue(null);
+              setStatusValue(""); // Reset the displayed value to show the placeholder
+            } else {
+              table.getColumn("status")?.setFilterValue(value === "Completed");
+              setStatusValue(value); // Update the displayed value to reflect the selection
+            }
+          }}
+          value={statusValue} 
+          defaultValue="Filter Status"
+        >
+          <SelectTrigger className="w-[180px] bg-slate-400">
+            <SelectValue placeholder="Filter Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Completed">Completed</SelectItem>
+            <SelectItem value="Incomplete">Incomplete</SelectItem>
+            <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {/* Assessment Filter Select which only displays if there are any assessment column*/}
+        {
+          columns.some(column => 'accessorKey' in column && column.accessorKey === 'assessment') &&
+          <Select
+            onValueChange={(value) => {
+              if (value === CLEAR_FILTER_VALUE) {
+                table.getColumn("assessment")?.setFilterValue(null);
+                setAssessmentValue(""); // Reset the displayed value to show the placeholder
+              } else {
+                table.getColumn("assessment")?.setFilterValue(value);
+                setAssessmentValue(value); // Update the displayed value to reflect the selection
+              }
+            }}
+            value={assessmentValue} 
+            defaultValue="Filter Assessment"
+          >
+            <SelectTrigger className="w-[180px] bg-slate-400">
+              <SelectValue placeholder="Filter Assessments" />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                Array.from(
+                  new Set(
+                    data.map(item => (item as any).assessment)
+                  )
+                ).map((assessmentType) => <SelectItem key={assessmentType} value={assessmentType}>{assessmentType}</SelectItem>)
+              }
+              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+            </SelectContent>
+          </Select>
+
+        }
+
+        {/* Topic Name Filter Select which only displays if there are any topicName column*/}
+        {
+          columns.some(column => 'accessorKey' in column && column.accessorKey === 'topicName') &&
+          <Select
+            onValueChange={(value) => {
+              if (value === CLEAR_FILTER_VALUE) {
+                table.getColumn("topicName")?.setFilterValue(null);
+                setTopicName(""); // Reset the displayed value to show the placeholder
+              } else {
+                table.getColumn("topicName")?.setFilterValue(value);
+                setTopicName(value); // Update the displayed value to reflect the selection
+              }
+            }}
+            value={topicName} 
+            defaultValue="Filter Topic"
+          >
+            <SelectTrigger className="w-[180px] bg-slate-400">
+              <SelectValue placeholder="Filter Topic" />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                Array.from(
+                  new Set(
+                    data.map(item => (item as any).topicName)
+                  )
+                ).map((topicname) => <SelectItem key={topicname} value={topicname}>{topicname}</SelectItem>)
+              }
+              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+            </SelectContent>
+          </Select>
+
+        }
+
+        {/* Search Filter */}
+        {
+          columns.some(column => 'accessorKey' in column && column.accessorKey === 'schoolName') &&
+          <div className="flex items-center py-4">
+            <input
+              placeholder={`Filtering ${filterColumn} ...`}
+              value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn(filterColumn)?.setFilterValue(event.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+        }
       </div>
 
-      <div className="rounded-md border">
+
+      <div className="">
 
         <Table className="">
           
@@ -113,7 +217,7 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn }: DataTa
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`hover:bg-slate-200 cursor-pointer`}
+                  className={`hover:bg-slate-200`}
                 >
 
                   {row.getVisibleCells().map((cell) => {

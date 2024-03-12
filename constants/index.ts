@@ -27,7 +27,7 @@ export const testimonials = [
 ]
 
 
-export const studyResources = [
+export const studyResourcesNav = [
   {
     id:"studyResources1",
     label: "Primary",
@@ -55,7 +55,7 @@ export const studyResources = [
 ];
 
 
-export const secondaryContent = [
+export const secondaryContentNav = [
   {
     id:"secondaryResources1",
     title: "E Math",
@@ -78,42 +78,43 @@ export const secondaryContent = [
   }
 ]
 
-// Define an interface for the shared properties
-export interface StudyResource {
-  _id: string;
-  status: boolean;
-  url: string;
-}
-
-// Define separate interfaces for Topical and Yearly resources
-export interface TopicalStudyResource extends StudyResource {
-  topicName: string;
-}
-
-export interface YearlyStudyResource extends StudyResource {
-  year: number;
-  schoolName: string;
-}
 
 // Test Data
 export const TopicalStudyResourceData : TopicalStudyResource[] = [
   {
     _id : "123",
-    topicName: "Algebra",
     status: true,
-    url: "https://www.google.com"
+    level: "Secondary",
+    subject: "E Math",
+    url: "https://www.google.com",
+    likes: 1,
+    avgStars: 5,
+    userStarred: 1,
+    topicName: "Algebra",
   },
   {
     _id : "124",
-    topicName: "Coordinate Geometry",
-    status: false,
-    url: "https://www.google.com"
+    status: true,
+    level: "Secondary",
+    subject: "A Math",
+    url: "https://www.google.com",
+    likes: 0,
+    avgStars: 0,
+    userStarred: 0,
+    topicName: "Factor Theorem",
+    workingSolution: "https://www.svgrepo.com",
+    videoSolution: "https://www.youtube.com",
   },
   {
     _id : "125",
-    topicName: "Factor theorem",
-    status: false,
-    url: "https://www.google.com"
+    status: true,
+    level: "Secondary",
+    subject: "A Math",
+    url: "https://www.google.com",
+    likes: 0,
+    avgStars: 0,
+    userStarred: 0,
+    topicName: "Partial Fractions",
   },
 ]
 
@@ -121,23 +122,44 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
 export const YearlyStudyResourceData : YearlyStudyResource[] = [
   {
     _id : "145",
-    year: 2021,
     status: true,
-    schoolName: "Anderson Sec",
-    url: "https://www.google.com"
+    level: "Secondary",
+    subject: "E Math",
+    url: "https://www.google.com",
+    likes: 2,
+    avgStars: 4.5,
+    userStarred: 2,
+    assessment: "MYE",
+    year: 2024,
+    schoolName: "Woodlands Ring Sec",
+    workingSolution: "https://www.svgrepo.com",
+    videoSolution: "https://www.youtube.com",
   },
   {
     _id : "146",
-    year: 2022,
     status: true,
-    schoolName: "Nan Chiau High",
-    url: "https://www.google.com"
+    level: "Secondary",
+    subject: "A Math",
+    url: "https://www.google.com",
+    likes: 1,
+    avgStars: 3,
+    userStarred: 1,
+    assessment: "Prelims",
+    year: 2023,
+    schoolName: "Woodlands Ring Sec", 
+    workingSolution: "https://www.svgrepo.com",
   },
   {
     _id : "147",
-    year: 2023,
     status: false,
-    schoolName: "Woodlands Sec",
-    url: "https://www.google.com"
+    level: "Secondary",
+    subject: "A Math",
+    url: "https://www.google.com",
+    likes: 0,
+    avgStars: 0,
+    userStarred: 0,
+    assessment: "Prelims",
+    year: 2023,
+    schoolName: "Riverside Sec", 
   },  
 ]
