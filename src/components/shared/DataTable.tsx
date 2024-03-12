@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   return (
     <div className="w-full">
 
-      <div className="flex justify-evenly items-center py-4 gap-4">
+      <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
 
         
         {/* Status Filter Select */}
