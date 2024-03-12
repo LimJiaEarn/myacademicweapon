@@ -12,7 +12,8 @@ const SummarySection = (props:SummarySectionProps) => {
 const { user } = useUser();
 
 let mongoDbId: string | undefined = undefined;
-mongoDbId = (user?.publicMetadata as { userId: string }).userId; // MongoDB's _id stored as public metadata in clerk
+if (user)
+  mongoDbId = (user?.publicMetadata as { userId: string }).userId; // MongoDB's _id stored as public metadata in clerk
 
 
   return (
