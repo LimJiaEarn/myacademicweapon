@@ -37,8 +37,8 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex w-full transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
-                    <Link href={link.route} className="flex gap-2">
+                  <li key={link.id} className={`flex w-full transition-all hover:text-text-gray-600 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
+                    <Link href={link.route} className="flex gap-2 hover:opacity-75">
                       <Image src={link.icon} alt="icon" height={24} width={24}/>
                       <p className="font-bold">{link.label}</p>
                     </Link>
@@ -57,24 +57,24 @@ const Navbar = () => {
                   const isActive = link.route === pathname;
 
                   return (
-                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
-                      <Link href={link.route} className="flex gap-2">
-                        <Image src={link.icon} alt="icon" height={24} width={24}/>
+                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-gray-600 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
+                      <Link href={link.route} className="flex gap-2 hover:opacity-75">
+                        <Image src={link.icon} alt="icon" height={24} width={24} />
                         <p className="font-bold">{link.label}</p>
                       </Link>
                     </li>                  
                     )
                 })}
 
-                <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-700'}`}>
-                  <Link href='/sign-in' className="flex gap-2">
+                <li className={`flex w-full px-4 transition-all hover:text-gray-600 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-800'}`}>
+                  <Link href='/sign-in' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
                     <p className="font-bold">Sign In</p>
                   </Link>
                 </li>
 
-                <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-700'}`}>
-                  <Link href='/sign-up' className="flex gap-2">
+                <li className={`flex w-full px-4 transition-all hover:text-gray-600 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-800'}`}>
+                  <Link href='/sign-up' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-up.svg" alt="icon" height={24} width={24}/>
                     <p className="font-bold">Sign Up</p>
                   </Link>
@@ -111,7 +111,7 @@ const Navbar = () => {
                         const isActive = link.route === pathname;
 
                         return (
-                          <li key={link.id} className={`flex w-full transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                          <li key={link.id} className={`flex w-full transition-all hover:text-gray-600 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
                             <SheetClose asChild>
                               <Link href={link.route} className="flex gap-2">
                                 <Image src={link.icon} alt="icon" height={24} width={24}/>
@@ -137,7 +137,7 @@ const Navbar = () => {
                           const isActive = link.route === pathname;
 
                           return (
-                            <li key={link.id} className={`flex w-full px-4 transition-all hover:text-purple-900 ${isActive? 'text-green-700' : 'text-gray-700'}`}>
+                            <li key={link.id} className={`flex w-full px-4 transition-all hover:text-gray-200 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
                               <SheetClose asChild>
                                 <Link href={link.route} className="flex gap-2">
                                   <Image src={link.icon} alt="icon" height={24} width={24}/>
@@ -148,7 +148,7 @@ const Navbar = () => {
                             )
                         })}
 
-                        <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-700'}`}>
+                        <li className={`flex w-full px-4 transition-all hover:text-gray-400 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-800'}`}>
                           <SheetClose asChild>
                             <Link href='/sign-in' className="flex gap-2">
                               <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
@@ -157,7 +157,7 @@ const Navbar = () => {
                           </SheetClose>
                         </li>
 
-                        <li className={`flex w-full px-4 transition-all hover:text-purple-900 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-700'}`}>
+                        <li className={`flex w-full px-4 transition-all hover:text-gray-400 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-800'}`}>
                           <SheetClose asChild>
                             <Link href='/sign-up' className="flex gap-2">
                               <Image src="/icons/sign-up.svg" alt="icon" height={24} width={24}/>

@@ -1,45 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MyAcademicWeapon.com 's Source Code
 
-## Getting Started
+<br />
+<div align="center">
+  <a href="https://learn.microsoft.com/en-us/office/vba/api/overview/excel">
+    <img src="https://github.com/LimJiaEarn/myacademicweapon/blob/main/public/images/BigLogo.svg" alt="Logo">
+  </a>
+</div>
+ 
+ ---
 
-First, run the development server:
+ <p align="center">
+• <a href="#-tech-stack">Tech Stack</a> • <a href="#-getting-started">Getting Started</a> • 
+ </p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔍 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Database:
+    - MongoDB
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+* Frontend:
+    - Next & React
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* External Libraries & Frameworks:
+    - Clerk (For authentication)
+    - Shadcn/ui (For feature-heavy components)
+    - Aceternity UI (For animated components)
 
 
-## Website Layout
 
-/ => Default page
+## 🤸 Getting Started
 
-/study-resources => Directory to different levels of materials
 
-/study-resources/[X] => Materials for level X {pri, sec, jc}
+
+## 🌟 Spread the joy!
+**Share** these macros with your colleagues or friends on social media.
+
+<a href="https://www.reddit.com" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=Reddit&logo=Reddit&style=social&url=https://www.reddit.com/" alt="Share on Reddit"/></a>&nbsp;
+<a href="https://www.linkedin.com" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=LinkedIn&logo=LinkedIn&style=social&url=https://www.linkedin.com" alt="Share on LinkedIn"/></a>&nbsp;
+<a href="https://twitter.com" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=Twitter&logo=Twitter&style=social&url=https://twitter.com" alt="Shared on Twitter"/></a>&nbsp;
+<a href="https://www.facebook.com" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=Facebook&logo=Facebook&style=social&url=https://www.facebook.com" alt="Share on Facebook"/></a>&nbsp;
+<a href="https://t.me/share" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=Telegram&logo=Telegram&style=social&url=https://t.me/share" alt="Share on Telegram"/></a>&nbsp;
+<a href="https://wa.me" target="_blank">
+ <img src="https://img.shields.io/twitter/url?label=Whatsapp&logo=Whatsapp&style=social&url=https://wa.me" alt="Share on Whatsapp"/></a>&nbsp;

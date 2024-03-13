@@ -34,8 +34,8 @@ html {
 
 
 body {
-  @apply bg-gray-50;
-  overflow-x: hidden;
+  @apply bg-main-bg-color;
+  /* overflow-x: hidden; */
 }
 
 
@@ -78,6 +78,8 @@ body {
 
 }
 
+/* GRADIENT FONTS */
+
 .purple_gradient {
   background-image: url('../assets/backgrounds/gradient.svg');
   width: 100%;
@@ -85,6 +87,8 @@ body {
   background-position: center;
   background-size: cover;
 }
+
+/* TOOLTIP STYLINGS */
 
 /* Tooltip container */
 .tooltip {
