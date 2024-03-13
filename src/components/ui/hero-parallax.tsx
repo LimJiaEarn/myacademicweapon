@@ -54,7 +54,7 @@ export const HeroParallax = (
     springConfig
   );
   return (
-    <div ref={ref} className="h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]">
+    <div ref={ref} className="h-[300vh] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] py-20">
       
       <Header />
 
@@ -101,22 +101,20 @@ export const HeroParallax = (
 
 export const Header = () => {
     return (
-      <div className="relative mx-auto py-10 px-4 w-full sm:py-20 sm:px-6 md:py-40 md:px-8 lg:max-w-7xl">
-        <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-          Your
-          <br className="hidden md:flex" />
-          <span>Ultimate Weapon</span>
-          <br className="hidden md:flex" />
-          for Your Academic Victory
+      // Adjust the padding and maximum width for better alignment and spacing on mobile devices
+      <div className="mx-auto max-w-screen-*">
+        <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-7xl">
+          Your Ultimate Weapon
+          <br/>
+          To Seize Your Academic Destiny
         </h1>
-        <p className="mt-8 text-sm text-neutral-700 md:text-base lg:text-xl max-w-xl">
-          We build beautiful products with the latest technologies and frameworks.
-          We are a team of passionate developers and designers that love to build
-          amazing products.
+        <p className="mt-6 text-lg leading-relaxed text-neutral-700 md:text-2xl max-w-xl">
+            Chart your course through the treacherous waters of education with our map of study guides and practice papers! We are more than just a collection of materials; we are your steadfast ally in the pursuit of excellence.
         </p>
       </div>
     );
   };
+  
 
 export const ProductCard = ({
   product,
