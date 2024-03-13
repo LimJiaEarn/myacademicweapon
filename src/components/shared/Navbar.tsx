@@ -93,7 +93,7 @@ const Navbar = () => {
 
             <Sheet>
               <SheetTrigger>
-                <Image src="/images/BigLogo.svg" alt="menu" height={32} width={32}/>
+                <Image src="/icons/menu.svg" alt="menu" height={35} width={35}/>
               </SheetTrigger>
 
               <SheetContent className="w-64">
@@ -101,7 +101,7 @@ const Navbar = () => {
                 <div className="flex flex-col items-center justify-center">
 
                   <Link href="/" className="flex items-center justify-center gap-2 mb-10">
-                    <Image src="/images/logo.png" alt="logo" width={160} height={160}/>
+                    <Image src="/images/BigLogo.svg" alt="menu" height={160} width={160}/>
                   </Link>
 
                   <SignedIn>
