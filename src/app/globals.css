@@ -35,7 +35,7 @@ html {
 
 body {
   @apply bg-main-bg-color;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
 }
 
 

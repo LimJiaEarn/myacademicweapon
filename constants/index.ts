@@ -163,3 +163,100 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
     schoolName: "Riverside Sec", 
   },  
 ]
+
+// Hero Section Images
+export const heroImages = [
+  {
+    title: "Moonbeam",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Cursor",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Rogue",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+ 
+  {
+    title: "Editorially",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Editrix AI",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Pixel Perfect",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+ 
+  {
+    title: "Algochurn",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Aceternity UI",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Tailwind Master Kit",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "SmartBridge",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Renderwork Studio",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+ 
+  {
+    title: "Creme Digital",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Golden Bells Academy",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "Invoker Labs",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+  {
+    title: "E Free Invoice",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/pickContentCTA.webp",
+  },
+];
