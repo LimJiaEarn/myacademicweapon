@@ -54,7 +54,7 @@ export const HeroParallax = (
     springConfig
   );
   return (
-    <div ref={ref} className="h-[300vh] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] py-20">
+    <div ref={ref} className="h-[2400px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20">
       
       <Header />
 
@@ -76,7 +76,7 @@ export const HeroParallax = (
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
+        <motion.div className="flex flex-row mb-20 space-x-20">
           {secondRow.map((product) => (
             <ProductCard
               product={product}
@@ -85,7 +85,7 @@ export const HeroParallax = (
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {thirdRow.map((product) => (
             <ProductCard
               product={product}
@@ -104,11 +104,11 @@ export const Header = () => {
       // Adjust the padding and maximum width for better alignment and spacing on mobile devices
       <div className="mx-auto max-w-screen-*">
         <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-7xl">
-          Your Ultimate Weapon
+          Your <span className="text-academic_red">Ultimate Weapon</span>
           <br/>
-          To Seize Your Academic Destiny
+          To Seize Your <span className="text-success_gold">Academic Destiny</span>
         </h1>
-        <p className="mt-6 text-lg leading-relaxed text-neutral-700 md:text-2xl max-w-xl">
+        <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-xl">
             Chart your course through the treacherous waters of education with our map of study guides and practice papers! We are more than just a collection of materials; we are your steadfast ally in the pursuit of excellence.
         </p>
       </div>
@@ -144,8 +144,8 @@ export const ProductCard = ({
       >
         <Image
           src={product.thumbnail}
-          height="600"
-          width="600"
+          height="200"
+          width="200"
           className="object-cover object-left-top absolute h-full w-full inset-0"
           alt={product.title}
         />

@@ -4,13 +4,11 @@ import { heroImages } from '../../constants';
 const HomePage = () => {
 
   return (
-    <div className="flex_col_center px-4 md:px-6">
+    <div className="flex_col_center">
 
-      <section className="max-w-full">
+      <section className="max-w-full px-4 md:px-6">
         <HeroParallax products={heroImages} />
       </section>
-
-
 
     </div>
   )

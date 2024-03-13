@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import "./globals.css";
 
 import NavBar from "../components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <NavBar/>
         {children}
+        <Footer/>
       </body>
     </html>
   </ClerkProvider>

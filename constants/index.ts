@@ -13,6 +13,27 @@ export const navLinks = [
   }
 ];
 
+export const footerLinks = [
+  {
+    id:"footerLink1",
+    label: "About Us",
+    route: "/",
+    icon: "/icons/home.svg",
+  },
+  {
+    id:"footerLink2",
+    label: "Contact",
+    route: "/",
+    icon: "/icons/home.svg",
+  },
+  {
+    id:"footerLink3",
+    label: "Feedback",
+    route: "/",
+    icon: "/icons/home.svg",
+  },
+]
+
 export const testimonials = [
   {
     id:"testimonial1",
@@ -167,96 +188,96 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
 // Hero Section Images
 export const heroImages = [
   {
-    title: "Moonbeam",
+    title: "Chem",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg1.jpg",
   },
   {
-    title: "Cursor",
+    title: "Phy",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg2.jpg",
   },
   {
-    title: "Rogue",
+    title: "Chem",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
-  },
- 
-  {
-    title: "Editorially",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/pickContentCTA.webp",
-  },
-  {
-    title: "Editrix AI",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/pickContentCTA.webp",
-  },
-  {
-    title: "Pixel Perfect",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg3.png",
   },
  
   {
-    title: "Algochurn",
+    title: "Math",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg4.jpg",
   },
   {
-    title: "Aceternity UI",
+    title: "Math",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg5.png",
   },
   {
-    title: "Tailwind Master Kit",
+    title: "Phy",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
-  },
-  {
-    title: "SmartBridge",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/pickContentCTA.webp",
-  },
-  {
-    title: "Renderwork Studio",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg6.png",
   },
  
   {
-    title: "Creme Digital",
+    title: "Phy",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg7.jpg",
   },
   {
-    title: "Golden Bells Academy",
+    title: "Math",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg8.webp",
   },
   {
-    title: "Invoker Labs",
+    title: "Math",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg9.png",
   },
   {
-    title: "E Free Invoice",
+    title: "Math",
     link: "/images/pickContentCTA.webp",
     thumbnail:
-      "/images/pickContentCTA.webp",
+      "/images/heroImg10.jpg",
+  },
+  {
+    title: "Math",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/heroImg11.jpg",
+  },
+ 
+  {
+    title: "Math",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/heroImg12.png",
+  },
+  {
+    title: "Chem",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/heroImg13.png",
+  },
+  {
+    title: "Chem",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/heroImg14.webp",
+  },
+  {
+    title: "Phy",
+    link: "/images/pickContentCTA.webp",
+    thumbnail:
+      "/images/heroImg15.jpg",
   },
 ];

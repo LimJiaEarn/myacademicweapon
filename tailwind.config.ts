@@ -19,14 +19,11 @@ const config: Config = {
     },
     extend: {
       colors: {
-
-        
         // Background Colors
-        'main-bg-color': '#f9fafb', 
-        'warm_beige': 'hsl(30, 20%, 90%)',
-
-        // Navbar Color
-        'teal_green': 'hsl(160, 40%, 70%)',
+        'teal_green': 'hsl(160, 40%, 70%)', // Navbar 
+        'pri-bg-color': '#f9fafb', 
+        'sec-bg-color': 'hsl(30, 20%, 90%)',
+        'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
 
         // Primary Colors (For headers, important buttons, links)
         'academic_red': 'hsl(0, 80%, 50%)', // A dynamic, attention-grabbing red for primary actions and headers
@@ -38,15 +35,14 @@ const config: Config = {
         
         // Neutral Colors (For paragraphs, dividers, less important text)
         'text_gray': 'hsl(210, 10%, 40%)', // A darker gray for main text, ensuring good contrast and readability on the light background
-        'divider_light_gray': 'hsl(0, 0%, 80%)', // A very light gray for dividers and less prominent borders, maintaining a clean look
+        'light_text_gray': 'hsl(0, 0%, 80%)', // A very light gray for dividers and less prominent borders, maintaining a clean look
         
         // Utility Colors (For warnings, errors, info messages)
         'warning_orange': 'hsl(30, 100%, 50%)', // A vibrant orange for warnings, to stand out without clashing with red and gold
         'error_dark_red': 'hsl(0, 100%, 40%)', // A darker shade of red for errors, differentiating from the primary red
         'info_blue': 'hsl(210, 100%, 50%)', // A calming blue for informational messages, offering a contrast to the warm palette
 
-        // Primary Colors
-        'soft_sky_blue': 'hsl(200, 30%, 80%)', // Approximation of Soft Sky Blue
+        
         'earthy_brown': 'hsl(25, 50%, 50%)', // Approximation of Earthy Brown
 
       },
