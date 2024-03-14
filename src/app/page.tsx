@@ -10,6 +10,10 @@ const HomePage = () => {
         <HeroParallax products={heroImages} />
       </section>
 
+      <section>
+        Next Section
+      </section>
+
     </div>
   )
 }

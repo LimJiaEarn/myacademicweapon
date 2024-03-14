@@ -57,11 +57,10 @@ export const HeroParallax = (
     springConfig
   );
   
-  const textOpacity = useTransform(scrollYProgress, [0, 0.1, 0.5], [0, 0.8, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-screen md:min-h-[1500px] lg:min-h-[1900px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20">
-      
+    <div ref={ref} className="min-h-[1700px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20">
       <Header />
 
       <motion.div
