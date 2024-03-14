@@ -22,8 +22,10 @@
 
 * Frontend:
     - Next & React
+    - TailwindCSS
 
 * External Libraries & Frameworks:
+    - TailwindCSS (For 99% of our stylings!)
     - Clerk (For authentication)
     - Shadcn/ui (For feature-heavy components)
     - Aceternity UI (For animated components)
@@ -35,7 +37,7 @@
 
 
 ## 🌟 Spread the joy!
-**Share** these macros with your colleagues or friends on social media.
+**Share** with your colleagues or friends on social media.
 
 <a href="https://www.reddit.com" target="_blank">
  <img src="https://img.shields.io/twitter/url?label=Reddit&logo=Reddit&style=social&url=https://www.reddit.com/" alt="Share on Reddit"/></a>&nbsp;

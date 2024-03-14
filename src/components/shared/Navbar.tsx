@@ -20,11 +20,11 @@ const Navbar = () => {
 
   return (
 
-    <nav className="px-6 py-2 xl:px-10 flex_between border-b bg-teal_green max-w-[100%]">
+    <nav className="z-50 px-6 py-2 xl:px-10 flex_between border-b bg-teal_green fixed top-0 left-0 right-0">
 
         <div className="flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
-                <Image src="/images/BigLogo.svg" alt="logo" width={150} height={120}/>
+                <Image src="/images/BigLogo.svg" alt="logo" width={160} height={140}/>
           </Link>
         </div>
 
@@ -69,16 +69,16 @@ const Navbar = () => {
                 <li className={`flex w-full px-4 transition-all hover:text-gray-600 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-800'}`}>
                   <Link href='/sign-in' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
-                    <p className="font-bold">Sign In</p>
+                    <p className="font-bold">Sign In/Up</p>
                   </Link>
                 </li>
 
-                <li className={`flex w-full px-4 transition-all hover:text-gray-600 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-800'}`}>
+                {/* <li className={`flex w-full px-4 transition-all hover:text-gray-600 ${pathname==='/sign-up'? 'text-green-700' : 'text-gray-800'}`}>
                   <Link href='/sign-up' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-up.svg" alt="icon" height={24} width={24}/>
                     <p className="font-bold">Sign Up</p>
                   </Link>
-                </li>
+                </li> */}
 
               </ul>
           </SignedOut>

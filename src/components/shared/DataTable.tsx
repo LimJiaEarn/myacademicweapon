@@ -61,9 +61,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     },
   });
 
-
-
-
   // Filtering Usestates
   const [statusValue, setStatusValue] = useState("");
   const [assessmentValue, setAssessmentValue] = useState("");
@@ -122,11 +119,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </SelectTrigger>
             <SelectContent>
               {
-                Array.from(
-                  new Set(
-                    data.map(item => (item as any).assessment)
-                  )
-                ).map((assessmentType) => <SelectItem key={assessmentType} value={assessmentType}>{assessmentType}</SelectItem>)
+                Array.from(new Set(data.map(item => (item as any)["assessment"]))).map((assessmentType) => 
+                  <SelectItem key={assessmentType} value={assessmentType}>{assessmentType}</SelectItem>
+                )
               }
               <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
             </SelectContent>
@@ -157,7 +152,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               {
                 Array.from(
                   new Set(
-                    data.map(item => (item as any).topicName)
+                    data.map(item => (item as any)["topicName"])
                   )
                 ).map((topicname) => <SelectItem key={topicname} value={topicname}>{topicname}</SelectItem>)
               }

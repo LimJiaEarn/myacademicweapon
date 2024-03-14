@@ -2,6 +2,7 @@
 import { CellContext, ColumnDef, Column } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Tag from '@/components/shared/Tag';
+import Image from "next/image";
 
 
 // Define a type for your toggle status function
@@ -34,8 +35,14 @@ const likesCell = (info: CellContext<StudyResourceInterface, unknown>, onToggleS
     const likes = info.getValue() as number; // This is your boolean status
     return (
     <div className="w-[80px] flex_center" >
-        <button onClick={() => onToggleStatus(rowId)}>
-            {likes}
+        {likes}
+        <button onClick={() => onToggleStatus(rowId)} className="relative bottom-[0.48]">
+            <Image 
+                src="/icons/likeIcon.svg"
+                alt="likeIcon"
+                height={14}
+                width={14}
+            />
         </button>
     </div>
     );
@@ -86,7 +93,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction): ColumnDe
                 onClick={() => {window.open(info.row.original.url, '_blank');}}
             >
 
-                <p className="font-bold hover:text-blue-600 font-underline">{info.getValue() as string}</p>
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
                 {
                     info.row.original.workingSolution ?
                     <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/> : <></>
@@ -121,11 +128,21 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction): ColumnD
         header: ({ column }) => headerCell(column, "Topic Name", true),
         cell: info => {
             return (
-            <div
-                className="font-bold hover:text-blue-600 font-underline"
+                <div
+                className="flex_center"
                 onClick={() => {window.open(info.row.original.url, '_blank');}}
             >
-                {info.getValue() as string}
+
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
+                {
+                    info.row.original.workingSolution ?
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/> : <></>
+                }
+                {
+                    info.row.original.videoSolution ?
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/> : <></>
+                }
+                
             </div>
             );
         },
