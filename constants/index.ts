@@ -71,6 +71,7 @@ export const secondaryContentNav = [
 export const TopicalStudyResourceData : TopicalStudyResource[] = [
   {
     _id : "123",
+    type: "TopicalStudyResource",
     status: true,
     level: "Secondary",
     subject: "E Math",
@@ -82,6 +83,7 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
   },
   {
     _id : "124",
+    type: "TopicalStudyResource",
     status: true,
     level: "Secondary",
     subject: "A Math",
@@ -95,6 +97,7 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
   },
   {
     _id : "125",
+    type: "TopicalStudyResource",
     status: true,
     level: "Secondary",
     subject: "A Math",
@@ -110,6 +113,7 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
 export const YearlyStudyResourceData : YearlyStudyResource[] = [
   {
     _id : "145",
+    type: "YearlyStudyResource",
     status: true,
     level: "Secondary",
     subject: "E Math",
@@ -125,6 +129,7 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
   },
   {
     _id : "146",
+    type: "YearlyStudyResource",
     status: true,
     level: "Secondary",
     subject: "A Math",
@@ -139,6 +144,7 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
   },
   {
     _id : "147",
+    type: "YearlyStudyResource",
     status: false,
     level: "Secondary",
     subject: "A Math",

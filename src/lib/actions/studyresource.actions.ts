@@ -16,7 +16,6 @@ Create Function:
 export async function createStudyResource(data : StudyResourceInterface) {
 
   console.log("Inside createStudyResource with data:");
-  console.log(data)
 
 
   try {
@@ -31,10 +30,12 @@ export async function createStudyResource(data : StudyResourceInterface) {
       newResource = await StudyResource.create(data);
     }
 
+    console.log("Success!");
     return JSON.parse(JSON.stringify(newResource));
   } catch (error) {
     handleError(error);
   }
+
 }
 
 /*

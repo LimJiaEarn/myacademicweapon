@@ -26,10 +26,6 @@
 import { createStudyResource } from '@/lib/actions/studyresource.actions';
 
 
-/* CURL command to test
-curl -XPOST -H "Content-type: application/json" -d "{\"status\": true, \"url\": \"https://example.com/resource\", \"level\": \"Secondary\", \"topicName\": \"Mathematics\", \"assessment\": \"TYS\"}" "http://localhost:3000/api/studyresources"
-*/
-
 // Named export for handling POST requests
 export async function POST(req: Request, res: Response) {
     console.log("Inside POST handler function of study resource create");

@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
-
 import NavBar from "../components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
@@ -22,6 +21,9 @@ export default function RootLayout({
   return (
   <ClerkProvider>
     <html lang="en">
+      <head>
+        <link rel='icon' href='/icon.svg' />
+      </head>
       <body className={inter.className}>
         <NavBar/>
         <div className="py-[7.5rem]">

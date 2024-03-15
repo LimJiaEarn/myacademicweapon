@@ -34,14 +34,16 @@ function initializeModels() {
   const StudyResourceSchema = new Schema({
     status: { type: Boolean, required: true },
     level: { type: String, required: true },
-    assessment: { type: String, required: true },
+    subject: { type: String, required: true },
     url: { type: String, required: true },
     likes: { type: Number, default: 0 },
     avgStars: { type: Number, default: 0 }, 
-    starred: { type: Number, default: 0 }, 
+    userStarred: { type: Number, default: 0 }, 
+    workingSolution: { type: String, required: false },
+    videoSolution: { type: String, required: false }
   }, { discriminatorKey: 'type' });
 
-  StudyResource = mongoose.models.StudyResource || mongoose.model('StudyResource', StudyResourceSchema);
+  StudyResource = mongoose.models.StudyResource || mongoose.model('StudyResources', StudyResourceSchema);
 
   const TopicalStudyResourceSchema = new Schema({
     topicName: { type: String, required: true },
@@ -68,10 +70,13 @@ const { StudyResource: ExportedStudyResource, TopicalStudyResource: ExportedTopi
 export { ExportedStudyResource as StudyResource, ExportedTopicalStudyResource as TopicalStudyResource, ExportedYearlyStudyResource as YearlyStudyResource };
 
 /*
-curl -X POST http://localhost:3000/api/studyresources -H
 
-"Content-Type: application/json"
+YEARLY:
+curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"YearlyStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":2,\"avgStars\":4.5,\"userStarred\":2,\"assessment\":\"MYE\",\"year\":2024,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"YearlyStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":3,\"userStarred\":1,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\"},{\"type\":\"YearlyStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Riverside Sec\"}]" "http://localhost:3000/api/studyresources"
 
--d "{\"status\": true, \"url\": \"https://example.com/resource\", \"level\": \"Secondary\", \"topicName\": \"Mathematics\", \"assessment\": \"TYS\"}"
+TOPICAL:
+
+curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":5,\"userStarred\":1,\"topicName\":\"Graphs\"},{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Differentiation\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Integration\"}]" "http://localhost:3000/api/studyresources"
+
 
 */

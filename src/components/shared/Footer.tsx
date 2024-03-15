@@ -1,5 +1,3 @@
-// import { footerLinks } from "../../../constants"
-
 const Footer = () => {
   return (
     <div className="min-w-screen-* flex_col_center md:flex_center bg-teal_green py-10">

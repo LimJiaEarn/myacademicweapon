@@ -29,8 +29,8 @@ interface StudyResourceInterface {
   avgStars: number;
   userStarred: number;
   type?: string; // Optional field to determine the specific model to create in MongoDB
-  workingSolution?:string;
-  videoSolution?:string;
+  workingSolution?:string; // link to working solutions if applicable
+  videoSolution?:string; // link to solution recording if applicable
 }
 
 interface TopicalStudyResource extends StudyResourceInterface {
