@@ -73,10 +73,10 @@ export const HeroParallax = (
         className=""
       >
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
           FREE Topical Practice Papers
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {firstRow.map((product) => (
             <ProductCard
               product={product}
@@ -86,10 +86,10 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
           FREE MYE / Prelim Practice Papers
         </motion.div>
-        <motion.div className="flex flex-row mb-20 space-x-20">
+        <motion.div className="flex flex-row mb-20 space-x-10">
           {secondRow.map((product) => (
             <ProductCard
               product={product}
@@ -99,10 +99,10 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
           FREE Solution Recordings, Answer Sheets, Notes & More !
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {thirdRow.map((product) => (
             <ProductCard
               product={product}

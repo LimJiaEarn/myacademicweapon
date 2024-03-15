@@ -13,39 +13,6 @@ export const navLinks = [
   }
 ];
 
-export const footerLinks = [
-  {
-    id:"footerLink1",
-    label: "About Us",
-    route: "/",
-    icon: "/icons/home.svg",
-  },
-  {
-    id:"footerLink2",
-    label: "Contact",
-    route: "/",
-    icon: "/icons/home.svg",
-  },
-  {
-    id:"footerLink3",
-    label: "Feedback",
-    route: "/",
-    icon: "/icons/home.svg",
-  },
-]
-
-export const testimonials = [
-  {
-    id:"testimonial1",
-    testimonial: "Test1",
-    name: "",
-  },
-  {
-    id:"testimonial2",
-    testimonial: "Test2",
-    name: "",
-  }
-]
 
 
 export const studyResourcesNav = [
