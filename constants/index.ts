@@ -186,98 +186,102 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
 ]
 
 // Hero Section Images
+// Hero Section Images
 export const heroImages = [
   {
-    title: "Chem",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg1.jpg",
+    title: "heroImg1",
+    thumbnail: "/images/heroImg1.png",
   },
   {
-    title: "Phy",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg2.jpg",
+    title: "heroImg2",
+    thumbnail: "/images/heroImg2.png",
   },
   {
-    title: "Chem",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg3.png",
-  },
- 
-  {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg4.jpg",
+    title: "heroImg3",
+    thumbnail: "/images/heroImg3.png",
   },
   {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg5.png",
+    title: "heroImg4",
+    thumbnail: "/images/heroImg4.png",
   },
   {
-    title: "Phy",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg6.png",
-  },
- 
-  {
-    title: "Phy",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg7.jpg",
+    title: "heroImg5",
+    thumbnail: "/images/heroImg5.png",
   },
   {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg8.webp",
+    title: "heroImg6",
+    thumbnail: "/images/heroImg6.png",
   },
   {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg9.png",
+    title: "heroImg7",
+    thumbnail: "/images/heroImg7.png",
   },
   {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg10.jpg",
+    title: "heroImg8",
+    thumbnail: "/images/heroImg8.png",
   },
   {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg11.jpg",
-  },
- 
-  {
-    title: "Math",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg12.png",
+    title: "heroImg9",
+    thumbnail: "/images/heroImg9.png",
   },
   {
-    title: "Chem",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg13.png",
+    title: "heroImg10",
+    thumbnail: "/images/heroImg10.png",
   },
   {
-    title: "Chem",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg14.webp",
+    title: "heroImg11",
+    thumbnail: "/images/heroImg11.png",
   },
   {
-    title: "Phy",
-    link: "/images/pickContentCTA.webp",
-    thumbnail:
-      "/images/heroImg15.jpg",
+    title: "heroImg12",
+    thumbnail: "/images/heroImg12.png",
+  },
+  {
+    title: "heroImg13",
+    thumbnail: "/images/heroImg13.png",
+  },
+  {
+    title: "heroImg14",
+    thumbnail: "/images/heroImg14.png",
+  },
+  {
+    title: "heroImg15",
+    thumbnail: "/images/heroImg15.png",
+  },
+  {
+    title: "heroImg16",
+    thumbnail: "/images/heroImg16.png",
+  },
+  {
+    title: "heroImg17",
+    thumbnail: "/images/heroImg17.png",
+  },
+  {
+    title: "heroImg18",
+    thumbnail: "/images/heroImg18.png",
+  },
+  {
+    title: "heroImg19",
+    thumbnail: "/images/heroImg19.png",
+  },
+  {
+    title: "heroImg20",
+    thumbnail: "/images/heroImg20.jpg",
+  },
+  {
+    title: "heroImg21",
+    thumbnail: "/images/heroImg21.png",
+  },
+  {
+    title: "heroImg22",
+    thumbnail: "/images/heroImg22.png",
+  },
+  {
+    title: "heroImg23",
+    thumbnail: "/images/heroImg23.png",
+  },
+  {
+    title: "heroImg24",
+    thumbnail: "/images/heroImg24.png",
   },
 ];

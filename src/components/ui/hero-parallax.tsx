@@ -14,14 +14,14 @@ export const HeroParallax = (
   {products,}: {
   products: {
     title: string;
-    link: string;
     thumbnail: string;
   }[];
 }) => {
 
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
+  
+  const firstRow = products.slice(0, 8);
+  const secondRow = products.slice(8, 16);
+  const thirdRow = products.slice(16, 24);
 
   const ref = React.useRef(null);
   
@@ -33,11 +33,11 @@ export const HeroParallax = (
   const springConfig = { stiffness: 300, damping: 50, bounce: 100 };
 
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
+    useTransform(scrollYProgress, [0, 1], [0, 500]),
     springConfig
   );
   const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1000]),
+    useTransform(scrollYProgress, [0, 1], [0, -500]),
     springConfig
   );
   const rotateX = useSpring(
@@ -60,7 +60,7 @@ export const HeroParallax = (
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-[1700px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20">
+    <div ref={ref} className="min-h-[1700px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
 
       <motion.div
@@ -73,8 +73,8 @@ export const HeroParallax = (
         className=""
       >
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg font-semibold text-gray-600">
-          Topical Practice Papers
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+          FREE Topical Practice Papers
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
@@ -86,8 +86,8 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg font-semibold text-gray-600">
-          Yearly Prelim & TYS Papers
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+          FREE MYE / Prelim Practice Papers
         </motion.div>
         <motion.div className="flex flex-row mb-20 space-x-20">
           {secondRow.map((product) => (
@@ -99,8 +99,8 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg font-semibold text-gray-600">
-          Video Recordings for Solutions
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 text-lg md:text-2xl font-semibold text-gray-600">
+          FREE Solution Recordings, Answer Sheets, Notes & More !
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {thirdRow.map((product) => (
@@ -125,7 +125,7 @@ export const Header = () => {
           To Seize Your <span className="text-success_gold">Academic Destiny</span>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-xl">
-            Chart your course through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in the pursuit of excellence.
+            Chart your course through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
         </p>
       </div>
     );
@@ -138,7 +138,6 @@ export const ProductCard = ({
 }: {
   product: {
     title: string;
-    link: string;
     thumbnail: string;
   };
   translate: MotionValue<number>;
@@ -149,14 +148,14 @@ export const ProductCard = ({
         x: translate,
       }}
       whileHover={{
-        y: -20,
+        y: -5,
       }}
       key={product.title}
       className="group/product relative flex-shrink-0"
     >
-      <Link
-        href={product.link}
-        className="block group-hover/product:shadow-2xl"
+      <div
+        // href={product.link}
+        className="block group-hover/product:shadow-lg"
       >
         <div className="relative h-[200px] w-[200px] sm:h-[300px] sm:w-[300px]">
           <Image
@@ -167,7 +166,7 @@ export const ProductCard = ({
           />
         </div>
         
-      </Link>
+      </div>
       {/* <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80  bg-black pointer-events-none"></div> */}
       {/* <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
         {product.title}

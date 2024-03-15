@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NavBar/>
-        <div className="mt-[6rem]">
+        <div className="py-[7.5rem]">
           {children}
         </div>
         <Footer/>
