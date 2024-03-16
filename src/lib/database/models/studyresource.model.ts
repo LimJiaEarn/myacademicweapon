@@ -35,8 +35,8 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
   videoSolution: { type: String, required: false }
 }, { discriminatorKey: 'type' });
 
-// Define the Model explicitly
-const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResource', StudyResourceSchema);
+// Define the Interface Model 
+const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResource', StudyResourceSchema, 'studyresources');
 
 const TopicalStudyResourceSchema = new Schema<TopicalStudyResourceDocument>({
   topicName: { type: String, required: true },
@@ -57,11 +57,11 @@ export { StudyResource, TopicalStudyResource, YearlyStudyResource };
 /*
 
 YEARLY:
-curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"YearlyStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":2,\"avgStars\":4.5,\"userStarred\":2,\"assessment\":\"MYE\",\"year\":2024,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"YearlyStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":3,\"userStarred\":1,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\"},{\"type\":\"YearlyStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Riverside Sec\"}]" "http://localhost:3000/api/studyresources/create"
+curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"YearlyStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":2,\"avgStars\":4.5,\"userStarred\":2,\"assessment\":\"MYE\",\"year\":2024,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"YearlyStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":3,\"userStarred\":1,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\"},{\"type\":\"YearlyStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Riverside Sec\"}]" "http://localhost:3000/api/studyresources/create"
 
 TOPICAL:
 
-curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":5,\"userStarred\":1,\"topicName\":\"Prime Numbers\"},{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Number Patterns\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"TopicalStudyResource\",\"status\":true,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Circle Poperties\"}]" "http://localhost:3000/api/studyresources/create"
+curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"TopicalStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":5,\"userStarred\":1,\"topicName\":\"Indices\"},{\"type\":\"TopicalStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Statistics\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"TopicalStudyResource\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Binomial Theorem\"}]" "http://localhost:3000/api/studyresources/create"
 
 
 */

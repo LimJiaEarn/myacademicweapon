@@ -8,7 +8,7 @@ export async function POST(req: Request, res: Response) {
         const data: StudyResourceInterface = await req.json();
 
         const newResource = await createStudyResource(data);
-
+        console.log("Success");
         // Construct a new Response object with a 201 status code
         return new Response(JSON.stringify(newResource), {
             status: 201,
