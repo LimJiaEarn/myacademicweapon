@@ -34,7 +34,7 @@ html {
 
 
 body {
-  @apply bg-pri-bg-color;
+  @apply bg-pri_bg_color;
   overflow-x: hidden;
 }
 

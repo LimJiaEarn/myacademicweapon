@@ -229,8 +229,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             (
               // No data available
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No Resources Available :( <br/>Check Back Soon!
+                <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-creativity_gray">
+                  No resources available at the moment :(
+                  <br/>
+                  Have any resources to share? We'll be excited to publish them here!
+                  <br/>
+                  Contact us at<br/>
+                  <span className="font-bold">myacademicweapon@gmail.com</span>!
                 </TableCell>
               </TableRow>
 

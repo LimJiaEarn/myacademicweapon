@@ -13,9 +13,6 @@ import { DataTable } from "@/components/shared/DataTable";
 import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTableColumn";
 
 
-// Temporary test data
-import { YearlyStudyResourceData, TopicalStudyResourceData } from '../../../../constants';
-
 
 const SecondaryResourcesPage = () => {
 
@@ -50,7 +47,6 @@ const SecondaryResourcesPage = () => {
     const resourcesDecoded : string[] = resourceSelection?.split('_');
     const resourceSubject : string = resourcesDecoded[0]; // Extract Subject
     const resourceType1 : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly
-    const resourceType2 : string =  resourcesDecoded[1]?.split(' ')[1]; // Extract TYS / Prelim
 
     const fetchData = async () => {
       try {

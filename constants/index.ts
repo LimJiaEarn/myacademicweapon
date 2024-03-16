@@ -46,28 +46,65 @@ export const studyResourcesNav = [
 export const secondaryContentNav = [
   {
     id:"secondaryResources1",
-    title: "E Math",
+    title: "English",
     resources: [
-      "Topical TYS Papers",
-      "Topical Prelim Papers",
-      "Yearly TYS Papers",
-      "Yearly Prelim Papers",
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
     ]
   },
   {
     id:"secondaryResources2",
+    title: "E Math",
+    resources: [
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
+    ]
+  },
+  {
+    id:"secondaryResources3",
     title: "A Math",
     resources: [
-      "Topical TYS Papers",
-      "Topical Prelim Papers",
-      "Yearly TYS Papers",
-      "Yearly Prelim Papers",
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
     ]
-  }
+  },
+  {
+    id:"secondaryResources4",
+    title: "Pure Chemistry",
+    resources: [
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
+    ]
+  },
+  {
+    id:"secondaryResources5",
+    title: "Combined Chemistry",
+    resources: [
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
+    ]
+  },
+  {
+    id:"secondaryResources6",
+    title: "Pure Physics",
+    resources: [
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
+    ]
+  },
+  {
+    id:"secondaryResources7",
+    title: "Combined Physics",
+    resources: [
+      "Topical Practice Papers",
+      "Yearly Practice Papers",
+    ]
+  },
 ]
 
 
-// Test Data
+// Test Data - Not needed anymore
+/*
 export const TopicalStudyResourceData : TopicalStudyResource[] = [
   {
     _id : "123",
@@ -109,7 +146,7 @@ export const TopicalStudyResourceData : TopicalStudyResource[] = [
   },
 ]
 
-// Test Data
+
 export const YearlyStudyResourceData : YearlyStudyResource[] = [
   {
     _id : "145",
@@ -157,6 +194,7 @@ export const YearlyStudyResourceData : YearlyStudyResource[] = [
     schoolName: "Riverside Sec", 
   },  
 ]
+*/
 
 // Hero Section Images
 // Hero Section Images
@@ -255,6 +293,6 @@ export const heroImages = [
   },
   {
     title: "heroImg24",
-    thumbnail: "/images/heroImg24.png",
+    thumbnail: "/images/heroImg24.jpg",
   },
 ];
