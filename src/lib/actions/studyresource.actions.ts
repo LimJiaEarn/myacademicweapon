@@ -15,10 +15,8 @@ Create Function:
 */
 export async function createStudyResource(data : StudyResourceInterface) {
 
-  console.log("Inside createStudyResource with data:");
-
-
   try {
+
     await connectToDatabase();
 
     let newResource;
@@ -30,7 +28,6 @@ export async function createStudyResource(data : StudyResourceInterface) {
       newResource = await StudyResource.create(data);
     }
 
-    console.log("Success!");
     return JSON.parse(JSON.stringify(newResource));
   } catch (error) {
     handleError(error);
@@ -46,18 +43,13 @@ export async function createStudyResource(data : StudyResourceInterface) {
   including those created with the base StudyResource model
   might have an assessment field.
 */
-export async function getStudyResources({ level, assessment }: GetStudyResourcesParams) {
+export async function getStudyResources({ type, level, subject }: GetStudyResourcesParams) {
   try {
+
     await connectToDatabase();
 
     // Define query with a type that includes both level and an optional assessment
-    let query: GetStudyResourcesParams = { level };
-
-    // If assessment is provided, add it to the query
-    if (assessment) {
-      query.assessment = assessment;
-    }
-
+    let query: GetStudyResourcesParams = { type, level, subject };
     const resources = await StudyResource.find(query);
 
     return resources.map(resource => JSON.parse(JSON.stringify(resource)));

@@ -8,7 +8,7 @@ export default authMiddleware({
 
   // Routes that can always be accessed, and have
   // no authentication information
-  ignoredRoutes: ["/api/studyresources"]
+  ignoredRoutes: ["/api/studyresources/create", "/api/studyresources/get"]
 });
  
 export const config = {

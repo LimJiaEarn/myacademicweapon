@@ -73,7 +73,7 @@ const StudyResourcesPage = () => {
         </div>
         
         <div className="flex_col_center gap-4">
-          {studyResourcesNav.map((studyResource, index) => {
+          {studyResourcesNav.map((studyResource) => {
 
           return (
           <StudyResourcesSectionCard

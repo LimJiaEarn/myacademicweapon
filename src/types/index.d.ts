@@ -31,6 +31,7 @@ interface StudyResourceInterface {
   type?: string; // Optional field to determine the specific model to create in MongoDB
   workingSolution?:string; // link to working solutions if applicable
   videoSolution?:string; // link to solution recording if applicable
+  creditor?: string // Person who created/contributed the resource
 }
 
 interface TopicalStudyResource extends StudyResourceInterface {
@@ -47,8 +48,9 @@ interface YearlyStudyResource extends StudyResourceInterface {
 declare type StudyResourceInterface = BaseStudyResource | TopicalStudyResource | YearlyStudyResource;
 
 declare type GetStudyResourcesParams = {
+  type: "TopicalStudyResource" | "YearlyStudyResource";
   level: "Primary" | "Secondary" | "JC";
-  assessment?: string;
+  subject: string;
 };
 
 declare type UpdateStudyResourceParams = {

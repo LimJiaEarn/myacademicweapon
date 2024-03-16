@@ -161,6 +161,7 @@ export const ProductCard = ({
           <Image
             src={product.thumbnail}
             fill
+            sizes="(max-width: 200px) 100vw"
             className="object-cover"
             alt={product.title}
           />

@@ -52,31 +52,31 @@ const SecondaryResourcesPage = () => {
     const resourceType1 : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly
     const resourceType2 : string =  resourcesDecoded[1]?.split(' ')[1]; // Extract TYS / Prelim
 
-    /*
-      TODO: GET DATA FROM SERVER
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/studyresources/get', { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ type: resourceType1+"StudyResource", level: 'Secondary', subject:  resourceSubject}), 
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+  
+        const data = await response.json();
+        settableData(data); 
 
-        1) We should get the columns for diff type of resourceSelection - Yearly / Topical [The togglesorting etc, we might need to just use hardcoded versions of cols]
-        2) The data should be straightforward, just settableData
-    
-      */
-
-      // Yearly layout
-      if (resourceType1==="Yearly"){
-        
-        settableColumns(getYearlyColumns(onToggleStatus));
-
-        // `YearlyStudyResourceData` to get from APi
-        settableData(YearlyStudyResourceData);
+        settableColumns(resourceType1 === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
+      
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      // Topical Layout
-      else{
+    };
 
-        settableColumns(getTopicalColumns(onToggleStatus));
-
-        // `TopicalStudyResourceData` to get from APi
-        settableData(TopicalStudyResourceData);
-      }
-
+    fetchData();
 
   }, [resourceSelection]);
 
@@ -94,19 +94,22 @@ const SecondaryResourcesPage = () => {
           setsubjectContent={setresourceSelection}
         />
 
-        {subjectSelection ?
-          <div className="w-full px-2 md:px-6 flex_col_center">
-            <DataTable columns={tableColumns} data={tableData}/>
-          </div>
-        :
-          // Render a CTA image
-          <div className="py-4 flex_col_center gap-4">
-            
-            <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-            
-            <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
-          </div>
-        }
+        <div className="min-h-screen w-full">
+          {subjectSelection ?
+            <div className="w-full px-2 md:px-6 flex_col_center">
+              <DataTable columns={tableColumns} data={tableData}/>
+            </div>
+          :
+            // Render a CTA image
+            <div className="py-4 flex_col_center gap-4">
+              
+              <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
+              
+              <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
+            </div>
+          }
+        </div>
+        
 
         
 
