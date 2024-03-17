@@ -35,7 +35,7 @@ const SummarySection = (props: SummarySectionProps) => {
             Sign in to track your progress!
           </p>
           <Link href="/sign-in">
-            <p className="inline-flex items-center gap-2 ml-2 px-4 py-2 bg-warning_orange text-white rounded-md hover:bg-success_gold transition-colors duration-150">
+            <p className="inline-flex items-center gap-2 ml-2 px-4 py-2 bg-info_blue text-white rounded-md hover:bg-info_blue_hover transition-colors duration-150">
               Sign in!
             </p>
         </Link>

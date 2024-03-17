@@ -42,6 +42,7 @@ interface YearlyStudyResource extends StudyResourceInterface {
   assessment: string;
   year: number;
   schoolName: string;
+  paper: number;
 }
 
 // Union type for StudyResource function parameters

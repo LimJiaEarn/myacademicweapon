@@ -27,7 +27,7 @@ const SubjectsContentNav = ({contents, subjectSelection, onSelectionClick, setsu
                 onMouseEnter={() => setcurrentHover(content.title)}
                 onMouseLeave={() => setcurrentHover(null)}
             >
-            <div className={`${content.title === subjectSelection ? 'text-academic_red' : 'text-dark-gray'} hover:text-creativity_gray p-2 rounded-md cursor-pointer transition-hover text-center`}>
+            <div className={`${content.title === subjectSelection ? 'text-info_blue' : 'text-dark-gray'} hover:text-dark_info_blue p-2 rounded-md cursor-pointer transition-hover text-center`}>
                 {content.title}
             </div>
 
@@ -38,7 +38,7 @@ const SubjectsContentNav = ({contents, subjectSelection, onSelectionClick, setsu
                 <button
                     key={`${content.id}-${resource}-${i}`}
                     onClick={() => {onSelectionClick(content.title); setsubjectContent(`${content.title}_${resource}`);}}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-creativity_gray rounded-md transition-colors duration-150 ease-in-out"
+                    className="block w-full text-left px-4 py-2 text-sm hover:text-dark_info_blue rounded-md transition-colors duration-150 ease-in-out"
                 >
                     {resource}
                 </button>

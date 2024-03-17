@@ -37,10 +37,10 @@ const config: Config = {
         'light_text_gray': 'hsl(0, 0%, 80%)', // A very light gray for dividers and less prominent borders, maintaining a clean look
         
         // Utility Colors (For warnings, errors, info messages)
-        'warning_orange': 'hsl(30, 100%, 50%)', // A vibrant orange for warnings, to stand out without clashing with red and gold
-        'error_dark_red': 'hsl(0, 100%, 40%)', // A darker shade of red for errors, differentiating from the primary red
-        'info_blue': 'hsl(210, 100%, 50%)', // A calming blue for informational messages, offering a contrast to the warm palette
-
+        'vibrant_orange': 'hsl(30, 100%, 50%)', 
+        'dark_red': 'hsl(0, 100%, 40%)', 
+        'info_blue': 'hsl(210, 100%, 50%)', 
+        'dark_info_blue': 'hsl(210, 100%, 30%)',
     
       },
       boxShadow: {

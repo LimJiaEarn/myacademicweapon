@@ -21,6 +21,7 @@ interface TopicalStudyResourceDocument extends StudyResourceDocument {
 interface YearlyStudyResourceDocument extends StudyResourceDocument {
   year: number;
   schoolName: string;
+  paper: number;
 }
 
 const StudyResourceSchema = new Schema<StudyResourceDocument>({
@@ -46,6 +47,7 @@ const YearlyStudyResourceSchema = new Schema<YearlyStudyResourceDocument>({
   year: { type: Number, required: true },
   schoolName: { type: String, required: true },
   assessment: { type: String, required: true },
+  paper: {type: Number, required: true}
 });
 
 // Use discriminators for sub-types
