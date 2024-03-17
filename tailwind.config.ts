@@ -41,8 +41,7 @@ const config: Config = {
         'error_dark_red': 'hsl(0, 100%, 40%)', // A darker shade of red for errors, differentiating from the primary red
         'info_blue': 'hsl(210, 100%, 50%)', // A calming blue for informational messages, offering a contrast to the warm palette
 
-        
-
+    
       },
       boxShadow: {
         // Custom shadow for dropdown

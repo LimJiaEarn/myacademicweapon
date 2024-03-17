@@ -8,7 +8,6 @@ import {
   MotionValue,
 } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
 export const HeroParallax = (
   {products,}: {
@@ -60,7 +59,7 @@ export const HeroParallax = (
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-[1700px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
+    <div ref={ref} className="min-h-[2000px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
 
       <motion.div
@@ -157,7 +156,7 @@ export const ProductCard = ({
         // href={product.link}
         className="block group-hover/product:shadow-lg"
       >
-        <div className="relative h-[200px] w-[200px] sm:h-[300px] sm:w-[300px]">
+        <div className="relative h-[300px] w-[240px] sm:h-[300px] sm:w-[300px]">
           <Image
             src={product.thumbnail}
             fill
