@@ -1,19 +1,34 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { updateStatusStudyResource } from '@/lib/actions/resourceinteraction.actions'; // Adjust the import path as necessary
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+// Import your server-side functionality
+import { updateStatusStudyResource } from '@/lib/actions/resourceinteraction.actions';
+
+// Define the default exported function for handling requests
+export async function POST(req: Request, res: Response) {
+
     try {
         // Type the entire req.body and then destructure
-        const { userID, resourceID, status }: updateStatusStudyResourceParams = req.body;
+        const data: updateStatusStudyResourceParams = await req.json();
+        const { userID, resourceID, status } = data;
 
-        // Call the updateStatusStudyResource function with the extracted data
+        // Call the server-side function with the extracted data
         await updateStatusStudyResource({ userID, resourceID, status });
 
         // Send a success response
-        res.status(200).json({ message: 'Resource status updated successfully' });
-    } catch (error) {
-        console.error('Failed to update resource status:', error);
-        res.status(500).json({ error: 'Failed to update resource status' });
-    }
+        return new Response(JSON.stringify("Success"), {
+            status: 201,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error : any) {
+        console.error(error); // Log the error for debugging
 
+        // Construct a new Response object for the error case
+        return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    }
 }
