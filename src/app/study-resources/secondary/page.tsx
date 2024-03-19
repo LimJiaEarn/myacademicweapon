@@ -4,6 +4,7 @@ import Image from 'next/image';
 import SummarySection from '@/components/shared/SummarySection';
 import SubjectsContentNav from '@/components/shared/SubjectsContentNav';
 import { useState, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 
 // Dependencies for Table
@@ -16,6 +17,10 @@ import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTab
 
 const SecondaryResourcesPage = () => {
 
+  const { user } = useUser();
+  const userID = user?.publicMetadata?.userId ?? null;
+
+  
   // The Main Subject student has chosen
   const [subjectSelection, setsubjectSelection] = useState<string>("");
 
@@ -30,23 +35,59 @@ const SecondaryResourcesPage = () => {
   // The data to populate the table
   const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
   
-  const onToggleStatus = (rowId: string) => {
-    
-    settableData((prevData: StudyResourceInterface[]) =>
-      prevData.map(item => {
-        if (item._id === rowId) {
-          return { ...item, status: !item.status };
-        }
-        return item;
-      })
-    );
-      
+  const onToggleStatus = async (rowId: string) => {
+
+    // Only signed in users are allowed 
+    if (!userID) {
+      alert("User is not signed in.");
+      return;
+    }
+  
+    // Find the resource in tableData to toggle its status
+    const resource = tableData.find(item => item._id === rowId);
+
+    if (!resource) {
+      console.error('Resource not found');
+      return;
+    }
+  
+    try {
+      // Call the API to update the status in the backend
+      const response = await fetch('/api/resourceinteractions/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID,
+          resourceID: rowId,
+          status: !resource.status, // send the opposite of current status
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update resource status');
+      }
+  
+      // If the update is successful, toggle the status in the UI
+      settableData((prevData) =>
+        prevData.map(item => {
+          if (item._id === rowId) {
+            return { ...item, status: !item.status };
+          }
+          return item;
+        })
+      );
+  
+    } catch (error) {
+      console.error('Error updating resource status:', error);
+    }
   };
 
   useEffect(() => {
     const resourcesDecoded : string[] = resourceSelection?.split('_');
     const resourceSubject : string = resourcesDecoded[0]; // Extract Subject
-    const resourceType1 : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly
+    const resourceType : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly
 
     const fetchData = async () => {
       try {
@@ -55,17 +96,47 @@ const SecondaryResourcesPage = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ type: resourceType1+"StudyResource", level: 'Secondary', subject:  resourceSubject}), 
+          body: JSON.stringify({ type: resourceType+"StudyResource", level: 'Secondary', subject:  resourceSubject}), 
         });
   
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
+
+        let data = await response.json(); // only missing status column which we will update below
+
+
+       // If user is signed in, fetch the list of completed resources and update the status
+        if (userID) {
+            const completedResponse = await fetch('/api/resourceinteractions/getStatus', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ userID, resourceType: resourceType + "StudyResource" }),
+            });
+
+            if (completedResponse.ok) {
+              const completedResourceIDs = await completedResponse.json();
+
+              // Update the status field based on completedResourceIDs
+              data = data.map((item : StudyResourceInterface) => ({
+                ...item,
+                status: completedResourceIDs.includes(item._id),
+              }));
+            }
+        }
+        else {
+            // If user is not signed in, set all statuses to false
+            data = data.map((item : StudyResourceInterface) => ({
+              ...item,
+              status: false,
+            }));
+        }
   
-        const data = await response.json();
         settableData(data); 
 
-        settableColumns(resourceType1 === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
+        settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
       
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -81,7 +152,7 @@ const SecondaryResourcesPage = () => {
 
       <div className="w-full px-2 md:px-8 lg:px-10 flex_col_center">
         
-        <SummarySection subjectSelection={subjectSelection}/>
+        <SummarySection subjectSelection={subjectSelection} userName={user? user.firstName : null}/>
 
         <SubjectsContentNav
           contents={secondaryContentNav}
@@ -98,9 +169,7 @@ const SecondaryResourcesPage = () => {
           :
             // Render a CTA image
             <div className="py-4 flex_col_center gap-4">
-              
               <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-              
               <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
             </div>
           }
@@ -109,7 +178,7 @@ const SecondaryResourcesPage = () => {
 
         
 
-      
+
 
       </div>
 

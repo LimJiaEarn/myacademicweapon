@@ -1,17 +1,15 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface StudyResourceDocument extends Document {
-  status: boolean;
   level: string; // "Primary" | "Secondary" | "JC"
   subject: string;
-  assessment: string; // MYE | EOY | Prelims
+  desc?: string;
   url: string;
   likes: number;
-  avgStars: number; // track average stars
-  userStarred: number; // track count students giving stars
   workingSolution?: string;
   videoSolution?: string;
   creditor?: string;
+  type: string;
 }
 
 interface TopicalStudyResourceDocument extends StudyResourceDocument {
@@ -21,23 +19,23 @@ interface TopicalStudyResourceDocument extends StudyResourceDocument {
 interface YearlyStudyResourceDocument extends StudyResourceDocument {
   year: number;
   schoolName: string;
+  assessment: string; // MYE | EOY | Prelims
   paper: number;
 }
 
 const StudyResourceSchema = new Schema<StudyResourceDocument>({
-  status: { type: Boolean, required: true },
   level: { type: String, required: true },
   subject: { type: String, required: true },
+  desc: { type: String},
   url: { type: String, required: true },
   likes: { type: Number, default: 0 },
-  avgStars: { type: Number, default: 0 },
-  userStarred: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
-  videoSolution: { type: String, required: false }
+  videoSolution: { type: String, required: false },
+  creditor : { type : String}
 }, { discriminatorKey: 'type' });
 
 // Define the Interface Model 
-const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResource', StudyResourceSchema, 'studyresources');
+const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
 
 const TopicalStudyResourceSchema = new Schema<TopicalStudyResourceDocument>({
   topicName: { type: String, required: true },

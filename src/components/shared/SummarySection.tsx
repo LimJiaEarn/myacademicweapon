@@ -1,28 +1,23 @@
-"use client"
 
-import { useUser } from '@clerk/nextjs';
 import { Progress } from "@/components/ui/progress"
 import Link from 'next/link';
 
 interface SummarySectionProps{
   subjectSelection: String;
+  userName: String | null; 
 }
 
 const SummarySection = (props: SummarySectionProps) => {
 
-  const { user } = useUser();
 
-  let mongoDbId: string | undefined = undefined;
-  if (user)
-    mongoDbId = (user?.publicMetadata as { userId: string }).userId; 
 
     // TODO: GET USER PROGRESS
 
   return (
     <section className="flex flex-col items-center mb-4 p-4 bg-light_gray rounded-lg shadow">
-      {user ? 
+      {props.userName ? 
         <div className="text-center">
-          <p className="py-4 md:py-6 text-2xl md:text-3xl text-success_gold">Welcome, <span className="font-bold">{user.firstName}!</span></p>
+          <p className="py-4 md:py-6 text-2xl md:text-3xl text-success_gold">Welcome, <span className="font-bold">{props.userName}!</span></p>
           {props.subjectSelection ?
             <div className="flex flex-col items-center gap-2">
               <p className="text-info_blue">Your Stats in <span className="font-bold">{props.subjectSelection}:</span></p>

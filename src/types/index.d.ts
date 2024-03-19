@@ -21,13 +21,12 @@ declare type UpdateUserParams = {
 
 interface StudyResourceInterface {
   _id: string; // MongoDB ID
-  status: boolean;
+  status?: boolean;
   level: "Primary" | "Secondary" | "JC";
   subject: string;
+  desc?: string;
   url: string;
   likes: number;
-  avgStars: number;
-  userStarred: number;
   type?: string; // Optional field to determine the specific model to create in MongoDB
   workingSolution?:string; // link to working solutions if applicable
   videoSolution?:string; // link to solution recording if applicable
@@ -55,11 +54,22 @@ declare type GetStudyResourcesParams = {
 };
 
 declare type UpdateStudyResourceParams = {
-  status?: boolean;
   url?: string;
   level?: "Primary" | "Secondary" | "JC";
   topicName?: string; // For TopicalStudyResource
   assessment?: string;
   year?: number; // For YearlyStudyResource
   schoolName?: string; // For YearlyStudyResource
+  likes?: number;
 };
+
+declare type getStatusStudyResourceParams = {
+  userID: string;
+  resourceType: "TopicalStudyResource" | "YearlyStudyResource";
+}
+
+declare type updateStatusStudyResourceParams = {
+  userID: string;
+  resourceID: string;
+  status: boolean;
+}
