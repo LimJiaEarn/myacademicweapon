@@ -17,12 +17,7 @@ const TableOfResources = ( {searchParams} : {searchParams : { [key:string]:strin
             <p className="text-xl">{subject}</p>
             <p className="text-xl">{resourceType}</p>
             
-            <Link href={`?${new URLSearchParams({
-                test1:"5sdv/j&*%^",
-                test2:"2ve"
-            })}`}>
-                5, 2
-            </Link>
+
 
 
         </div>

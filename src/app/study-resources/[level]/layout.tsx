@@ -21,6 +21,7 @@ export default function SecondaryResourcesLayout({ children,}: Readonly<{childre
   const userID = user?.publicMetadata?.userId ?? null;
 
   const pathname = usePathname();
+  const level = pathname.split('/').pop();
 
 
   // The Main Subject student has chosen
@@ -156,7 +157,7 @@ export default function SecondaryResourcesLayout({ children,}: Readonly<{childre
   return (
     <div className="w-full px-2 md:px-8 lg:px-10 flex_col_center">
 
-      <p>{pathname}</p>
+      <p>{level}</p>
       <SummarySection subjectSelection={subjectSelection} userName={user? user.firstName : null}/>
 
       <SubjectsContentNav
