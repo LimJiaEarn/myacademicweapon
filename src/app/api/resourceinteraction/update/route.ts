@@ -1,6 +1,6 @@
 
 // Import your server-side functionality
-import { updateStatusStudyResource } from '@/lib/actions/resourceinteraction.actions';
+import { updateStatusStudyResource } from '@/lib/actions/useractivity';
 
 // Define the default exported function for handling requests
 export async function POST(req: Request, res: Response) {

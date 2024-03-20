@@ -73,6 +73,7 @@ export async function updateStudyResource(resourceId : string, updateData : Upda
     await connectToDatabase();
 
     const updatedResource = await StudyResource.findByIdAndUpdate(resourceId, updateData, { new: true });
+    
     if (!updatedResource) throw new Error("StudyResource update failed");
 
     return JSON.parse(JSON.stringify(updatedResource));

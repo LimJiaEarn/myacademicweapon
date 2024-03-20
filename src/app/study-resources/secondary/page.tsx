@@ -35,6 +35,7 @@ const SecondaryResourcesPage = () => {
   // The data to populate the table
   const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
   
+  // This sets the status of the study resource selected by user
   const onToggleStatus = async (rowId: string) => {
 
     // Only signed in users are allowed 
@@ -85,6 +86,9 @@ const SecondaryResourcesPage = () => {
   };
 
   useEffect(() => {
+
+    if (!resourceSelection) return;
+
     const resourcesDecoded : string[] = resourceSelection?.split('_');
     const resourceSubject : string = resourcesDecoded[0]; // Extract Subject
     const resourceType : string =  resourcesDecoded[1]?.split(' ')[0]; // Extract Topical / Yearly

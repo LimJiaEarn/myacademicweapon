@@ -1,7 +1,7 @@
 "use server";
 
 import { StudyResource } from "../database/models/studyresource.model";
-import { UserResourceInteractions } from "../database/models/resourceinteraction.model";
+import { UserActivity } from "../database/models/useractivity.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
@@ -17,8 +17,8 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         // This part might need to be adjusted based on how you determine whether a resource is 'YearlyStudyResource' or 'TopicalStudyResource'
         const resourceType = await determineResourceType(resourceID);
 
-        // Check if there's an existing UserResourceInteractions document
-        const userResourceInteraction = await UserResourceInteractions.findOne({ 
+        // Check if there's an existing UserActivity document
+        const userResourceInteraction = await UserActivity.findOne({ 
             userID, 
             resourceType 
         });
@@ -41,7 +41,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         else{
             if (status) {
                 // If the document does not exist and status is true, create a new document
-                await UserResourceInteractions.create({
+                await UserActivity.create({
                     userId: userID,
                     resourceType,
                     likesArray: [],
@@ -85,8 +85,8 @@ async function determineResourceType(resourceID: string): Promise<'YearlyStudyRe
     
         const { userID, resourceType } = params;
     
-        // Find the UserResourceInteractions document for the specified user and resource type
-        const userResourceInteraction = await UserResourceInteractions.findOne({
+        // Find the UserActivity document for the specified user and resource type
+        const userResourceInteraction = await UserActivity.findOne({
             userID,
             resourceType
         });
