@@ -1,6 +1,6 @@
 
 // Import your server-side functionality
-import { updateStatusStudyResource } from '@/lib/actions/useractivity';
+import { updateStatusStudyResource } from '@/lib/actions/useractivity.actions';
 
 // Define the default exported function for handling requests
 export async function POST(req: Request, res: Response) {
@@ -11,6 +11,7 @@ export async function POST(req: Request, res: Response) {
         const { userID, resourceID, status } = data;
 
         // Call the server-side function with the extracted data
+        console.log("In server side");
         await updateStatusStudyResource({ userID, resourceID, status });
 
         // Send a success response

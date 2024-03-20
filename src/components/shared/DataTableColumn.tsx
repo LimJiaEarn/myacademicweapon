@@ -6,12 +6,12 @@ import Image from "next/image";
 
 
 // Define a type for your toggle status function
-type ToggleStatusFunction = (rowId: string) => void;
+type ToggleStatusFunction = (studyResourceID: string, userID: string|null) => void;
 
 // Utility Cell Components
 
-const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStatus: ToggleStatusFunction) => {
-    const rowId = info.row.original._id; // Access the id of the row
+const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
+    const studyResourceID = info.row.original._id; // Access the id of the row
     const status = info.getValue() as boolean; // This is your boolean status
     const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
     return (
@@ -21,7 +21,7 @@ const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStat
             checked={status} // Checkbox is checked if status is true (Completed)
             onChange={(e) => {
                 e.stopPropagation(); // Prevent row click event
-                onToggleStatus(rowId); // Toggle the status when checkbox changes
+                onToggleStatus(studyResourceID, userID); // Toggle the status when checkbox changes
             }}
             className="mr-2"
         />
@@ -36,7 +36,7 @@ const likesCell = (info: CellContext<StudyResourceInterface, unknown>, onToggleS
     return (
     <div className="w-[80px] flex_center" >
         {likes}
-        <button onClick={() => onToggleStatus(rowId)} className="relative bottom-[0.48]">
+        <button className="relative bottom-[0.48]">
             <Image 
                 src="/icons/likeIcon.svg"
                 alt="likeIcon"
@@ -63,13 +63,13 @@ const headerCell = (column : Column<any, any>, headerTitle : string, withSort : 
 
 
 
-export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction): ColumnDef<StudyResourceInterface>[] =>
+export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
 [
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
         header: 'Status',
-        cell: info => statusCell(info, onToggleStatus),
+        cell: info => statusCell(info, onToggleStatus, userID),
     },
     // Year
     {
@@ -115,12 +115,12 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction): ColumnDe
     },
 ];
 
-export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction): ColumnDef<StudyResourceInterface>[] => [
+export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
         header: 'Status',
-        cell: info => statusCell(info, onToggleStatus),
+        cell: info => statusCell(info, onToggleStatus, userID),
     },
     // topicName
     {

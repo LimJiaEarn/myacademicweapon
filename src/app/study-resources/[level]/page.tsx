@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { usePathname } from 'next/navigation'
-
+import { usePathname  } from 'next/navigation'
 
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table"
@@ -22,11 +21,16 @@ function capitalize(str : string) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
     // Get the userID
     const { user } = useUser();
-    const userID = user?.publicMetadata?.userId ?? null;
+
+    let userID = (user?.publicMetadata.userId as string ) || null;
+
+    console.log("userID: ", userID);
+
 
     const pathname = usePathname();
 
@@ -37,53 +41,49 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
     
 
-      // Sets the column of the table to be displayed
-  // 2 main types - Yearly & Topical
-  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
+    // Sets the column of the table to be displayed
+    // 2 main types - Yearly & Topical
+    const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
 
-  // The data to populate the table
-  const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
+    // The data to populate the table
+    const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
 
-  // This sets the status of the study resource selected by user
-  // TODO: VERIFY if rowId is the id of the resource again
-  const onToggleStatus = async (rowId: string) => {
+    // This sets the status of the study resource selected by user
+    // TODO: VERIFY if studyResourceID is the id of the resource again
+    const onToggleStatus = async (studyResourceID: string, userID : string|null) => {
+
+    console.log("userID: ", userID);
 
     // Only signed in users are allowed 
     if (!userID) {
       alert("User is not signed in.");
       return;
     }
-  
-    // Find the resource in tableData to toggle its status
-    const resource = tableData.find(item => item._id === rowId);
 
-    if (!resource) {
-      console.error('Resource not found');
-      return;
-    }
   
     try {
       // Call the API to update the status in the backend
-      const response = await fetch('/api/resourceinteractions/update', {
+      const response = await fetch('/api/resourceinteraction/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userID,
-          resourceID: rowId,
-          status: !resource.status, // send the opposite of current status
+          resourceID: studyResourceID,
+          status: true, // send the opposite of current status - hardcoded to true for now
         }),
       });
   
       if (!response.ok) {
-        throw new Error('Failed to update resource status');
+        console.log('Failed to update resource status');
+        return;
       }
   
       // If the update is successful, toggle the status in the UI
       settableData((prevData) =>
         prevData.map(item => {
-          if (item._id === rowId) {
+          if (item._id === studyResourceID) {
             return { ...item, status: !item.status };
           }
           return item;
@@ -92,17 +92,22 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   
     } catch (error) {
       console.error('Error updating resource status:', error);
+      return;
     }
   };
 
-  useEffect(() => {
+  useEffect( ()=>{
+    const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
+
+    console.log("useEffect triggered with");
+    console.log(resourceSubject);
+    console.log(resourceType);
 
     const fetchData = async () => {
 
-      const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
       try {
 
-          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
+          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
 
           // Call a server action to get data to populate table
           let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
@@ -136,9 +141,11 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       }
     };
 
-    fetchData();
+      if (resourceType=="Yearly" || resourceType=="Topical")
+        fetchData();
 
   }, [resourceSubject, resourceType]);
+
         
     return (
 
