@@ -11,7 +11,16 @@ import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@/components/shared/DataTable";
 import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTableColumn";
 
+// Server Actions
+import { updateStatusStudyResource, getStatusStudyResource } from '@/lib/actions/useractivity.actions';
+import { getStudyResources } from '@/lib/actions/studyresource.actions';
+
 // searchParams guide referenced: https://www.youtube.com/watch?v=ukpgxEemXsk&t=6s
+
+function capitalize(str : string) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
@@ -22,9 +31,11 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     const pathname = usePathname();
 
     // Get the encoded data from url
-    const resourceLevel = pathname.split('/').pop();
+    const resourceLevel = capitalize(pathname.split('/').pop() as string);
     const resourceSubject = searchParams.subject;
     const resourceType = searchParams.resourceType?.split(' ')[0];
+
+    
 
       // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
@@ -34,6 +45,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
 
   // This sets the status of the study resource selected by user
+  // TODO: VERIFY if rowId is the id of the resource again
   const onToggleStatus = async (rowId: string) => {
 
     // Only signed in users are allowed 
@@ -85,60 +97,42 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
   useEffect(() => {
 
-
-
     const fetchData = async () => {
+
+      const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
       try {
-        settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
 
-        const response = await fetch('/api/studyresources/get', { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ type: resourceType+"StudyResource", level: resourceLevel, subject:  resourceSubject}), 
-        });
-  
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
+          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus) : getTopicalColumns(onToggleStatus));
 
-        let data = await response.json(); // only missing status column which we will update below
+          // Call a server action to get data to populate table
+          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
 
+          // Next we update the status column based on past user interactions
+          // If user is signed in, fetch the list of completed resources and update the status
+          if (userID) {
 
-       // If user is signed in, fetch the list of completed resources and update the status
-        if (userID) {
-            const completedResponse = await fetch('/api/resourceinteractions/getStatus', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ userID, resourceType: resourceType + "StudyResource" }),
-            });
-
-            if (completedResponse.ok) {
-              const completedResourceIDs = await completedResponse.json();
+              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
 
               // Update the status field based on completedResourceIDs
-              data = data.map((item : StudyResourceInterface) => ({
+              data = data?.map((item : StudyResourceInterface) => ({
                 ...item,
                 status: completedResourceIDs.includes(item._id),
               }));
-            }
-        }
-        else {
-            // If user is not signed in, set all statuses to false
-            data = data.map((item : StudyResourceInterface) => ({
-              ...item,
-              status: false,
-            }));
-        }
-  
-        settableData(data); 
+              
+          }
+          else {
+              // If user is not signed in, set all statuses to false
+              data = data?.map((item : StudyResourceInterface) => ({
+                ...item,
+                status: false,
+              }));
+          }
+        
+          if (data) settableData(data); 
 
-        console.log("Set table data and columns");
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        }
+        catch (error) {
+          console.error('Error fetching data:', error);
       }
     };
 

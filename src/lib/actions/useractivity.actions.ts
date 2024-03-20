@@ -98,7 +98,7 @@ async function determineResourceType(resourceID: string): Promise<'YearlyStudyRe
         }
     
         // Convert the ObjectId array to a string array
-        const completedResourceIDs = userResourceInteraction.completedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+        const completedResourceIDs : string[] = userResourceInteraction.completedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
 
         return completedResourceIDs;
     }
