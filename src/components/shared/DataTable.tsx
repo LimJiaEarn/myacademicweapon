@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 import {
   ColumnDef,
@@ -170,7 +171,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               placeholder={`Filtering ${filterColumn} ...`}
               value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn(filterColumn)?.setFilterValue(event.target.value)}
-              className="max-w-sm"
+              className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             />
           </div>
         }
@@ -230,12 +231,23 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               // No data available
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-creativity_gray">
-                  No resources available at the moment :(
-                  <br/>
-                  Have any resources to share? We'll be excited to publish them here!
-                  <br/>
-                  Contact us at<br/>
-                  <span className="font-bold">myacademicweapon@gmail.com</span>!
+                  <div className="flex_center">
+                    
+                    <Image className="hidden md:flex rounded-full opacity-20" src="/images/noContent.webp" alt="icon" height={300} width={300}/>
+                    
+                    <div>
+                      No resources available at the moment :(
+                      <br/>
+                      Have any resources to share?
+                      <br/>
+                      We'll be excited to publish them here!
+                      <br/>
+                      Contact us at<br/>
+                      <span className="font-bold">myacademicweapon@gmail.com</span>!
+                    </div>
+                  
+                  </div>
+                  
                 </TableCell>
               </TableRow>
 
@@ -244,6 +256,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Table>
         
         {/* Prev and Next Buttons */}
+        {table.getRowModel().rows?.length > 0 &&
         <div className="flex_center gap-2">
             <button className="bg-green-300 rounded-full px-4 cursor-pointer" 
                 onClick={() => table.previousPage()}
@@ -258,6 +271,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 Next
             </button>
         </div>
+        }
 
       </div>
     </div>
