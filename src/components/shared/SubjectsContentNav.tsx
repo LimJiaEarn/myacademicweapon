@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import Link from "next/link";
 
 interface subjectsContent {
     id: string;
@@ -35,13 +36,17 @@ const SubjectsContentNav = ({contents, subjectSelection, onSelectionClick, setsu
 
                 {content.resources.map((resource, i) => {
                 return (
-                <button
+                <Link
                     key={`${content.id}-${resource}-${i}`}
+                    href={`?${new URLSearchParams({
+                        subject:content.title,
+                        resourceType:resource
+                    })}`}
                     onClick={() => {onSelectionClick(content.title); setsubjectContent(`${content.title}_${resource}`);}}
                     className="block w-full text-left px-4 py-2 text-sm hover:text-dark_info_blue rounded-md transition-colors duration-150 ease-in-out"
                 >
                     {resource}
-                </button>
+                </Link>
                 )})}
             </div>
             </div>

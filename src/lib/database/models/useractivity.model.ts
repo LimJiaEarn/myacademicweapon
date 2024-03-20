@@ -14,6 +14,6 @@ const UserActivitySchema = new Schema<UserActivityDocument>({
   completedArray: [{ type: Schema.Types.ObjectId, ref: 'StudyResources' }],
 });
 
-const UserResourceInteractions = models?.UserActivity || model<UserActivityDocument>('UserActivity', UserActivitySchema);
+const UserActivity = models?.UserActivity || model<UserActivityDocument>('UserActivity', UserActivitySchema);
 
-export {UserResourceInteractions};
+export {UserActivity};

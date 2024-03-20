@@ -5,6 +5,7 @@ import SummarySection from '@/components/shared/SummarySection';
 import SubjectsContentNav from '@/components/shared/SubjectsContentNav';
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { usePathname } from 'next/navigation'
 
 
 // Dependencies for Table
@@ -14,13 +15,14 @@ import { DataTable } from "@/components/shared/DataTable";
 import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTableColumn";
 
 
-
-const SecondaryResourcesPage = () => {
+export default function SecondaryResourcesLayout({ children,}: Readonly<{children: React.ReactNode;}>) {
 
   const { user } = useUser();
   const userID = user?.publicMetadata?.userId ?? null;
 
-  
+  const pathname = usePathname();
+
+
   // The Main Subject student has chosen
   const [subjectSelection, setsubjectSelection] = useState<string>("");
 
@@ -151,44 +153,33 @@ const SecondaryResourcesPage = () => {
 
   }, [resourceSelection]);
 
-
   return (
+    <div className="w-full px-2 md:px-8 lg:px-10 flex_col_center">
 
-      <div className="w-full px-2 md:px-8 lg:px-10 flex_col_center">
-        
-        <SummarySection subjectSelection={subjectSelection} userName={user? user.firstName : null}/>
+      <p>{pathname}</p>
+      <SummarySection subjectSelection={subjectSelection} userName={user? user.firstName : null}/>
 
-        <SubjectsContentNav
-          contents={secondaryContentNav}
-          subjectSelection={subjectSelection}
-          onSelectionClick={setsubjectSelection}
-          setsubjectContent={setresourceSelection}
-        />
+      <SubjectsContentNav
+        contents={secondaryContentNav}
+        subjectSelection={subjectSelection}
+        onSelectionClick={setsubjectSelection}
+        setsubjectContent={setresourceSelection}
+      />
 
-        <div className="min-h-screen w-full">
-          {subjectSelection ?
-            <div className="w-full px-2 md:px-6 flex_col_center">
-              <DataTable columns={tableColumns} data={tableData}/>
-            </div>
-          :
-            // Render a CTA image
-            <div className="py-4 flex_col_center gap-4">
-              <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-              <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
-            </div>
-          }
-        </div>
-        
-
-        
-
-
-
+      <div className="min-h-screen w-full">
+        {subjectSelection ?
+          <div className="w-full px-2 md:px-6 flex_col_center">
+            {children}
+          </div>
+        :
+          // Render a CTA image
+          <div className="py-4 flex_col_center gap-4">
+            <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
+            <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
+          </div>
+        }
       </div>
-
-
-    
+      
+  </div>
   );
 }
-
-export default SecondaryResourcesPage;
