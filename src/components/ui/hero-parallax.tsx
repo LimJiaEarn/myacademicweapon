@@ -59,7 +59,7 @@ export const HeroParallax = (
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-[2000px] sm:min-h-[2180px] lg:min-h-[2100px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
+    <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
 
       <motion.div
@@ -156,11 +156,11 @@ export const ProductCard = ({
         // href={product.link}
         className="block group-hover/product:shadow-lg"
       >
-        <div className="relative h-[300px] w-[240px] sm:h-[300px] sm:w-[300px]">
+        <div className="relative h-[339px] w-[240px] sm:h-[385px] sm:w-[290px]">
           <Image
             src={product.thumbnail}
             fill
-            sizes="(max-width: 200px) 100vw"
+            sizes="(max-width:290px) 100vw"
             className="object-cover"
             alt={product.title}
           />

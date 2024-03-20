@@ -24,7 +24,7 @@ const Navbar = () => {
 
         <div className="flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
-            <div className="w-20 md:w-40"> 
+            <div className="w-30 md:w-40"> 
               <Image src="/images/BigLogo.svg" alt="logo" width={160} height={140}/>
             </div>
           </Link>

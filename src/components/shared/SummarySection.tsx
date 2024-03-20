@@ -1,29 +1,32 @@
+"use client"
 
 import { Progress } from "@/components/ui/progress"
 import Link from 'next/link';
-
-interface SummarySectionProps{
-  subjectSelection: String;
-  userName: String | null; 
-}
-
-const SummarySection = (props: SummarySectionProps) => {
+import { useUser } from '@clerk/nextjs';
 
 
+// interface SummarySectionProps{
+//   subjectSelection: String;
+// }
+
+const SummarySection = () => {
+
+  const { user } = useUser();
+  const userID = user?.publicMetadata?.userId ?? null;
 
     // TODO: GET USER PROGRESS
 
   return (
     <section className="flex flex-col items-center mb-4 p-4 bg-light_gray rounded-lg shadow">
-      {props.userName ? 
+      {user ? 
         <div className="text-center">
-          <p className="py-4 md:py-6 text-2xl md:text-3xl text-success_gold">Welcome, <span className="font-bold">{props.userName}!</span></p>
-          {props.subjectSelection ?
+          <p className="py-4 md:py-6 text-2xl md:text-3xl text-success_gold">Welcome, <span className="font-bold">{user.firstName}!</span></p>
+          {/* {props.subjectSelection ?
             <div className="flex flex-col items-center gap-2">
               <p className="text-info_blue">Your Stats in <span className="font-bold">{props.subjectSelection}:</span></p>
               <Progress value={33} className="w-full" />
             </div> :
-            <p className="text-text_gray">What would you like to accomplish today?</p>}
+            <p className="text-text_gray">What would you like to accomplish today?</p>} */}
         </div> :
         <div className="flex_col_center gap-4">
           <p className="text-text_gray">

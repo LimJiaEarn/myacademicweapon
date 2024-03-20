@@ -1,3 +1,14 @@
+// Study Resource Navbar
+
+declare type StudyResourceNav = {
+  [key: string]: StudyResourceNavItem[];
+}
+
+declare type StudyResourceNavItem = {
+  id: string;
+  title: string;
+  resources: string[]
+}
 
 // USER PARAMS
 declare type CreateUserParams = {
