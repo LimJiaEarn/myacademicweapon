@@ -8,11 +8,10 @@ export async function POST(req: Request, res: Response) {
     try {
         // Type the entire req.body and then destructure
         const data: updateStatusStudyResourceParams = await req.json();
-        const { userID, resourceID, status } = data;
+        const { userID, studyResourceID, status } = data;
 
         // Call the server-side function with the extracted data
-        console.log("In server side");
-        await updateStatusStudyResource({ userID, resourceID, status });
+        await updateStatusStudyResource({ userID, studyResourceID, status });
 
         // Send a success response
         return new Response(JSON.stringify("Success"), {

@@ -34,7 +34,8 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
   creditor : { type : String}
 }, { discriminatorKey: 'type' });
 
-// Define the Interface Model 
+
+// Export this initialized model
 const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
 
 const TopicalStudyResourceSchema = new Schema<TopicalStudyResourceDocument>({

@@ -52,99 +52,84 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     // TODO: VERIFY if studyResourceID is the id of the resource again
     const onToggleStatus = async (studyResourceID: string, userID : string|null) => {
 
-    console.log("userID: ", userID);
 
-    // Only signed in users are allowed 
-    if (!userID) {
-      alert("User is not signed in.");
-      return;
-    }
-
-  
-    try {
-      // Call the API to update the status in the backend
-      const response = await fetch('/api/resourceinteraction/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userID,
-          resourceID: studyResourceID,
-          status: true, // send the opposite of current status - hardcoded to true for now
-        }),
-      });
-  
-      if (!response.ok) {
-        console.log('Failed to update resource status');
+      // Only signed in users are allowed 
+      if (!userID) {
+        // TODO: nicer prompt to ask user to sign in
+        alert("User is not signed in.");
         return;
       }
-  
-      // If the update is successful, toggle the status in the UI
-      settableData((prevData) =>
-        prevData.map(item => {
-          if (item._id === studyResourceID) {
-            return { ...item, status: !item.status };
-          }
-          return item;
-        })
-      );
-  
-    } catch (error) {
-      console.error('Error updating resource status:', error);
-      return;
-    }
-  };
-
-  useEffect( ()=>{
-    const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
-
-    console.log("useEffect triggered with");
-    console.log(resourceSubject);
-    console.log(resourceType);
-
-    const fetchData = async () => {
 
       try {
-
-          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
-
-          // Call a server action to get data to populate table
-          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
-
-          // Next we update the status column based on past user interactions
-          // If user is signed in, fetch the list of completed resources and update the status
-          if (userID) {
-
-              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
-
-              // Update the status field based on completedResourceIDs
-              data = data?.map((item : StudyResourceInterface) => ({
-                ...item,
-                status: completedResourceIDs.includes(item._id),
-              }));
-              
-          }
-          else {
-              // If user is not signed in, set all statuses to false
-              data = data?.map((item : StudyResourceInterface) => ({
-                ...item,
-                status: false,
-              }));
-          }
-        
-          if (data) settableData(data); 
-
+        // Call the API to update the status in the backend
+        const response = await updateStatusStudyResource({ userID, studyResourceID, status: true })
+    
+        if (!response) {
+          console.log('Failed to update resource status');
+          return;
         }
-        catch (error) {
-          console.error('Error fetching data:', error);
+    
+        // If the update is successful, toggle the status in the UI
+        settableData((prevData) =>
+          prevData.map(item => {
+            if (item._id === studyResourceID) {
+              return { ...item, status: !item.status };
+            }
+            return item;
+          })
+        );
+    
+      } catch (error) {
+        console.error('Error updating resource status:', error);
+        return;
       }
     };
 
-      if (resourceType=="Yearly" || resourceType=="Topical")
-        fetchData();
+    useEffect( ()=>{
+      const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
 
-  }, [resourceSubject, resourceType]);
+      const fetchData = async () => {
+
+        try {
+
+            settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
+
+            // Call a server action to get data to populate table
+            let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
+
+            // Next we update the status column based on past user interactions
+            // If user is signed in, fetch the list of completed resources and update the status
+            if (userID) {
+
+                const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
+
+                // Update the status field based on completedResourceIDs
+                data = data?.map((item : StudyResourceInterface) => ({
+                  ...item,
+                  status: completedResourceIDs.includes(item._id),
+                }));
+                
+            }
+            else {
+                // If user is not signed in, set all statuses to false
+                data = data?.map((item : StudyResourceInterface) => ({
+                  ...item,
+                  status: false,
+                }));
+            }
+          
+            if (data) settableData(data); 
+
+          }
+          catch (error) {
+            console.error('Error fetching data:', error);
+        }
+      };
+
+        if (resourceType=="Yearly" || resourceType=="Topical")
+          fetchData();
+
+    }, [resourceSubject, resourceType]);
 
         
     return (

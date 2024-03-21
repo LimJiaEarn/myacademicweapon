@@ -120,8 +120,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </SelectTrigger>
             <SelectContent>
               {
-                Array.from(new Set(data.map(item => (item as any)["assessment"]))).map((assessmentType) => 
-                  <SelectItem key={assessmentType} value={assessmentType}>{assessmentType}</SelectItem>
+                Array.from(new Set(data.map(item => (item as any)["assessment"]))).map((assessmentType, index) => 
+                  <SelectItem key={assessmentType+index} value={assessmentType}>{assessmentType}</SelectItem>
                 )
               }
               <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>

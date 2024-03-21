@@ -81,6 +81,6 @@ declare type getStatusStudyResourceParams = {
 
 declare type updateStatusStudyResourceParams = {
   userID: string;
-  resourceID: string;
+  studyResourceID: string;
   status: boolean;
 }

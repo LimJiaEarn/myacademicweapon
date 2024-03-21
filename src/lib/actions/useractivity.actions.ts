@@ -10,16 +10,22 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     try {
         await connectToDatabase();
 
-        const { userID, resourceID, status } = updateData;
-        const resourceObjectId = new mongoose.Types.ObjectId(resourceID);
+        const { userID, studyResourceID, status } = updateData;
+        const userObjectId = new mongoose.Types.ObjectId(userID);
+        const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
 
         // Determine the resource type based on the resourceID
         // This part might need to be adjusted based on how you determine whether a resource is 'YearlyStudyResource' or 'TopicalStudyResource'
-        const resourceType = await determineResourceType(resourceID);
+        const resourceType = await determineResourceType(studyResourceID);
+
+        if (resourceType==''){
+            return false;
+        }
+        
 
         // Check if there's an existing UserActivity document
         const userResourceInteraction = await UserActivity.findOne({ 
-            userID, 
+            userObjectId, 
             resourceType 
         });
 
@@ -42,16 +48,19 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
             if (status) {
                 // If the document does not exist and status is true, create a new document
                 await UserActivity.create({
-                    userId: userID,
+                    userObjectId: userObjectId,
                     resourceType,
                     likesArray: [],
                     completedArray: [resourceObjectId],
                 });
             }
         }
+
+        return true;
             
     } catch (error) {
-        handleError(error);
+        console.log(error);
+        return false;
     }
 }
 
@@ -63,7 +72,8 @@ async function determineResourceType(resourceID: string): Promise<'YearlyStudyRe
         const resource = await StudyResource.findById(resourceObjectId);
     
         if (!resource) {
-            throw new Error(`Resource with ID ${resourceID} not found`);
+            return ''
+            // throw new Error(`Resource with ID ${resourceID} not found`);
         }
 
         if (resource.type === 'TopicalStudyResource')
@@ -84,10 +94,11 @@ async function determineResourceType(resourceID: string): Promise<'YearlyStudyRe
         await connectToDatabase();
     
         const { userID, resourceType } = params;
-    
+        const userObjectId = new mongoose.Types.ObjectId(userID);
+
         // Find the UserActivity document for the specified user and resource type
         const userResourceInteraction = await UserActivity.findOne({
-            userID,
+            userObjectId,
             resourceType
         });
         
