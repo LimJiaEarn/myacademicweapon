@@ -10,9 +10,14 @@ export const navLinks = [
     label: "Study Resources",
     route: "/study-resources",
     icon: "/icons/study-resources.svg",
+  },
+  {
+    id:"navLink3",
+    label: "Contribute",
+    route: "/contribute",
+    icon: "/icons/contribute.svg",
   }
 ];
-
 
 
 export const studyResourcesNav = [
@@ -132,101 +137,7 @@ export const StudyResourceNavItems : StudyResourceNav = {
   ]
 }
 
-// Test Data - Not needed anymore
-/*
-export const TopicalStudyResourceData : TopicalStudyResource[] = [
-  {
-    _id : "123",
-    type: "TopicalStudyResource",
-    status: true,
-    level: "Secondary",
-    subject: "E Math",
-    url: "https://www.google.com",
-    likes: 1,
-    avgStars: 5,
-    userStarred: 1,
-    topicName: "Algebra",
-  },
-  {
-    _id : "124",
-    type: "TopicalStudyResource",
-    status: true,
-    level: "Secondary",
-    subject: "A Math",
-    url: "https://www.google.com",
-    likes: 0,
-    avgStars: 0,
-    userStarred: 0,
-    topicName: "Factor Theorem",
-    workingSolution: "https://www.svgrepo.com",
-    videoSolution: "https://www.youtube.com",
-  },
-  {
-    _id : "125",
-    type: "TopicalStudyResource",
-    status: true,
-    level: "Secondary",
-    subject: "A Math",
-    url: "https://www.google.com",
-    likes: 0,
-    avgStars: 0,
-    userStarred: 0,
-    topicName: "Partial Fractions",
-  },
-]
 
-
-export const YearlyStudyResourceData : YearlyStudyResource[] = [
-  {
-    _id : "145",
-    type: "YearlyStudyResource",
-    status: true,
-    level: "Secondary",
-    subject: "E Math",
-    url: "https://www.google.com",
-    likes: 2,
-    avgStars: 4.5,
-    userStarred: 2,
-    assessment: "MYE",
-    year: 2024,
-    schoolName: "Woodlands Ring Sec",
-    workingSolution: "https://www.svgrepo.com",
-    videoSolution: "https://www.youtube.com",
-  },
-  {
-    _id : "146",
-    type: "YearlyStudyResource",
-    status: true,
-    level: "Secondary",
-    subject: "A Math",
-    url: "https://www.google.com",
-    likes: 1,
-    avgStars: 3,
-    userStarred: 1,
-    assessment: "Prelims",
-    year: 2023,
-    schoolName: "Woodlands Ring Sec", 
-    workingSolution: "https://www.svgrepo.com",
-  },
-  {
-    _id : "147",
-    type: "YearlyStudyResource",
-    status: false,
-    level: "Secondary",
-    subject: "A Math",
-    url: "https://www.google.com",
-    likes: 0,
-    avgStars: 0,
-    userStarred: 0,
-    assessment: "Prelims",
-    year: 2023,
-    schoolName: "Riverside Sec", 
-  },  
-]
-*/
-
-// Hero Section Images
-// Hero Section Images
 export const heroImages = [
   {
     title: "heroImg1",
@@ -325,3 +236,48 @@ export const heroImages = [
     thumbnail: "/images/heroImg24.jpg",
   },
 ];
+
+
+export const contributionFormDetails : FormFieldConfig[] = [
+  {
+      id:"resourceLevel",
+      type:"select",
+      title:"Choose Level",
+      placeholder:"eg: Secondary",
+      options:["Primary", "Secondary", "JC"]
+  },
+  {
+      id:"resourceSubject",
+      type:"select",
+      title:"Choose Subject",
+      placeholder:"eg: Chinese",
+      options:["A Math", "E Math", "English"]
+  },
+  {
+      id:"resourceType",
+      type:"select",
+      title:"Choose Resource Type",
+      placeholder:"eg: Topical Practice",
+      options:["Notes/Summaries", "Yearly Practice Papers", "Topical Practice Papers"]
+  },
+  {
+      id:"resourceUrl",
+      type:"text",
+      styles: "h-[35px]",
+      title:"URL to your resource",
+      placeholder:"drive.com/lovelyresource"
+  },
+  // {
+  //     id:"resourceFile",
+  //     type:"file",
+  //     title:"File",
+  //     placeholder:"Link to your resource"
+  // },
+  {
+      id:"resourceDesc",
+      type:"textarea",
+      styles:"h-[80px]",
+      title:"Description/Anything you want to let us know",
+      placeholder:""
+  },
+]

@@ -40,7 +40,7 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex w-full transition-all hover:text-text-green-600 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
+                  <li key={link.id} className={`flex w-full mr-4 transition-all hover:text-text-green-600 ${isActive? 'text-green-700' : 'text-gray-800'}`}>
                     <Link href={link.route} className="flex gap-2 hover:opacity-75">
                       <Image src={link.icon} alt="icon" height={24} width={24}/>
                       <p className="font-bold">{link.label}</p>

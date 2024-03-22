@@ -92,6 +92,7 @@ type FormFieldConfig = {
   type: 'text' | 'textarea' | 'date' | 'select' | 'file'; 
   title: string;
   desc?: string;
+  styles?:string;
   placeholder?: string;
   options?: string[]; // Only used for 'select' type
 };
