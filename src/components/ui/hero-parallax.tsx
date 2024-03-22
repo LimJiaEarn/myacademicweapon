@@ -59,7 +59,7 @@ export const HeroParallax = (
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] max-w-screen-* overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
+    <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
 
       <motion.div
@@ -72,7 +72,7 @@ export const HeroParallax = (
         className=""
       >
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
           FREE Topical Practice Papers
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
@@ -85,7 +85,7 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
           FREE MYE / Prelim Practice Papers
         </motion.div>
         <motion.div className="flex flex-row mb-20 space-x-10">
@@ -98,7 +98,7 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-2 text-lg md:text-2xl font-semibold text-gray-600">
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
           FREE Solution Recordings, Answer Sheets, Notes & More !
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
@@ -117,7 +117,7 @@ export const HeroParallax = (
 
 export const Header = () => {
     return (
-      <div className="mx-auto max-w-full">
+      <div className="mx-auto max-w-full ">
         <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-6xl">
           Your <span className="text-academic_red">Ultimate Weapon</span>
           <br/>

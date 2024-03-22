@@ -24,135 +24,129 @@ function capitalize(str : string) {
 
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
-    // Get the userID
-    const { user } = useUser();
+  // Get the userID
+  const { user } = useUser();
 
-    let userID = (user?.publicMetadata.userId as string ) || null;
+  let userID = (user?.publicMetadata.userId as string ) || null;
 
-    console.log("userID: ", userID);
+  const pathname = usePathname();
 
+  // Get the encoded data from url
+  const resourceLevel = capitalize(pathname.split('/').pop() as string);
+  const resourceSubject = searchParams.subject;
+  const resourceType = searchParams.resourceType?.split(' ')[0];
 
-    const pathname = usePathname();
+  // Sets the column of the table to be displayed
+  // 2 main types - Yearly & Topical
+  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
 
-    // Get the encoded data from url
-    const resourceLevel = capitalize(pathname.split('/').pop() as string);
-    const resourceSubject = searchParams.subject;
-    const resourceType = searchParams.resourceType?.split(' ')[0];
+  // The data to populate the table
+  const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
 
-    
+  // This sets the status of the study resource selected by user
+  const onToggleStatus = async (studyResourceID: string, userID : string|null) => {
 
-    // Sets the column of the table to be displayed
-    // 2 main types - Yearly & Topical
-    const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
+    // Only signed in users are allowed 
+    if (!userID) {
+      // TODO: nicer prompt to ask user to sign in
+      alert("User is not signed in.");
+      return;
+    }
 
-    // The data to populate the table
-    const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
+    try {
+      const response = await updateStatusStudyResource({ userID, studyResourceID, status: true }); // TODO: get the flipped status
 
-    // This sets the status of the study resource selected by user
-    // TODO: VERIFY if studyResourceID is the id of the resource again
-    const onToggleStatus = async (studyResourceID: string, userID : string|null) => {
-
-
-      // Only signed in users are allowed 
-      if (!userID) {
-        // TODO: nicer prompt to ask user to sign in
-        alert("User is not signed in.");
+      if (!response) {
+        console.log('Failed to update resource status');
         return;
       }
 
+      // If the update is successful, toggle the status in the UI
+      settableData((prevData) =>
+        prevData.map(item => {
+          if (item._id === studyResourceID) {
+            return { ...item, status: !item.status };
+          }
+          return item;
+        })
+      );
+
+    } 
+    catch (error) {
+      console.error('Error updating resource status:', error);
+      return;
+    }
+  };
+
+  useEffect( ()=>{
+    const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
+
+    const fetchData = async () => {
+
       try {
-        // Call the API to update the status in the backend
-        const response = await updateStatusStudyResource({ userID, studyResourceID, status: true })
-    
-        if (!response) {
-          console.log('Failed to update resource status');
-          return;
+
+          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
+
+          // Call a server action to get data to populate table
+          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
+
+          // Next we update the status column based on past user interactions
+          // If user is signed in, fetch the list of completed resources and update the status
+          if (userID) {
+
+              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
+
+              // Update the status field based on completedResourceIDs
+              data = data?.map((item : StudyResourceInterface) => ({
+                ...item,
+                status: completedResourceIDs.includes(item._id),
+              }));
+              
+          }
+
+          // If user is not signed in, set all statuses to false
+          else {
+              data = data?.map((item : StudyResourceInterface) => ({
+                ...item,
+                status: false,
+              }));
+          }
+        
+          if (data) settableData(data); 
+
         }
-    
-        // If the update is successful, toggle the status in the UI
-        settableData((prevData) =>
-          prevData.map(item => {
-            if (item._id === studyResourceID) {
-              return { ...item, status: !item.status };
-            }
-            return item;
-          })
-        );
-    
-      } catch (error) {
-        console.error('Error updating resource status:', error);
-        return;
+        catch (error) {
+          console.error('Error fetching data:', error);
       }
     };
 
-    useEffect( ()=>{
-      const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
+      if (resourceType=="Yearly" || resourceType=="Topical")
+        fetchData();
 
-      const fetchData = async () => {
+  }, [resourceSubject, resourceType]);
 
-        try {
+        
+  return (
 
-            settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
-
-            // Call a server action to get data to populate table
-            let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
-
-            // Next we update the status column based on past user interactions
-            // If user is signed in, fetch the list of completed resources and update the status
-            if (userID) {
-
-                const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
-
-                // Update the status field based on completedResourceIDs
-                data = data?.map((item : StudyResourceInterface) => ({
-                  ...item,
-                  status: completedResourceIDs.includes(item._id),
-                }));
-                
-            }
-            else {
-                // If user is not signed in, set all statuses to false
-                data = data?.map((item : StudyResourceInterface) => ({
-                  ...item,
-                  status: false,
-                }));
-            }
+      <div className="min-h-screen w-full">
+      {resourceLevel && resourceSubject && resourceType?
+        <div className="w-full px-2 md:px-6 flex_col_center">
           
-            if (data) settableData(data); 
+          <DataTable columns={tableColumns} data={tableData}/>
+          
 
-          }
-          catch (error) {
-            console.error('Error fetching data:', error);
-        }
-      };
+        </div>
+      :
+        // Render a CTA image
+        <div className="py-4 flex_col_center gap-4">
+          <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
+          <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
+        </div>
+      }
+    </div>
 
-        if (resourceType=="Yearly" || resourceType=="Topical")
-          fetchData();
-
-    }, [resourceSubject, resourceType]);
-
-        
-    return (
-
-        <div className="min-h-screen w-full">
-        {resourceLevel && resourceSubject && resourceType?
-          <div className="w-full px-2 md:px-6 flex_col_center">
-            
-            <DataTable columns={tableColumns} data={tableData}/>
-            
-
-          </div>
-        :
-          // Render a CTA image
-          <div className="py-4 flex_col_center gap-4">
-            <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-            <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
-          </div>
-        }
-      </div>
-
-        
-    )
+      
+  )
 }
 
 export default StudyResourcePage

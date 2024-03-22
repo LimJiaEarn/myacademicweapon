@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div className="flex_col_center">
 
-      <section className="max-w-full px-4 md:px-6">
+      <section className="max-w-full px-2 sm:px-4 md:px-6">
         <HeroParallax products={heroImages} />
       </section>
 
