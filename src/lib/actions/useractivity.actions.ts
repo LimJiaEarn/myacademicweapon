@@ -10,7 +10,8 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     try {
         await connectToDatabase();
 
-        const { userID, studyResourceID, status } = updateData;
+        const { userID, studyResourceID, newStatus } = updateData;
+        console.log("Updating status to: ", newStatus);
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
 
@@ -22,7 +23,6 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
             return false;
         }
         
-
         // Check if there's an existing UserActivity document
         const userResourceInteraction = await UserActivity.findOne({ 
             userObjectId, 
@@ -32,7 +32,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         if (userResourceInteraction) {
 
             // If the document exists, update the completedArray based on the status
-            if (status) {
+            if (newStatus) {
                 // Add resourceID to completedArray if it's not already there
                 if (!userResourceInteraction.completedArray.includes(resourceObjectId)) {
                     userResourceInteraction.completedArray.push(resourceObjectId);

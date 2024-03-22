@@ -44,7 +44,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
 
   // This sets the status of the study resource selected by user
-  const onToggleStatus = async (studyResourceID: string, userID : string|null) => {
+  const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
 
     // Only signed in users are allowed 
     if (!userID) {
@@ -53,8 +53,10 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       return;
     }
 
+    console.log("Updating status to: ", newStatus);
+
     try {
-      const response = await updateStatusStudyResource({ userID, studyResourceID, status: true }); // TODO: get the flipped status
+      const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
 
       if (!response) {
         console.log('Failed to update resource status');

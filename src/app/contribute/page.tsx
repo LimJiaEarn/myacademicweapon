@@ -6,6 +6,8 @@ import { createResourceContribution } from '@/lib/actions/resourcecontribution.a
 
 const ContributePage = () => {
 
+
+    // TODO: Pass userID if user is signed in
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"
 
@@ -18,7 +20,6 @@ const ContributePage = () => {
             resourceUserID: userID
         } = formData;
         
-        // Type assertion using 'as'
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
         const type = resourceType as "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
         
@@ -27,13 +28,13 @@ const ContributePage = () => {
             type,
             subject,
             url,
-            ...(desc && { desc }), // Including optional properties only if they exist
-            ...(userID && { userID }) // Assuming there's a userID that might be optional
+            // Including optional properties only if they exist
+            ...(desc && { desc }), 
+            ...(userID && { userID }) 
         };
 
-    // Log to see the constructed data object
-    console.table(data);
         createResourceContribution(data as ResourceContributionParams);
+        console.log("Success!");
     }
 
     return (
@@ -47,8 +48,7 @@ const ContributePage = () => {
                 Your grand generosity helps <span className="text-[#fbbf24]">illuminate </span> the path for students!
             </p>
 
-                
-                
+            
             <Form
                 fieldsConfig = {contributionFormDetails}
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"

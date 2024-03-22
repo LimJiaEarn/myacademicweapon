@@ -6,7 +6,7 @@ import Image from "next/image";
 
 
 // Define a type for your toggle status function
-type ToggleStatusFunction = (studyResourceID: string, userID: string|null) => void;
+type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean) => void;
 
 // Utility Cell Components
 
@@ -21,7 +21,7 @@ const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStat
             checked={status} // Checkbox is checked if status is true (Completed)
             onChange={(e) => {
                 e.stopPropagation(); // Prevent row click event
-                onToggleStatus(studyResourceID, userID); // Toggle the status when checkbox changes
+                onToggleStatus(studyResourceID, userID, !status); 
             }}
             className="mr-2"
         />

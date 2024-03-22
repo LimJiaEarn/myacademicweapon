@@ -5,38 +5,26 @@ import { connectToDatabase } from "@/lib/database/mongoose";
 import mongoose from 'mongoose';
 
 
-export async function createResourceContribution(data : ResourceContributionParams) {
-    
-    try{
-
+export async function createResourceContribution(data: ResourceContributionParams) {
+    try {
         await connectToDatabase();
 
-        const {level, type, subject, url, desc } = data;
+        const { level, type, subject, url, desc } = data;
         const userObjectId = data.userID ? new mongoose.Types.ObjectId(data.userID) : null;
 
-        if (userObjectId){
-            await ResourceContribution.create({
-                level,
-                type,
-                subject,
-                url,
-                desc,
-                userObjectId
-            });
-        }
-        else{
-            await ResourceContribution.create({
-                level,
-                type,
-                subject,
-                url,
-                desc,
-            });
-        }
+        const baseData = {
+            level,
+            type,
+            subject,
+            url,
+            ...(desc && { desc }), // Only include 'desc' if it's truthy
+        };
 
-    }
-    catch (error){
+        // Add userObjectId if it exists
+        const resourceData = userObjectId ? { ...baseData, userObjectId } : baseData;
+
+        await ResourceContribution.create(resourceData);
+    } catch (error) {
         console.log(error);
     }
-
 }
