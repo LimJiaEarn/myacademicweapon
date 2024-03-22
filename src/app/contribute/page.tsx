@@ -8,8 +8,32 @@ const ContributePage = () => {
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"
-        console.log("TODO: Submitting Form through a server function..");
-        console.table(formData);
+
+        const {
+            resourceLevel,
+            resourceType,
+            resourceSubject: subject,
+            resourceUrl: url,
+            resourceDesc: desc,
+            resourceUserID: userID
+        } = formData;
+        
+        // Type assertion using 'as'
+        const level = resourceLevel as "Primary" | "Secondary" | "JC";
+        const type = resourceType as "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
+        
+        const data: ResourceContributionParams = {
+            level,
+            type,
+            subject,
+            url,
+            ...(desc && { desc }), // Including optional properties only if they exist
+            ...(userID && { userID }) // Assuming there's a userID that might be optional
+        };
+
+    // Log to see the constructed data object
+    console.table(data);
+        createResourceContribution(data as ResourceContributionParams);
     }
 
     return (

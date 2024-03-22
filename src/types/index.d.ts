@@ -90,7 +90,7 @@ declare type ResourceContributionParams = {
   type: "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
   subject: string;
   url: string;
-  desc: string;
+  desc?: string;
   userID?: string;
 }
 
