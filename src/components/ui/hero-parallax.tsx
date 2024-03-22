@@ -124,7 +124,7 @@ export const Header = () => {
           To Seize Your <span className="text-success_gold">Academic Destiny</span>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-xl">
-            Chart your course through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
+            Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
         </p>
       </div>
     );

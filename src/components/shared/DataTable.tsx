@@ -92,10 +92,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           <SelectTrigger className="w-[180px] bg-slate-400">
             <SelectValue placeholder="Filter Status" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Completed">Completed</SelectItem>
-            <SelectItem value="Incomplete">Incomplete</SelectItem>
-            <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+          <SelectContent className="w-[240px] bg-slate-300">
+            <SelectItem className="hover:cursor-pointer" value="Completed">Completed</SelectItem>
+            <SelectItem  className="hover:cursor-pointer" value="Incomplete">Incomplete</SelectItem>
+            <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
           </SelectContent>
         </Select>
 
@@ -118,13 +118,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <SelectTrigger className="w-[180px] bg-slate-400">
               <SelectValue placeholder="Filter Assessments" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-[240px] bg-slate-300">
               {
                 Array.from(new Set(data.map(item => (item as any)["assessment"]))).map((assessmentType, index) => 
-                  <SelectItem key={assessmentType+index} value={assessmentType}>{assessmentType}</SelectItem>
+                  <SelectItem className="hover:cursor-pointer" key={assessmentType+index} value={assessmentType}>{assessmentType}</SelectItem>
                 )
               }
-              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
             </SelectContent>
           </Select>
 
@@ -149,15 +149,15 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <SelectTrigger className="w-[180px] bg-slate-400">
               <SelectValue placeholder="Filter Topic" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-[240px] bg-slate-300">
               {
                 Array.from(
                   new Set(
                     data.map(item => (item as any)["topicName"])
                   )
-                ).map((topicname) => <SelectItem key={topicname} value={topicname}>{topicname}</SelectItem>)
+                ).map((topicname) => <SelectItem className="hover:cursor-pointer" key={topicname} value={topicname}>{topicname}</SelectItem>)
               }
-              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500">Clear Filter</SelectItem>
+              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
             </SelectContent>
           </Select>
 

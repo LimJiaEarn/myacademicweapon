@@ -84,3 +84,14 @@ declare type updateStatusStudyResourceParams = {
   studyResourceID: string;
   status: boolean;
 }
+
+// FORM FIELD
+
+type FormFieldConfig = {
+  id: string;
+  type: 'text' | 'textarea' | 'date' | 'select' | 'file'; 
+  title: string;
+  desc?: string;
+  placeholder?: string;
+  options?: string[]; // Only used for 'select' type
+};
