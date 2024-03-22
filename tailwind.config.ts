@@ -47,24 +47,6 @@ const config: Config = {
         // Custom shadow for dropdown
         'dropdown': '0px 4px 6px rgba(0, 0, 0, 0.1)',
       },
-      transitionProperty: {
-        // Ensure transitions affect background color and other properties smoothly
-        'colors': 'background-color, border-color, color, fill, stroke',
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { maxHeight: '0' },
-          to: { maxHeight: '500px' } // Adjust max-height as per your requirement
-        },
-        "accordion-up": {
-          from: { maxHeight: '500px' }, // Adjust max-height to match the 'down' animation
-          to: { maxHeight: '0' }
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],

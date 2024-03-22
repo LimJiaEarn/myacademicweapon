@@ -80,7 +80,7 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
               <div key={fieldKey} className="flex_col_center gap-2 w-full">
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <textarea
-                  className={`w-full bg-light_gray text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                  className={`w-full text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>
@@ -92,7 +92,7 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <input
                   type={currentField.type}
-                  className={`w-full bg-light_gray text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                  className={`w-full text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>

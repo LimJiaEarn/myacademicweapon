@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import { Document, Model, model, models, Schema } from "mongoose";
 
 interface StudyResourceDocument extends Document {
   level: string; // "Primary" | "Secondary" | "JC"
@@ -36,7 +36,7 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
 
 
 // Export this initialized model
-const StudyResource: Model<StudyResourceDocument> = mongoose.models.StudyResource || mongoose.model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
+const StudyResource: Model<StudyResourceDocument> = models.StudyResource || model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
 
 const TopicalStudyResourceSchema = new Schema<TopicalStudyResourceDocument>({
   topicName: { type: String, required: true },

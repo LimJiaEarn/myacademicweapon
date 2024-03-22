@@ -1,6 +1,8 @@
 
 import Form from '@/components/shared/Form';
 import { contributionFormDetails } from '../../../constants'
+import Image from 'next/image';
+
 
 const ContributePage = () => {
 
@@ -21,12 +23,15 @@ const ContributePage = () => {
                 Your grand generosity helps <span className="text-[#fbbf24]">illuminate </span> the path for students!
             </p>
 
+                
+                
             <Form
                 fieldsConfig = {contributionFormDetails}
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
                 handleSubmit={handleSubmit}
             />
 
+            
 
         </div>
     )

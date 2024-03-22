@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { StudyResource, TopicalStudyResource, YearlyStudyResource } from "../database/models/studyresource.model";
-import { connectToDatabase } from "../database/mongoose";
+import { StudyResource, TopicalStudyResource, YearlyStudyResource } from "@/lib/database/models/studyresource.model";
+import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 
 

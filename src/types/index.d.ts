@@ -85,6 +85,16 @@ declare type updateStatusStudyResourceParams = {
   status: boolean;
 }
 
+declare type ResourceContributionParams = {
+  level: "Primary" | "Secondary" | "JC";
+  type: "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
+  subject: string;
+  url: string;
+  desc: string;
+  userID?: string;
+}
+
+
 // FORM FIELD
 
 type FormFieldConfig = {
