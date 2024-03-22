@@ -48,23 +48,24 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
 
   return (
     <div className="flex_col_center">
-      <form className="flex_col_center gap-4" onSubmit={onFormSubmit}>
+      <form className="flex_col_center gap-4 bg-pri_bg_color p-6 rounded-lg shadow-md" onSubmit={onFormSubmit}>
         {fieldsConfig.map((currentField) => {
           const fieldKey = currentField.id;
           const selectValue = selectValues[fieldKey] || '';
 
           if (currentField.type === "select") {
             return (
-              <div key={fieldKey} className="flex_col_center gap-2">
-                <p className="font-semibold">{currentField.title}</p>
+              <div key={fieldKey} className="flex_col_center gap-2 w-full">
+                <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
+
                 <Select
                   onValueChange={(value) => handleSelectChange(fieldKey, value)}
                   value={selectValue}
                 >
-                  <SelectTrigger className={customStyles || ''}>
-                    <SelectValue placeholder={currentField.placeholder} />
+                  <SelectTrigger className={`${customStyles || ''}`}>
+                    <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="w-[240px] bg-slate-300 flex_col_center gap-2">
+                  <SelectContent className="w-full bg-light_gray flex_col_center gap-2">
                     {currentField.options?.map((option, idx) => (
                       <SelectItem className="hover:cursor-pointer" key={`${option}-${idx}`} value={option}>{option}</SelectItem>
                     ))}
@@ -73,32 +74,32 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
                 </Select>
               </div>
             );
-          } else if (currentField.type === "textarea") {
+          }
+          else if (currentField.type === "textarea") {
             return (
-              <div key={fieldKey} className="flex_col_center gap-2">
-                <p className="font-semibold">{currentField.title}</p>
+              <div key={fieldKey} className="flex_col_center gap-2 w-full">
+                <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <textarea
-                  className={`placeholder-black px-2 ${currentField.styles || ''} ${customStyles || ''} `}
-                  placeholder={currentField.placeholder || ''}
+                  className={`w-full bg-light_gray text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>
             );
-          } else {
+          }
+          else {
             return (
-              <div key={fieldKey} className="flex_col_center gap-2">
-                <p className="font-semibold">{currentField.title}</p>
+              <div key={fieldKey} className="flex_col_center gap-2 w-full">
+                <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <input
                   type={currentField.type}
-                  className={`placeholder-black px-2 ${customStyles || ''} ${currentField.styles || ''}`}
-                  placeholder={currentField.placeholder || ''}
+                  className={`w-full bg-light_gray text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>
             );
           }
         })}
-        <button type="submit" className="bg-green-300 hover:bg-green-200 rounded-xl px-4 py-2">Submit</button>
+        <button type="submit" className="w-full mt-4 bg-info_blue hover:bg-dark_info_blue text-white rounded-xl px-4 py-2 focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Submit</button>
       </form>
     </div>
   );

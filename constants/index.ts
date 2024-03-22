@@ -247,37 +247,30 @@ export const contributionFormDetails : FormFieldConfig[] = [
       options:["Primary", "Secondary", "JC"]
   },
   {
-      id:"resourceSubject",
-      type:"select",
-      title:"Choose Subject",
-      placeholder:"eg: Chinese",
-      options:["A Math", "E Math", "English"]
-  },
-  {
       id:"resourceType",
       type:"select",
       title:"Choose Resource Type",
       placeholder:"eg: Topical Practice",
-      options:["Notes/Summaries", "Yearly Practice Papers", "Topical Practice Papers"]
+      options:["Notes/Summaries", "Yearly Practice Papers", "Topical Practice Papers", "Others"]
   },
+  {
+    id:"resourceSubject",
+    type:"text",
+    title:"Subject",
+    placeholder:"eg: Chinese",
+},
   {
       id:"resourceUrl",
       type:"text",
       styles: "h-[35px]",
-      title:"URL to your resource",
+      title:"URL",
       placeholder:"drive.com/lovelyresource"
   },
-  // {
-  //     id:"resourceFile",
-  //     type:"file",
-  //     title:"File",
-  //     placeholder:"Link to your resource"
-  // },
   {
       id:"resourceDesc",
       type:"textarea",
       styles:"h-[80px]",
-      title:"Description/Anything you want to let us know",
+      title:"Description",
       placeholder:""
   },
 ]
