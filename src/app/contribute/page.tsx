@@ -1,7 +1,7 @@
 
 import Form from '@/components/shared/Form';
 import { contributionFormDetails } from '../../../constants'
-import Image from 'next/image';
+import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
 
 
 const ContributePage = () => {

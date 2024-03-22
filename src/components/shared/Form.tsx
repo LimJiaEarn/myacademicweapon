@@ -1,7 +1,7 @@
 // Use Client Directive
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Import your custom Select component and its subcomponents
 import {
@@ -20,24 +20,26 @@ type FormFieldConfig = {
   placeholder?: string;
   options?: string[]; // Only for select fields
   styles?: string; // Custom styles
+  compulsory: boolean;
 };
 
 // Props for the Form component
 type FormProps = {
   fieldsConfig: FormFieldConfig[];
   handleSubmit: (formData: { [key: string]: string }) => void;
-  apiUrl?: string; // Optional, for API calls if necessary
   customStyles?: string; // Optional, for custom styles
 };
 
-const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) => {
+const Form = ({ fieldsConfig, handleSubmit, customStyles }: FormProps) => {
+
   const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Initialize as an empty dictionary for form data
+  const [formValid, setFormValid] = useState(false);
   const [selectValues, setSelectValues] = useState<{ [key: string]: string }>({}); // To track the select values
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER"; // Value to clear the select filters
 
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    handleSubmit(formData); // Call the provided handleSubmit function with the form data
+    handleSubmit(formData); 
   };
 
   const handleSelectChange = (key: string, value: string) => {
@@ -45,6 +47,22 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
     setSelectValues(prevValues => ({ ...prevValues, [key]: newSelectValues }));
     setFormData(prevData => ({ ...prevData, [key]: newSelectValues }));
   };
+
+  const checkFormValidity = () => {
+    const isValid = fieldsConfig.every((field) => {
+      const isFieldValid = !field.compulsory || (field.compulsory && formData[field.id]?.trim().length > 0);
+      console.log(`Field ${field.id} is valid: ${isFieldValid}`);
+      return isFieldValid;
+    });
+    console.log(`Form is valid: ${isValid}`);
+    return isValid;
+  };
+
+  useEffect(() => {
+    // Update form validity whenever formData changes
+    setFormValid(checkFormValidity());
+  }, [formData, fieldsConfig]);
+
 
   return (
     <div className="flex_col_center">
@@ -63,9 +81,9 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
                   value={selectValue}
                 >
                   <SelectTrigger className={`${customStyles || ''}`}>
-                    <SelectValue />
+                    <SelectValue className="w-full bg-light_gray flex_col_center gap-2 text-text_gray"/>
                   </SelectTrigger>
-                  <SelectContent className="w-full bg-light_gray flex_col_center gap-2">
+                  <SelectContent className="w-full bg-light_gray flex_col_center gap-2 text-text_gray">
                     {currentField.options?.map((option, idx) => (
                       <SelectItem className="hover:cursor-pointer" key={`${option}-${idx}`} value={option}>{option}</SelectItem>
                     ))}
@@ -80,7 +98,7 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
               <div key={fieldKey} className="flex_col_center gap-2 w-full">
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <textarea
-                  className={`w-full text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                  className={`w-full text-black rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>
@@ -92,14 +110,24 @@ const Form = ({ fieldsConfig, handleSubmit, apiUrl, customStyles }: FormProps) =
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <input
                   type={currentField.type}
-                  className={`w-full text-text_gray rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                  className={`w-full text-black rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
               </div>
             );
           }
         })}
-        <button type="submit" className="w-full mt-4 bg-info_blue hover:bg-dark_info_blue text-white rounded-xl px-4 py-2 focus:outline-none ring-offset-background  focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Submit</button>
+        <button
+          type="submit"
+          className={`w-full mt-4 text-white rounded-xl px-4 py-2 focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+            formValid
+              ? 'bg-info_blue hover:bg-dark_info_blue' // Apply these styles only if the form is valid
+              : 'bg-gray-400 cursor-not-allowed' // Otherwise, use a gray background and show a not-allowed cursor
+          }`}
+          disabled={!formValid} // Disable the button based on formValid state
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

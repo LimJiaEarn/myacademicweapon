@@ -105,4 +105,5 @@ type FormFieldConfig = {
   styles?:string;
   placeholder?: string;
   options?: string[]; // Only used for 'select' type
+  compulsory: boolean; // if it must be filled before form submission
 };

@@ -240,37 +240,42 @@ export const heroImages = [
 
 export const contributionFormDetails : FormFieldConfig[] = [
   {
-      id:"resourceLevel",
-      type:"select",
-      title:"Choose Level",
-      placeholder:"eg: Secondary",
-      options:["Primary", "Secondary", "JC"]
+    id:"resourceLevel",
+    type:"select",
+    title:"Choose Level",
+    placeholder:"eg: Secondary",
+    options:["Primary", "Secondary", "JC"],
+    compulsory: true,
   },
   {
-      id:"resourceType",
-      type:"select",
-      title:"Choose Resource Type",
-      placeholder:"eg: Topical Practice",
-      options:["Notes/Summaries", "Yearly Practice Papers", "Topical Practice Papers", "Others"]
+    id:"resourceType",
+    type:"select",
+    title:"Choose Resource Type",
+    placeholder:"eg: Topical Practice",
+    options:["Notes/Summaries", "Yearly Practice Papers", "Topical Practice Papers", "Others"],
+    compulsory: true,
   },
   {
     id:"resourceSubject",
     type:"text",
     title:"Subject",
     placeholder:"eg: Chinese",
-},
-  {
-      id:"resourceUrl",
-      type:"text",
-      styles: "h-[35px]",
-      title:"URL",
-      placeholder:"drive.com/lovelyresource"
+    compulsory: true,
   },
   {
-      id:"resourceDesc",
-      type:"textarea",
-      styles:"h-[80px]",
-      title:"Description",
-      placeholder:""
+    id:"resourceUrl",
+    type:"text",
+    styles: "h-[35px]",
+    title:"URL",
+    placeholder:"drive.com/lovelyresource",
+    compulsory: true,
+  },
+  {
+    id:"resourceDesc",
+    type:"textarea",
+    styles:"h-[80px]",
+    title:"Description",
+    placeholder:"",
+    compulsory: false,
   },
 ]
