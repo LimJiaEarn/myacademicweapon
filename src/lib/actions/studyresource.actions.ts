@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { StudyResource, TopicalStudyResource, YearlyStudyResource } from "@/lib/database/models/studyresource.model";
+import { StudyResource, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 
@@ -11,9 +11,9 @@ Create Function:
   This function determines the type of study resource to
   create based on the type field in the data object.
   It creates a new resource using the appropriate model
-  (StudyResource, TopicalStudyResource, or YearlyStudyResource).
+  (StudyResource, TopicalPracticePaper, or YearlyPracticePaper).
 */
-export async function createStudyResource(data : PracticePaperInterface) {
+export async function createPracticePaper(data : CreatePracticePaperInterface) {
 
   try {
 
@@ -21,9 +21,9 @@ export async function createStudyResource(data : PracticePaperInterface) {
 
     let newResource;
     if (data.type === 'Topical') {
-      newResource = await TopicalStudyResource.create(data);
+      newResource = await TopicalPracticePaper.create(data);
     } else if (data.type === 'Yearly') {
-      newResource = await YearlyStudyResource.create(data);
+      newResource = await YearlyPracticePaper.create(data);
     } else {
       newResource = await StudyResource.create(data);
     }

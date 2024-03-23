@@ -11,12 +11,12 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         await connectToDatabase();
 
         const { userID, studyResourceID, newStatus } = updateData;
+
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
 
         // Determine the resource type based on the resourceID
-        // This part might need to be adjusted based on how you determine whether a resource is 'YearlyStudyResource' or 'TopicalStudyResource'
         const resourceType = await determineResourceType(studyResourceID);
 
         if (resourceType==''){
@@ -45,7 +45,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
             await userResourceInteraction.save();
         }
         else{
-            if (status) {
+            if (newStatus) {
                 // If the document does not exist and status is true, create a new document
                 await UserActivity.create({
                     userObjectId: userObjectId,
@@ -64,7 +64,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     }
 }
 
-async function determineResourceType(resourceID: string): Promise<'YearlyStudyResource' | 'TopicalStudyResource' | ''> {
+async function determineResourceType(resourceID: string): Promise<'Yearly' | 'Topical' | ''> {
     try {
 
         // convert to MongoDB ID type
@@ -76,10 +76,10 @@ async function determineResourceType(resourceID: string): Promise<'YearlyStudyRe
             // throw new Error(`Resource with ID ${resourceID} not found`);
         }
 
-        if (resource.type === 'TopicalStudyResource')
-            return 'TopicalStudyResource';
+        if (resource.type === 'Topical')
+            return 'Topical';
         else
-            return 'YearlyStudyResource';
+            return 'Yearly';
         
         }
     catch (error) {

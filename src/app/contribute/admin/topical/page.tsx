@@ -1,5 +1,5 @@
 import Form from '@/components/shared/Form';
-import { createStudyResource } from '@/lib/actions/studyresource.actions';
+import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 
 const createStudyResourceFormDetails : FormFieldConfig[] = [
     {
@@ -34,7 +34,7 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         compulsory: true,
       },
       {
-        id:"resourceUrl",
+        id:"workingUrl",
         type:"text",
         styles: "h-[35px]",
         title:"Working Solution URL",
@@ -42,11 +42,11 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         compulsory: false,
       },
       {
-        id:"resourceUrl",
+        id:"videoUrl",
         type:"text",
         styles: "h-[35px]",
         title:"Video Solution URL",
-        placeholder:"drive.com/solution",
+        placeholder:"drive.com/video",
         compulsory: false,
       },
       {
@@ -54,11 +54,11 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         type:"text",
         styles: "h-[35px]",
         title:"Topic Name",
-        placeholder:"drive.com/solution",
-        compulsory: false,
+        placeholder:"Kinematics",
+        compulsory: true,
       },
       {
-        id:"resourceDesc",
+        id:"contributor",
         type:"text",
         styles:"h-[80px]",
         title:"Contributor",
@@ -70,33 +70,46 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
 
 const AdminPage = () => {
 
-    const resourceType = "Topical"
-
-
     const handleSubmit = async (formData : {[key:string]:string}) => {
-        "use server"
+        "use server"  
+
 
         const {
-            resourceLevel,
-            resourceType,
-            resourceSubject: subject,
-            resourceUrl: url,
-            resourceDesc: desc,
-            resourceUserID: userID
+          resourceLevel,
+          resourceSubject : subject,
+          resourceDesc : desc,
+          resourceUrl : url,
+          workingUrl : workingSolution,
+          videoUrl : videoSolution,
+          topicName,
+          contributor,
         } = formData;
         
+        // hardcoded values
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
-        const type = resourceType as "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
+        const type = "Topical";
+        const status = false;
         
-        const data: ResourceContributionParams = {
+        const data: CreateTopicalPracticePaperParams = {
             level,
-            type,
             subject,
+            desc,
             url,
+            likes:0,
+            topicName,
+            status,
+            type,
             // Including optional properties only if they exist
+            ...(workingSolution && { workingSolution }), 
+            ...(videoSolution && { videoSolution }), 
+            ...(contributor && { contributor }), 
             ...(desc && { desc }), 
-            ...(userID && { userID }) 
         };
+        
+        console.log("Creating:");
+        console.table(data);
+
+        await createPracticePaper(data);
 
         console.log("Success!");
     }
@@ -105,7 +118,7 @@ const AdminPage = () => {
         <div className="flex_col_center gap-8 px-2 py-8 pb-8">
 
             <h1 className="text-3xl md:text-5xl font-bold text-center max-w-[90ch] mx-auto mb-4 leading-[1.5]">
-                Admin Mode
+            Admin Mode Topical
             </h1>
 
 

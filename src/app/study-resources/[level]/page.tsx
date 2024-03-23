@@ -49,11 +49,9 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     // Only signed in users are allowed 
     if (!userID) {
       // TODO: nicer prompt to ask user to sign in
-      alert("User is not signed in.");
+      alert("You need to sign in to use this feature!");
       return;
     }
-
-    console.log("Updating status to: ", newStatus);
 
     try {
       const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
@@ -67,7 +65,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       settableData((prevData) =>
         prevData.map(item => {
           if (item._id === studyResourceID) {
-            return { ...item, status: !item.status };
+            return { ...item, status: newStatus };
           }
           return item;
         })

@@ -51,10 +51,8 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles }: FormProps) => {
   const checkFormValidity = () => {
     const isValid = fieldsConfig.every((field) => {
       const isFieldValid = !field.compulsory || (field.compulsory && formData[field.id]?.trim().length > 0);
-      console.log(`Field ${field.id} is valid: ${isFieldValid}`);
       return isFieldValid;
     });
-    console.log(`Form is valid: ${isValid}`);
     return isValid;
   };
 

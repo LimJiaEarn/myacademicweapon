@@ -51,7 +51,7 @@ interface PracticePaperInterface extends StudyResourceInterface {
   videoSolution?:string; // link to solution recording 
 }
 
-interface TopicalPracticPaper extends PracticePaperInterface {
+interface TopicalPracticePaper extends PracticePaperInterface {
   topicName: string;
 }
 
@@ -63,7 +63,34 @@ interface YearlyPracticePaper extends PracticePaperInterface {
 }
 
 // Union type for StudyResource function parameters
-declare type StudyResourceInterface = BaseStudyResource | TopicalPracticPaper | YearlyPracticePaper;
+declare type StudyResourceInterface = BaseStudyResource | TopicalPracticePaper | YearlyPracticePaper;
+
+interface CreateStudyResourcesParams  {
+  level: "Primary" | "Secondary" | "JC";
+  subject: string;
+  desc?: string;
+  url: string;
+  likes: number;
+  contributor?: string;
+}
+
+interface CreatePracticePaperInterface extends CreateStudyResourcesParams {
+  status: boolean;
+  type: "Topical" | "Yearly";
+  workingSolution?:string; // link to working solutions 
+  videoSolution?:string; // link to solution recording 
+}
+
+interface CreateTopicalPracticePaperParams extends CreatePracticePaperInterface {
+  topicName: string;
+}
+
+interface CreateYearlyPracticePaperParams extends CreatePracticePaperInterface {
+  assessment: string;
+  year: number;
+  schoolName: string;
+  paper: number;
+}
 
 declare type GetStudyResourcesParams = {
   type: "Topical" | "Yearly";
@@ -74,10 +101,10 @@ declare type GetStudyResourcesParams = {
 declare type UpdateStudyResourceParams = {
   url?: string;
   level?: "Primary" | "Secondary" | "JC";
-  topicName?: string; // For TopicalStudyResource
+  topicName?: string; // For Topical
   assessment?: string;
-  year?: number; // For YearlyStudyResource
-  schoolName?: string; // For YearlyStudyResource
+  year?: number; // For Yearly
+  schoolName?: string; // For Yearly
   likes?: number;
 };
 
@@ -106,7 +133,7 @@ declare type ResourceContributionParams = {
 
 type FormFieldConfig = {
   id: string;
-  type: 'text' | 'textarea' | 'date' | 'select' | 'file'; 
+  type: 'text' | 'textarea' | 'date' | 'select' | 'file' | 'number'; 
   title: string;
   desc?: string;
   styles?:string;
