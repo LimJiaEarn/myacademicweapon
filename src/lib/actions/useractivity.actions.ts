@@ -11,7 +11,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         await connectToDatabase();
 
         const { userID, studyResourceID, newStatus } = updateData;
-        console.log("Updating status to: ", newStatus);
+        
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
 

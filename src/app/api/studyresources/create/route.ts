@@ -5,7 +5,7 @@ export async function POST(req: Request, res: Response) {
 
     try {
         // Parse the JSON body
-        const data: StudyResourceInterface = await req.json();
+        const data: PracticePaperInterface = await req.json();
 
         const newResource = await createStudyResource(data);
         console.log("Success");

@@ -81,7 +81,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   };
 
   useEffect( ()=>{
-    const resourceTypeMerged = (resourceType+"StudyResource" as "TopicalStudyResource" | "YearlyStudyResource" );
+    const resourceTypeMerged = (resourceType as "Topical" | "Yearly" );
 
     const fetchData = async () => {
 

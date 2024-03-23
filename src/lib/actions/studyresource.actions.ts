@@ -13,16 +13,16 @@ Create Function:
   It creates a new resource using the appropriate model
   (StudyResource, TopicalStudyResource, or YearlyStudyResource).
 */
-export async function createStudyResource(data : StudyResourceInterface) {
+export async function createStudyResource(data : PracticePaperInterface) {
 
   try {
 
     await connectToDatabase();
 
     let newResource;
-    if (data.type === 'TopicalStudyResource') {
+    if (data.type === 'Topical') {
       newResource = await TopicalStudyResource.create(data);
-    } else if (data.type === 'YearlyStudyResource') {
+    } else if (data.type === 'Yearly') {
       newResource = await YearlyStudyResource.create(data);
     } else {
       newResource = await StudyResource.create(data);

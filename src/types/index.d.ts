@@ -32,23 +32,30 @@ declare type UpdateUserParams = {
 
 interface StudyResourceInterface {
   _id: string; // MongoDB ID
-  status?: boolean;
   level: "Primary" | "Secondary" | "JC";
   subject: string;
   desc?: string;
   url: string;
   likes: number;
-  type?: string; // Optional field to determine the specific model to create in MongoDB
-  workingSolution?:string; // link to working solutions if applicable
-  videoSolution?:string; // link to solution recording if applicable
-  creditor?: string // Person who created/contributed the resource
+  contributor?: string // Person who created/contributed the resource
 }
 
-interface TopicalStudyResource extends StudyResourceInterface {
+interface StudyNotesInterface extends StudyResourceInterface {
+  topicName : string;
+}
+
+interface PracticePaperInterface extends StudyResourceInterface {
+  status: boolean;
+  type: "Topical" | "Yearly";
+  workingSolution?:string; // link to working solutions 
+  videoSolution?:string; // link to solution recording 
+}
+
+interface TopicalPracticPaper extends PracticePaperInterface {
   topicName: string;
 }
 
-interface YearlyStudyResource extends StudyResourceInterface {
+interface YearlyPracticePaper extends PracticePaperInterface {
   assessment: string;
   year: number;
   schoolName: string;
@@ -56,10 +63,10 @@ interface YearlyStudyResource extends StudyResourceInterface {
 }
 
 // Union type for StudyResource function parameters
-declare type StudyResourceInterface = BaseStudyResource | TopicalStudyResource | YearlyStudyResource;
+declare type StudyResourceInterface = BaseStudyResource | TopicalPracticPaper | YearlyPracticePaper;
 
 declare type GetStudyResourcesParams = {
-  type: "TopicalStudyResource" | "YearlyStudyResource";
+  type: "Topical" | "Yearly";
   level: "Primary" | "Secondary" | "JC";
   subject: string;
 };
@@ -76,7 +83,7 @@ declare type UpdateStudyResourceParams = {
 
 declare type getStatusStudyResourceParams = {
   userID: string;
-  resourceType: "TopicalStudyResource" | "YearlyStudyResource";
+  resourceType: "Topical" | "Yearly";
 }
 
 declare type updateStatusStudyResourceParams = {
