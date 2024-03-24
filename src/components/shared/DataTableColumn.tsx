@@ -47,6 +47,9 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
     );
 }
 
+/*
+D:\myacademicweapon\public\images
+*/
 const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
     const studyResourceID = info.row.original._id; // Access the id of the row
     const status = info.getValue() as boolean; // This is your boolean status

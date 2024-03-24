@@ -213,7 +213,7 @@ export const heroImages = [
   },
   {
     title: "heroImg19",
-    thumbnail: "/images/heroImg19.png",
+    thumbnail: "/images/heroImg19.jpg",
   },
   {
     title: "heroImg20",
