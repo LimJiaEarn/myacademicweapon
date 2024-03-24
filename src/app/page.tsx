@@ -1,6 +1,7 @@
 import {HeroParallax} from '@/components/ui/hero-parallax';
 import { heroImages } from '../../constants';
 
+
 const HomePage = () => {
 
   return (
