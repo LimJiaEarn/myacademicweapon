@@ -185,11 +185,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
 
-              <TableRow key={headerGroup.id} className="bg-slate-400 font-bold">
-                {headerGroup.headers.map((header) => {
+              <TableRow key={headerGroup.id} className="bg-slate-400">
+                {headerGroup.headers.map((header, index) => {
                   return (
                     <TableHead key={header.id}>
-                      <div className="flex_center">
+                      <div className={`flex_center text-black text-md font-semibold`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -218,7 +218,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <TableCell key={cell.id} >
+                      <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                   )})}
@@ -256,7 +256,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Table>
         
         {/* Prev and Next Buttons */}
-        {table.getRowModel().rows?.length > 0 &&
+        {table.getRowModel().rows?.length > 10 &&
         <div className="flex_center gap-2">
             <button className="bg-green-300 rounded-full px-4 cursor-pointer" 
                 onClick={() => table.previousPage()}

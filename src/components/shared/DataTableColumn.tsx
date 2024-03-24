@@ -25,19 +25,22 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
     const studyResourceID = info.row.original._id; // Access the id of the row
     const bookmarked = info.getValue() as boolean; // This is your boolean status
     return (
-    <div className="w-[30px] flex_center tooltip" data-tooltip="Bookmark">
-        <Image
-            src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
-            alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
-            height={25}
-            width={25}
-            onClick={(e) => {
-                e.stopPropagation(); // Prevent row click event
-                onToggleBookmark(studyResourceID, userID, !bookmarked); 
-            }}
-            className="mr-2 hover:cursor-pointer"
-            
-        />
+    <div className="w-full flex justify-center" data-tooltip="Bookmark">
+        <div className="tooltip">
+            <Image
+                src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
+                alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
+                height={25}
+                width={25}
+                onClick={(e) => {
+                    e.stopPropagation(); // Prevent row click event
+                    onToggleBookmark(studyResourceID, userID, !bookmarked); 
+                }}
+                className="hover:cursor-pointer"
+                
+            />
+        </div>
+
         
     </div>
     );
@@ -48,7 +51,7 @@ const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFun
     const status = info.getValue() as boolean; // This is your boolean status
     const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
     return (
-    <div className="w-[80px] flex_center">
+    <div className="w-full flex justify-center">
         <input
             type="checkbox"
             checked={status} // Checkbox is checked if status is true (Completed)
@@ -67,7 +70,7 @@ const likesCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunc
     const rowId = info.row.original._id; // Access the id of the row
     const likes = info.getValue() as number; // This is your boolean status
     return (
-    <div className="w-[80px] flex_center" >
+    <div className="w-full flex justify-center" >
         {likes}
         <button className="relative bottom-[0.48]">
             <Image 
@@ -133,7 +136,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
             }
             return (
             <div
-                className="flex_center"
+                className="flex_center gap-2"
                 onClick={() => {window.open(info.row.original.url, '_blank');}}
             >
 

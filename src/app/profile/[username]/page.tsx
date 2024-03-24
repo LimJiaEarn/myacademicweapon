@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 
-const SetContext = async ({ params }: { params: { username: string } }) => {
+const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     const { userId } = auth();
     const { username } = params;
@@ -36,4 +36,4 @@ const SetContext = async ({ params }: { params: { username: string } }) => {
 }
     
 
-export default SetContext;
+export default ProfilePage;
