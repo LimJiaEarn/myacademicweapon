@@ -209,11 +209,11 @@ export const heroImages = [
   },
   {
     title: "heroImg18",
-    thumbnail: "/images/heroImg18.png",
+    thumbnail: "/images/heroImg18.jpg",
   },
   {
     title: "heroImg19",
-    thumbnail: "/images/heroImg19.jpg",
+    thumbnail: "/images/heroImg19.png",
   },
   {
     title: "heroImg20",
@@ -229,11 +229,11 @@ export const heroImages = [
   },
   {
     title: "heroImg23",
-    thumbnail: "/images/heroImg23.png",
+    thumbnail: "/images/heroImg23.jpg",
   },
   {
     title: "heroImg24",
-    thumbnail: "/images/heroImg24.jpg",
+    thumbnail: "/images/heroImg24.png",
   },
 ];
 

@@ -59,7 +59,7 @@ export const HeroParallax = (
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
   return (
-    <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] max-w-full overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
+    <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] w-full max-w-[2360px] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
 
       <motion.div
