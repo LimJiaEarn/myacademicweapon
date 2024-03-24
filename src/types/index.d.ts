@@ -57,6 +57,7 @@ interface StudyNotesInterface extends StudyResourceInterface {
 
 interface PracticePaperInterface extends StudyResourceInterface {
   status: boolean;
+  bookmark: boolean;
   type: "Topical" | "Yearly";
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
@@ -128,6 +129,17 @@ declare type updateStatusStudyResourceParams = {
   userID: string;
   studyResourceID: string;
   newStatus: boolean;
+}
+
+declare type getBookmarkStudyResourceParams = {
+  userID: string;
+  resourceType: "Topical" | "Yearly";
+}
+
+declare type updateBookmarkStudyResourceParams = {
+  userID: string;
+  studyResourceID: string;
+  newBookmark: boolean; 
 }
 
 declare type ResourceContributionParams = {

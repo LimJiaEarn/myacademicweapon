@@ -63,11 +63,11 @@ const StudyResourcesPage = () => {
             Forged in the academic foundry by an alliance of experienced tutors, dedicated teachers, and
             victorious students, our Royal Treasury brims with
             meticulously crafted study materials. Each material is
-            <span className="font-bold text-orange-400"> polished through years of teaching wisdom and triumphant exam strategies.</span>
+            polished through <span className="font-bold text-orange-400">years of teaching wisdom and triumphant exam strategies.</span>
           </p>
 
           <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-            Embark on your royal quest towards <span className="text-amber-500 font-bold">academic success now!</span>
+            Embark on your quest towards <span className="text-amber-500 font-bold">academic success now!</span>
           </p>
 
         </div>

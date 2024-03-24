@@ -7,6 +7,8 @@ import Image from "next/image";
 
 // Define a type for your toggle status function
 type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean) => void;
+type ToggleBookmarkFunction = (studyResourceID: string, userID: string|null, newBookmark: boolean) => void;
+
 
 // Type guard functions
 function isTopicalPracticePaper(item: any): item is TopicalPracticePaper {
@@ -73,7 +75,7 @@ const headerCell = (column : Column<any, any>, headerTitle : string, withSort : 
 
 
 
-export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
+export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
 [
     // Status
     {
@@ -130,7 +132,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, userID: s
     },
 ];
 
-export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status

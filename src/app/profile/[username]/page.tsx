@@ -15,10 +15,15 @@ const SetContext = async ({ params }: { params: { username: string } }) => {
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
     return (
-        <div>
-            <p>
-                {currentUserProfileObject.firstName}
-            </p>
+        <div className="flex_col_center gap-8">
+
+            <div className="w-full text-center">
+                <h2 className="text-xl font-bold">{currentUserProfileObject.firstName}'s Completed Papers</h2>
+            </div>
+            
+            <div className="w-full text-center">
+                <h2 className="text-xl font-bold">{currentUserProfileObject.firstName}'s Likes</h2>
+            </div>
             
             {isOwnUser && <p>{currentUserProfileObject.email}</p>}
 

@@ -8,10 +8,10 @@ import { usePathname  } from 'next/navigation'
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@/components/shared/DataTable";
-import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTableColumn";
+import { getYearlyColumns, getTopicalColumns} from "@/components/shared/DataTableColumn";
 
 // Server Actions
-import { updateStatusStudyResource, getStatusStudyResource } from '@/lib/actions/useractivity.actions';
+import { updateStatusStudyResource, getStatusStudyResource, updateBookmarkStudyResource, getBookmarksStudyResource  } from '@/lib/actions/useractivity.actions';
 import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
 
@@ -24,12 +24,12 @@ function capitalize(str : string) {
 }
 
 
-const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
+const StudyResourcePage = async ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
   // Get the userID
-  const { user } = useUser();
-
+  const { user } = await useUser();
   let userID = (user?.publicMetadata.userId as string ) || null;
+
 
   const pathname = usePathname();
 
@@ -59,7 +59,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
 
       if (!response) {
-        console.log('Failed to update resource status');
+        // TODO: NICER ALERTS
+        alert('Failed to update status, try again later!');
         return;
       }
 
@@ -75,10 +76,46 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
     } 
     catch (error) {
-      console.error('Error updating resource status:', error);
+      alert('Failed to update status, try again later!');
       return;
     }
   };
+
+  const onToggleBookmark = async (studyResourceID: string, userID : string|null, newBookmark : boolean) => {
+
+    // Only signed in users are allowed 
+    if (!userID) {
+      // TODO: nicer prompt to ask user to sign in
+      alert("You need to sign in to use this feature!");
+      return;
+    }
+
+    try {
+      const response = await updateBookmarkStudyResource({ userID, studyResourceID, newBookmark });
+
+      if (!response) {
+        // TODO: NICER ALERTS
+        alert('Failed to update bookmark, try again later!');
+        return;
+      }
+
+      // If the update is successful, toggle the status in the UI
+      settableData((prevData) =>
+        prevData.map(item => {
+          if (item._id === studyResourceID) {
+            return { ...item, bookmark: newBookmark } as PracticePaperInterface;
+          }
+          return item;
+        })
+      );
+
+    } 
+    catch (error) {
+      alert('Failed to update bookmark, try again later!');
+      return;
+    }
+  };
+
 
   useEffect( ()=>{
     const resourceTypeMerged = (resourceType as "Topical" | "Yearly" );
@@ -87,12 +124,12 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
       try {
 
-        setTableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
+        setTableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
 
           // Call a server action to get data to populate table
           let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
 
-          // Next we update the status column based on past user interactions
+          // Next we update the status and bookmarks column based on past user interactions
           // If user is signed in, fetch the list of completed resources and update the status
           if (userID) {
 
@@ -103,7 +140,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
                 ...item,
                 status: completedResourceIDs.includes(item._id),
               }));
-              
+
+              const bookmarkedResourceIDs : string[] = await getBookmarksStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
+              // Update the status field based on completedResourceIDs
+              data = data?.map((item : StudyResourceInterface) => ({
+                ...item,
+                bookmarked: completedResourceIDs.includes(item._id),
+              }));
           }
 
           // If user is not signed in, set all statuses to false
@@ -113,6 +156,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
                 status: false,
               }));
           }
+
+
         
           if (data) settableData(data); 
 
