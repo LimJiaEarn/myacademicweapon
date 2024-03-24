@@ -8,9 +8,19 @@ import Image from "next/image";
 // Define a type for your toggle status function
 type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean) => void;
 
+// Type guard functions
+function isTopicalPracticePaper(item: any): item is TopicalPracticePaper {
+    return 'topicName' in item && 'status' in item && 'type' in item;
+  }
+  
+  function isYearlyPracticePaper(item: any): item is YearlyPracticePaper {
+    return 'assessment' in item && 'year' in item && 'schoolName' in item && 'paper' in item && 'status' in item && 'type' in item;
+  }
+
+
 // Utility Cell Components
 
-const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
+const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
     const studyResourceID = info.row.original._id; // Access the id of the row
     const status = info.getValue() as boolean; // This is your boolean status
     const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
@@ -30,7 +40,7 @@ const statusCell = (info: CellContext<StudyResourceInterface, any>, onToggleStat
     );
 }
 
-const likesCell = (info: CellContext<StudyResourceInterface, unknown>, onToggleStatus: ToggleStatusFunction) => {
+const likesCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction) => {
     const rowId = info.row.original._id; // Access the id of the row
     const likes = info.getValue() as number; // This is your boolean status
     return (
@@ -86,7 +96,12 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, userID: s
         accessorKey: "schoolName",
         header: ({ column }) => headerCell(column, "School", true),
         cell: info => {
-
+            let videoSolution = null;
+            let workingSolution = null;
+            if (isYearlyPracticePaper(info.row.original)) {
+                workingSolution = info.row.original.workingSolution;
+                videoSolution = info.row.original.videoSolution;
+            }
             return (
             <div
                 className="flex_center"
@@ -95,12 +110,12 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, userID: s
 
                 <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
                 {
-                    info.row.original.workingSolution ?
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/> : <></>
+                    workingSolution &&
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/>
                 }
                 {
-                    info.row.original.videoSolution ?
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/> : <></>
+                    videoSolution &&
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/>
                 }
                 
             </div>
@@ -127,6 +142,13 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, userID: 
         accessorKey: "topicName",
         header: ({ column }) => headerCell(column, "Topic Name", true),
         cell: info => {
+
+            let videoSolution = null;
+            let workingSolution = null;
+            if (isTopicalPracticePaper(info.row.original)) {
+                workingSolution = info.row.original.workingSolution;
+                videoSolution = info.row.original.videoSolution;
+            }
             return (
                 <div
                 className="flex_center"
@@ -135,12 +157,12 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, userID: 
 
                 <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
                 {
-                    info.row.original.workingSolution ?
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/> : <></>
+                    workingSolution &&
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/>
                 }
                 {
-                    info.row.original.videoSolution ?
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/> : <></>
+                    videoSolution &&
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/>
                 }
                 
             </div>

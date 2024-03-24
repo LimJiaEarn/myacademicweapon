@@ -38,7 +38,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
   // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
-  const [tableColumns, settableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
+  const [tableColumns, setTableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
 
   // The data to populate the table
   const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
@@ -65,7 +65,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       settableData((prevData) =>
         prevData.map(item => {
           if (item._id === studyResourceID) {
-            return { ...item, status: newStatus };
+            return { ...item, status: newStatus } as PracticePaperInterface;
           }
           return item;
         })
@@ -85,7 +85,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
       try {
 
-          settableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
+        setTableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, userID) : getTopicalColumns(onToggleStatus, userID));
 
           // Call a server action to get data to populate table
           let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});

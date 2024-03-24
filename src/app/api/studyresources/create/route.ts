@@ -1,4 +1,4 @@
-import { createStudyResource } from '@/lib/actions/studyresource.actions';
+import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 
 // Named export for handling POST requests
 export async function POST(req: Request, res: Response) {
@@ -7,7 +7,7 @@ export async function POST(req: Request, res: Response) {
         // Parse the JSON body
         const data: PracticePaperInterface = await req.json();
 
-        const newResource = await createStudyResource(data);
+        const newResource = await createPracticePaper(data);
         console.log("Success");
         // Construct a new Response object with a 201 status code
         return new Response(JSON.stringify(newResource), {
