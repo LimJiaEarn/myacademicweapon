@@ -27,9 +27,9 @@ function capitalize(str : string) {
 const StudyResourcePage = async ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
   // Get the userID
-  const { user } = await useUser();
-  let userID = (user?.publicMetadata.userId as string ) || null;
+  const { user } = useUser();
 
+  let userID = (user?.publicMetadata.userId as string ) || null;
 
   const pathname = usePathname();
 

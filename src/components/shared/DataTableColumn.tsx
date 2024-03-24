@@ -21,6 +21,27 @@ function isTopicalPracticePaper(item: any): item is TopicalPracticePaper {
 
 
 // Utility Cell Components
+const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookmarkFunction, userID: string|null) => {
+    const studyResourceID = info.row.original._id; // Access the id of the row
+    const bookmarked = info.getValue() as boolean; // This is your boolean status
+    return (
+    <div className="w-[30px] flex_center tooltip" data-tooltip="Bookmark">
+        <Image
+            src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
+            alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
+            height={25}
+            width={25}
+            onClick={(e) => {
+                e.stopPropagation(); // Prevent row click event
+                onToggleBookmark(studyResourceID, userID, !bookmarked); 
+            }}
+            className="mr-2 hover:cursor-pointer"
+            
+        />
+        
+    </div>
+    );
+}
 
 const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
     const studyResourceID = info.row.original._id; // Access the id of the row
@@ -77,6 +98,12 @@ const headerCell = (column : Column<any, any>, headerTitle : string, withSort : 
 
 export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
 [
+    // Bookmark
+    {
+        accessorKey: 'bookmark', // This should match the key in your data for the status
+        header: 'Bookmarks',
+        cell: info => bookmarkCell(info, onToggleBookmark, userID),
+    },
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
@@ -133,6 +160,12 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
 ];
 
 export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+    // Bookmark
+    {
+        accessorKey: 'bookmark', // This should match the key in your data for the status
+        header: 'Bookmarks',
+        cell: info => bookmarkCell(info, onToggleBookmark, userID),
+    },
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
