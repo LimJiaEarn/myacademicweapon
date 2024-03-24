@@ -1,6 +1,18 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, Document, model, models } from "mongoose";
 
-const UserSchema = new Schema({
+// Define an interface for the User model
+interface IUser extends Document {
+  clerkId: string;
+  email: string;
+  username: string;
+  photo: string;
+  firstName?: string; // Optional since it's not required
+  lastName?: string;  // Optional since it's not required
+  planId: number;
+}
+
+// Define the User schema
+const UserSchema = new Schema<IUser>({
   clerkId: {
     type: String,
     required: true,
@@ -32,6 +44,7 @@ const UserSchema = new Schema({
   },
 });
 
-const User = models?.User || model("Users", UserSchema);
+// Model definition with a conditional check to avoid recompilation errors
+const User = models.User as mongoose.Model<IUser> || model<IUser>('User', UserSchema);
 
 export default User;

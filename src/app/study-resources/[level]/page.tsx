@@ -14,6 +14,8 @@ import { getYearlyColumns, getTopicalColumns } from "@/components/shared/DataTab
 import { updateStatusStudyResource, getStatusStudyResource } from '@/lib/actions/useractivity.actions';
 import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
+
+
 // searchParams guide referenced: https://www.youtube.com/watch?v=ukpgxEemXsk&t=6s
 
 function capitalize(str : string) {

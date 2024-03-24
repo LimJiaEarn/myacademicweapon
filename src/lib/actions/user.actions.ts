@@ -23,11 +23,31 @@ export async function createUser(user: CreateUserParams) {
 }
 
 // READ
-export async function getUserById(userId: string) {
+export async function getUserByClerkId(cuserId: string) {
   try {
     await connectToDatabase();
 
-    const user = await User.findOne({ clerkId: userId });
+
+    const user = await User.findOne({ clerkId: cuserId });
+
+
+    if (!user) throw new Error("User not found");
+
+    return JSON.parse(JSON.stringify(user));
+  }
+  catch (error) {
+    handleError(error);
+  }
+}
+
+// READ
+export async function getUserByUsername(username: string) {
+  try {
+    await connectToDatabase();
+
+
+    const user = await User.findOne({ username : username });
+
 
     if (!user) throw new Error("User not found");
 
