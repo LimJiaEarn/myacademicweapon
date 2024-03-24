@@ -11,6 +11,17 @@ declare type StudyResourceNavItem = {
 }
 
 // USER PARAMS
+declare type UserObject = {
+  _id: string;
+  clerkId: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  planId: number;
+  photo: string;
+}
+
 declare type CreateUserParams = {
   clerkId: string;
   email: string;

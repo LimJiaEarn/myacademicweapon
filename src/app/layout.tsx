@@ -6,6 +6,8 @@ import "./globals.css";
 import NavBar from "../components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
