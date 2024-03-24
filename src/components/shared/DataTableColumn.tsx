@@ -25,8 +25,8 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
     const studyResourceID = info.row.original._id; // Access the id of the row
     const bookmarked = info.getValue() as boolean; // This is your boolean status
     return (
-    <div className="w-full flex justify-center" data-tooltip="Bookmark">
-        <div className="tooltip">
+    <div className="w-full flex justify-center" >
+        <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
                 alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
@@ -34,6 +34,7 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
                 width={25}
                 onClick={(e) => {
                     e.stopPropagation(); // Prevent row click event
+                    e.preventDefault();
                     onToggleBookmark(studyResourceID, userID, !bookmarked); 
                 }}
                 className="hover:cursor-pointer"
@@ -57,6 +58,7 @@ const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFun
             checked={status} // Checkbox is checked if status is true (Completed)
             onChange={(e) => {
                 e.stopPropagation(); // Prevent row click event
+                e.preventDefault();
                 onToggleStatus(studyResourceID, userID, !status); 
             }}
             className="mr-2"
