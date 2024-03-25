@@ -71,13 +71,17 @@ const Navbar = () => {
 
                 <li className="hidden lg:flex w-full px-4 transition-all hover:text-green-200 text-gray-200">
                   <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-lime-200 to-lime-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative px-6 py-4 bg-green-700 rounded-lg leading-none flex items-center divide-x divide-white">
+                  <div className="absolute -inset-1.5 bg-gradient-to-r from-lime-200 to-lime-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative pl-4 pr-6 py-4 bg-green-700 rounded-lg leading-none flex items-center divide-x divide-white">
+                      
                       <Link href="/sign-in">
-                        <p className="text-md whitespace-nowrap space-x-5 pr-6 text-white hover:text-green-100 transition duration-125 text-center">Sign In</p>
+                        <div className="flex pr-6">
+                          <Image src="/icons/sign-up-banner.svg" height={15} width={15} alt="icon"/>
+                          <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-green-200 transition duration-125 text-center">Sign In</p>
+                        </div>
                       </Link>
                       <Link href="/sign-up">
-                        <p className="text-md whitespace-nowrap pl-6 text-white hover:text-green-100 transition duration-125 text-center">Sign Up</p>
+                        <p className="text-md whitespace-nowrap pl-4 text-white hover:text-green-200 transition duration-125 text-center">Sign Up</p>
                       </Link>
                     </div>
                   </div>
@@ -86,7 +90,7 @@ const Navbar = () => {
                 <li className={`flex lg:hidden w-full px-4 transition-all hover:text-green-600 ${pathname==='/sign-in'? 'text-green-700' : 'text-gray-800'}`}>
                   <Link href='/sign-in' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
-                    <p className="text-md whitespace-nowrap font-bold">Sign In / Up</p>
+                    <p className="text-md whitespace-nowrap font-semibold">Sign In / Up</p>
                   </Link>
                 </li>
 

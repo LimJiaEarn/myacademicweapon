@@ -154,6 +154,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
               data = data?.map((item : StudyResourceInterface) => ({
                 ...item,
                 status: false,
+                bookmarked: false,
               }));
           }
 
