@@ -26,6 +26,7 @@ export const studyResourcesNav = [
     label: "Primary",
     route: "", // Coming Soon
     title: "Primary Pupils' Pavilion",
+    descShort: "For Primary Students",
     desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!",
     image: "/images/pri-section.webp"
   },
@@ -34,6 +35,7 @@ export const studyResourcesNav = [
     label: "Secondary",
     route: "/study-resources/secondary",
     title: "Secondary Scholars Sanctum",
+    descShort: "For Secondary Students",
     desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!",
     image: "/images/sec-section.webp"
   },
@@ -42,6 +44,7 @@ export const studyResourcesNav = [
     label: "JC",
     route: "/study-resources/jc",
     title: "Tertiary Titans Tower",
+    descShort: "For JC Students",
     desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
     image: "/images/jc-section.webp"
   }

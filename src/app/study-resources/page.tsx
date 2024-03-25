@@ -8,9 +8,10 @@ export const metadata: Metadata = {
 
 interface StudyResourcesSectionCardProps {
   title: string;
+  descShort: string;
   desc: string;
-  route: string;
   image: string;
+  route:string;
 }
 
 const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
@@ -23,24 +24,20 @@ const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
       )}
 
       <img src={props.image} alt={props.title}
-        className="w-[900px] h-[200px] sm:h-[350px] object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+        className="w-[900px] h-[240px] sm:h-[350px] object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
       />
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-4">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-4 flex_col_center">
         <h1 className="text-xl font-bold text-white text-center">
           {props.title}
         </h1>
-        <p className="hidden md:flex text-white text-sm text-center">
+        <h3 className="text-sm md:text-md italic text-white text-center">
+          {props.descShort}
+        </h3>
+        <p className="hidden md:flex text-white text-sm text-center max-w-xl pt-2">
           {props.desc}
         </p>
 
-        {props.route !== "" && (
-          <Link href={props.route}>
-            <p className="block mt-2 text-center text-white underline">
-              Get Started!
-            </p>
-          </Link>
-        )}
       </div>
     </div>
   );
@@ -78,13 +75,16 @@ const StudyResourcesPage = () => {
           {studyResourcesNav.map((studyResource) => {
 
           return (
-          <StudyResourcesSectionCard
-            key={studyResource.id}
-            title={studyResource.title}
-            desc={studyResource.desc}
-            route={studyResource.route}
-            image={studyResource.image}  
-          />
+            <Link href={studyResource.route}>
+              <StudyResourcesSectionCard
+                key={studyResource.id}
+                title={studyResource.title}
+                desc={studyResource.desc}
+                descShort={studyResource.descShort}
+                image={studyResource.image}  
+                route={studyResource.route}
+              />
+          </Link>
           );
           })}
         </div>
