@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   motion,
@@ -8,6 +9,9 @@ import {
   MotionValue,
 } from "framer-motion";
 import Image from "next/image";
+import LinkButton from '@/components/shared/LinkButton';
+import { useUser } from '@clerk/nextjs';
+
 
 export const HeroParallax = (
   {products,}: {
@@ -58,10 +62,11 @@ export const HeroParallax = (
   
   const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0.8, 1]);
 
+
+
   return (
     <div ref={ref} className="min-h-[2200px] sm:min-h-[2480px] w-full max-w-[2360px] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
-
       <motion.div
         style={{
           rotateX,
@@ -72,7 +77,7 @@ export const HeroParallax = (
         className=""
       >
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
           FREE Topical Practice Papers
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
@@ -85,7 +90,7 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
           FREE MYE / Prelim Practice Papers
         </motion.div>
         <motion.div className="flex flex-row mb-20 space-x-10">
@@ -98,8 +103,8 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-lg md:text-2xl font-semibold text-gray-600 text-center">
-          FREE Solution Recordings, Answer Sheets, Notes & More !
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
+          FREE Solution Sheets, Walkthroughs, Notes & More !
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {thirdRow.map((product) => (
@@ -116,19 +121,35 @@ export const HeroParallax = (
 };
 
 export const Header = () => {
+
+    const { user } = useUser();
+    
+    const buttonMsg = user ? "Let's Go!" : "Get Started Now!";
+    const linksTo = user ? "/study-resources" : "/sign-up";
+
+
     return (
-      <div className="mx-auto max-w-full ">
+      <div className="mx-auto max-w-full gap-4 z-20">
         <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-6xl">
-          Your <span className="text-academic_red">Ultimate Weapon</span>
+          Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-academic_red via-red-400 to-pink-500">Ultimate Weapon</span>
           <br/>
-          To Seize Your <span className="text-success_gold">Academic Destiny</span>
+          To Seize Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-orange-300 via-orange-600 to-success_gold">Academic Success</span>
         </h1>
-        <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-xl">
-            Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
-        </p>
+        <div className="flex flex-col gap-4 md:flex-row md:align-center">
+
+          <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-[570px]">
+              Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
+          </p>
+          <div className="flex_center">
+            <LinkButton iconUrl="/icons/getStarted.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-400" linksTo={linksTo}/>
+          </div>
+
+        </div>
+
+
       </div>
     );
-  };
+};
   
 
 export const ProductCard = ({

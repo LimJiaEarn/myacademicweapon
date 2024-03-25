@@ -80,13 +80,6 @@ body {
 
 /* GRADIENT FONTS */
 
-.purple_gradient {
-  background-image: url('../assets/backgrounds/gradient.svg');
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
 
 /* TOOLTIP STYLINGS */
 
