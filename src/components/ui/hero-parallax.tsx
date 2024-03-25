@@ -124,24 +124,24 @@ export const Header = () => {
 
     const { user } = useUser();
     
-    const buttonMsg = user ? "Let's Go!" : "Get Started Now!";
+    const buttonMsg = user ? "Let's Go!" : "Get Started Now !";
     const linksTo = user ? "/study-resources" : "/sign-up";
 
 
     return (
-      <div className="mx-auto max-w-full gap-4 z-20">
+      <div className="mx-auto max-w-full gap-4 z-20 pl-2">
         <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-6xl">
           Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-academic_red via-red-400 to-pink-500">Ultimate Weapon</span>
           <br/>
-          To Seize Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-orange-300 via-orange-600 to-success_gold">Academic Success</span>
+          To Seize Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-orange-600 via-success_gold to-orange-300">Academic Success</span>
         </h1>
-        <div className="flex flex-col gap-4 md:flex-row md:align-center">
+        <div className="flex flex-col items-start gap-4 md:align-center lg:flex-row lg:items-center">
 
           <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-[570px]">
               Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
           </p>
           <div className="flex_center">
-            <LinkButton iconUrl="/icons/getStarted.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-400" linksTo={linksTo}/>
+            <LinkButton iconUrl="/icons/getStarted.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500" linksTo={linksTo}/>
           </div>
 
         </div>

@@ -40,7 +40,7 @@ export const studyResourcesNav = [
   {
     id:"studyResources3",
     label: "JC",
-    route: "", // Coming Soon
+    route: "/study-resources/jc",
     title: "Tertiary Titans Tower",
     desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
     image: "/images/jc-section.webp"

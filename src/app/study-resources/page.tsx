@@ -15,30 +15,32 @@ interface StudyResourcesSectionCardProps {
 
 const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
   return (
-    <div className="relative rounded-2xl overflow-hidden group border-1 border-gray-700">
+    <div className="relative rounded-2xl overflow-hidden group border">
+      {props.route === "" && (
+        <div className="absolute top-2 right-0 z-10 bg-red-600 text-white text-md font-semibold py-2 md:py-4 px-4 md:px-10 border-red-700 border-2 shadow-lg text-center">
+          Coming Soon!
+        </div>
+      )}
 
       <img src={props.image} alt={props.title}
         className="w-[900px] h-[200px] sm:h-[350px] object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
       />
 
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-4">
-
         <h1 className="text-xl font-bold text-white text-center">
           {props.title}
         </h1>
-
         <p className="hidden md:flex text-white text-sm text-center">
           {props.desc}
         </p>
 
-        {props.route === "" ? (
-          <p className="text-center text-white">Coming Soon!</p>
-        ) : (
-          <Link href={props.route} className="block mt-2 text-center text-white underline">
-            Get Started!
+        {props.route !== "" && (
+          <Link href={props.route}>
+            <p className="block mt-2 text-center text-white underline">
+              Get Started!
+            </p>
           </Link>
         )}
-        
       </div>
     </div>
   );
