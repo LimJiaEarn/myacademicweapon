@@ -145,7 +145,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
               // Update the status field based on completedResourceIDs
               data = data?.map((item : StudyResourceInterface) => ({
                 ...item,
-                bookmarked: completedResourceIDs.includes(item._id),
+                bookmarked: bookmarkedResourceIDs.includes(item._id),
               }));
           }
 

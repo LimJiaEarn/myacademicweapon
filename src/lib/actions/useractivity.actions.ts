@@ -149,16 +149,16 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
 
         if (userResourceInteraction) {
 
-            // If the document exists, update the completedArray based on the status
+            // If the document exists, update the bookmarkedArrayArray based on the status
             if (newBookmark) {
-                // Add resourceID to completedArray if it's not already there
+                // Add resourceID to bookmarkedArrayArray if it's not already there
                 if (!userResourceInteraction.bookmarkedArray.includes(resourceObjectId)) {
                     userResourceInteraction.bookmarkedArray.push(resourceObjectId);
                 }
             }
             else {
-                // Remove resourceID from completedArray if the status is set to incomplete
-                userResourceInteraction.bookmarkedArray = userResourceInteraction.completedArray.filter((id: mongoose.Types.ObjectId) => !id.equals(resourceObjectId));
+                // Remove resourceID from bookmarkedArrayArray if unbookmark
+                userResourceInteraction.bookmarkedArray = userResourceInteraction.bookmarkedArray.filter((id: mongoose.Types.ObjectId) => !id.equals(resourceObjectId));
             }
             await userResourceInteraction.save();
         }
