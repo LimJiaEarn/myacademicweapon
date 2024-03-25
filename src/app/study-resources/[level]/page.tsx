@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { usePathname  } from 'next/navigation'
 
@@ -24,7 +24,7 @@ function capitalize(str : string) {
 }
 
 
-const StudyResourcePage = async ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
+const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
   // Get the userID
   const { user } = useUser();
@@ -177,9 +177,12 @@ const StudyResourcePage = async ( {searchParams} : {searchParams : { [key:string
 
       <div className="min-h-screen w-full">
       {resourceLevel && resourceSubject && resourceType?
+
         <div className="w-full px-2 md:px-6 flex_col_center">
-          
-          <DataTable columns={tableColumns} data={tableData}/>
+          {/* https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming for loading skeleton while Data Table loads */}
+          <Suspense fallback={<p>Loading your resources...</p>}>
+            <DataTable columns={tableColumns} data={tableData}/>
+          </Suspense>
           
 
         </div>

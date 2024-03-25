@@ -1,11 +1,8 @@
 "use client"
 
-import * as React from "react"
-import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
 import { StudyResourceNavItems } from '../../../constants';
-import Image from 'next/image';
 
 
 import { cn } from "@/lib/utils"
@@ -23,9 +20,6 @@ import {
 
 export default function StudyResourceNav() {
 
-const [resourceSubject, setResourceSubject] = useState("");
-
-const [currentHover, setcurrentHover] = useState<string | null>(null);
 
 const pathname = usePathname();
 

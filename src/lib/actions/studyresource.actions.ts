@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { StudyResource, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
+import mongoose from 'mongoose';
 
 
 /*
@@ -56,6 +57,29 @@ export async function getStudyResources({ type, level, subject }: GetStudyResour
   }
   catch (error) {
     handleError(error);
+  }
+}
+
+export async function getStudyResourceByID(resourceId : string) {
+  try {
+
+    await connectToDatabase();
+
+    const resourceObjectId = new mongoose.Types.ObjectId(resourceId);
+
+    const resource = await StudyResource.findById(resourceObjectId);
+
+    if (!resource){
+      return null;
+    }
+
+    return resource;
+
+
+  }
+  catch (error) {
+    console.log(error);
+    return null;
   }
 }
 

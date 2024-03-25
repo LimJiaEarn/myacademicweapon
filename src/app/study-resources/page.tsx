@@ -75,9 +75,8 @@ const StudyResourcesPage = () => {
           {studyResourcesNav.map((studyResource) => {
 
           return (
-            <Link href={studyResource.route}>
+            <Link href={studyResource.route} key={studyResource.id}>
               <StudyResourcesSectionCard
-                key={studyResource.id}
                 title={studyResource.title}
                 desc={studyResource.desc}
                 descShort={studyResource.descShort}
