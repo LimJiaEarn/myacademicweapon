@@ -26,24 +26,25 @@ function capitalize(str : string) {
 
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
-  // Get the userID
-  const { user } = useUser();
-
-  let userID = (user?.publicMetadata.userId as string ) || null;
-
   const pathname = usePathname();
+  const { user } = useUser();
 
   // Get the encoded data from url
   const resourceLevel = capitalize(pathname.split('/').pop() as string);
   const resourceSubject = searchParams.subject;
   const resourceType = searchParams.resourceType?.split(' ')[0];
 
+  // utlity states
+  const [userID, setUserID] = useState<string | null>(null);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+
+
   // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
   const [tableColumns, setTableColumns] = useState<ColumnDef<StudyResourceInterface>[]>([]);
 
   // The data to populate the table
-  const [tableData, settableData] = useState<StudyResourceInterface[]>([]);
+  const [tableData, setTableData] = useState<StudyResourceInterface[]>([]);
 
   // This sets the status of the study resource selected by user
   const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
@@ -65,7 +66,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       }
 
       // If the update is successful, toggle the status in the UI
-      settableData((prevData) =>
+      setTableData((prevData) =>
         prevData.map(item => {
           if (item._id === studyResourceID) {
             return { ...item, status: newStatus } as PracticePaperInterface;
@@ -100,7 +101,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       }
 
       // If the update is successful, toggle the status in the UI
-      settableData((prevData) =>
+      setTableData((prevData) =>
         prevData.map(item => {
           if (item._id === studyResourceID) {
             return { ...item, bookmark: newBookmark } as PracticePaperInterface;
@@ -116,61 +117,67 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     }
   };
 
+  useEffect(() => {
 
-  useEffect( ()=>{
+    const userId = typeof user?.publicMetadata.userId === 'string' ? user.publicMetadata.userId : null;
+    setUserID(userId);
+  }, [user]); 
 
-    const fetchData = async () => {
+  const fetchData = async () => {
+    if (!resourceType || !resourceSubject) return;
 
-      try {
-
-        setTableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
-
-          // Call a server action to get data to populate table
-          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: (resourceType as 'Yearly' | 'Topical'), level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
-
-          // Next we update the status and bookmarks column based on past user interactions
-          // If user is signed in, fetch the list of completed resources and update the status
-          if (userID) {
-
-              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: (resourceType as 'Yearly' | 'Topical')});
-
-              // Update the status field based on completedResourceIDs
-              data = data?.map((item : StudyResourceInterface) => ({
-                ...item,
-                status: completedResourceIDs.includes(item._id),
-              }));
-
-              const bookmarkedResourceIDs : string[] = await getBookmarksStudyResource({userID: userID as string, resourceType: (resourceType as 'Yearly' | 'Topical')});
-              // Update the status field based on completedResourceIDs
-              data = data?.map((item : StudyResourceInterface) => ({
-                ...item,
-                bookmarked: bookmarkedResourceIDs.includes(item._id),
-              }));
-          }
-
-          // If user is not signed in, set all statuses to false
-          else {
-              data = data?.map((item : StudyResourceInterface) => ({
-                ...item,
-                status: false,
-                bookmarked: false,
-              }));
-          }
+    setIsLoadingData(true);
+  
+    try {
 
 
-        
-          if (data) settableData(data); 
 
-        }
-        catch (error) {
-          console.error('Error fetching data:', error);
+      const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
+      setTableColumns(columns);
+  
+      // Call a server action to get data to populate the table
+      let data: StudyResourceInterface[] | undefined = await getStudyResources({
+        type: resourceType as 'Yearly' | 'Topical',
+        level: resourceLevel as "Primary" | "Secondary" | "JC",
+        subject: resourceSubject,
+      });
+  
+      if (userID) {
+        // concurrently fetch the status and bookmark information
+        const [completedResourceIDs, bookmarkedResourceIDs] = await Promise.all([
+          getStatusStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
+          getBookmarksStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
+        ]);
+  
+        // Update the data with status and bookmarked fields
+        data = data?.map(item => ({
+          ...item,
+          status: completedResourceIDs.includes(item._id),
+          bookmarked: bookmarkedResourceIDs.includes(item._id),
+        }));
+      } else {
+        // If user is not signed in, set all statuses and bookmarked fields to false
+        data = data?.map(item => ({
+          ...item,
+          status: false,
+          bookmarked: false,
+        }));
       }
-    };
+  
+      if (data) setTableData(data);
 
-      if (resourceType=="Yearly" || resourceType=="Topical")
-        fetchData();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    finally {
+      setIsLoadingData(false);
+    }
+  };
 
-  }, [resourceSubject, resourceType]);
+  useEffect(() => {
+    fetchData();
+  }, [resourceType, resourceSubject, resourceLevel, userID]);
+  
 
         
   return (
@@ -180,9 +187,10 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
         <div className="w-full px-2 md:px-6 flex_col_center">
           {/* https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming for loading skeleton while Data Table loads */}
-          <Suspense fallback={<p>Loading your resources...</p>}>
+
+          {isLoadingData ? <p className="w-full text-center">Loading your resources</p> :
             <DataTable columns={tableColumns} data={tableData}/>
-          </Suspense>
+          }
           
 
         </div>
