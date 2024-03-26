@@ -9,6 +9,7 @@ interface StudyResourceDocument extends Document {
   workingSolution?: string;
   videoSolution?: string;
   contributor?: string;
+  contributorUrl?: string;
   type: string;
 }
 
@@ -31,7 +32,8 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
   likes: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
-  contributor : { type : String}
+  contributor : { type : String },
+  contributorUrl : { type : String },
 }, { discriminatorKey: 'type' });
 
 
@@ -55,14 +57,3 @@ const YearlyPracticePaper: Model<YearlyPracticePaperDocument> = StudyResource.di
 
 export { StudyResource, TopicalPracticePaper, YearlyPracticePaper };
 
-/*
-
-YEARLY:
-curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"YearlyPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":2,\"avgStars\":4.5,\"userStarred\":2,\"assessment\":\"MYE\",\"year\":2024,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"YearlyPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":3,\"userStarred\":1,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Woodlands Ring Sec\",\"workingSolution\":\"https://www.svgrepo.com\"},{\"type\":\"YearlyPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"assessment\":\"Prelims\",\"year\":2023,\"schoolName\":\"Riverside Sec\"}]" "http://localhost:3000/api/studyresources/create"
-
-TOPICAL:
-
-curl -XPOST -H "Content-type: application/json" -d "[{\"type\":\"TopicalPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":1,\"avgStars\":5,\"userStarred\":1,\"topicName\":\"Indices\"},{\"type\":\"TopicalPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"E Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Statistics\",\"workingSolution\":\"https://www.svgrepo.com\",\"videoSolution\":\"https://www.youtube.com\"},{\"type\":\"TopicalPracticePaper\",\"status\":false,\"level\":\"Secondary\",\"subject\":\"A Math\",\"url\":\"https://www.google.com\",\"likes\":0,\"avgStars\":0,\"userStarred\":0,\"topicName\":\"Binomial Theorem\"}]" "http://localhost:3000/api/studyresources/create"
-
-
-*/

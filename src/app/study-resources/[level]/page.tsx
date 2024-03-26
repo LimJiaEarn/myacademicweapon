@@ -118,7 +118,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
 
   useEffect( ()=>{
-    const resourceTypeMerged = (resourceType as "Topical" | "Yearly" );
 
     const fetchData = async () => {
 
@@ -127,13 +126,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         setTableColumns(resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
 
           // Call a server action to get data to populate table
-          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: resourceTypeMerged, level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
+          let data : StudyResourceInterface[] | undefined = await getStudyResources({ type: (resourceType as 'Yearly' | 'Topical'), level: (resourceLevel as "Primary" | "Secondary" | "JC"), subject:  resourceSubject});
 
           // Next we update the status and bookmarks column based on past user interactions
           // If user is signed in, fetch the list of completed resources and update the status
           if (userID) {
 
-              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
+              const completedResourceIDs : string[] = await getStatusStudyResource({userID: userID as string, resourceType: (resourceType as 'Yearly' | 'Topical')});
 
               // Update the status field based on completedResourceIDs
               data = data?.map((item : StudyResourceInterface) => ({
@@ -141,7 +140,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
                 status: completedResourceIDs.includes(item._id),
               }));
 
-              const bookmarkedResourceIDs : string[] = await getBookmarksStudyResource({userID: userID as string, resourceType: resourceTypeMerged});
+              const bookmarkedResourceIDs : string[] = await getBookmarksStudyResource({userID: userID as string, resourceType: (resourceType as 'Yearly' | 'Topical')});
               // Update the status field based on completedResourceIDs
               data = data?.map((item : StudyResourceInterface) => ({
                 ...item,

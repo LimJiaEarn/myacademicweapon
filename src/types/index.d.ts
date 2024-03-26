@@ -48,7 +48,8 @@ interface StudyResourceInterface {
   desc?: string;
   url: string;
   likes: number;
-  contributor?: string // Person who created/contributed the resource
+  contributor?: string // Person/Organisation who created/contributed the resource
+  contributorUrl?: string // relevant links to this person/organisation 
 }
 
 interface StudyNotesInterface extends StudyResourceInterface {
