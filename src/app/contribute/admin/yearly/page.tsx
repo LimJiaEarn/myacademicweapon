@@ -1,5 +1,7 @@
 import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
+import { auth } from "@clerk/nextjs";
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 const createStudyResourceFormDetails : FormFieldConfig[] = [
     {
@@ -92,7 +94,12 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
 ]
 
 
-const AdminPage = () => {
+const AdminPage = async () => {
+
+  const { userId } = auth();
+  const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+  const userID = currentSignedInUserObject._id || null;
+  const contributorUrl = "https://www.myacademicweapon.com";
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"  
@@ -132,7 +139,8 @@ const AdminPage = () => {
             // Including optional properties only if they exist
             ...(workingSolution && { workingSolution }), 
             ...(videoSolution && { videoSolution }), 
-            ...(contributor && { contributor }), 
+            ...(contributor && { userID }), 
+            ...(contributorUrl && { contributorUrl }),
             ...(desc && { desc }), 
         };
         

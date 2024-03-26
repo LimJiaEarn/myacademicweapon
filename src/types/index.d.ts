@@ -87,6 +87,7 @@ interface CreateStudyResourcesParams  {
   url: string;
   likes: number;
   contributor?: string;
+  contributorUrl?: string;
 }
 
 interface CreatePracticePaperInterface extends CreateStudyResourcesParams {

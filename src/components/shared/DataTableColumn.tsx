@@ -127,6 +127,16 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
     {
         accessorKey: "assessment",
         header: ({ column }) => headerCell(column, "Assessment", true),
+        cell: info => {
+
+            const paper = (info.row.original as YearlyPracticePaper).paper || "";
+
+            return (
+            <div>
+                <p>{info.getValue() as string} P{paper}</p>
+            </div>
+            );
+        },
     },
     // schoolName
     {
@@ -140,19 +150,16 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
                 videoSolution = info.row.original.videoSolution;
             }
             return (
-            <div
-                className="flex_center gap-2"
-                onClick={() => {window.open(info.row.original.url, '_blank');}}
-            >
+            <div className="flex_center gap-2">
 
-                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                 {
                     workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/>
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
                 }
                 {
                     videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/>
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
                 }
                 
             </div>
@@ -193,19 +200,16 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
                 videoSolution = info.row.original.videoSolution;
             }
             return (
-                <div
-                className="flex_center"
-                onClick={() => {window.open(info.row.original.url, '_blank');}}
-            >
+            <div className="flex_center">
 
-                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in">{info.getValue() as string}</p>
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                 {
                     workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!"/>
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
                 }
                 {
                     videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!"/>
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
                 }
                 
             </div>

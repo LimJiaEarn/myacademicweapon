@@ -123,7 +123,7 @@ export const StudyResourceNavItems : StudyResourceNav = {
     },
     {
       id:"jcResources2",
-      title: "H1 Math",
+      title: "H2 Chem",
       resources: [
         "Topical Practice Papers",
         "Yearly Practice Papers",

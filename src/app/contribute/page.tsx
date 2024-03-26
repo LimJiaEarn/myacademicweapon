@@ -2,10 +2,15 @@
 import Form from '@/components/shared/Form';
 import { contributionFormDetails } from '../../../constants'
 import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
+import { auth } from "@clerk/nextjs";
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 
-const ContributePage = () => {
+const ContributePage = async () => {
 
+    const { userId } = auth();
+    const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+    const userID = currentSignedInUserObject._id || null;
 
     // TODO: Pass userID if user is signed in
     const handleSubmit = async (formData : {[key:string]:string}) => {
@@ -45,7 +50,9 @@ const ContributePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-                Your grand generosity helps <span className="text-[#fbbf24]">illuminate </span> the path for students!
+                Your contributions are the beacon for students navigating their educational journeys.
+                Embark on our mission to share the wealth of academic resources and
+                let's build a world where <span className="text-[#fbbf24]"> knowledge knows no boundaries!</span> 
             </p>
 
             
