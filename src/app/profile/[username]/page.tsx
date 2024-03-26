@@ -25,7 +25,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {/* User meta datas */}
             <section className="flex_center gap-4">
                 <div className="rounded-full">
-                    <Image src={currentUserProfileObject.photo} height={60} width={60} alt="userDP"/>
+                    <img src={currentUserProfileObject.photo} alt="userDP"/>
                 </div>
                 <div className="flex_col_center gap-2">
                     {/* TODO: Set user bio - client component */}
