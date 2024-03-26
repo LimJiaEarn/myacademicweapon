@@ -1,6 +1,5 @@
 
 import Form from '@/components/shared/Form';
-import { GlobeDemo } from '@/components/ui/GlobeDemo';
 import { contributionFormDetails } from '../../../constants'
 import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
 
@@ -46,27 +45,15 @@ const ContributePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-                Your contributions are the beacon for students navigating their educational journeys.
-                Embark on our mission to share the wealth of academic resources and
-                let's build a world where knowledge knows no boundaries! 
+                Your grand generosity helps <span className="text-[#fbbf24]">illuminate </span> the path for students!
             </p>
 
-            <div className="w-full flex justify-evenly items-center gap-4">
-
-                <div className="flex-auto hidden lg:flex debugger">
-                    <GlobeDemo />
-                </div>
-
-                <div className="flex-1">
-                    <Form
-                        fieldsConfig = {contributionFormDetails}
-                        customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
-                        handleSubmit={handleSubmit}
-                    />
-                </div>
-
-            </div>
             
+            <Form
+                fieldsConfig = {contributionFormDetails}
+                customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
+                handleSubmit={handleSubmit}
+            />
 
             
 
