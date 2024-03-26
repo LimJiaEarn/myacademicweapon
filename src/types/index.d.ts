@@ -16,6 +16,7 @@ declare type UserObject = {
   clerkId: string;
   email: string;
   username: string;
+  bio: string;
   firstName: string;
   lastName: string;
   planId: number;
@@ -35,6 +36,7 @@ declare type UpdateUserParams = {
   firstName: string;
   lastName: string;
   username: string;
+  bio: string;
   photo: string;
 };
 

@@ -130,8 +130,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   
     try {
 
-
-
       const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
       setTableColumns(columns);
   
@@ -155,7 +153,9 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           status: completedResourceIDs.includes(item._id),
           bookmarked: bookmarkedResourceIDs.includes(item._id),
         }));
-      } else {
+      }
+      
+      else {
         // If user is not signed in, set all statuses and bookmarked fields to false
         data = data?.map(item => ({
           ...item,
@@ -165,6 +165,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       }
   
       if (data) setTableData(data);
+      else setTableData([]);
+
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -188,7 +190,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         <div className="w-full px-2 md:px-6 flex_col_center">
           {/* https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming for loading skeleton while Data Table loads */}
 
-          {isLoadingData ? <p className="w-full text-center">Loading your resources</p> :
+          {isLoadingData ? <p className="w-full text-center">Loading your resources...</p> :
             <DataTable columns={tableColumns} data={tableData}/>
           }
           

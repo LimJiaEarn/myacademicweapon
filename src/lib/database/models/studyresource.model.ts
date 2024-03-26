@@ -38,7 +38,7 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
 
 
 // Export this initialized model
-const StudyResource: Model<StudyResourceDocument> = models.StudyResource || model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
+const StudyResource: Model<StudyResourceDocument> = models.StudyResources || model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
 
 const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({
   topicName: { type: String, required: true },

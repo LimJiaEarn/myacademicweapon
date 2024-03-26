@@ -5,6 +5,7 @@ interface IUser extends Document {
   clerkId: string;
   email: string;
   username: string;
+  bio: string;
   photo: string;
   firstName?: string; // Optional since it's not required
   lastName?: string;  // Optional since it's not required
@@ -27,6 +28,9 @@ const UserSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
+  },
+  bio: {
+    type: String,
   },
   photo: {
     type: String,

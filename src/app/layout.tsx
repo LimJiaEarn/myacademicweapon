@@ -23,9 +23,6 @@ export default function RootLayout({
   return (
   <ClerkProvider>
     <html lang="en">
-      <head>
-        <link rel='icon' href='/icon.svg' />
-      </head>
       <body className={inter.className}>
         <NavBar/>
         <div className="py-[7.5rem]">
