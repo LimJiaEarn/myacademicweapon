@@ -1,14 +1,14 @@
 "use client"
 
 import Image from 'next/image';
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { usePathname  } from 'next/navigation'
 
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@/components/shared/DataTable";
-import { getYearlyColumns, getTopicalColumns} from "@/components/shared/DataTableColumn";
+import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 
 // Server Actions
 import { updateStatusStudyResource, getStatusStudyResource, updateBookmarkStudyResource, getBookmarksStudyResource  } from '@/lib/actions/useractivity.actions';

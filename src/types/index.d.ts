@@ -77,9 +77,8 @@ interface YearlyPracticePaper extends PracticePaperInterface {
   paper: number;
 }
 
-declare type ISummarisedPracticePaper = {
+interface ISummarisedPracticePaper extends StudyResourceInterface {
   title: string;
-  url: string;
 }
 
 // Union type for StudyResource function parameters

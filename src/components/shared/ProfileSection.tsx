@@ -1,10 +1,10 @@
 
 type ProfileSectionProps = {
-    resourceObjects
+    resourceObjects : ISummarisedPracticePaper[]
 }
 
-import { getStatusStudyResource, getBookmarksStudyResource } from '@/lib/actions/useractivity.actions';
-import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
+
+
 
 const ProfileSection = async ({resourceObjects} : ProfileSectionProps) => {
 

@@ -5,7 +5,7 @@ import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions'
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 
-import ProfileSection from "@/components/shared/ProfileSection";
+import ProfilePageTable from "@/components/shared/ProfileTable";
 
 type UserActivityDict = {
     completed: string[];
@@ -20,6 +20,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+    const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
 
@@ -38,21 +39,32 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         return getStudyResourceByID(resourceId);
     });
 
-    const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises));
-    const completedResourceObjects = (await Promise.all(completedResourceObjectPromises));
+    const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
+    const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
+
 
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
         if (!resourceObject) return null;
 
         if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject)
             return {
+                _id: resourceObject._id.toString(),
+                status: true,
+                bookmark: true,
                 title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.assessment,
                 url : resourceObject.url,
+                ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
             }
         else if (resourceObject.type==="Topical" && 'topicName' in resourceObject)
             return {
+                _id: resourceObject._id.toString(),
+                status: true,
+                bookmark: true,
                 title : resourceObject.subject + " " + resourceObject.topicName,
                 url : resourceObject.url,
+                ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
             }
 
         return null;
@@ -61,6 +73,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
+    console.log(simplifiedCompletedResourceObjects);
 
     return (
         <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen">
@@ -96,15 +109,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
             {/* Bookmarks - only shown for own user's page */}
             {isOwnUser &&
-                <section className="w-full flex_col_center">
-                    <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Bookmarks</h2>
+            <section className="w-full flex_col_center">
+                <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Bookmarks</h2>
 
 
-                    <Suspense fallback={<p>Loading bookmarks...</p>}>
-                        <ProfileSection resourceObjects={simplifiedBookmarkedResourceObjects}/>
-                    </Suspense>
-                
-                </section>
+                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks"/>
+            
+            </section>
             }
 
             {/* Completed Papers */}
@@ -112,9 +123,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Completed Practice Papers</h2>
 
-                <Suspense fallback={<p>Loading completed papers...</p>}>
-                    <ProfileSection resourceObjects={simplifiedCompletedResourceObjects}/>
-                </Suspense>
+                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed"/>
+
 
             </section>
             

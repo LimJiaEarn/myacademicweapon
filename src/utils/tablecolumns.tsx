@@ -223,3 +223,86 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
         cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
     },
 ];
+
+
+export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+    // Status
+    {
+        accessorKey: 'status', // This should match the key in your data for the status
+        header: 'Status',
+        cell: info => statusCell(info, onToggleStatus, userID),
+    },
+    // Resource
+    {
+        accessorKey: "title",
+        header: ({ column }) => headerCell(column, "Resource", true),
+        cell: info => {
+
+            let workingSolution  = null;
+            let videoSolution = null;
+
+            if ('workingSolution' in info.row.original){
+                workingSolution = info.row.original.workingSolution as string;
+            }
+            if ('videoSolution' in info.row.original){
+                videoSolution = info.row.original.videoSolution as string;
+            }
+            return (
+            <div className="flex_center">
+
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                {
+                    workingSolution &&
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                }
+                {
+                    videoSolution &&
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                }
+                
+            </div>
+            );
+        },
+    },
+];
+
+export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+    // Bookmark
+    {
+        accessorKey: 'bookmark', // This should match the key in your data for the status
+        header: 'Bookmarks',
+        cell: info => bookmarkCell(info, onToggleBookmark, userID),
+    },
+    // Resource
+    {
+        accessorKey: "title",
+        header: ({ column }) => headerCell(column, "Resource", true),
+        cell: info => {
+
+            let workingSolution  = null;
+            let videoSolution = null;
+
+            if ('workingSolution' in info.row.original){
+                workingSolution = info.row.original.workingSolution as string;
+            }
+            if ('videoSolution' in info.row.original){
+                videoSolution = info.row.original.videoSolution as string;
+            }
+            return (
+            <div className="flex_center">
+
+                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                {
+                    workingSolution &&
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                }
+                {
+                    videoSolution &&
+                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                }
+                
+            </div>
+            );
+        },
+    },
+];
