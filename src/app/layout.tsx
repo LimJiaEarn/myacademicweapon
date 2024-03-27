@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NavBar/>
-        <div className="py-[7.5rem]">
+        <div className="py-[7.5rem] min-h-screen">
           {children}
         </div>
         <Footer/>
