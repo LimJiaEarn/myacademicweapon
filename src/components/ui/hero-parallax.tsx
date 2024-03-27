@@ -184,6 +184,7 @@ export const ProductCard = ({
             sizes="(max-width:290px) 100vw"
             className="object-cover"
             alt={product.title}
+            quality={90}
           />
         </div>
         

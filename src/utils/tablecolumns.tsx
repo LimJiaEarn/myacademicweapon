@@ -107,13 +107,13 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
     // Bookmark
     {
         accessorKey: 'bookmark', // This should match the key in your data for the status
-        header: 'Bookmarks',
+        header: ({ column }) => headerCell(column, "Bookmarks", false),
         cell: info => bookmarkCell(info, onToggleBookmark, userID),
     },
-    // Status
+    // // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
-        header: 'Status',
+        header: ({ column }) => headerCell(column, "Status", false),
         cell: info => statusCell(info, onToggleStatus, userID),
     },
     // Year
@@ -127,11 +127,11 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
         header: ({ column }) => headerCell(column, "Assessment", true),
         cell: info => {
 
-            const paper = (info.row.original as YearlyPracticePaper).paper || "";
+            const paper = "P" + (info.row.original as YearlyPracticePaper).paper || "";
 
             return (
             <div>
-                <p>{info.getValue() as string} P{paper}</p>
+                <p>{info.getValue() as string} {paper}</p>
             </div>
             );
         },
@@ -147,6 +147,9 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
                 workingSolution = info.row.original.workingSolution;
                 videoSolution = info.row.original.videoSolution;
             }
+
+
+
             return (
             <div className="flex_center gap-2">
 
@@ -164,25 +167,25 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
             );
         },
     },
-    // likes
-    {
-        accessorKey: "likes",
-        header: ({ column }) => headerCell(column, "Likes", true),
-        cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
-    },
+    // // likes
+    // {
+    //     accessorKey: "likes",
+    //     header: ({ column }) => headerCell(column, "Likes", true),
+    //     cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
+    // },
 ];
 
 export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
     // Bookmark
     {
         accessorKey: 'bookmark', // This should match the key in your data for the status
-        header: 'Bookmarks',
+        header: ({ column }) => headerCell(column, "Bookmarks", false),
         cell: info => bookmarkCell(info, onToggleBookmark, userID),
     },
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
-        header: 'Status',
+        header: ({ column }) => headerCell(column, "Status", false),
         cell: info => statusCell(info, onToggleStatus, userID),
     },
     // topicName
@@ -214,12 +217,12 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
             );
         },
     },
-    // likes
-    {
-        accessorKey: "likes",
-        header: ({ column }) => headerCell(column, "Likes", true),
-        cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
-    },
+    // // likes
+    // {
+    //     accessorKey: "likes",
+    //     header: ({ column }) => headerCell(column, "Likes", true),
+    //     cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
+    // },
 ];
 
 
@@ -227,7 +230,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     // Status
     ...(isOwnUser ? [{
         accessorKey: 'status', // This should match the key in your data for the status
-        header: 'Status',
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Status", false),
         cell: (info: CellContext<any, any>) => statusCell(info, onToggleStatus, userID),
     }] : []),
     // Resource
@@ -268,7 +271,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
     // Bookmark
     ...(isOwnUser ? [{
         accessorKey: 'bookmark', // This should match the key in your data for the status
-        header: 'Bookmarks',
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Bookmarks", false),
         cell: (info: CellContext<any, any>) => bookmarkCell(info, onToggleBookmark, userID),
     }] : []),
     // Resource

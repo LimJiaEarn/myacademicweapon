@@ -38,6 +38,9 @@ body {
   overflow-x: hidden;
 }
 
+p {
+  font-size: 1rem;
+}
 
 
 @layer utilities {

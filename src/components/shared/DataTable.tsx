@@ -37,15 +37,15 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  searchFilter: string;
 }
 
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTableProps<TData, TValue>, ) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const [filterColumn, setFilterColumn] = useState("schoolName")
 
   const table = useReactTable({
     data,
@@ -62,12 +62,17 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     },
   });
 
-  // Filtering Usestates
+  // Filtering usestates
   const [statusValue, setStatusValue] = useState("");
   const [assessmentValue, setAssessmentValue] = useState("");
   const [topicName, setTopicName] = useState("");
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
+
+  let filterPlaceholder = ""
+  if (searchFilter==="schoolName") filterPlaceholder = "Search School";
+  else if (searchFilter==="topicName") filterPlaceholder = "Search Topics";
+  else filterPlaceholder = "Search Title"; 
   
   return (
     <div className="w-full">
@@ -165,12 +170,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
         {/* Search Filter */}
         {
-          columns.some(column => 'accessorKey' in column && column.accessorKey === 'schoolName') &&
+          columns.some(column => 'accessorKey' in column) &&
           <div className="flex items-center py-4">
             <input
-              placeholder={`Filtering ${filterColumn} ...`}
-              value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn(filterColumn)?.setFilterValue(event.target.value)}
+              placeholder={filterPlaceholder}
+              value={(table.getColumn(searchFilter)?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn(searchFilter)?.setFilterValue(event.target.value)}
               className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             />
           </div>
