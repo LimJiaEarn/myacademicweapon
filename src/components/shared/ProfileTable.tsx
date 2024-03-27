@@ -14,11 +14,12 @@ import { updateStatusStudyResource, updateBookmarkStudyResource } from '@/lib/ac
 type ProfilePageTableProps = {
     data : ISummarisedPracticePaper[];
     userID : string;
-    sectionType : "Bookmarks" | "Completed"
+    sectionType : "Bookmarks" | "Completed";
+    isOwnUser: boolean; // if this is false, we do not need to display the bookmark / status icons
 }
 
 
-const ProfilePageTable = ( {data, userID, sectionType} : ProfilePageTableProps ) => {
+const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
 
     const [tableData, setTableData] = useState(data);
 
@@ -93,9 +94,8 @@ const ProfilePageTable = ( {data, userID, sectionType} : ProfilePageTableProps )
         }
     };
 
-    const columns = sectionType==="Bookmarks" ?  getProfileBookmarkedColumns(onToggleBookmark, userID) : getProfileCompletedColumns(onToggleStatus, userID);
+    const columns = sectionType==="Bookmarks" ?  getProfileBookmarkedColumns(onToggleBookmark, userID, isOwnUser) : getProfileCompletedColumns(onToggleStatus, userID, isOwnUser);
       
-
         
   return (
 

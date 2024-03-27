@@ -30,8 +30,8 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
                 alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
-                height={25}
-                width={25}
+                height={35}
+                width={35}
                 onClick={(e) => {
                     e.stopPropagation(); // Prevent row click event
                     e.preventDefault();
@@ -53,7 +53,6 @@ D:\myacademicweapon\public\images
 const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
     const studyResourceID = info.row.original._id; // Access the id of the row
     const status = info.getValue() as boolean; // This is your boolean status
-    const buttonClass = status ? 'bg-green-300' : 'bg-red-300'; // Class based on the status
     return (
     <div className="w-full flex justify-center">
         <input
@@ -64,9 +63,8 @@ const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFun
                 e.preventDefault();
                 onToggleStatus(studyResourceID, userID, !status); 
             }}
-            className="mr-2"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
         />
-        <span  className={`${buttonClass} text-white px-1 py-1 rounded-full text-xs`}>{status ? 'Completed' : 'Incomplete'}</span>
     </div>
     );
 }
@@ -225,13 +223,13 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 ];
 
 
-export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
     // Status
-    {
+    ...(isOwnUser ? [{
         accessorKey: 'status', // This should match the key in your data for the status
         header: 'Status',
-        cell: info => statusCell(info, onToggleStatus, userID),
-    },
+        cell: (info: CellContext<any, any>) => statusCell(info, onToggleStatus, userID),
+    }] : []),
     // Resource
     {
         accessorKey: "title",
@@ -266,13 +264,13 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     },
 ];
 
-export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
+export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
     // Bookmark
-    {
+    ...(isOwnUser ? [{
         accessorKey: 'bookmark', // This should match the key in your data for the status
         header: 'Bookmarks',
-        cell: info => bookmarkCell(info, onToggleBookmark, userID),
-    },
+        cell: (info: CellContext<any, any>) => statusCell(info, onToggleBookmark, userID),
+    }] : []),
     // Resource
     {
         accessorKey: "title",

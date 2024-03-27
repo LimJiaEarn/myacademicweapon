@@ -1,5 +1,4 @@
 import { auth } from "@clerk/nextjs";
-import { Suspense } from 'react';
 import Image from 'next/image';
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
@@ -23,6 +22,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
+    console.log(isOwnUser);
 
     // Get user data
     const currentUserProfileTopicalData : UserActivityDict = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
@@ -73,7 +73,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
-    console.log(simplifiedCompletedResourceObjects);
 
     return (
         <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen">
@@ -113,7 +112,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Bookmarks</h2>
 
 
-                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks"/>
+                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser}/>
             
             </section>
             }
@@ -123,7 +122,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Completed Practice Papers</h2>
 
-                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed"/>
+                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser}/>
 
 
             </section>
