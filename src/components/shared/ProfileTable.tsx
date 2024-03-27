@@ -101,7 +101,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
 
       <div className="w-3/5">
       {tableData?
-            <DataTable columns={columns} data={tableData}/>
+            <DataTable columns={columns} data={tableData} searchFilter="title"/>
         :
         // Render a CTA image
         <div className="py-4 flex_col_center gap-4">

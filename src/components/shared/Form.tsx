@@ -39,7 +39,14 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles }: FormProps) => {
 
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    handleSubmit(formData); 
+    try{
+      handleSubmit(formData);
+    }
+    catch(e){
+      // TODO: Nicer alerts
+      alert("Error in submitting, please try again later!");
+    }
+
   };
 
   const handleSelectChange = (key: string, value: string) => {

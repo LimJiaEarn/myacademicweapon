@@ -2,6 +2,7 @@ import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 import { auth } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
+import { redirect } from 'next/navigation';
 
 
 const createStudyResourceFormDetails : FormFieldConfig[] = [
@@ -76,6 +77,11 @@ const AdminPage = async () => {
   const { userId } = auth();
   const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
   const userID = currentSignedInUserObject._id || null;
+
+  if (userID !== "65edc417ad7e5698dc2349cd"){
+    redirect('/contribute');
+  }
+
 
   const contributorUrl = "https://www.myacademicweapon.com";
 

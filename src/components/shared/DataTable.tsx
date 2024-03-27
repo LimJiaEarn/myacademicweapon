@@ -261,7 +261,7 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
         </Table>
         
         {/* Prev and Next Buttons */}
-        {table.getRowModel().rows?.length > 10 &&
+        {/* {table.getRowModel().rows?.length > 10 && */}
         <div className="flex_center gap-2">
             <button className="bg-green-300 rounded-full px-4 cursor-pointer" 
                 onClick={() => table.previousPage()}
@@ -276,7 +276,7 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
                 Next
             </button>
         </div>
-        }
+      
 
       </div>
     </div>
