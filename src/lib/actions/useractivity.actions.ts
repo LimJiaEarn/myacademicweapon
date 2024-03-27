@@ -243,3 +243,4 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
         return { completed: [], bookmarked: [] }; 
     }
 }
+

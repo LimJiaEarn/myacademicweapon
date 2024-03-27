@@ -269,7 +269,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
     ...(isOwnUser ? [{
         accessorKey: 'bookmark', // This should match the key in your data for the status
         header: 'Bookmarks',
-        cell: (info: CellContext<any, any>) => statusCell(info, onToggleBookmark, userID),
+        cell: (info: CellContext<any, any>) => bookmarkCell(info, onToggleBookmark, userID),
     }] : []),
     // Resource
     {

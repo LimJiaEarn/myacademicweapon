@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth, UserButton } from "@clerk/nextjs";
 import Image from 'next/image';
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
@@ -6,10 +6,7 @@ import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 
 import ProfilePageTable from "@/components/shared/ProfileTable";
 
-type UserActivityDict = {
-    completed: string[];
-    bookmarked: string[];
-}
+
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
@@ -22,15 +19,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-    console.log(isOwnUser);
 
     // Get user data
-    const currentUserProfileTopicalData : UserActivityDict = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : UserActivityDict = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
 
     // fetch resource data
     const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+    
     const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
         return getStudyResourceByID(resourceId);
     });
@@ -73,6 +70,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
+    // To test loading
+    const delay = (ms: number) => new Promise<number>(resolve => setTimeout(() => resolve(ms), ms));
+
+    delay(1000).then((value) => {
+    console.log(`Waited for ${value / 1000} seconds`);
+    });
 
     return (
         <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen">
@@ -80,6 +83,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
                 
+
+
                 <Image className="rounded-full" src={currentUserProfileObject.photo} alt="userDP" height={150} width={150}/>
                 
                 <div className="flex_col_center gap-4">
