@@ -42,7 +42,7 @@ export const studyResourcesNav = [
   {
     id:"studyResources3",
     label: "JC",
-    route: "/study-resources/jc",
+    route: "/study-resources/JC",
     title: "Tertiary Titans Tower",
     descShort: "For JC Students",
     desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
@@ -111,7 +111,7 @@ export const StudyResourceNavItems : StudyResourceNav = {
       ]
     },
   ],
-  "jc":
+  "JC":
   [    
     {
       id:"jcResources1",

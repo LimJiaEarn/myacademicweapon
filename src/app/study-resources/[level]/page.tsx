@@ -20,7 +20,7 @@ import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
 function capitalize(str : string) {
   if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 
@@ -132,7 +132,12 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
       const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
       setTableColumns(columns);
-  
+      
+      console.log(`resourceType: ${resourceType}`);
+      console.log(`resourceLevel: ${resourceLevel}`);
+      console.log(`resourceSubject: ${resourceSubject}`);
+
+
       // Call a server action to get data to populate the table
       let data: StudyResourceInterface[] | undefined = await getStudyResources({
         type: resourceType as 'Yearly' | 'Topical',
