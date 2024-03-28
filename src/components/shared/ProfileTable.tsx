@@ -23,7 +23,6 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
 
     const [tableData, setTableData] = useState(data);
 
-    // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
 
         // Only signed in users are allowed 
@@ -51,6 +50,8 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             return item;
             })
         );
+
+
 
         } 
         catch (error) {
@@ -87,6 +88,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             })
         );
 
+
         } 
         catch (error) {
             alert('Failed to update bookmark, try again later!');
@@ -99,14 +101,24 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
         
   return (
 
-      <div className="w-3/5">
-      {tableData?
-            <DataTable columns={columns} data={tableData} searchFilter="title"/>
+      <div className="w-4/5">
+      {tableData.length > 0?
+            <DataTable
+                columns={columns}
+                data={tableData}
+                searchFilter="title"
+                tableStyles="bg-green-100 rounded-lg"
+                headerRowStyles="bg-emerald-300 rounded-t-lg"
+                headerCellStyles="flex_center text-black text-md font-semibold"
+                dataRowStyles="transition ease-in-out delay-125 hover:bg-green-200"
+                dataCellStyles="align-middle text-center"
+                nextButtonStyles="bg-green-300 rounded-full px-4 cursor-pointer"
+            />
         :
         // Render a CTA image
         <div className="py-4 flex_col_center gap-4">
           {/* <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/> */}
-          <p className="text-slate-400 text-lg capitalize">No Data Found!</p>
+          <p className="text-slate-400 text-lg">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
         </div>
       }
     </div>

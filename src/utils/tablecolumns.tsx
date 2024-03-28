@@ -30,8 +30,8 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
                 alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
-                height={35}
-                width={35}
+                height={30}
+                width={30}
                 onClick={(e) => {
                     e.stopPropagation(); // Prevent row click event
                     e.preventDefault();
@@ -63,7 +63,7 @@ const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFun
                 e.preventDefault();
                 onToggleStatus(studyResourceID, userID, !status); 
             }}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+            className="checkbox w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500  focus:ring-2"
         />
     </div>
     );
@@ -151,7 +151,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
 
 
             return (
-            <div className="flex_center gap-2">
+            <div className="flex flex-row gap-2 items-center">
 
                 <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                 {
@@ -227,12 +227,6 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 
 
 export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
-    // Status
-    ...(isOwnUser ? [{
-        accessorKey: 'status', // This should match the key in your data for the status
-        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Status", false),
-        cell: (info: CellContext<any, any>) => statusCell(info, onToggleStatus, userID),
-    }] : []),
     // Resource
     {
         accessorKey: "title",
@@ -265,15 +259,38 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             );
         },
     },
+    // Edit
+    ...(isOwnUser ? [{
+        accessorKey: 'bookmark', // This should match the key in your data for the status
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
+        cell: (info: CellContext<any, any>) => {
+            const studyResourceID = info.row.original._id; // Access the id of the row
+            return (
+            <div className="w-full flex justify-center" >
+                <div className="tooltip" data-tooltip="remove">
+                    <Image
+                        src='/icons/remove.svg'
+                        alt='remove'
+                        height={25}
+                        width={25}
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            e.preventDefault();
+                            onToggleStatus(studyResourceID, userID, false); 
+                        }}
+                        className="hover:cursor-pointer"
+                        
+                    />
+                </div>
+        
+                
+            </div>
+            );
+        },
+    }] : []),
 ];
 
 export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
-    // Bookmark
-    ...(isOwnUser ? [{
-        accessorKey: 'bookmark', // This should match the key in your data for the status
-        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Bookmarks", false),
-        cell: (info: CellContext<any, any>) => bookmarkCell(info, onToggleBookmark, userID),
-    }] : []),
     // Resource
     {
         accessorKey: "title",
@@ -306,4 +323,33 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             );
         },
     },
+    // Edit
+    ...(isOwnUser ? [{
+        accessorKey: 'bookmark', // This should match the key in your data for the status
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
+        cell: (info: CellContext<any, any>) => {
+            const studyResourceID = info.row.original._id; // Access the id of the row
+            return (
+            <div className="w-full flex justify-center" >
+                <div className="tooltip" data-tooltip="remove">
+                    <Image
+                        src='/icons/remove.svg'
+                        alt='remove'
+                        height={25}
+                        width={25}
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            e.preventDefault();
+                            onToggleBookmark(studyResourceID, userID, false); 
+                        }}
+                        className="hover:cursor-pointer"
+                        
+                    />
+                </div>
+        
+                
+            </div>
+            );
+        },
+    }] : []),
 ];

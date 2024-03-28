@@ -43,12 +43,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
         if (!resourceObject) return null;
 
-        if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject)
+        if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject)
             return {
                 _id: resourceObject._id.toString(),
                 status: true,
                 bookmark: true,
-                title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.assessment,
+                title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
                 url : resourceObject.url,
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 

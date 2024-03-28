@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {
   ColumnDef,
   SortingState,
+  VisibilityState,
   getSortedRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
@@ -32,20 +33,30 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+/*
+  Documentation: https://ui.shadcn.com/docs/components/data-table
+*/
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   searchFilter: string;
+  tableStyles?:string;
+  headerRowStyles?: string;
+  headerCellStyles?:string;
+  dataRowStyles?: string;
+  dataCellStyles?: string;
+  nextButtonStyles?: string;
 }
 
 
-export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTableProps<TData, TValue>, ) {
+
+export function DataTable<TData, TValue>({ columns, data, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const table = useReactTable({
     data,
@@ -56,9 +67,11 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       columnFilters,
+      columnVisibility,
     },
   });
 
@@ -78,6 +91,66 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
     <div className="w-full">
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
+
+        <div>
+
+          {/* TOFIX: Can hide columns but unable to hide back columns */}
+          {table
+            .getAllColumns()
+            .map((column, index) => {
+              return (
+                <div key={column.id+"_"+index}>
+                <input
+                  type="checkbox"
+                  checked={column.getIsVisible()}
+                  onChange={(value) =>{
+                    console.log(`Clicked hide/unhide for ${value}`);
+                    column.toggleVisibility(!value);
+                  }
+                  }
+                />
+                <div>{column.id}</div>
+                </div>
+                
+                
+              )
+            })}
+        </div>
+
+        {/* 
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter(
+                (column) => column.getCanHide()
+              )
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>  
+        
+        
+        
+        */}
+
 
         
         {/* Status Filter Select */}
@@ -185,16 +258,16 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
 
       <div className="">
 
-        <Table className="">
+        <Table className={tableStyles ? tableStyles : ''}>
           
-          <TableHeader>
+          <TableHeader className="rounded-t-lg">
             {table.getHeaderGroups().map((headerGroup) => (
 
-              <TableRow key={headerGroup.id} className="bg-slate-400">
+              <TableRow key={headerGroup.id} className={headerRowStyles ? headerRowStyles : `bg-slate-400`}>
                 {headerGroup.headers.map((header, index) => {
                   return (
                     <TableHead key={header.id}>
-                      <div className={`flex_center text-black text-md font-semibold`}>
+                      <div className={headerCellStyles ? headerCellStyles : `flex_center text-black text-md font-semibold`}>
                         {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -202,7 +275,7 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
                             header.getContext()
                           )}
                       </div>
-                      
+                                           
                     </TableHead>
                   )
                 })}
@@ -212,18 +285,18 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows?.length ?
+            {data.length > 0 ?
             (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`hover:bg-slate-200`}
+                  className={dataRowStyles ? dataRowStyles : `hover:bg-slate-200`}
                 >
 
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className={dataCellStyles ? dataCellStyles : 'align-middle text-center'}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                   )})}
@@ -261,22 +334,24 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter }: DataTa
         </Table>
         
         {/* Prev and Next Buttons */}
-        {/* {table.getRowModel().rows?.length > 10 && */}
+        {data.length > 10 &&
         <div className="flex_center gap-2">
-            <button className="bg-green-300 rounded-full px-4 cursor-pointer" 
+            <button
+                className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-full px-4 cursor-pointer'} 
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
             >
                 Prev
             </button>
-            <button className="bg-green-300 rounded-full px-4 cursor-pointer"
+            <button
+              className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-full px-4 cursor-pointer'}
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
             >
                 Next
             </button>
         </div>
-      
+        }
 
       </div>
     </div>

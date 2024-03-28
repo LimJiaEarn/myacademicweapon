@@ -188,10 +188,21 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       {resourceLevel && resourceSubject && resourceType?
 
         <div className="w-full px-2 md:px-6 flex_col_center">
-          {/* https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#what-is-streaming for loading skeleton while Data Table loads */}
+
+
 
           {isLoadingData ? <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p> :
-            <DataTable columns={tableColumns} data={tableData} searchFilter={resourceType==="Yearly" ? 'schoolName' : 'topicName'}/>
+            <DataTable
+              columns={tableColumns}
+              data={tableData}
+              searchFilter={resourceType==="Yearly" ? 'schoolName' : 'topicName'}
+              tableStyles="bg-slate-200 rounded-lg"
+              headerRowStyles="bg-slate-400 rounded-t-lg"
+              headerCellStyles="flex_center text-black text-md font-semibold"
+              dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-300"
+              dataCellStyles="align-middle text-center"
+              nextButtonStyles="bg-green-300 rounded-full px-4 cursor-pointer"
+            />
           }
           
 
