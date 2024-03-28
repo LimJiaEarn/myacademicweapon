@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import {
@@ -82,40 +82,25 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter, tableSty
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
 
-  let filterPlaceholder = ""
-  if (searchFilter==="schoolName") filterPlaceholder = "Search School";
-  else if (searchFilter==="topicName") filterPlaceholder = "Search Topics";
-  else filterPlaceholder = "Search Title"; 
+  const filterPlaceholder = "Search "+ searchFilter;
+
+  // Hide Status, Bookmark columns
+  // Hide Year & Assessment columns for Yearly
+  useEffect(()=>{
+
+    const toHideColumns = ["bookmark", "status", "year", "assessment"];
+    table.getAllColumns().map((column) => {
+      if (toHideColumns.includes(column.id)){
+        column.toggleVisibility(false);
+      }
+    })
+  }, [])
   
   return (
     <div className="w-full">
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
 
-        <div>
-
-          {/* TOFIX: Can hide columns but unable to hide back columns */}
-          {table
-            .getAllColumns()
-            .map((column, index) => {
-              return (
-                <div key={column.id+"_"+index}>
-                <input
-                  type="checkbox"
-                  checked={column.getIsVisible()}
-                  onChange={(value) =>{
-                    console.log(`Clicked hide/unhide for ${value}`);
-                    column.toggleVisibility(!value);
-                  }
-                  }
-                />
-                <div>{column.id}</div>
-                </div>
-                
-                
-              )
-            })}
-        </div>
 
         {/* 
         <DropdownMenu>

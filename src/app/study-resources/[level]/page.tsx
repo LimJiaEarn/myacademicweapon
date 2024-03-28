@@ -163,6 +163,29 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           bookmarked: false,
         }));
       }
+
+      // Summarise the data into `resource` for the table
+      // Yearly: .year + .assessment + .schoolName + .paper
+      // Topical: topicName
+
+      if (resourceType==="Yearly"){
+        data = (data as YearlyPracticePaper[])?.map(item=> ({
+          ...item,
+          resource : item.year + " " + item.schoolName +  " " + item.assessment +  " P" + item.paper 
+        }))
+      }
+      else if (resourceType==="Topical"){
+        data = (data as TopicalPracticePaper[])?.map(item=> ({
+          ...item,
+          resource : item.topicName, 
+        }))
+      }
+      // For other future types eg Notes/Summaries
+      else{
+        console.log("Other types");
+      }
+
+
   
       if (data) setTableData(data);
       else setTableData([]);
@@ -195,7 +218,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
             <DataTable
               columns={tableColumns}
               data={tableData}
-              searchFilter={resourceType==="Yearly" ? 'schoolName' : 'topicName'}
+              searchFilter="resource"
               tableStyles="bg-slate-200 rounded-lg"
               headerRowStyles="bg-slate-400 rounded-t-lg"
               headerCellStyles="flex_center text-black text-md font-semibold"
@@ -211,7 +234,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         // Render a CTA image
         <div className="py-4 flex_col_center gap-4">
           <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-          <p className="text-slate-400 text-lg capitalize">Select A Subject To Begin!</p>
+          <p className="text-slate-400 text-lg capitalize">Select Content To Begin!</p>
         </div>
       }
     </div>
