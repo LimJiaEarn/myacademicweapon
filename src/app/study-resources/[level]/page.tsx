@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { usePathname  } from 'next/navigation'
+import { useToast } from "@/components/ui/use-toast"
 
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table"
@@ -38,6 +39,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const [userID, setUserID] = useState<string | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
 
+  // https://ui.shadcn.com/docs/components/toast
+  const { toast } = useToast();
 
   // Sets the column of the table to be displayed
   // 2 main types - Yearly & Topical
@@ -74,6 +77,20 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           return item;
         })
       );
+      
+      if (newStatus){
+        toast({
+          title: "Marked as complete!",
+          description: "Yay! The best never rest, onto the next one!",
+        })
+      }
+      else{
+        toast({
+          title: "Marked as incomplete!",
+          description: "Phew! That wasn't so simple, Ima try another one!",
+        })
+      }
+      
 
     } 
     catch (error) {
@@ -109,6 +126,11 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           return item;
         })
       );
+
+      toast({
+        title: "Added Bookmark!",
+        description: "View all your bookmarks @ profile",
+      })
 
     } 
     catch (error) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css";
 import NavBar from "../components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
@@ -30,6 +31,7 @@ export default function RootLayout({
         </div>
         <Footer/>
         <SpeedInsights />
+        <Toaster />
       </body>
     </html>
   </ClerkProvider>
