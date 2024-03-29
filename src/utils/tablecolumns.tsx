@@ -31,7 +31,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
         <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
-                alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
+                alt="bookmark"
                 height={30}
                 width={30}
                 onClick={(e) => {
@@ -44,17 +44,6 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
             />
         </div>
         
-        {/* <input
-            type="checkbox"
-            checked={status} // Checkbox is checked if status is true (Completed)
-            onChange={(e) => {
-                e.stopPropagation(); // Prevent row click event
-                e.preventDefault();
-                onToggleStatus(studyResourceID, userID, !status); 
-            }}
-            className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-        /> */}
-        
         <label className="inline-block relative cursor-pointer">
             <input
                 type="checkbox"
@@ -66,7 +55,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                 }}
                 className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
             />
-            <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-green-600' : 'bg-gray-100 border-gray-300'}`}></span>
+            <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-gray-100 border-gray-300'}`}></span>
             {status && (
                 <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {/* SVG path for checkmark */}
@@ -381,7 +370,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
     },
     // Edit
     ...(isOwnUser ? [{
-        accessorKey: 'bookmark', // This should match the key in your data for the status
+        accessorKey: 'resource', // This should match the key in your data for the status
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row

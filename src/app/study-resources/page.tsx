@@ -59,10 +59,9 @@ const StudyResourcesPage = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-            Forged in the academic foundry by an alliance of experienced tutors, dedicated teachers, and
-            victorious students, our Royal Treasury brims with
-            meticulously crafted study materials. Each material is
-            polished through <span className="font-bold text-orange-400">years of teaching wisdom and triumphant exam strategies.</span>
+            Forged in the academic foundry by an alliance of <span className="font-semibold text-orange-400"> experienced tutors, dedicated teachers, and
+            victorious students</span>, our Royal Treasury brims with
+            meticulously crafted study materials!
           </p>
 
           <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">

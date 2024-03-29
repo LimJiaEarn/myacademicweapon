@@ -38,10 +38,14 @@ import {
 */
 
 
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  searchFilter: string;
+  showStatusFilter?: boolean
+  showBookmarkFilter?: boolean
+  selectorFilters?: SelectorFieldConfig[];
+  searchFilter?: string;
   tableStyles?:string;
   headerRowStyles?: string;
   headerCellStyles?:string;
@@ -52,7 +56,7 @@ interface DataTableProps<TData, TValue> {
 
 
 
-export function DataTable<TData, TValue>({ columns, data, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -75,10 +79,13 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter, tableSty
     },
   });
 
-  // Filtering usestates
-  const [statusValue, setStatusValue] = useState("");
-  const [assessmentValue, setAssessmentValue] = useState("");
-  const [topicName, setTopicName] = useState("");
+  // Selector states
+  const [filterSelectorValue, setFilterSelectorValue] = useState<{[key : string]: string}>({});
+
+  // Status states
+  const [showBookmarked, setShowBookmarked] = useState(false);
+  const [showIncomplete, setShowIncomplete] = useState(false);
+
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
 
@@ -100,46 +107,57 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter, tableSty
     <div className="w-full">
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
+        
+        <div className="flex_center gap-4 md:gap-6">
+          {showBookmarkFilter &&
+          <div className="flex_center gap-2">
+            <div className="inline-block relative cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showBookmarked}
+                onChange={(e) => {
+                  e.preventDefault();
+                  table.getColumn("bookmark")?.setFilterValue(e.target.checked ? true : null);
+                  setShowBookmarked(e.target.checked); // Update the displayed value to reflect the selection
+                }}
+                className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
+              />
+              <span className={`block w-6 h-6 rounded-md border-2 ${showBookmarked ? 'bg-amber-300 border-amber-600' : 'bg-gray-100 border-gray-300'}`}></span>
+              {showBookmarked && (
+                <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="6" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </div>
+            <label className="text-text_gray">Show Bookmarked</label>
+          </div>}
+          {showStatusFilter &&
+          <div className="flex_center gap-2">
+            <div className="inline-block relative cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showIncomplete}
+                onChange={(e) => {
+                  e.preventDefault();
+                  table.getColumn("status")?.setFilterValue(e.target.checked ? false : null);
+                  setShowIncomplete(e.target.checked); // Update the displayed value to reflect the selection
+                }}
+                className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
+              />
+              <span className={`block w-6 h-6 rounded-md border-2 ${showIncomplete ? 'bg-amber-300 border-amber-600' : 'bg-gray-100 border-gray-300'}`}></span>
+              {showIncomplete && (
+                <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="6" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </div>
+            <label className="text-text_gray">Show Unattempted</label>
+          </div>}
+        </div>
 
 
-        {/* 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>  
-        
-        
-        
-        */}
-
-
-        
         {/* Status Filter Select */}
-        <Select
+        {/* <Select
           onValueChange={(value) => {
             if (value === CLEAR_FILTER_VALUE) {
               table.getColumn("status")?.setFilterValue(null);
@@ -160,75 +178,57 @@ export function DataTable<TData, TValue>({ columns, data, searchFilter, tableSty
             <SelectItem  className="hover:cursor-pointer" value="Incomplete">Incomplete</SelectItem>
             <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
+        
+        { selectorFilters &&
+        <div className="flex_center gap-2 md:gap-4">
+          {selectorFilters.map((selectorFilter, index) => {
+            return(
+            <Select
+              key={selectorFilter.id+"_"+index}
+              onValueChange={(value) => {
+                
+                if (value === CLEAR_FILTER_VALUE) {
+                  table.getColumn(selectorFilter.id)?.setFilterValue(null);
+                  setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:""}))
+                }
+                
+                else {
+                  table.getColumn(selectorFilter.id)?.setFilterValue(value);
+                  setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:value}))
+                  
+                }
 
-        {/* Assessment Filter Select which only displays if there are any assessment column*/}
-        {
-          columns.some(column => 'accessorKey' in column && column.accessorKey === 'assessment') &&
-          <Select
-            onValueChange={(value) => {
-              if (value === CLEAR_FILTER_VALUE) {
-                table.getColumn("assessment")?.setFilterValue(null);
-                setAssessmentValue(""); // Reset the displayed value to show the placeholder
-              } else {
-                table.getColumn("assessment")?.setFilterValue(value);
-                setAssessmentValue(value); // Update the displayed value to reflect the selection
-              }
-            }}
-            value={assessmentValue} 
-            defaultValue="Filter Assessment"
-          >
-            <SelectTrigger className="w-[180px] bg-slate-400">
-              <SelectValue placeholder="Filter Assessments" />
-            </SelectTrigger>
-            <SelectContent className="w-[240px] bg-slate-300">
-              {
-                Array.from(new Set(data.map(item => (item as any)["assessment"]))).map((assessmentType, index) => 
-                  <SelectItem className="hover:cursor-pointer" key={assessmentType+index} value={assessmentType}>{assessmentType}</SelectItem>
-                )
-              }
-              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
-            </SelectContent>
-          </Select>
+              }}
+              value={filterSelectorValue[selectorFilter.id] || ""} 
+              defaultValue={selectorFilter.placeholder}
+            >
+              <SelectTrigger className="w-[180px] bg-slate-400">
+                <SelectValue placeholder={selectorFilter.placeholder} />
+              </SelectTrigger>
 
+              <SelectContent className="w-[240px] bg-slate-300">
+
+                {selectorFilter.options.map((option) => {
+                   return (
+                      <SelectItem className="hover:cursor-pointer" value={option}>{option}</SelectItem>
+                   )
+                })}
+
+                <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
+
+              </SelectContent>
+
+            </Select>
+        
+        )})}
+        </div>
         }
 
-        {/* Topic Name Filter Select which only displays if there are any topicName column*/}
-        {
-          columns.some(column => 'accessorKey' in column && column.accessorKey === 'topicName') &&
-          <Select
-            onValueChange={(value) => {
-              if (value === CLEAR_FILTER_VALUE) {
-                table.getColumn("topicName")?.setFilterValue(null);
-                setTopicName(""); // Reset the displayed value to show the placeholder
-              } else {
-                table.getColumn("topicName")?.setFilterValue(value);
-                setTopicName(value); // Update the displayed value to reflect the selection
-              }
-            }}
-            value={topicName} 
-            defaultValue="Filter Topic"
-          >
-            <SelectTrigger className="w-[180px] bg-slate-400">
-              <SelectValue placeholder="Filter Topic" />
-            </SelectTrigger>
-            <SelectContent className="w-[240px] bg-slate-300">
-              {
-                Array.from(
-                  new Set(
-                    data.map(item => (item as any)["topicName"])
-                  )
-                ).map((topicname) => <SelectItem className="hover:cursor-pointer" key={topicname} value={topicname}>{topicname}</SelectItem>)
-              }
-              <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
-            </SelectContent>
-          </Select>
-
-        }
 
         {/* Search Filter */}
         {
-          columns.some(column => 'accessorKey' in column) &&
+          columns.some(column => 'accessorKey' in column) && searchFilter &&
           <div className="flex items-center py-4">
             <input
               placeholder={filterPlaceholder}

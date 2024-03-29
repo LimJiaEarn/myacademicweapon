@@ -117,6 +117,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     }
   };
 
+  let data: StudyResourceInterface[] | undefined;
+
   useEffect(() => {
 
     const userId = typeof user?.publicMetadata.userId === 'string' ? user.publicMetadata.userId : null;
@@ -151,13 +153,14 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           getStatusStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
           getBookmarksStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
         ]);
-  
+
         // Update the data with status and bookmarked fields
         data = data?.map(item => ({
           ...item,
           status: completedResourceIDs.includes(item._id),
-          bookmarked: bookmarkedResourceIDs.includes(item._id),
+          bookmark: bookmarkedResourceIDs.includes(item._id),
         }));
+
       }
       
       else {
@@ -165,7 +168,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         data = data?.map(item => ({
           ...item,
           status: false,
-          bookmarked: false,
+          bookmark: false,
         }));
       }
 
@@ -219,10 +222,21 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
 
 
-          {isLoadingData ? <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p> :
+          {isLoadingData ?
+            <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
+            :
             <DataTable
               columns={tableColumns}
               data={tableData}
+              showStatusFilter = {true}
+              showBookmarkFilter = {true}
+              selectorFilters={[
+                {
+                  id: "assessment",
+                  placeholder:"Filter Assessment",
+                  options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+                },
+              ]}
               searchFilter="resource"
               tableStyles="bg-slate-200 rounded-lg"
               headerRowStyles="bg-slate-400 rounded-t-lg"

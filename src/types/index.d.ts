@@ -172,3 +172,12 @@ type FormFieldConfig = {
   options?: string[]; // Only used for 'select' type
   compulsory: boolean; // if it must be filled before form submission
 };
+
+
+// FILTER FIELD
+
+type SelectorFieldConfig = {
+  id: string; // this is the column id
+  placeholder: string;
+  options: string[];
+}

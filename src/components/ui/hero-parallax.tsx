@@ -138,10 +138,10 @@ export const Header = () => {
         <div className="flex flex-col items-start gap-4 md:align-center lg:flex-row lg:items-center">
 
           <p className="mt-6 text-lg leading-relaxed text-text_gray md:text-2xl max-w-sm md:max-w-[570px]">
-              Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>More than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
+              Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>We're than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
           </p>
           <div className="flex_center">
-            <LinkButton iconUrl="/icons/getStarted.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500" linksTo={linksTo}/>
+            <LinkButton iconUrl="/icons/sword.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500" linksTo={linksTo}/>
           </div>
 
         </div>
