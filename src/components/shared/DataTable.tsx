@@ -154,38 +154,13 @@ export function DataTable<TData, TValue>({ columns, data, showStatusFilter, show
             <label className="text-text_gray">Show Unattempted</label>
           </div>}
         </div>
-
-
-        {/* Status Filter Select */}
-        {/* <Select
-          onValueChange={(value) => {
-            if (value === CLEAR_FILTER_VALUE) {
-              table.getColumn("status")?.setFilterValue(null);
-              setStatusValue(""); // Reset the displayed value to show the placeholder
-            } else {
-              table.getColumn("status")?.setFilterValue(value === "Completed");
-              setStatusValue(value); // Update the displayed value to reflect the selection
-            }
-          }}
-          value={statusValue} 
-          defaultValue="Filter Status"
-        >
-          <SelectTrigger className="w-[180px] bg-slate-400">
-            <SelectValue placeholder="Filter Status" />
-          </SelectTrigger>
-          <SelectContent className="w-[240px] bg-slate-300">
-            <SelectItem className="hover:cursor-pointer" value="Completed">Completed</SelectItem>
-            <SelectItem  className="hover:cursor-pointer" value="Incomplete">Incomplete</SelectItem>
-            <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
-          </SelectContent>
-        </Select> */}
         
         { selectorFilters &&
         <div className="flex_center gap-2 md:gap-4">
           {selectorFilters.map((selectorFilter, index) => {
             return(
             <Select
-              key={selectorFilter.id+"_"+index}
+              key={selectorFilter.id+"__"+index}
               onValueChange={(value) => {
                 
                 if (value === CLEAR_FILTER_VALUE) {

@@ -10,7 +10,7 @@ const ContributePage = async () => {
 
     const { userId } = auth();
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
-    const userID = currentSignedInUserObject._id || null;
+    const userID = currentSignedInUserObject?._id || null;
 
     // TODO: Pass userID if user is signed in
     const handleSubmit = async (formData : {[key:string]:string}) => {
@@ -22,7 +22,7 @@ const ContributePage = async () => {
             resourceSubject: subject,
             resourceUrl: url,
             resourceDesc: desc,
-            resourceUserID: userID
+            resourceUserID: userID 
         } = formData;
         
         const level = resourceLevel as "Primary" | "Secondary" | "JC";

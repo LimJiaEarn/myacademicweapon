@@ -306,7 +306,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     },
     // Edit
     ...(isOwnUser ? [{
-        accessorKey: 'bookmark', // This should match the key in your data for the status
+        accessorKey: 'resource', // This should match the key in your data for the status
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row
