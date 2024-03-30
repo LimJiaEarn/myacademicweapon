@@ -4,9 +4,21 @@ import { ArrowUpDown } from "lucide-react";
 import Tag from '@/components/shared/Tag';
 import Image from "next/image";
 
+// Dialog
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogClose,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+import { useState } from "react";
 
 // Define a type for your toggle status function
-type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean) => void;
+type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean, score? : number|null) => void;
 type ToggleBookmarkFunction = (studyResourceID: string, userID: string|null, newBookmark: boolean) => void;
 
 
@@ -26,6 +38,9 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
     
     const bookmarked = info.row.original.bookmark as boolean; 
     const status = info.row.original.status as boolean; 
+
+    const [score, setScore] = useState<number|null>(null);
+
     return(
     <div className="w-full flex_center gap-4 md:gap-8">
         <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
@@ -43,27 +58,99 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                 
             />
         </div>
-        
-        <label className="inline-block relative cursor-pointer">
-            <input
-                type="checkbox"
-                checked={status}
-                onChange={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                onToggleStatus(studyResourceID, userID, !status);
-                }}
-                className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
-            />
-            <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-gray-100 border-gray-300'}`}></span>
-            {status && (
-                <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {/* SVG path for checkmark */}
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="6" d="M5 13l4 4L19 7" />
-                </svg>
-            )}
-        </label>
+            
+        {status ? 
+            <label className="inline-block relative cursor-pointer">
+                <input
+                    type="checkbox"
+                    checked={status}
+                    onChange={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    onToggleStatus(studyResourceID, userID, false);
+                    }}
+                    className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
+                />
+                <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-gray-100 border-gray-300'}`}></span>
+                {status && (
+                    <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {/* SVG path for checkmark */}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="6" d="M5 13l4 4L19 7" />
+                    </svg>
+                )}
+            </label>
+        :
+        <Dialog>
+            <DialogTrigger asChild>
+                <label className="inline-block relative cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={status}
+                        onChange={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        
+                        }}
+                        className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
+                    />
+                    <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-gray-100 border-gray-300'}`}></span>
+                    {status && (
+                        <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {/* SVG path for checkmark */}
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="6" d="M5 13l4 4L19 7" />
+                        </svg>
+                    )}
+                </label>
+            </DialogTrigger>
 
+            <DialogContent className="sm:max-w-[425px]">
+
+                <DialogHeader>
+                    <DialogTitle>Record your marks?</DialogTitle>
+                    <DialogDescription>
+                        You can track all your scores in your profile page!
+                    </DialogDescription>
+                </DialogHeader>
+
+                    <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <p className="text-right">
+                                Score
+                            </p>
+                            <input
+                                id="name"
+                                type="number"
+                                className="col-span-3"
+                                onChange={
+                                    (e)=>{
+                                        console.log(e.target.valueAsNumber);
+                                        setScore(e.target.valueAsNumber);
+                                    }
+                                }
+                            />
+                        </div>
+
+                    </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <div className="flex_center gap-2">
+                            <button onClick={()=>onToggleStatus(studyResourceID, userID, true)}>
+                                Save W/O marks!
+                            </button>
+                            <button
+                                disabled={!score}
+                                onClick={()=>onToggleStatus(studyResourceID, userID, true, score)}
+                            >
+                                Save my marks!
+                            </button>
+                        </div>
+                    </DialogClose>
+                </DialogFooter>
+
+            </DialogContent>
+
+        </Dialog>
+        }
 
     </div>
     )

@@ -54,7 +54,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const [tableData, setTableData] = useState<StudyResourceInterface[]>([]);
 
   // This sets the status of the study resource selected by user
-  const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
+  const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean, score? : number|null) => {
 
     // Only signed in users are allowed 
     if (!userID) {
@@ -65,17 +65,9 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       return;
     }
 
-    let score = null;
-    
-    // TODO: Dialog popup for user to enter their score
-    if (newStatus) {
-      // https://ui.shadcn.com/docs/components/dialog
-
-      alert("TODO: score capture");
-    }
 
     try {
-      const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, ...(score !== null && { score })  });
+      const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, score: score ?? -1  });
 
       if (!response) {
         toast({
@@ -275,10 +267,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       {resourceLevel && resourceSubject && resourceType?
 
         <div className="w-full px-2 md:px-6 flex_col_center">
-
-
-
-<output></output>
 
           {isLoadingData ?
             <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>

@@ -293,7 +293,7 @@ export const contributionFormDetails : FormFieldConfig[] = [
 export const completedToasts = [
   {
     title: "Marked as completed!",
-    description: "Yay! The best never rest, on to the next test!",
+    desc: "Yay! The best never rest, on to the next test!",
   },
   {
     title: "Marked as completed!",
@@ -312,7 +312,7 @@ export const completedToasts = [
 export const incompleteToasts = [
   {
     title: "Marked as unattempted!",
-    description: "Every master was once a beginner. Keep pushing!",
+    desc: "Every master was once a beginner. Keep pushing!",
   },
   {
     title: "Marked as unattempted!",
@@ -331,7 +331,7 @@ export const incompleteToasts = [
 export const bookmarkToasts = [
   {
     title: "Challenge Bookmarked!",
-    description: "Is this the start of your victory story?!",
+    desc: "Is this the start of your victory story?!",
   },
   {
     title: "Quest Bookmarked!",
