@@ -217,7 +217,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         ]);
         
       
-        const completedResourceIDs = completedResourceObject.map(item => item.resourceObjectId );
+        const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );
 
         // Update the data with status and bookmarked fields
         data = data?.map(item => ({
@@ -244,13 +244,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       if (resourceType==="Yearly"){
         data = (data as YearlyPracticePaper[])?.map(item=> ({
           ...item,
-          resource : item.year + " " + item.schoolName +  " " + item.assessment +  " P" + item.paper 
+          resource : item.year + " " + item.schoolName +  " " + item.assessment +  " P" + item.paper
         }))
       }
       else if (resourceType==="Topical"){
         data = (data as TopicalPracticePaper[])?.map(item=> ({
           ...item,
-          resource : item.topicName, 
+          resource : item.topicName
         }))
       }
       // For other future types eg Notes/Summaries

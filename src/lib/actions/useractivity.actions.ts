@@ -53,7 +53,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
 
         if (userResourceInteraction) {
             // Find the index of the resource in the completedArray
-            const resourceIndex = userResourceInteraction.completedArray.findIndex(item => item.resourceObjectId.equals(resourceObjectId));
+            const resourceIndex = userResourceInteraction.completedArray.findIndex((item: any) => item.resourceObjectId.equals(resourceObjectId));
 
             if (newStatus) {
                 // If marking as complete and the resource is not already in the completedArray
@@ -172,7 +172,7 @@ export async function getStatusStudyResource(params: getStatusStudyResourceParam
         }
 
         // Convert the ObjectId array to a string array
-        const completedResources = userResourceInteraction.completedArray.map(item => ({
+        const completedResources = userResourceInteraction.completedArray.map((item: any) => ({
             resourceObjectId: item.resourceObjectId.toString(), // Convert ObjectId to String
             score: item.score // Keep the score as is
         }));
@@ -296,9 +296,7 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
 
         // Convert the ObjectId array to a string array
         const completedResourceObject = userResourceInteraction.completedArray;
-        const completedResourceIDs : string[]  = completedResourceObject.map(item => item.resourceObjectId.toString() );
-        
-        
+        const completedResourceIDs : string[]  = completedResourceObject.map((item: any) => item.resourceObjectId.toString() );
         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
 
         return {"completed": completedResourceIDs, "bookmarked": bookmarkedResourceIDs};

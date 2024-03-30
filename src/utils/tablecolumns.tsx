@@ -231,7 +231,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
         header: ({ column }) => headerCell(column, "Status", false),
         cell: info => statusCell(info, onToggleStatus, userID),
     },
-    // topicName
+    // Topical: topicName
     {
         accessorKey: "resource",
         header: ({ column }) => headerCell(column, "Resource", true),
