@@ -65,8 +65,26 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       return;
     }
 
+    let score = null;
+    // if (newStatus) {
+    //   // Ask for the score when marking as complete
+    //   score = window.prompt("Enter your score for this paper:");
+    //   // Validation or conversion to number as needed
+    //   if (score !== null && !isNaN(Number(score))) {
+    //     score = Number(score);
+    //   }
+    //   else {
+    //     // Handle invalid or canceled input
+    //     toast({
+    //       title: "Invalid Score",
+    //       description: "You entered an invalid score, please try again!",
+    //     });
+    //     return;
+    //   }
+    // }
+
     try {
-      const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
+      const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, ...(score !== null && { score })  });
 
       if (!response) {
         toast({
@@ -183,11 +201,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
       const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
       setTableColumns(columns);
-      
-      console.log(`resourceType: ${resourceType}`);
-      console.log(`resourceLevel: ${resourceLevel}`);
-      console.log(`resourceSubject: ${resourceSubject}`);
-
 
       // Call a server action to get data to populate the table
       let data: StudyResourceInterface[] | undefined = await getStudyResources({
@@ -198,10 +211,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   
       if (userID) {
         // concurrently fetch the status and bookmark information
-        const [completedResourceIDs, bookmarkedResourceIDs] = await Promise.all([
+        const [completedResourceObject, bookmarkedResourceIDs] = await Promise.all([
           getStatusStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
           getBookmarksStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
         ]);
+        
+      
+        const completedResourceIDs = completedResourceObject.map(item => item.resourceObjectId );
 
         // Update the data with status and bookmarked fields
         data = data?.map(item => ({

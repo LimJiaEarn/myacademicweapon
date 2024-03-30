@@ -36,49 +36,49 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     try {
         await connectToDatabase();
 
-        const { userID, studyResourceID, newStatus } = updateData;
-
+        const { userID, resourceType, studyResourceID, newStatus, score } = updateData;
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
 
         // Determine the resource type based on the resourceID
-        const resourceType = await determineResourceType(studyResourceID);
+        // const resourceType = await determineResourceType(studyResourceID);
 
-        if (resourceType==''){
+        if (resourceType === '') {
             return false;
         }
         
         // Check if there's an existing UserActivity document
-        const userResourceInteraction = await UserActivity.findOne({ 
-            userObjectId, 
-            resourceType 
-        });
+        let userResourceInteraction = await UserActivity.findOne({ userObjectId, resourceType });
 
         if (userResourceInteraction) {
+            // Find the index of the resource in the completedArray
+            const resourceIndex = userResourceInteraction.completedArray.findIndex(item => item.resourceObjectId.equals(resourceObjectId));
 
-            // If the document exists, update the completedArray based on the status
             if (newStatus) {
-                // Add resourceID to completedArray if it's not already there
-                if (!userResourceInteraction.completedArray.includes(resourceObjectId)) {
-                    userResourceInteraction.completedArray.push(resourceObjectId);
+                // If marking as complete and the resource is not already in the completedArray
+                if (resourceIndex === -1) {
+                    userResourceInteraction.completedArray.push({ resourceObjectId, score: score ?? -1 });
+                } else {
+                    // If the resource is already in the array, update the score
+                    userResourceInteraction.completedArray[resourceIndex].score = score ?? -1;
+                }
+            } else {
+                // If marking as incomplete, remove the resource from the completedArray
+                if (resourceIndex !== -1) {
+                    userResourceInteraction.completedArray.splice(resourceIndex, 1);
                 }
             }
-            else {
-                // Remove resourceID from completedArray if the status is set to incomplete
-                userResourceInteraction.completedArray = userResourceInteraction.completedArray.filter((id: mongoose.Types.ObjectId) => !id.equals(resourceObjectId));
-            }
             await userResourceInteraction.save();
-        }
-        else{
+        } else {
             if (newStatus) {
-                // If the document does not exist and status is true, create a new document
+                // If the document does not exist and status is true, create a new document with the resource in the completedArray
                 await UserActivity.create({
                     userObjectId: userObjectId,
                     resourceType,
                     likesArray: [],
                     bookmarkedArray: [],
-                    completedArray: [resourceObjectId],
+                    completedArray: [{ resourceObjectId, score: score ?? -1 }],
                 });
             }
         }
@@ -90,6 +90,65 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         return false;
     }
 }
+
+// export async function updateStatusStudyResource(updateData: updateStatusStudyResourceParams) {
+//     try {
+//         await connectToDatabase();
+
+//         const { userID, studyResourceID, newStatus } = updateData;
+
+        
+//         const userObjectId = new mongoose.Types.ObjectId(userID);
+//         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
+
+//         // Determine the resource type based on the resourceID
+//         const resourceType = await determineResourceType(studyResourceID);
+
+//         if (resourceType==''){
+//             return false;
+//         }
+        
+//         // Check if there's an existing UserActivity document
+//         const userResourceInteraction = await UserActivity.findOne({ 
+//             userObjectId, 
+//             resourceType 
+//         });
+
+//         if (userResourceInteraction) {
+
+//             // If the document exists, update the completedArray based on the status
+//             if (newStatus) {
+//                 // Add resourceID to completedArray if it's not already there
+//                 if (!userResourceInteraction.completedArray.includes(resourceObjectId)) {
+//                     userResourceInteraction.completedArray.push(resourceObjectId);
+//                 }
+//             }
+//             else {
+//                 // Remove resourceID from completedArray if the status is set to incomplete
+//                 userResourceInteraction.completedArray = userResourceInteraction.completedArray.filter((id: mongoose.Types.ObjectId) => !id.equals(resourceObjectId));
+//             }
+//             await userResourceInteraction.save();
+//         }
+//         else{
+//             if (newStatus) {
+//                 // If the document does not exist and status is true, create a new document
+//                 await UserActivity.create({
+//                     userObjectId: userObjectId,
+//                     resourceType,
+//                     likesArray: [],
+//                     bookmarkedArray: [],
+//                     completedArray: [resourceObjectId],
+//                 });
+//             }
+//         }
+
+//         return true;
+            
+//     } catch (error) {
+//         console.log(error);
+//         return false;
+//     }
+// }
 
 
 
@@ -113,9 +172,12 @@ export async function getStatusStudyResource(params: getStatusStudyResourceParam
         }
 
         // Convert the ObjectId array to a string array
-        const completedResourceIDs : string[] = userResourceInteraction.completedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+        const completedResources = userResourceInteraction.completedArray.map(item => ({
+            resourceObjectId: item.resourceObjectId.toString(), // Convert ObjectId to String
+            score: item.score // Keep the score as is
+        }));
 
-        return completedResourceIDs;
+        return completedResources;
     }
     catch (error) {
         handleError(error);
@@ -233,7 +295,10 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
         }
 
         // Convert the ObjectId array to a string array
-        const completedResourceIDs : string[] = userResourceInteraction.completedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+        const completedResourceObject = userResourceInteraction.completedArray;
+        const completedResourceIDs : string[]  = completedResourceObject.map(item => item.resourceObjectId.toString() );
+        
+        
         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
 
         return {"completed": completedResourceIDs, "bookmarked": bookmarkedResourceIDs};
