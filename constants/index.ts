@@ -266,6 +266,13 @@ export const contributionFormDetails : FormFieldConfig[] = [
     compulsory: true,
   },
   {
+    id:"totMarks",
+    type:"number",
+    title:"Total Marks",
+    placeholder:"eg: 100",
+    compulsory: false,
+  },
+  {
     id:"resourceUrl",
     type:"text",
     styles: "h-[35px]",

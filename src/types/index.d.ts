@@ -55,15 +55,20 @@ interface StudyResourceInterface {
 }
 
 interface StudyNotesInterface extends StudyResourceInterface {
-  topicName : string;
+  topicNames : string[];
 }
 
 interface PracticePaperInterface extends StudyResourceInterface {
   status: boolean;
   bookmark: boolean;
   type: "Topical" | "Yearly";
+  totMarks?: number;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
+}
+
+interface RevisionPracticePaper extends PracticePaperInterface {
+  topicNames: string[];
 }
 
 interface TopicalPracticePaper extends PracticePaperInterface {
@@ -82,7 +87,7 @@ interface ISummarisedPracticePaper extends StudyResourceInterface {
 }
 
 // Union type for StudyResource function parameters
-declare type StudyResourceInterface = BaseStudyResource | TopicalPracticePaper | YearlyPracticePaper;
+declare type StudyResourceInterface = BaseStudyResource | TopicalPracticePaper | RevisionPracticePaper | YearlyPracticePaper;
 
 interface CreateStudyResourcesParams  {
   level: "Primary" | "Secondary" | "JC";
@@ -97,8 +102,13 @@ interface CreateStudyResourcesParams  {
 interface CreatePracticePaperInterface extends CreateStudyResourcesParams {
   status: boolean;
   type: "Topical" | "Yearly";
+  totMarks?: number;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
+}
+
+interface CreateRevisionPracticePaperParams extends CreatePracticePaperInterface {
+  topicNames: string[];
 }
 
 interface CreateTopicalPracticePaperParams extends CreatePracticePaperInterface {
@@ -126,6 +136,7 @@ declare type UpdateStudyResourceParams = {
   year?: number; // For Yearly
   schoolName?: string; // For Yearly
   likes?: number;
+  totMarks?: number;
 };
 
 declare type getStatusStudyResourceParams = {
@@ -137,6 +148,7 @@ declare type updateStatusStudyResourceParams = {
   userID: string;
   studyResourceID: string;
   newStatus: boolean;
+  totMarks?: number; // optional if user wants to record their marks too, else it is marked as -1
 }
 
 declare type getBookmarkStudyResourceParams = {
@@ -152,8 +164,9 @@ declare type updateBookmarkStudyResourceParams = {
 
 declare type ResourceContributionParams = {
   level: "Primary" | "Secondary" | "JC";
-  type: "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Others";
+  type: "Notes/Summaries" | "Yearly Practice Papers" | "Topical Practice Papers" | "Revision Set/Practice Papers" |"Others";
   subject: string;
+  totMarks?: string;
   url: string;
   desc?: string;
   userID?: string;

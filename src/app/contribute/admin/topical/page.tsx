@@ -62,10 +62,25 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         compulsory: true,
       },
       {
+        id:"totMarks",
+        type:"number",
+        title:"Total Marks",
+        placeholder:"eg: 100",
+        compulsory: false,
+      },
+      {
         id:"contributor",
         type:"text",
-        styles:"h-[80px]",
+        styles:"h-[35px]",
         title:"Contributor",
+        placeholder:"",
+        compulsory: false,
+      },
+      {
+        id:"contributorUrl",
+        type:"text",
+        styles:"h-[35px]",
+        title:"Contributor URL",
         placeholder:"",
         compulsory: false,
       },
@@ -97,9 +112,13 @@ const AdminPage = async () => {
           workingUrl : workingSolution,
           videoUrl : videoSolution,
           topicName,
+          totMarks : stringedtotMarks,
           contributor,
+          contributorUrl,
         } = formData;
         
+        const totMarks = stringedtotMarks ? Number(stringedtotMarks) : undefined;
+
         // hardcoded values
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
         const type = "Topical";
@@ -117,6 +136,7 @@ const AdminPage = async () => {
             // Including optional properties only if they exist
             ...(workingSolution && { workingSolution }), 
             ...(videoSolution && { videoSolution }), 
+            ...(totMarks && { totMarks }), 
             ...(contributor && { userID }), 
             ...(contributorUrl && { contributorUrl }),
             ...(desc && { desc }), 
