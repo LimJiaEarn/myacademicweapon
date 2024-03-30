@@ -289,3 +289,79 @@ export const contributionFormDetails : FormFieldConfig[] = [
     compulsory: false,
   },
 ]
+
+export const completedToasts = [
+  {
+    title: "Marked as completed!",
+    description: "Yay! The best never rest, on to the next test!",
+  },
+  {
+    title: "Marked as completed!",
+    desc: "Great hustle! On to the next puzzle!",
+  },
+  {
+    title: "Marked as completed!",
+    desc: "Cheers! Moving on with no fears!",
+  },
+  {
+    title: "Marked as completed!",
+    desc: "Kudos! On to the next test, no less!",
+  },
+]
+
+export const incompleteToasts = [
+  {
+    title: "Marked as unattempted!",
+    description: "Every master was once a beginner. Keep pushing!",
+  },
+  {
+    title: "Marked as unattempted!",
+    desc: "Setbacks are setups for comebacks. Ready for yours?",
+  },
+  {
+    title: "Marked as unattempted!",
+    desc: "Stay strong! The challenge is tough, but so are you!",
+  },
+  {
+    title: "Marked as unattempted!",
+    desc: "Feeling defeated? You're just getting heated!",
+  },
+]
+
+export const bookmarkToasts = [
+  {
+    title: "Challenge Bookmarked!",
+    description: "Is this the start of your victory story?!",
+  },
+  {
+    title: "Quest Bookmarked!",
+    desc: "In your sights, victory's chartered!",
+  },
+  {
+    title: "Summit Bookmarked!",
+    desc: "You've set your sights; Now ignite your lights!",
+  },
+  {
+    title: "Objective Bookmarked!",
+    desc: "Success is yours, near or far!",
+  },
+]
+
+export const unbookmarkToasts = [
+  {
+    title: "Bookmark removed!",
+    desc: "Adjusting your aim? Remember to stay focused at your goal!",
+  },
+  {
+    title: "Bookmark removed!",
+    desc: "Dreams adapt as we grow. Dare to dream new dreams!",
+  },
+  {
+    title: "Bookmark removed!",
+    desc: "Carving new courses? Carve yours with determination!",
+  },
+  {
+    title: "Bookmark removed!",
+    desc: "Chapters end but the story goes on. What will your next chapter hold?",
+  },
+]

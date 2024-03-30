@@ -15,7 +15,8 @@ import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 import { updateStatusStudyResource, getStatusStudyResource, updateBookmarkStudyResource, getBookmarksStudyResource  } from '@/lib/actions/useractivity.actions';
 import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
-
+// Toast Messages
+import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } from '../../../../constants';
 
 // searchParams guide referenced: https://www.youtube.com/watch?v=ukpgxEemXsk&t=6s
 
@@ -23,7 +24,10 @@ function capitalize(str : string) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
+function getRandomInt(min: number, max: number): number {
+  const range = max - min + 1;
+  return Math.floor(Math.random() * range) + min;
+}
 
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
@@ -54,8 +58,10 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
     // Only signed in users are allowed 
     if (!userID) {
-      // TODO: nicer prompt to ask user to sign in
-      alert("You need to sign in to use this feature!");
+      toast({
+        title: "Oops! You are not signed in",
+        description: "Sign in/up to use this feature!",
+      })
       return;
     }
 
@@ -63,8 +69,10 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
 
       if (!response) {
-        // TODO: NICER ALERTS
-        alert('Failed to update status, try again later!');
+        toast({
+          title: "Oh No!",
+          description: "Failed to update status, please try again later!",
+        })
         return;
       }
 
@@ -77,24 +85,28 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           return item;
         })
       );
+      const toastIndex = getRandomInt(0, 3);
       
       if (newStatus){
         toast({
-          title: "Marked as complete!",
-          description: "Yay! The best never rest, onto the next one!",
+          title: completedToasts[toastIndex].title,
+          description: completedToasts[toastIndex].desc,
         })
       }
       else{
         toast({
-          title: "Marked as incomplete!",
-          description: "Phew! That wasn't so simple, Ima try another one!",
+          title: incompleteToasts[toastIndex].title,
+          description: incompleteToasts[toastIndex].desc,
         })
       }
       
 
     } 
     catch (error) {
-      alert('Failed to update status, try again later!');
+      toast({
+        title: "Oh No!",
+        description: "Failed to update status, please try again later!",
+      })
       return;
     }
   };
@@ -103,13 +115,16 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
     // Only signed in users are allowed 
     if (!userID) {
-      // TODO: nicer prompt to ask user to sign in
-      alert("You need to sign in to use this feature!");
+      toast({
+        title: "Oops! You are not signed in",
+        description: "Sign in/up to use this feature!",
+      })
       return;
     }
 
     try {
       const response = await updateBookmarkStudyResource({ userID, studyResourceID, newBookmark });
+
 
       if (!response) {
         // TODO: NICER ALERTS
@@ -126,15 +141,27 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
           return item;
         })
       );
-
-      toast({
-        title: "Added Bookmark!",
-        description: "View all your bookmarks @ profile",
-      })
+      
+      const toastIndex = getRandomInt(0, 3);
+      if (newBookmark){
+        toast({
+          title: bookmarkToasts[toastIndex].title,
+          description: bookmarkToasts[toastIndex].desc,
+        })
+      }
+      else{
+        toast({
+          title: unbookmarkToasts[toastIndex].title,
+          description: unbookmarkToasts[toastIndex].desc,
+        })
+      }
 
     } 
     catch (error) {
-      alert('Failed to update bookmark, try again later!');
+      toast({
+        title: "Oh No!",
+        description: "Failed to update bookmark, please try again later!",
+      })
       return;
     }
   };
