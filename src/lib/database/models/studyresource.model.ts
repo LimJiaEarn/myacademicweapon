@@ -52,7 +52,7 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
 
 
 // Export this initialized model
-const StudyResource: Model<StudyResourceDocument> = models.StudyResources || model<StudyResourceDocument>('StudyResources', StudyResourceSchema);
+const StudyResource: Model<StudyResourceDocument> = models.studyresources || model<StudyResourceDocument>('studyresources', StudyResourceSchema);
 
 const NotesSchema =  new Schema<NotesDocument>({
   topicNames: [{type: String, required: true}]

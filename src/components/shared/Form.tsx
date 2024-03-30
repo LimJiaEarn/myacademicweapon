@@ -1,6 +1,9 @@
 // Use Client Directive
 "use client"
 
+
+import { updateTotMarks } from '@/utils/oneTime';
+
 import { useState, useEffect } from "react";
 
 // Import your custom Select component and its subcomponents
@@ -133,6 +136,8 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles }: FormProps) => {
         >
           Submit
         </button>
+
+
       </form>
     </div>
   );

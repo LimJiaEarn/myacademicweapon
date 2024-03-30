@@ -179,6 +179,8 @@ const AdminPage = async () => {
     return (
         <div className="flex_col_center gap-8 px-2 py-8 pb-8">
 
+
+
             <h1 className="text-3xl md:text-5xl font-bold text-center max-w-[90ch] mx-auto mb-4 leading-[1.5]">
                 Admin Mode Yearly
             </h1>
