@@ -66,22 +66,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     }
 
     let score = null;
-    // if (newStatus) {
-    //   // Ask for the score when marking as complete
-    //   score = window.prompt("Enter your score for this paper:");
-    //   // Validation or conversion to number as needed
-    //   if (score !== null && !isNaN(Number(score))) {
-    //     score = Number(score);
-    //   }
-    //   else {
-    //     // Handle invalid or canceled input
-    //     toast({
-    //       title: "Invalid Score",
-    //       description: "You entered an invalid score, please try again!",
-    //     });
-    //     return;
-    //   }
-    // }
+    
+    // TODO: Dialog popup for user to enter their score
+    if (newStatus) {
+      // https://ui.shadcn.com/docs/components/dialog
+
+      alert("TODO: score capture");
+    }
 
     try {
       const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, ...(score !== null && { score })  });
@@ -184,7 +175,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     }
   };
 
-  let data: StudyResourceInterface[] | undefined;
 
   useEffect(() => {
 
@@ -276,6 +266,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     fetchData();
   }, [resourceType, resourceSubject, resourceLevel, userID]);
   
+ 
 
         
   return (
@@ -286,6 +277,8 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
         <div className="w-full px-2 md:px-6 flex_col_center">
 
 
+
+<output></output>
 
           {isLoadingData ?
             <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>

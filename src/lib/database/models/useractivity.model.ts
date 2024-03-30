@@ -2,7 +2,7 @@ import { Schema, model, models, Document } from 'mongoose';
 
 interface UserActivityDocument extends Document {
   userObjectId: Schema.Types.ObjectId; // Reference to User
-  resourceType: 'Yearly' | 'Topical';
+  type: 'Yearly' | 'Topical' | 'Revision';
   likesArray: Schema.Types.ObjectId[]; // Array of StudyResource IDs the user has liked
   bookmarkedArray: Schema.Types.ObjectId[]; // Array of StudyResource IDs the user has bookmarked
   completedArray: { resourceObjectId: Schema.Types.ObjectId, score: number }[]; // Array of completed items with scores
@@ -15,7 +15,7 @@ const CompletedItemSchema = new Schema({
 
 const UserActivitySchema = new Schema<UserActivityDocument>({
   userObjectId: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
-  resourceType: { type: String, required: true, enum: ['Yearly', 'Topical', 'Revision'] },
+  type: { type: String, required: true, enum: ['Yearly', 'Topical', 'Revision'] }, // this is the discriminator from studyresources
   likesArray: [{ type: Schema.Types.ObjectId, ref: 'StudyResources' }],
   bookmarkedArray: [{ type: Schema.Types.ObjectId, ref: 'StudyResources' }],
   completedArray: [CompletedItemSchema],

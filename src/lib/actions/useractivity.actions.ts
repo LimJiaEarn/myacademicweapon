@@ -40,16 +40,21 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
+        
+        let type : string;
 
         // Determine the resource type based on the resourceID
-        // const resourceType = await determineResourceType(studyResourceID);
+        if (!resourceType)
+            type = await determineResourceType(studyResourceID);
+        else
+            type = resourceType
 
-        if (resourceType === '') {
+        if (type === '') {
             return false;
         }
         
         // Check if there's an existing UserActivity document
-        let userResourceInteraction = await UserActivity.findOne({ userObjectId, resourceType });
+        let userResourceInteraction = await UserActivity.findOne({ userObjectId, type });
 
         if (userResourceInteraction) {
             // Find the index of the resource in the completedArray
@@ -75,7 +80,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
                 // If the document does not exist and status is true, create a new document with the resource in the completedArray
                 await UserActivity.create({
                     userObjectId: userObjectId,
-                    resourceType,
+                    type: resourceType,
                     likesArray: [],
                     bookmarkedArray: [],
                     completedArray: [{ resourceObjectId, score: score ?? -1 }],
@@ -91,66 +96,6 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     }
 }
 
-// export async function updateStatusStudyResource(updateData: updateStatusStudyResourceParams) {
-//     try {
-//         await connectToDatabase();
-
-//         const { userID, studyResourceID, newStatus } = updateData;
-
-        
-//         const userObjectId = new mongoose.Types.ObjectId(userID);
-//         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
-
-//         // Determine the resource type based on the resourceID
-//         const resourceType = await determineResourceType(studyResourceID);
-
-//         if (resourceType==''){
-//             return false;
-//         }
-        
-//         // Check if there's an existing UserActivity document
-//         const userResourceInteraction = await UserActivity.findOne({ 
-//             userObjectId, 
-//             resourceType 
-//         });
-
-//         if (userResourceInteraction) {
-
-//             // If the document exists, update the completedArray based on the status
-//             if (newStatus) {
-//                 // Add resourceID to completedArray if it's not already there
-//                 if (!userResourceInteraction.completedArray.includes(resourceObjectId)) {
-//                     userResourceInteraction.completedArray.push(resourceObjectId);
-//                 }
-//             }
-//             else {
-//                 // Remove resourceID from completedArray if the status is set to incomplete
-//                 userResourceInteraction.completedArray = userResourceInteraction.completedArray.filter((id: mongoose.Types.ObjectId) => !id.equals(resourceObjectId));
-//             }
-//             await userResourceInteraction.save();
-//         }
-//         else{
-//             if (newStatus) {
-//                 // If the document does not exist and status is true, create a new document
-//                 await UserActivity.create({
-//                     userObjectId: userObjectId,
-//                     resourceType,
-//                     likesArray: [],
-//                     bookmarkedArray: [],
-//                     completedArray: [resourceObjectId],
-//                 });
-//             }
-//         }
-
-//         return true;
-            
-//     } catch (error) {
-//         console.log(error);
-//         return false;
-//     }
-// }
-
-
 
 export async function getStatusStudyResource(params: getStatusStudyResourceParams) {
     try {
@@ -162,7 +107,7 @@ export async function getStatusStudyResource(params: getStatusStudyResourceParam
         // Find the UserActivity document for the specified user and resource type
         const userResourceInteraction = await UserActivity.findOne({
             userObjectId,
-            resourceType
+            type : resourceType,
         });
         
         // Handle case where there is no document found for the user and resource type
@@ -202,11 +147,12 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
         if (resourceType==''){
             return false;
         }
+
         
         // Check if there's an existing UserActivity document
         const userResourceInteraction = await UserActivity.findOne({ 
             userObjectId, 
-            resourceType 
+            type: resourceType 
         });
 
         if (userResourceInteraction) {
@@ -229,7 +175,7 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
                 // If the document does not exist and status is true, create a new document
                 await UserActivity.create({
                     userObjectId: userObjectId,
-                    resourceType,
+                    type: resourceType,
                     likesArray: [],
                     bookmarkedArray: [resourceObjectId],
                     completedArray: [],
@@ -255,7 +201,7 @@ export async function getBookmarksStudyResource(params: getBookmarkStudyResource
         // Find the UserActivity document for the specified user and resource type
         const userResourceInteraction = await UserActivity.findOne({
             userObjectId,
-            resourceType
+            type: resourceType
         });
         
         // Handle case where there is no document found for the user and resource type
@@ -285,7 +231,7 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
         // Find the UserActivity document for the specified user and resource type
         const userResourceInteraction = await UserActivity.findOne({
             userObjectId,
-            resourceType
+            type: resourceType
         });
         
         // Handle case where there is no document found for the user and resource type

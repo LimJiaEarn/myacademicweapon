@@ -147,7 +147,7 @@ declare type getStatusStudyResourceParams = {
 declare type updateStatusStudyResourceParams = {
   userID: string;
   studyResourceID: string;
-  resourceType: string;
+  resourceType?: string;
   newStatus: boolean;
   score?: number; // optional if user wants to record their marks too, else it is marked as -1
 }
