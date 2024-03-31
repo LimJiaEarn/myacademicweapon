@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -88,6 +88,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                         <p className="italic">{currentUserProfileObject.bio}</p>
 
                         <Link href={`/profile/${username}/edit`}><p>Edit Profile</p></Link>
+                        <SignOutButton />
                     </div>
 
 
