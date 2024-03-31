@@ -1,6 +1,6 @@
 "use client"
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +17,10 @@ import {navLinks} from "../../../constants";
 const Navbar = () => {
 
   const pathname = usePathname();
+
+  const { user } = useUser();
+
+  console.log(user?.imageUrl);
 
   return (
 
@@ -49,8 +53,12 @@ const Navbar = () => {
                   )
               })}
             </ul>
+            
+            <Link href={`/profile/${user?.username}`}>
+              <Image className="rounded-full" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
+            </Link>
 
-            <UserButton afterSignOutUrl="/"/>
+
           </SignedIn>
 
           <SignedOut>
@@ -102,7 +110,9 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div className="md:hidden right-2 flex gap-4">
             <SignedIn>
-              <UserButton afterSignOutUrl="/"/>
+              <Link href={`/profile/${user?.username}`}>
+                <Image className="rounded-full" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
+              </Link>
             </SignedIn>
 
             <Sheet>

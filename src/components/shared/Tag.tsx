@@ -10,7 +10,7 @@ type TagType = {
 const Tag = ({ title, tooltip, icon, onClickUrl }: TagType) => {
   return (
     <div className={`tooltip flex_center ${onClickUrl ? 'cursor-pointer' : ''}`} data-tooltip={tooltip} onClick={() => {window.open(onClickUrl, '_blank');}}>
-      {icon && <Image src={icon} alt="tag icon" height={26} width={26} />}
+      {icon && <Image src={icon} alt="tag icon" height={28} width={28} className="hover:scale-[1.15]" />}
       {title && <p>{title}</p>}
     </div>
   );

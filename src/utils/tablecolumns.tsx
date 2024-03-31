@@ -54,7 +54,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     e.preventDefault();
                     onToggleBookmark(studyResourceID, userID, !bookmarked); 
                 }}
-                className="hover:cursor-pointer"
+                className="hover:cursor-pointer hover:rotate-6 hover:scale-[1.20]"
                 
             />
         </div>
@@ -275,7 +275,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
             <div className="flex_center">
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -334,7 +334,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
             <div className="flex_center">
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&

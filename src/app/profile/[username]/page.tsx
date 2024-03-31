@@ -1,18 +1,14 @@
-import { auth, UserButton } from "@clerk/nextjs";
-import Image from 'next/image';
+import { auth } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
-
 import ProfilePageTable from "@/components/shared/ProfileTable";
-
-
+import Link from 'next/link';
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     const { userId } = auth();
     const { username } = params;
-
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
@@ -71,27 +67,27 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
     // To test loading
-    const delay = (ms: number) => new Promise<number>(resolve => setTimeout(() => resolve(ms), ms));
+    // const delay = (ms: number) => new Promise<number>(resolve => setTimeout(() => resolve(ms), ms));
 
-    delay(1000).then((value) => {
-    console.log(`Waited for ${value / 1000} seconds`);
-    });
+    // delay(1000).then((value) => {
+    // console.log(`Waited for ${value / 1000} seconds`);
+    // });
+
 
     return (
         <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen">
 
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
-                
-
-
-                <Image className="rounded-full" src={currentUserProfileObject.photo} alt="userDP" height={150} width={150}/>
+            
                 
                 <div className="flex_col_center gap-4">
 
                     <div className="flex_col_Center">
                         <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
                         <p className="italic">{currentUserProfileObject.bio}</p>
+
+                        <Link href={`/profile/${username}/edit`}><p>Edit Profile</p></Link>
                     </div>
 
                     <div className="flex_center gap-4">
@@ -117,7 +113,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Bookmarks</h2>
 
 
-                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser}/>
+                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} currentPath={`/profile/${username}`}/>
             
             </section>
             }
@@ -127,7 +123,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Completed Practice Papers</h2>
 
-                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser}/>
+                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} currentPath={`/profile/${username}`}/>
 
 
             </section>

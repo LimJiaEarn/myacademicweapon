@@ -1,6 +1,5 @@
 "use client"
 
-// import Image from 'next/image';
 import { useState } from 'react';
 
 // Table Dependencies
@@ -16,13 +15,14 @@ type ProfilePageTableProps = {
     userID : string;
     sectionType : "Bookmarks" | "Completed";
     isOwnUser: boolean; // if this is false, we do not need to display the bookmark / status icons
+    currentPath: string;
 }
 
 
-const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
+const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, currentPath} : ProfilePageTableProps ) => {
 
     const [tableData, setTableData] = useState(data);
-
+    
     const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
 
         // Only signed in users are allowed 
@@ -41,16 +41,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             return;
         }
 
-        // If the update is successful, toggle the status in the UI
+        // If the update is successful, remove the object with the particular studyResourceID
         setTableData((prevData) =>
-            prevData.map(item => {
-            if ("_id" in item && item._id === studyResourceID) {
-                return { ...item, status: newStatus };
-            }
-            return item;
-            })
+            prevData.filter(item => "_id" in item && item._id !== studyResourceID)
         );
-
 
 
         } 
@@ -78,16 +72,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             return;
         }
 
-        // If the update is successful, toggle the status in the UI
+        // If the update is successful, remove the object with the particular studyResourceID
         setTableData((prevData) =>
-            prevData.map(item => {
-            if ("_id" in item && item._id === studyResourceID) {
-                return { ...item, bookmark: newBookmark };
-            }
-            return item;
-            })
-        );
-
+            prevData.filter(item => "_id" in item && item._id !== studyResourceID)
+        );       
 
         } 
         catch (error) {
