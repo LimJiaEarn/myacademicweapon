@@ -35,11 +35,25 @@ return 'assessment' in item && 'year' in item && 'schoolName' in item && 'paper'
 // Utility Cell Components
 const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookmarkFunction, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
     const studyResourceID = info.row.original._id; // Access the id of the row
+    const url : string = info.row.original.url; 
     
     const bookmarked = info.row.original.bookmark as boolean; 
     const status = info.row.original.status as boolean; 
 
     const [score, setScore] = useState<number|null>(null);
+
+    const [copied, setCopied] = useState<boolean>(false);
+
+    const handleCopy = () => {
+        // Create a temporary input
+        const inputBox = document.createElement('input');
+        document.body.appendChild(inputBox);
+        inputBox.value = url; // Set its value to the URL
+        // inputBox.select(); // Select the value
+        document.execCommand('copy'); // Execute the copy command
+        document.body.removeChild(inputBox); // Remove the temporary input
+        setCopied(true);
+    };
 
     return(
     <div className="w-full flex_center gap-4 md:gap-8">
@@ -106,9 +120,16 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
             <DialogContent className="sm:max-w-[425px]">
 
                 <DialogHeader>
-                    <DialogTitle>Record your marks?</DialogTitle>
+                    <DialogTitle>Track your score?</DialogTitle>
                     <DialogDescription>
-                        You can track all your scores in your profile page!
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <input
+                        defaultValue={url}
+                        readOnly
+                        className="mr-4"
+                    />
+                    <button onClick={handleCopy}>{copied ? "Copied" : "Copy"}</button>
+                </div>
                     </DialogDescription>
                 </DialogHeader>
 
@@ -400,19 +421,42 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             return (
             <div className="w-full flex justify-center" >
                 <div className="tooltip" data-tooltip="remove">
-                    <Image
-                        src='/icons/remove.svg'
-                        alt='remove'
-                        height={25}
-                        width={25}
-                        onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            e.preventDefault();
-                            onToggleStatus(studyResourceID, userID, false); 
-                        }}
-                        className="hover:cursor-pointer"
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <div>
+                        <Image
+                            src='/icons/remove.svg'
+                            alt='remove'
+                            height={25}
+                            width={25}
+                            className="hover:cursor-pointer"
+                        />
+                        </div>
                         
-                    />
+                    </DialogTrigger>
+
+                    <DialogContent className="sm:max-w-[425px]">
+
+                        <DialogHeader>
+                            <DialogTitle>Confirm remove?</DialogTitle>
+                            <DialogDescription>
+                                <p>Progress cannot be restored</p>
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <div className="flex_center gap-2">
+                                    <button onClick={()=>onToggleStatus(studyResourceID, userID, false)}>
+                                        Confirm
+                                    </button>
+                                </div>
+                            </DialogClose>
+                        </DialogFooter>
+
+                    </DialogContent>
+
+                </Dialog>
                 </div>
         
                 
@@ -464,19 +508,41 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             return (
             <div className="w-full flex justify-center" >
                 <div className="tooltip" data-tooltip="remove">
-                    <Image
-                        src='/icons/remove.svg'
-                        alt='remove'
-                        height={25}
-                        width={25}
-                        onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            e.preventDefault();
-                            onToggleBookmark(studyResourceID, userID, false); 
-                        }}
-                        className="hover:cursor-pointer"
-                        
-                    />
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <div>
+                        <Image
+                            src='/icons/remove.svg'
+                            alt='remove'
+                            height={25}
+                            width={25}
+                            className="hover:cursor-pointer"
+                        />
+                        </div>
+                    </DialogTrigger>
+
+                    <DialogContent className="sm:max-w-[425px]">
+
+                        <DialogHeader>
+                            <DialogTitle>Confirm remove?</DialogTitle>
+                            <DialogDescription>
+                                <p>Progress cannot be restored</p>
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <div className="flex_center gap-2">
+                                    <button onClick={()=>onToggleBookmark(studyResourceID, userID, false)}>
+                                        Confirm
+                                    </button>
+                                </div>
+                            </DialogClose>
+                        </DialogFooter>
+
+                    </DialogContent>
+
+                </Dialog>
+                    
                 </div>
         
                 

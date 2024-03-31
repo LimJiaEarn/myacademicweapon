@@ -90,17 +90,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                         <Link href={`/profile/${username}/edit`}><p>Edit Profile</p></Link>
                     </div>
 
-                    <div className="flex_center gap-4">
-                        <div className="flex_col_center">
-                            <p className="font-bold text-center">Completed <br className="sm:hidden"/> Papers:</p>
-                            <p className="italic text-center">{simplifiedCompletedResourceObjects.length}</p>
-                        </div>
 
-                        <div className="flex_col_center">
-                            <p className="font-bold text-center">Bookmarked <br className="sm:hidden"/> Resources:</p>
-                            <p className="italic text-center">{simplifiedBookmarkedResourceObjects.length}</p>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -110,22 +100,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {/* Bookmarks - only shown for own user's page */}
             {isOwnUser &&
             <section className="w-full flex_col_center">
-                <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Bookmarks</h2>
-
-
-                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} currentPath={`/profile/${username}`}/>
-            
+                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
             }
 
             {/* Completed Papers */}
             <section className="w-full flex_col_center">
-                
-                <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Completed Practice Papers</h2>
-
-                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} currentPath={`/profile/${username}`}/>
-
-
+                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
             
             {/* TODO: Likes */}

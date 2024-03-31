@@ -15,11 +15,11 @@ type ProfilePageTableProps = {
     userID : string;
     sectionType : "Bookmarks" | "Completed";
     isOwnUser: boolean; // if this is false, we do not need to display the bookmark / status icons
-    currentPath: string;
+    user_name: string;
 }
 
 
-const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, currentPath} : ProfilePageTableProps ) => {
+const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : ProfilePageTableProps ) => {
 
     const [tableData, setTableData] = useState(data);
     
@@ -90,7 +90,13 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, currentPath} :
   return (
 
       <div className="w-4/5">
+
+        <h2 className="text-xl font-bold text-center">{isOwnUser ? "" : user_name+"'s"} {sectionType}</h2>
+        
+
       {tableData.length > 0?
+        <>
+            <p className="italic text-center">{tableData.length}</p>
             <DataTable
                 columns={columns}
                 data={tableData}
@@ -102,6 +108,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, currentPath} :
                 dataCellStyles="align-middle text-center"
                 nextButtonStyles="bg-green-300 rounded-full px-4 cursor-pointer"
             />
+        </>
         :
         // Render a CTA image
         <div className="py-4 flex_col_center gap-4">
