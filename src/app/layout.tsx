@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Google Verification */}
-        <meta name="google-site-verification" content="l1Ylie1lKZwQe3JkdiVRPQ18d6P9rS3yVLy6xW87b6Y" />
+        <meta name="google-site-verification" content="fgFblIdD-kvYb-XjhGf0B57bu3JMY-gwpIHFH0xY2K4" />
       </head>
       <body className={inter.className}>
         <NavBar/>
