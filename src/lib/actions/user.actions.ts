@@ -49,12 +49,15 @@ export async function getUserByUsername(username: string) {
     const user = await User.findOne({ username : username });
 
 
-    if (!user) throw new Error("User not found");
+    if (!user){
+      throw new Error("Invalid Username");
+    }
 
     return JSON.parse(JSON.stringify(user));
   }
   catch (error) {
     handleError(error);
+    return null;
   }
 }
 

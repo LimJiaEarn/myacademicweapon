@@ -12,7 +12,6 @@ const ContributePage = async () => {
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;
 
-    // TODO: Pass userID if user is signed in
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"
 
@@ -46,13 +45,15 @@ const ContributePage = async () => {
         <div className="flex_col_center gap-8 px-2 py-8 pb-8">
 
             <h1 className="text-3xl md:text-5xl font-bold text-center max-w-[90ch] mx-auto mb-4 leading-[1.5]">
-                <span className="text-success_gold">Lend</span> Your Learning & <span className="text-academic_red">Gift </span> Your Wisdom!
+                <span className="gold_grad_text_2">Lend</span> Your Learning
+                <br/>
+                <span className="red_grad_text_2">Gift </span> Your Wisdom!
             </h1>
 
-            <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
+            <p className="text-lg md:text-xl text-center max-w-[60ch] mx-auto leading-normal">
                 Your contributions are the beacon for students navigating their educational journeys.
                 Embark on our mission to share the wealth of academic resources and
-                let's build a world where <span className="text-[#fbbf24]"> knowledge knows no boundaries!</span> 
+                let's build a world where <span className="gold_grad_text"> knowledge knows no boundaries!</span> 
             </p>
 
             

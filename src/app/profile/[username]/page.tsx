@@ -39,21 +39,23 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
         if (!resourceObject) return null;
 
-        if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject)
+        if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
             return {
                 _id: resourceObject._id.toString(),
                 status: true,
                 bookmark: true,
+                subject: resourceObject.subject,
                 title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
                 url : resourceObject.url,
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
             }
-        else if (resourceObject.type==="Topical" && 'topicName' in resourceObject)
+        else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
             return {
                 _id: resourceObject._id.toString(),
                 status: true,
                 bookmark: true,
+                subject: resourceObject.subject,
                 title : resourceObject.subject + " " + resourceObject.topicName,
                 url : resourceObject.url,
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
@@ -87,8 +89,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                         <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
                         <p className="italic">{currentUserProfileObject.bio}</p>
 
-                        <Link href={`/profile/${username}/edit`}><p>Edit Profile</p></Link>
-                        <SignOutButton />
+                        {isOwnUser && <div>
+                            <Link href={`/profile/${username}/edit`}>
+                                <p>Edit Profile</p>
+                            </Link>
+                            {/* Navigates user to home page */}
+                            <Link href={`/`}>
+                                <SignOutButton/>
+                            </Link>
+                        </div>}
                     </div>
 
 
@@ -98,22 +107,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
             </section>
 
-            {/* Bookmarks - only shown for own user's page */}
-            {isOwnUser &&
             <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
-            }
 
-            {/* Completed Papers */}
             <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
             
-            {/* TODO: Likes */}
-            {/* <section className="w-full text-center">
-                <h2 className="text-xl font-bold">{isOwnUser ? "Your" : currentUserProfileObject.firstName+"'s"} Liked Resources</h2>
-            </section> */}
             
 
 

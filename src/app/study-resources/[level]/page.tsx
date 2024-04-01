@@ -126,7 +126,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     try {
       const response = await updateBookmarkStudyResource({ userID, studyResourceID, newBookmark });
 
-
       if (!response) {
         // TODO: NICER ALERTS
         alert('Failed to update bookmark, try again later!');
@@ -243,7 +242,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
   
       if (data) setTableData(data);
-      else setTableData([]);
+      else setTableData([]); // no resources in database
 
 
     } catch (error) {

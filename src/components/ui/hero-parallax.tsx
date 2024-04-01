@@ -131,9 +131,9 @@ export const Header = () => {
     return (
       <div className="mx-auto max-w-full gap-4 z-20 pl-2">
         <h1 className="text-3xl font-bold leading-tight sm:text-5xl sm:leading-normal md:text-5xl md:leading-relaxed lg:text-6xl">
-          Your <span className="bg-gradient-to-r text-transparent bg-clip-text from-academic_red via-red-400 to-pink-500">Ultimate Weapon</span>
+          Your <span className="red_grad_text">Ultimate Weapon</span>
           <br/>
-          To <span className="bg-gradient-to-r text-transparent bg-clip-text from-orange-600 via-success_gold to-orange-300">Conquer</span> Your Academics
+          To <span className="gold_grad_text">Conquer</span> Your Academics
         </h1>
         <div className="flex flex-col items-start gap-4 md:align-center lg:flex-row lg:items-center">
 

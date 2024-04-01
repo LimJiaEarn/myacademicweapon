@@ -100,6 +100,13 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
             <DataTable
                 columns={columns}
                 data={tableData}
+                selectorFilters={[
+                    {
+                      id: "subject",
+                      placeholder:"Filter Subject",
+                      options: Array.from(new Set(tableData?.map(item => (item as any)["subject"]))),
+                    },
+                  ]}
                 searchFilter="title"
                 tableStyles="bg-green-100 rounded-lg"
                 headerRowStyles="bg-emerald-300 rounded-t-lg"
