@@ -225,7 +225,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       if (resourceType==="Yearly"){
         data = (data as YearlyPracticePaper[])?.map(item=> ({
           ...item,
-          resource : item.year + " " + item.schoolName +  " " + item.assessment +  " P" + item.paper
+          resource : item.year + " " + item.assessment + " " + item.schoolName + " P" + item.paper
         }))
       }
       else if (resourceType==="Topical"){
@@ -272,6 +272,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
             :
             <DataTable
               columns={tableColumns}
+              toHideColumns = {["bookmark", "status", "year", "assessment"]}
               data={tableData}
               showStatusFilter = {true}
               showBookmarkFilter = {true}

@@ -41,6 +41,7 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
+  toHideColumns: string[]
   data: TData[]
   showStatusFilter?: boolean
   showBookmarkFilter?: boolean
@@ -56,7 +57,7 @@ interface DataTableProps<TData, TValue> {
 
 
 
-export function DataTable<TData, TValue>({ columns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -95,7 +96,6 @@ export function DataTable<TData, TValue>({ columns, data, showStatusFilter, show
   // Hide Year & Assessment columns for Yearly
   useEffect(()=>{
 
-    const toHideColumns = ["bookmark", "status", "year", "assessment"];
     table.getAllColumns().map((column) => {
       if (toHideColumns.includes(column.id)){
         column.toggleVisibility(false);
@@ -178,11 +178,11 @@ export function DataTable<TData, TValue>({ columns, data, showStatusFilter, show
               value={filterSelectorValue[selectorFilter.id] || ""} 
               defaultValue={selectorFilter.placeholder}
             >
-              <SelectTrigger className="w-[180px] bg-slate-400">
+              <SelectTrigger className="w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
                 <SelectValue placeholder={selectorFilter.placeholder} />
               </SelectTrigger>
 
-              <SelectContent className="w-[240px] bg-slate-300">
+              <SelectContent className="w-[240px] bg-slate-100">
 
                 {selectorFilter.options.map((option) => {
                    return (
@@ -209,7 +209,7 @@ export function DataTable<TData, TValue>({ columns, data, showStatusFilter, show
               placeholder={filterPlaceholder}
               value={(table.getColumn(searchFilter)?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn(searchFilter)?.setFilterValue(event.target.value)}
-              className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              className="h-10 w-full rounded-md px-2 sm:px-4 py-2 bg-slate-300 text-sm ring-offset-background placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             />
           </div>
         }

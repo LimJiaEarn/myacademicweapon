@@ -24,6 +24,10 @@ export default function RootLayout({
   return (
   <ClerkProvider>
     <html lang="en">
+      <head>
+        {/* Google Verification */}
+        <meta name="google-site-verification" content="l1Ylie1lKZwQe3JkdiVRPQ18d6P9rS3yVLy6xW87b6Y" />
+      </head>
       <body className={inter.className}>
         <NavBar/>
         <div className="py-4 sm:py-[7.5rem] min-h-screen">

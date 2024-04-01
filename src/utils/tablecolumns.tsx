@@ -181,8 +181,8 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
 
 // Commented out for faster load since these cells are hidden
 const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookmarkFunction, userID: string|null) => {
-    const studyResourceID = info.row.original._id; // Access the id of the row
-    const bookmarked = info.getValue() as boolean; // This is your boolean status
+    // const studyResourceID = info.row.original._id; // Access the id of the row
+    // const bookmarked = info.getValue() as boolean; // This is your boolean status
     return (
     <div className="w-full flex justify-center" >
         {/* <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
@@ -208,8 +208,8 @@ const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookm
 
 // Commented out for faster load since these cells are hidden
 const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
-    const studyResourceID = info.row.original._id; // Access the id of the row
-    const status = info.getValue() as boolean; // This is your boolean status
+    // const studyResourceID = info.row.original._id; // Access the id of the row
+    // const status = info.getValue() as boolean; // This is your boolean status
     return (
     <div className="w-full flex justify-center">
         {/* <input
@@ -293,10 +293,12 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
                 videoSolution = info.row.original.videoSolution;
             }
             return (
-            <div className="flex_center">
+            <div className="grid grid-cols-3">
+                <div className="col-start-2 col-span-2 flex justify-start items-center">
+
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -306,6 +308,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
                     videoSolution &&
                     <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
                 }
+                </div>
                 
             </div>
             );
@@ -352,10 +355,12 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
                 videoSolution = info.row.original.videoSolution;
             }
             return (
-            <div className="flex_center">
+            <div className="grid grid-cols-3">
+                <div className="col-start-2 col-span-2flex justify-start items-center">
+
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -365,6 +370,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
                     videoSolution &&
                     <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
                 }
+                </div>
                 
             </div>
             );
@@ -380,6 +386,12 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 
 
 export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
+    // Subject
+    {
+        accessorKey: "subject",
+        header: ({ column }) => headerCell(column, "Subject", true),
+        cell: info => {info.getValue() as string},
+    },
     // Resource
     {
         accessorKey: "title",
@@ -396,18 +408,19 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                 videoSolution = info.row.original.videoSolution as string;
             }
             return (
-            <div className="flex_center">
-
-                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
-                {
-                    workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
-                }
-                {
-                    videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
-                }
-                
+            <div className="grid grid-cols-3">
+                <div className="col-start-2 col-span-2 flex justify-start items-center">
+                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    {
+                        workingSolution &&
+                        <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                    }
+                    {
+                        videoSolution &&
+                        <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                    }
+                    
+                </div>
             </div>
             );
         },
@@ -467,7 +480,12 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
 ];
 
 export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null, isOwnUser: boolean): ColumnDef<StudyResourceInterface>[] => [
-    // Resource
+    // Subject
+    {
+        accessorKey: "subject",
+        header: ({ column }) => headerCell(column, "Subject", true),
+        cell: info => {info.getValue() as string},
+    },
     {
         accessorKey: "title",
         header: ({ column }) => headerCell(column, "Resource", true),
@@ -483,18 +501,19 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
                 videoSolution = info.row.original.videoSolution as string;
             }
             return (
-            <div className="flex_center">
-
-                <p className="hover:text-blue-600 underline cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
-                {
-                    workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
-                }
-                {
-                    videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
-                }
-                
+            <div className="grid grid-cols-3">
+                <div className="col-start-2 col-span-2 flex justify-start items-center">
+                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    {
+                        workingSolution &&
+                        <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                    }
+                    {
+                        videoSolution &&
+                        <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                    }
+                    
+                </div>
             </div>
             );
         },

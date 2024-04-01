@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Table Dependencies
 import { DataTable } from "@/components/shared/DataTable";
@@ -85,7 +85,8 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
     };
 
     const columns = sectionType==="Bookmarks" ?  getProfileBookmarkedColumns(onToggleBookmark, userID, isOwnUser) : getProfileCompletedColumns(onToggleStatus, userID, isOwnUser);
-      
+    
+    
         
   return (
 
@@ -99,6 +100,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
             <p className="italic text-center">{tableData.length}</p>
             <DataTable
                 columns={columns}
+                toHideColumns = {["subject"]}
                 data={tableData}
                 selectorFilters={[
                     {
