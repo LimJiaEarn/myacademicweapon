@@ -12,8 +12,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
     const getUserId = () => new Promise<string>(resolve => {
-        const { userId } = auth();
-        return userId;
+        const checkAuth = setInterval(() => {
+            const { userId } = auth();
+            if (userId) {
+                clearInterval(checkAuth);
+                resolve(userId);
+            }
+        }, 100); // Check every 100ms
     });
 
     const userId = await getUserId();
