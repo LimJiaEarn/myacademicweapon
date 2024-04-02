@@ -17,14 +17,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const [loading, setLoading] = useState(true);
     const [isOwnUser, setIsOwnUser] = useState(false);
 
-    let currentSignedInUserObject: UserObject | null = null;
-    let currentUserProfileObject: UserObject | null= null;
+    let currentSignedInUserObject: any = null;
+    let currentUserProfileObject: any = null;
 
     useEffect(() => {
         const checkAuth = async () => {
             const { isLoaded, isSignedIn, user } = useUser();
             
-            const userId = user?.id;
+            const userId = user?.id
             if (userId) {
                 currentSignedInUserObject = await getUserByClerkId(userId);
                 currentUserProfileObject = await getUserByUsername(params.username);
@@ -51,8 +51,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     // console.table(currentSignedInUserObject);
 
     // Get user data
-    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject?._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject?._id, resourceType: "Yearly"});
+    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject ? currentUserProfileObject._id : "", resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject ? currentUserProfileObject._id : "", resourceType: "Yearly"});
 
     // fetch resource data
     const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
@@ -120,8 +120,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 <div className="flex_col_center gap-4">
 
                     <div className="flex_col_Center">
-                        <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
-                        <p className="italic">{currentUserProfileObject.bio}</p>
+                        {/* <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
+                        <p className="italic">{currentUserProfileObject.bio}</p> */}
 
                         {isOwnUser && <div>
                             <Link href={`/profile/${username}/edit`}>
@@ -141,13 +141,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
             </section>
 
-            <section className="w-full flex_col_center">
+            {/* <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
 
             <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
-            </section>
+            </section> */}
             
             
 
