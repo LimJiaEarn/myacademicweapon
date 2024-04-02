@@ -1,58 +1,30 @@
-"use client"
-
-import { useUser , SignOutButton } from "@clerk/nextjs";
+import { auth, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
 import Link from 'next/link';
 
-import { useState, useEffect } from 'react';
-
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
-    // const { userId } = auth();
+    const { userId } = auth();
     const { username } = params;
 
-    const [loading, setLoading] = useState(true);
-    const [isOwnUser, setIsOwnUser] = useState(false);
+    const currentUserProfileObject : UserObject= await getUserByUsername(username);
+    const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+    const userID = currentUserProfileObject._id; // this is the mongoDB id
+    const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-    let currentSignedInUserObject: any = null;
-    let currentUserProfileObject: any = null;
+    console.log(`Clerk Auth userId: ${userId}`);
+    console.log(`MongoDb userID: ${userID}`);
+    console.table(currentUserProfileObject);
+    console.table(currentSignedInUserObject);
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            const { isLoaded, isSignedIn, user } = useUser();
-            
-            const userId = user?.id
-            if (userId) {
-                currentSignedInUserObject = await getUserByClerkId(userId);
-                currentUserProfileObject = await getUserByUsername(params.username);
-                setIsOwnUser(currentSignedInUserObject !==null && currentSignedInUserObject?._id === currentUserProfileObject?._id);
-            }
-            setLoading(false); // Set loading to false once the auth check is complete
-        };
 
-        checkAuth();
-    }, [params.username]); // Dependency array to re-run the effect if username changes
-
-    if (loading) {
-        return <div>Loading...</div>; // Or any other loading state representation
-    }
-
-    // const currentUserProfileObject : UserObject= await getUserByUsername(username);
-    // const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
-    // const userID = currentUserProfileObject._id; // this is the mongoDB id
-    // // const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
-
-    // console.log(`Clerk Auth userId: ${userId}`);
-    // console.log(`MongoDb userID: ${userID}`);
-    // console.table(currentUserProfileObject);
-    // console.table(currentSignedInUserObject);
 
     // Get user data
-    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject ? currentUserProfileObject._id : "", resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject ? currentUserProfileObject._id : "", resourceType: "Yearly"});
+    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
 
     // fetch resource data
     const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
@@ -120,8 +92,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 <div className="flex_col_center gap-4">
 
                     <div className="flex_col_Center">
-                        {/* <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
-                        <p className="italic">{currentUserProfileObject.bio}</p> */}
+                        <p className="font-bold">{currentUserProfileObject.firstName} {currentUserProfileObject.lastName}</p>
+                        <p className="italic">{currentUserProfileObject.bio}</p>
 
                         {isOwnUser && <div>
                             <Link href={`/profile/${username}/edit`}>
@@ -141,13 +113,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
             </section>
 
-            {/* <section className="w-full flex_col_center">
+            <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
             </section>
 
             <section className="w-full flex_col_center">
                 <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject.firstName + currentUserProfileObject.lastName}/>
-            </section> */}
+            </section>
             
             
 
