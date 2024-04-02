@@ -1,4 +1,8 @@
-import { auth, SignOutButton } from "@clerk/nextjs";
+"use client"
+
+import { SignOutButton } from "@clerk/nextjs";
+import { useUser } from '@clerk/nextjs';
+
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -7,21 +11,10 @@ import Link from 'next/link';
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
-    
+    const { user } = useUser();
     const { username } = params;
 
-
-    const getUserId = () => new Promise<string>(resolve => {
-        const checkAuth = setInterval(() => {
-            const { userId } = auth();
-            if (userId) {
-                clearInterval(checkAuth);
-                resolve(userId);
-            }
-        }, 100); // Check every 100ms
-    });
-
-    const userId = await getUserId();
+    const userId = user?.id;
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
