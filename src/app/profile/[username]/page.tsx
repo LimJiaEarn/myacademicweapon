@@ -15,6 +15,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
+    console.log(`Clerk Auth userId: ${userId}`);
+    console.log(`MongoDb userID: ${userID}`);
+    console.table(currentUserProfileObject);
+    console.table(currentSignedInUserObject);
+
+
 
     // Get user data
     const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
