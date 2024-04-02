@@ -7,16 +7,8 @@ import Link from 'next/link';
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
-    
+    const { userId } = auth();
     const { username } = params;
-
-
-    const getUserId = () => new Promise<string>(resolve => {
-        const { userId } = auth();
-        return userId;
-    });
-
-    const userId = await getUserId();
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
@@ -27,6 +19,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     console.log(`MongoDb userID: ${userID}`);
     console.table(currentUserProfileObject);
     console.table(currentSignedInUserObject);
+
 
 
     // Get user data
