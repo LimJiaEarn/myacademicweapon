@@ -20,19 +20,21 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     console.log(`auth: ${userId ? userId : "No userId"}`);
     console.log(`MongoDb userID: ${userID}`);
-    console.table(currentUserProfileObject);
-    console.table(currentSignedInUserObject);
 
 
     // Initiate the promises without awaiting them
-    const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
-    const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
+    const currentUserProfileTopicalData = await getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
+    const currentUserProfileYearlyData = await getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
+
+
+    console.table(currentUserProfileTopicalData);
+    console.table(currentUserProfileYearlyData);
 
     // Use Promise.all to await both promises in parallel
-    const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
-        currentUserProfileTopicalDataPromise,
-        currentUserProfileYearlyDataPromise
-    ]);
+    // const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
+    //     currentUserProfileTopicalDataPromise,
+    //     currentUserProfileYearlyDataPromise
+    // ]);
 
 
     const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
