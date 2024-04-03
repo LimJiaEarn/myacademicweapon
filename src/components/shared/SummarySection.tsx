@@ -12,7 +12,8 @@ import { useUser } from '@clerk/nextjs';
 const SummarySection = () => {
 
   const { user } = useUser();
-  const userID = user?.publicMetadata?.userId ?? null;
+
+  console.log(user);
 
     // TODO: GET USER PROGRESS
 

@@ -14,7 +14,7 @@ import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 // Server Actions
 import { updateStatusStudyResource, getStatusStudyResource, updateBookmarkStudyResource, getBookmarksStudyResource  } from '@/lib/actions/useractivity.actions';
 import { getStudyResources } from '@/lib/actions/studyresource.actions';
-
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 // Toast Messages
 import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } from '../../../../constants';
 
@@ -35,7 +35,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const { user } = useUser();
 
 
-  console.log(`useUser: ${user ? user.id : "No userId"}`);
 
   // Get the encoded data from url
   const resourceLevel = capitalize(pathname.split('/').pop() as string);
@@ -45,6 +44,19 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   // utlity states
   const [userID, setUserID] = useState<string | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
+
+  useEffect(()=>{
+    const getuserId = async () =>{
+      const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
+      setUserID(currentSignedInUserObject._id);
+    }
+
+    getuserId();
+
+  }, [user])
+
+
+  console.log(`useUser: ${user ? user.id : "No userId"}`);
 
   // https://ui.shadcn.com/docs/components/toast
   const { toast } = useToast();
