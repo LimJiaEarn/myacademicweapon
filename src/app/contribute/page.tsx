@@ -12,8 +12,9 @@ const ContributePage = async () => {
 
 
     const { user } = useUser();
-    console.log("auth:", userId ? userId : "No userId");
-    console.log("useUser: ", user ? user.id : "No userId");
+    console.log(`auth: ${userId ? userId : "No userId"}`);
+    console.log(`useUser: ${user ? user.id : "No userId"}`);
+
 
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;

@@ -21,8 +21,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     console.table(currentSignedInUserObject);
 
     const { user } = useUser();
-    console.log("auth:", userId ? userId : "No userId");
-    console.log("useUser: ", user ? user.id : "No userId");
+    console.log(`auth: ${userId ? userId : "No userId"}`);
+    console.log(`useUser: ${user ? user.id : "No userId"}`);
 
     // Get user data
     const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
