@@ -1,4 +1,6 @@
-import { auth, SignOutButton } from "@clerk/nextjs";
+"use client"
+
+import { useUser, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -7,7 +9,8 @@ import Link from 'next/link';
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
-    const { userId } = auth();
+    const { user } = useUser();
+    const userId = user?.id || null;
     const { username } = params;
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
@@ -20,13 +23,18 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     console.table(currentUserProfileObject);
     console.table(currentSignedInUserObject);
 
-    console.log(`auth: ${userId ? userId : "No userId"}`);
 
-    // Get user data
-    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+    // Initiate the promises without awaiting them
+    const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
+    const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
 
-    // fetch resource data
+    // Use Promise.all to await both promises in parallel
+    const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
+        currentUserProfileTopicalDataPromise,
+        currentUserProfileYearlyDataPromise
+    ]);
+
+
     const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
     
@@ -37,6 +45,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
         return getStudyResourceByID(resourceId);
     });
+    
 
     const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
     const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
