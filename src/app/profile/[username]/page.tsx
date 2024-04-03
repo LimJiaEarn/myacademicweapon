@@ -25,7 +25,7 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
     const [isOwnUser, setIsOwnUser] = useState(false);
 
     console.log(`useUser: ${userId ? userId : "No userId"}`);
-    console.log(`isOwnerUser: ${isOwnUser}`);
+    console.log(`isOwnUser: ${isOwnUser}`);
 
     useEffect(() => {
 
@@ -113,7 +113,9 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
                 const simplifiedBookmarkedResourceObjectstoSet = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
                 console.table(simplifiedCompletedResourceObjectstoSet);
+                console.log(simplifiedCompletedResourceObjectstoSet)
                 console.table(simplifiedBookmarkedResourceObjectstoSet);
+                console.log(simplifiedBookmarkedResourceObjectstoSet);
                 
                 setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjectstoSet);
                 setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjectstoSet);

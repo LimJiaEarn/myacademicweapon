@@ -20,6 +20,10 @@ type ProfilePageTableProps = {
 
 
 const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : ProfilePageTableProps ) => {
+    
+    console.log("Inside page table");
+    console.table(data);
+
 
     const [tableData, setTableData] = useState(data);
     
