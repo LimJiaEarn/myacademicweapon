@@ -109,14 +109,14 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
             
                     return null;
                 }
-                const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-                const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+                const simplifiedCompletedResourceObjectstoSet = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+                const simplifiedBookmarkedResourceObjectstoSet = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
-                console.table(simplifiedBookmarkedResourceObjects);
-                console.table(simplifiedBookmarkedResourceObjects);
+                console.table(simplifiedCompletedResourceObjectstoSet);
+                console.table(simplifiedBookmarkedResourceObjectstoSet);
                 
-                setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
-                setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
+                setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjectstoSet);
+                setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjectstoSet);
 
             }
 
@@ -158,15 +158,15 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
                 
             </section>
             {currentUserProfileObject &&
-            <>
-            <section className="w-full flex_col_center">
-                <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userId} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
-            </section>
+                <>
+                <section className="w-full flex_col_center">
+                    <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userId} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
+                </section>
 
-            <section className="w-full flex_col_center">
-                <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userId} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
-            </section>
-            </>
+                <section className="w-full flex_col_center">
+                    <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userId} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
+                </section>
+                </>
             }
             
             
