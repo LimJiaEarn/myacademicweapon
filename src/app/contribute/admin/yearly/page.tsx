@@ -118,7 +118,7 @@ const AdminPage = async () => {
   const userID = currentSignedInUserObject._id || null;
   const contributorUrl = "https://www.myacademicweapon.com";
 
-  alert(userId);
+  console.log("auth:", userId);
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"  

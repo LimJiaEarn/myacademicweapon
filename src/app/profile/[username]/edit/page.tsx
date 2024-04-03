@@ -7,6 +7,9 @@ import { getUserByClerkId } from '@/lib/actions/user.actions';
 const page = async () => {
 
     const { userId } = auth();
+
+    console.log("auth:", userId);
+
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const username = currentSignedInUserObject.username;
 
