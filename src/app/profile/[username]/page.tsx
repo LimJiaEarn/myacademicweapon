@@ -1,5 +1,5 @@
 
-import { auth, currentUser, SignOutButton, UserButton } from "@clerk/nextjs";
+import { auth, currentUser, SignOutButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -85,7 +85,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
-            
+
+                <SignedIn>
+                    Signed IN
+                </SignedIn>
+
+                <SignedOut>
+                    Signed OUT
+                </SignedOut>
+
                 
                 <div className="flex_col_center gap-4">
 
