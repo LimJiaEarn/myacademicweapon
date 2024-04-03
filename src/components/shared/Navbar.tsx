@@ -20,6 +20,9 @@ const Navbar = () => {
 
   const { user } = useUser();
 
+  console.log("Navbar:");
+  console.table(user);
+
 
   return (
 

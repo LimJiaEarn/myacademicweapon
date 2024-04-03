@@ -2,7 +2,7 @@
 import Form from '@/components/shared/Form';
 import { contributionFormDetails } from '../../../constants'
 import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
-import { auth, useUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 
@@ -11,9 +11,7 @@ const ContributePage = async () => {
     const { userId } = auth();
 
 
-    const { user } = useUser();
     console.log(`auth: ${userId ? userId : "No userId"}`);
-    console.log(`useUser: ${user ? user.id : "No userId"}`);
 
 
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
