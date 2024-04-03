@@ -95,6 +95,9 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
                 }
                 const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
                 const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+
+                console.table(simplifiedBookmarkedResourceObjects);
+                console.table(simplifiedBookmarkedResourceObjects);
                 
                 setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
                 setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
