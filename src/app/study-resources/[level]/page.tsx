@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { useUser, auth } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { usePathname  } from 'next/navigation'
 import { useToast } from "@/components/ui/use-toast"
 
@@ -32,11 +32,9 @@ function getRandomInt(min: number, max: number): number {
 const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:string}} ) => {
 
   const pathname = usePathname();
-  const { userId } = auth();
   const { user } = useUser();
 
 
-  console.log(`auth: ${userId ? userId : "No userId"}`);
   console.log(`useUser: ${user ? user.id : "No userId"}`);
 
   // Get the encoded data from url
