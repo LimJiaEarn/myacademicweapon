@@ -1,10 +1,9 @@
-import { authMiddleware, redirectToSignIn  } from "@clerk/nextjs";
-import { NextResponse } from 'next/server';
+import { authMiddleware  } from "@clerk/nextjs";
  
 export default authMiddleware({
 
   // Routes that can be accessed while signed out
-  publicRoutes: ["/api/webhooks/clerk", '/', '/contribute', '/sign-in', '/study-resources','/study-resources/(.*)', '/profile/(.*)'],
+  publicRoutes: ["/api/webhooks/clerk", '/', '/contribute', '/sign-in', '/study-resources','/study-resources/(.*)'],
 
   // Routes that can always be accessed, and have
   // no authentication information
