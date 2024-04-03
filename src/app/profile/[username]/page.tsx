@@ -1,5 +1,5 @@
 
-import { auth, SignOutButton } from "@clerk/nextjs";
+import { auth, SignOutButton, UserButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -10,8 +10,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     
     const { username } = params;
-
-
     const { userId } = auth();
 
 
@@ -87,6 +85,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             
                 
                 <div className="flex_col_center gap-4">
+
+                    <UserButton />
 
                     <div className="flex_col_Center">
                         <p className="font-bold">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>

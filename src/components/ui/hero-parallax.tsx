@@ -141,7 +141,7 @@ export const Header = () => {
               Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>We're than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
           </p>
           <div className="flex_center">
-            <LinkButton iconUrl="/icons/sword.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500 hover:px-8" linksTo={linksTo}/>
+            <LinkButton iconUrl="/icons/sword.svg" buttonMsg={buttonMsg} buttonColorClass="from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500 hover:pr-8" linksTo={linksTo}/>
           </div>
 
         </div>
