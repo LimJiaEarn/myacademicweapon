@@ -1,25 +1,19 @@
-"use client"
 
-import { useState, useEffect } from 'react';
-import { useUser, SignOutButton } from "@clerk/nextjs";
+import { auth, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
 import Link from 'next/link';
 
-const ProfilePage = ({ params }: { params: { username: string } }) => {
+const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     
     const { username } = params;
 
 
-    const getUserId = () => new Promise<string>(resolve => {
-        const { userId } = auth();
-        return userId;
-    });
+    const { userId } = auth();
 
-    const userId = await getUserId();
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
@@ -83,22 +77,6 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
 
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-
-                console.table(simplifiedCompletedResourceObjectstoSet);
-                console.log(simplifiedCompletedResourceObjectstoSet)
-                console.table(simplifiedBookmarkedResourceObjectstoSet);
-                console.log(simplifiedBookmarkedResourceObjectstoSet);
-                
-                setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjectstoSet);
-                setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjectstoSet);
-
-            }
-
-        };
-    
-        fetchData();
-
-      }, [userId]);
 
 
     return (
