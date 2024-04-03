@@ -34,6 +34,9 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const pathname = usePathname();
   const { user } = useUser();
 
+  console.log(user);
+  alert("useUser: ", user?.id);
+
   // Get the encoded data from url
   const resourceLevel = capitalize(pathname.split('/').pop() as string);
   const resourceSubject = searchParams.subject;

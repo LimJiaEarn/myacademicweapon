@@ -93,9 +93,8 @@ const AdminPage = async () => {
   const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
   const userID = currentSignedInUserObject._id || null;
 
-  if (userID !== "65edc417ad7e5698dc2349cd"){
-    redirect('/contribute');
-  }
+  alert(userId);
+
 
 
   const contributorUrl = "https://www.myacademicweapon.com";

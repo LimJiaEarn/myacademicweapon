@@ -9,6 +9,9 @@ import { getUserByClerkId } from '@/lib/actions/user.actions';
 const ContributePage = async () => {
 
     const { userId } = auth();
+
+    alert(userId);
+
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;
 
