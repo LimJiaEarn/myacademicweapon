@@ -18,11 +18,10 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
-  const { user } = useUser();
+  const { isLoaded, user } = useUser();
 
-  console.log("Navbar:");
+  console.log("Navbar: ", user);
   console.table(user);
-
 
   return (
 
@@ -57,7 +56,11 @@ const Navbar = () => {
             </ul>
             
             <Link href={`/profile/${user?.username}`}>
-              <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
+              {isLoaded ?
+               <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
+              :
+                <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src="/images/Logo.svg" alt="userDP" height={40} width={40}/>
+              }
             </Link>
 
 
