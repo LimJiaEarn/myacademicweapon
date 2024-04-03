@@ -46,12 +46,12 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
             }
 
             // Initiate the promises without awaiting them
-            console.log("Checking for valid currentUserProfileObject: ", currentUserProfileObject);
-            if (currentUserProfileObject){
+            console.log("Checking for valid profile: ", profile);
+            if (profile){
 
                 console.log("Passed Check")
-                const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
-                const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
+                const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: profile._id, resourceType: "Topical" });
+                const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: profile._id, resourceType: "Yearly" });
             
                 // Use Promise.all to await both promises in parallel
                 const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
