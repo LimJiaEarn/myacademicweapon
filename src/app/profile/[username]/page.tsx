@@ -112,11 +112,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {currentUserProfileObject &&
                 <>
                 <section className="w-full flex_col_center">
-                    <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userId} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
+                    <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
                 </section>
 
                 <section className="w-full flex_col_center">
-                    <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userId} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
+                    <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
                 </section>
                 </>
             }
