@@ -1,5 +1,5 @@
 
-import { auth, SignOutButton, UserButton } from "@clerk/nextjs";
+import { auth, currentUser, SignOutButton, UserButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
@@ -12,6 +12,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const { username } = params;
     const { userId } = auth();
 
+    const user = await currentUser();
+
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
@@ -19,6 +21,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
     console.log(`Clerk Auth userId: ${userId}`);
+    console.log(`Clerk currentUser userId: ${user?.id}`);
     console.log(`MongoDb userID: ${userID}`);
     console.table(currentUserProfileObject);
     console.table(currentSignedInUserObject);
