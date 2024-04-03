@@ -1,6 +1,6 @@
 import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
-import { auth } from "@clerk/nextjs";
+import { auth, useUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
@@ -93,8 +93,9 @@ const AdminPage = async () => {
   const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
   const userID = currentSignedInUserObject._id || null;
 
-  alert(userId);
-
+  console.log("auth:", userId ? userId : "No userId");
+  const { user } = useUser();
+  console.log("useUser: ", user ? user.id : "No userId");
 
 
   const contributorUrl = "https://www.myacademicweapon.com";
