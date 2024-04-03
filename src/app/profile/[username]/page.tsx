@@ -18,6 +18,7 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
     }
 
     const { username } = params;
+
     const [currentUserProfileObject, setcurrentUserProfileObject] = useState<UserObject>();
     const [simplifiedCompletedResourceObjects, setSimplifiedCompletedResourceObjects] = useState<ISummarisedPracticePaper[]>([]);
     const [simplifiedBookmarkedResourceObjects, setSimplifiedBookmarkedResourceObjects] = useState<ISummarisedPracticePaper[]>([]);
@@ -29,7 +30,14 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
     useEffect(() => {
 
         const fetchData = async () => {
+
+            console.log("Fetching data");
+
             const profile = await getUserByUsername(username);
+
+            console.log("Obtained profile");
+            console.log(profile);
+
             setcurrentUserProfileObject(profile);
         
             if (userId) {
@@ -38,7 +46,10 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
             }
 
             // Initiate the promises without awaiting them
+            console.log("Checking for valid currentUserProfileObject: ", currentUserProfileObject);
             if (currentUserProfileObject){
+
+                console.log("Passed Check")
                 const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
                 const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
             
@@ -51,6 +62,11 @@ const ProfilePage = ({ params }: { params: { username: string } }) => {
             
                 const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
                 const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+
+                console.log("received");
+                console.log(`completedResourceIDs: ${completedResourceIDs}`);
+                console.log(`bookmarkedResourceIDs: ${bookmarkedResourceIDs}`);
+
                 
                 const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
                     return getStudyResourceByID(resourceId);
