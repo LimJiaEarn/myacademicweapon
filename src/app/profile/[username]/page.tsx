@@ -35,68 +35,68 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             const signedInUser = await getUserByClerkId(userId);
             setIsOwnUser(signedInUser?._id === profile?._id);
           }
-        // Initiate the promises without awaiting them
 
-    if (currentUserProfileObject){
-        const currentUserProfileTopicalData = await getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
-        const currentUserProfileYearlyData = await getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
-    
-        // Use Promise.all to await both promises in parallel
-        // const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
-        //     currentUserProfileTopicalDataPromise,
-        //     currentUserProfileYearlyDataPromise
-        // ]);
-    
-    
-        const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
-        const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+        // Initiate the promises without awaiting them
+        if (currentUserProfileObject){
+            const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
+            const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
         
-        const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
-            return getStudyResourceByID(resourceId);
-        });
-    
-        const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
-            return getStudyResourceByID(resourceId);
-        });
+            // Use Promise.all to await both promises in parallel
+            const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
+                currentUserProfileTopicalDataPromise,
+                currentUserProfileYearlyDataPromise
+            ]);
         
-    
-        const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
-        const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
-    
-    
-        const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
-            if (!resourceObject) return null;
-    
-            if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
-                return {
-                    _id: resourceObject._id.toString(),
-                    status: true,
-                    bookmark: true,
-                    subject: resourceObject.subject,
-                    title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
-                    url : resourceObject.url,
-                    ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                    ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
-                }
-            else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
-                return {
-                    _id: resourceObject._id.toString(),
-                    status: true,
-                    bookmark: true,
-                    subject: resourceObject.subject,
-                    title : resourceObject.subject + " " + resourceObject.topicName,
-                    url : resourceObject.url,
-                    ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                    ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
-                }
-    
-            return null;
-        }
-        const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-        const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
         
-        setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
-        setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
+            const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
+            const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+            
+            const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
+                return getStudyResourceByID(resourceId);
+            });
+        
+            const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
+                return getStudyResourceByID(resourceId);
+            });
+            
+        
+            const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
+            const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
+        
+        
+            const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
+                if (!resourceObject) return null;
+        
+                if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
+                    return {
+                        _id: resourceObject._id.toString(),
+                        status: true,
+                        bookmark: true,
+                        subject: resourceObject.subject,
+                        title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
+                        url : resourceObject.url,
+                        ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                        ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                    }
+                else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
+                    return {
+                        _id: resourceObject._id.toString(),
+                        status: true,
+                        bookmark: true,
+                        subject: resourceObject.subject,
+                        title : resourceObject.subject + " " + resourceObject.topicName,
+                        url : resourceObject.url,
+                        ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                        ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                    }
+        
+                return null;
+            }
+            const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+            const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+            
+            setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
+            setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
 
     }
     
