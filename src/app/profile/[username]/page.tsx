@@ -1,4 +1,5 @@
 "use client"
+
 import { useState, useEffect } from 'react';
 import { useUser, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
@@ -7,11 +8,10 @@ import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
 import Link from 'next/link';
 
-const ProfilePage = async ({ params }: { params: { username: string } }) => {
+const ProfilePage = ({ params }: { params: { username: string } }) => {
 
     const { user } = useUser();
     const userId = user?.id || null;
-
 
     if (!userId){
         return <p>Invalid User</p>
@@ -27,103 +27,85 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     console.log(`isOwnerUser: ${isOwnUser}`);
 
     useEffect(() => {
+
         const fetchData = async () => {
-          const profile = await getUserByUsername(username);
-          setcurrentUserProfileObject(profile);
-    
-          if (userId) {
-            const signedInUser = await getUserByClerkId(userId);
-            setIsOwnUser(signedInUser?._id === profile?._id);
-          }
-
-        // Initiate the promises without awaiting them
-        if (currentUserProfileObject){
-            const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
-            const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
+            const profile = await getUserByUsername(username);
+            setcurrentUserProfileObject(profile);
         
-            // Use Promise.all to await both promises in parallel
-            const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
-                currentUserProfileTopicalDataPromise,
-                currentUserProfileYearlyDataPromise
-            ]);
-        
-        
-            const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
-            const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
-            
-            const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
-                return getStudyResourceByID(resourceId);
-            });
-        
-            const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
-                return getStudyResourceByID(resourceId);
-            });
-            
-        
-            const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
-            const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
-        
-        
-            const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
-                if (!resourceObject) return null;
-        
-                if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
-                    return {
-                        _id: resourceObject._id.toString(),
-                        status: true,
-                        bookmark: true,
-                        subject: resourceObject.subject,
-                        title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
-                        url : resourceObject.url,
-                        ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                        ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
-                    }
-                else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
-                    return {
-                        _id: resourceObject._id.toString(),
-                        status: true,
-                        bookmark: true,
-                        subject: resourceObject.subject,
-                        title : resourceObject.subject + " " + resourceObject.topicName,
-                        url : resourceObject.url,
-                        ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                        ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
-                    }
-        
-                return null;
+            if (userId) {
+                const signedInUser = await getUserByClerkId(userId);
+                setIsOwnUser(signedInUser?._id === profile?._id);
             }
-            const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-            const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+
+            // Initiate the promises without awaiting them
+            if (currentUserProfileObject){
+                const currentUserProfileTopicalDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
+                const currentUserProfileYearlyDataPromise = getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Yearly" });
             
-            setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
-            setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
+                // Use Promise.all to await both promises in parallel
+                const [currentUserProfileTopicalData, currentUserProfileYearlyData] = await Promise.all([
+                    currentUserProfileTopicalDataPromise,
+                    currentUserProfileYearlyDataPromise
+                ]);
+            
+            
+                const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
+                const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+                
+                const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
+                    return getStudyResourceByID(resourceId);
+                });
+            
+                const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
+                    return getStudyResourceByID(resourceId);
+                });
+                
+            
+                const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
+                const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
+            
+            
+                const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
+                    if (!resourceObject) return null;
+            
+                    if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
+                        return {
+                            _id: resourceObject._id.toString(),
+                            status: true,
+                            bookmark: true,
+                            subject: resourceObject.subject,
+                            title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
+                            url : resourceObject.url,
+                            ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                            ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                        }
+                    else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
+                        return {
+                            _id: resourceObject._id.toString(),
+                            status: true,
+                            bookmark: true,
+                            subject: resourceObject.subject,
+                            title : resourceObject.subject + " " + resourceObject.topicName,
+                            url : resourceObject.url,
+                            ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                            ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                        }
+            
+                    return null;
+                }
+                const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+                const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+                
+                setSimplifiedCompletedResourceObjects(simplifiedCompletedResourceObjects);
+                setSimplifiedBookmarkedResourceObjects(simplifiedBookmarkedResourceObjects);
 
-    }
-    
-    
-
-    
-    
-
-
-
-
+            }
 
         };
     
         fetchData();
-      }, [userId, username]);
 
-
-
-
-
-    // To test loading
-    // const delay = (ms: number) => new Promise<number>(resolve => setTimeout(() => resolve(ms), ms));
-
-    // delay(1000).then((value) => {
-    // console.log(`Waited for ${value / 1000} seconds`);
-    // });
+      }, [userId]);
 
 
     return (

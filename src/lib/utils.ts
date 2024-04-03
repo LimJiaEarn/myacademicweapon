@@ -37,3 +37,10 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
   };
 };
 
+    // To test loading
+    // const delay = (ms: number) => new Promise<number>(resolve => setTimeout(() => resolve(ms), ms));
+
+    // delay(1000).then((value) => {
+    // console.log(`Waited for ${value / 1000} seconds`);
+    // });
+
