@@ -20,7 +20,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     console.log(`auth: ${userId ? userId : "No userId"}`);
     console.log(`MongoDb userID: ${userID}`);
-
+    console.log(`isOwnerUser: ${isOwnUser}`);
 
     // Initiate the promises without awaiting them
     const currentUserProfileTopicalData = await getAllUserActivities({ userID: currentUserProfileObject._id, resourceType: "Topical" });
