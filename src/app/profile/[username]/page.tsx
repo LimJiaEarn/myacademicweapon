@@ -3,7 +3,6 @@ import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions'
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
-import Link from 'next/link';
 import LinkButton from "@/components/shared/LinkButton";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
@@ -62,7 +61,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
                 url : resourceObject.url,
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
+                ...(resourceObject.score && { score: resourceObject.score}), 
             }
         else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
             return {
@@ -73,7 +73,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 title : resourceObject.subject + " " + resourceObject.topicName,
                 url : resourceObject.url,
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}), 
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
+                ...(resourceObject.score && { score: resourceObject.score}), 
             }
 
         return null;
@@ -89,36 +90,39 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
     return (
-        <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen">
+        <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen relative">
 
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
 
+
+                <div className="absolute top-2 right-4">
+                    {isOwnUser &&
+                    <div className="flex_col_center gap-2">
+                        <LinkButton
+                            buttonMsg="Edit Profile"
+                            buttonMsgClass="text-white text-sm"
+                            buttonColorClass="opacity-90 bg-info_blue hover:bg-dark_info_blue border-gray-300 py-1 w-[135px]"
+                            linksTo={`/profile/${username}/edit`}
+                        />
+
+                        {/* Navigates user to home page */}
+                        <SignOutButton>
+                            <LinkButton
+                                buttonMsg="Sign Out"
+                                buttonMsgClass="text-white text-sm"
+                                buttonColorClass="opacity-90 bg-academic_red hover:bg-dark_red border-gray-300 py-1 w-[135px]"
+                                linksTo={`/`}
+                            />
+                        </SignOutButton>
+                    </div>}
+                </div>
+
                 <div className="flex_col_center gap-4">
 
-                    <div className="flex_col_Center">
-                        <p className="font-bold">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
+                    <div className="flex_col_center">
+                        <h1 className="text-3xl font-bold leading-tight sm:text-3xl sm:leading-normal md:text-4xl md:leading-relaxed">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</h1>
                         <p className="italic">{currentUserProfileObject?.bio}</p>
-
-                        {isOwnUser && <div>
-                            <LinkButton
-                                iconUrl="/icons/edit.svg"
-                                buttonMsg="Edit Profile"
-                                buttonColorClass="bg-slate-200"
-                                linksTo={`/profile/${username}/edit`}
-                            />
-                            <Link href={`/profile/${username}/edit`}>
-                                <p>Edit Profile</p>
-                            </Link>
-                            {/* Navigates user to home page */}
-                            <SignOutButton>
-                                <LinkButton
-                                    buttonMsg="Sign Out"
-                                    buttonColorClass="bg-slate-200"
-                                    linksTo={`/`}
-                                />
-                            </SignOutButton>
-                        </div>}
                     </div>
 
 
