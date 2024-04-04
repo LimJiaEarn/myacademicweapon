@@ -241,11 +241,11 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
         }
 
         // Convert the ObjectId array to a string array
-        const completedResourceObject = userResourceInteraction.completedArray;
-        const completedResourceIDs : string[]  = completedResourceObject.map((item: any) => item.resourceObjectId.toString() );
+        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray;
+        // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
 
-        return {"completed": completedResourceIDs, "bookmarked": bookmarkedResourceIDs};
+        return {"completed": completedResourceItems, "bookmarked": bookmarkedResourceIDs};
     }
     catch (error) {
         handleError(error);

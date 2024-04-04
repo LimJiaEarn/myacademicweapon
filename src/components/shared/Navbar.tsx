@@ -186,7 +186,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex items-center sm:hidden w-full">
+        <div className="flex items-center sm:hidden w-full min-h-[35px]">
           <SignedIn>
             <ul className="grow flex justify-evenly py-1">
               {navLinks.map((link) => {

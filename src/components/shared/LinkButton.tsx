@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type LinkButtonParams = {
-    iconUrl:string;
+    iconUrl?:string;
     buttonMsg:string;
     buttonColorClass: string;
     linksTo: string;

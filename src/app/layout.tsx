@@ -30,7 +30,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <NavBar/>
-        <div className="py-4 sm:py-[7.5rem] min-h-screen">
+        <div className="pt-4 pb-[40px] sm:py-[7.5rem] min-h-screen">
           {children}
         </div>
         <Footer/>

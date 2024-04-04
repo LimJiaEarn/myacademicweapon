@@ -63,6 +63,7 @@ interface PracticePaperInterface extends StudyResourceInterface {
   bookmark: boolean;
   type: "Topical" | "Yearly";
   totMarks?: number;
+  score?:number;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
 }
@@ -127,6 +128,11 @@ declare type GetStudyResourcesParams = {
   level: "Primary" | "Secondary" | "JC";
   subject: string;
 };
+
+declare type completedStudyResourceItem = {
+  resourceObjectId: string;
+  score: number;
+}
 
 declare type UpdateStudyResourceParams = {
   url?: string;

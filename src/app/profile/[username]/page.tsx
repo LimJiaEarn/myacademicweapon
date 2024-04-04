@@ -1,46 +1,49 @@
-
-import { auth, currentUser, SignOutButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { currentUser, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
 import Link from 'next/link';
+import LinkButton from "@/components/shared/LinkButton";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     
     const { username } = params;
-    const { userId } = auth();
 
     const user = await currentUser();
 
 
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
-    const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+    const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
     const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-    console.log(`Clerk Auth userId: ${userId}`);
-    console.log(`Clerk currentUser userId: ${user?.id}`);
-    console.log(`MongoDb userID: ${userID}`);
-    console.table(currentUserProfileObject);
-    console.table(currentSignedInUserObject);
+    // console.log(`Clerk currentUser userId: ${user?.id}`);
+    // console.log(`MongoDb userID: ${userID}`);
+    // console.table(currentUserProfileObject);
+    // console.table(currentSignedInUserObject);
 
 
     // Get user data
-    const currentUserProfileTopicalData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: string[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
 
-    // fetch resource data
-    const completedResourceIDs : string[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
+    // Merge the completed , bookmarked resourceId strings
+    const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
     
     const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
         return getStudyResourceByID(resourceId);
     });
 
-    const completedResourceObjectPromises = completedResourceIDs.map(async (resourceId) => {
-        return getStudyResourceByID(resourceId);
+    const completedResourceObjectPromises = completedItems.map(async (item: completedStudyResourceItem) => {
+        const resourceObj = getStudyResourceByID(item.resourceObjectId);
+        const score = item.score;
+        
+        if (!resourceObj) return null;
+
+        return {...resourceObj, score}
     });
 
     const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
@@ -75,9 +78,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
         return null;
     }
-
-    const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+
+
+    
+    const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+    
+    
+    
 
 
     return (
@@ -86,31 +94,30 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
 
-                <SignedIn>
-                    Signed IN
-                </SignedIn>
-
-                <SignedOut>
-                    Signed OUT
-                </SignedOut>
-
-                
                 <div className="flex_col_center gap-4">
-
-                    <UserButton />
 
                     <div className="flex_col_Center">
                         <p className="font-bold">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
                         <p className="italic">{currentUserProfileObject?.bio}</p>
 
                         {isOwnUser && <div>
+                            <LinkButton
+                                iconUrl="/icons/edit.svg"
+                                buttonMsg="Edit Profile"
+                                buttonColorClass="bg-slate-200"
+                                linksTo={`/profile/${username}/edit`}
+                            />
                             <Link href={`/profile/${username}/edit`}>
                                 <p>Edit Profile</p>
                             </Link>
                             {/* Navigates user to home page */}
-                            <Link href={`/`}>
-                                <SignOutButton/>
-                            </Link>
+                            <SignOutButton>
+                                <LinkButton
+                                    buttonMsg="Sign Out"
+                                    buttonColorClass="bg-slate-200"
+                                    linksTo={`/`}
+                                />
+                            </SignOutButton>
                         </div>}
                     </div>
 

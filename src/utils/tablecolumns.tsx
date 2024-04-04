@@ -425,6 +425,12 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             );
         },
     },
+    // Score
+    ...(isOwnUser ? [{
+        accessorKey: "score",
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Your Score", true),
+        cell: (info: CellContext<any, any>) => {info.getValue() as string},
+    }] : []),
     // Edit
     ...(isOwnUser ? [{
         accessorKey: 'resource', // This should match the key in your data for the status
