@@ -32,6 +32,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
     
+    console.log("Completed Initial");
+    let itemsL = bookmarkedResourceIDs.length;
+    for (let i=0; i<itemsL; i++){
+        console.table(completedItems[i]);
+    }
+
+    console.log("Bookmark Initial");
+    console.table(bookmarkedResourceIDs);
+
     const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
         return getStudyResourceByID(resourceId);
     });
@@ -47,6 +56,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
     const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
+
 
 
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
@@ -81,12 +91,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     }
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
-
+    console.log("bookmark");
+    console.table(simplifiedBookmarkedResourceObjects);
     
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     
     
-    
+    console.log("completed");
+    console.table(simplifiedCompletedResourceObjects);
 
 
     return (

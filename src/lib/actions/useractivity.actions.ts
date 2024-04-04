@@ -240,8 +240,10 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
             return { completed: [], bookmarked: [] }; // Return empty arrays for both properties
         }
 
+        // TODO: MAP to string for completed resource Ids
         // Convert the ObjectId array to a string array
-        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray;
+        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score}));
+
         // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
 
