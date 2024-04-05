@@ -103,17 +103,18 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
         
   return (
 
-      <div className="w-4/5">
+      <div className="w-4/5 mt-6 md:mt-10">
 
-        <div className="flex_center gap-4">
-            <h2 className="text-xl font-bold text-center">{isOwnUser ? "" : user_name+"'s"} {sectionType}</h2>
+        <div className="flex justify-center items-center gap-4">
+            <h2 className="font-bold text-center leading-relaxed text-text_gray text-2xl lg:text-3xl">{isOwnUser ? "Your " : user_name+"'s "}{sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"}</h2>
             {isOwnUser && 
             <button
+                className="bg-teal-500 text-white rounded-lg px-2 py-1"
                 onClick={()=>{
                     setToggleEdit((prev)=>!prev);
                 }}    
             >
-                {`${toggleEdit ? "Editting" : "Edit"}`}
+                {`${toggleEdit ? "Editing" : "Edit"}`}
             </button>}
 
         </div>
@@ -121,25 +122,29 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
 
       {tableData.length > 0?
         <>
-            <p className="italic text-center">{tableData.length}</p>
+            {/* <p className="italic text-center">{tableData.length}</p> */}
             <DataTable
                 columns={columns}
                 toHideColumns = {toHideColumns}
                 data={tableData}
                 selectorFilters={[
                     {
-                      id: "subject",
-                      placeholder:"Filter Subject",
-                      options: Array.from(new Set(tableData?.map(item => (item as any)["subject"]))),
+                        id: "subject",
+                        placeholder:"Filter Subject",
+                        options: Array.from(new Set(tableData?.map(item => (item as any)["subject"]))),
                     },
-                  ]}
+                    ]}
                 searchFilter="title"
-                tableStyles="bg-green-100 rounded-lg"
-                headerRowStyles="bg-emerald-300 rounded-t-lg"
-                headerCellStyles="flex_center text-black text-md font-semibold"
-                dataRowStyles="transition ease-in-out delay-125 hover:bg-green-200"
+                searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"} ...`}
+                tableStyles="bg-teal-50 border-4 border-slate-100"
+                selectBoxStyles="w-[180px] bg-emerald-500 text-white ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                selectContentStyles="w-[240px] bg-teal-100"
+                searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-emerald-500 text-white text-sm ring-offset-background placeholder:text-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                headerRowStyles="bg-emerald-500"
+                headerCellStyles="flex justify-center items-center text-white text-md font-medium"
+                dataRowStyles="transition ease-in-out duration-200 hover:bg-emerald-100"
                 dataCellStyles="align-middle text-center"
-                nextButtonStyles="bg-green-300 rounded-full px-4 cursor-pointer"
+                nextButtonStyles="text-white bg-emerald-500 hover:bg-emerald-400 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
             />
         </>
         :

@@ -4,6 +4,8 @@ import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import ProfilePageTable from "@/components/shared/ProfileTable";
 import LinkButton from "@/components/shared/LinkButton";
+import Link from "next/link";
+import Image from "next/image";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
@@ -112,13 +114,19 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             {/* User meta datas */}
             <section className="flex flex-col md:flex-row items-center gap-8">
 
-
+                <div className="relative group w-45 h-45 rounded-full overflow-hidden">
+                    <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={180} width={180} className="rounded-full"/>
+                    <div className="absolute bottom-0 w-full flex justify-center items-end pb-2 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:-translate-y-2 flex_center">
+                        <Link href={`/profile/${username}/edit#/profile`} className="text-white text-sm py-1 px-4 rounded shadow-md">
+                            Edit Image
+                        </Link>
+                    </div>
+                </div>
 
 
                 <div className="flex_col_center gap-4">
-
                     <div className="flex_col_center">
-                        <h1 className="text-3xl font-bold leading-tight sm:text-3xl sm:leading-normal md:text-4xl md:leading-relaxed">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</h1>
+                        <h1 className="text-3xl font-bold leading-tight sm:text-3xl sm:leading-normal md:text-4xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</h1>
                         <p className="italic">{currentUserProfileObject?.bio}</p>
 
                         {isOwnUser &&
@@ -126,7 +134,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                             <LinkButton
                                 buttonMsg="Edit Profile"
                                 buttonMsgClass="text-white text-sm"
-                                buttonColorClass="opacity-90 bg-info_blue hover:bg-dark_info_blue border-gray-300 py-1 w-[135px]"
+                                // Adjusted for a softer blue
+                                buttonColorClass="opacity-90 bg-cyan-500 hover:bg-cyan-600 border-gray-300 py-1 w-[135px] shadow-lg"
                                 linksTo={`/profile/${username}/edit`}
                             />
 
@@ -135,16 +144,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                                 <LinkButton
                                     buttonMsg="Sign Out"
                                     buttonMsgClass="text-white text-sm"
-                                    buttonColorClass="opacity-90 bg-academic_red hover:bg-dark_red border-gray-300 py-1 w-[135px]"
+                                    // Adjusted for a gentler red
+                                    buttonColorClass="opacity-90 bg-red-300 hover:bg-red-400 border-gray-300 py-1 w-[135px] shadow-lg"
                                     linksTo={`/`}
                                 />
                             </SignOutButton>
                         </div>}
-
                     </div>
-
-
-
                 </div>
 
                 

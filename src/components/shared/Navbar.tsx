@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
 
-    <nav className="z-50 px-2 sm:px-6 py-2 xl:px-10 flex_between border-b bg-teal_green fixed bottom-0 sm:bottom-auto sm:top-0 left-0 right-0">
+    <nav className="z-50 px-2 sm:px-6 py-2 xl:px-10 flex_between border-b bg-emerald-200 fixed bottom-0 sm:bottom-auto sm:top-0 left-0 right-0">
 
         <div className="hidden sm:flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">

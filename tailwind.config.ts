@@ -20,13 +20,10 @@ const config: Config = {
     extend: {
       colors: {
         // Background Colors
-        'teal_green': 'hsl(160, 40%, 70%)', // Navbar 
         'light_gray': '#f3f4f6', // Secondary Navbar
         'pri_bg_color': '#f9fafb', 
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
         
-        'creativity_gray': 'hsl(210, 16%, 60%)', 
-
         // Primary Colors (For headers, important buttons, links)
         'academic_red': 'hsl(0, 80%, 50%)', // A dynamic, attention-grabbing red for primary actions and headers
         'success_gold': 'hsl(46, 90%, 50%)', // A rich gold for highlighting success, achievements, and important features

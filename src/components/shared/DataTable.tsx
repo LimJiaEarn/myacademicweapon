@@ -47,7 +47,11 @@ interface DataTableProps<TData, TValue> {
   showBookmarkFilter?: boolean
   selectorFilters?: SelectorFieldConfig[];
   searchFilter?: string;
+  searchPlaceholder:string;
+  searchFilterStyles?:string;
   tableStyles?:string;
+  selectBoxStyles?:string;
+  selectContentStyles?:string;
   headerRowStyles?: string;
   headerCellStyles?:string;
   dataRowStyles?: string;
@@ -57,7 +61,7 @@ interface DataTableProps<TData, TValue> {
 
 
 
-export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, tableStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -91,8 +95,6 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
 
-  const filterPlaceholder = "Search "+ searchFilter;
-
   // Hide Status, Bookmark columns
   // Hide Year & Assessment columns for Yearly
   useEffect(()=>{
@@ -109,7 +111,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
         
-        <div className="flex_center gap-4 md:gap-6">
+        <div className="flex flex-col items-start gap-2 md:gap-4">
           {showBookmarkFilter &&
           <div className="flex_center gap-2">
             <div className="inline-block relative cursor-pointer">
@@ -160,42 +162,45 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
         <div className="flex_center gap-2 md:gap-4">
           {selectorFilters.map((selectorFilter, index) => {
             return(
-            <Select
-              key={selectorFilter.id+"__"+index}
-              onValueChange={(value) => {
-                
-                if (value === CLEAR_FILTER_VALUE) {
-                  table.getColumn(selectorFilter.id)?.setFilterValue(null);
-                  setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:""}))
-                }
-                
-                else {
-                  table.getColumn(selectorFilter.id)?.setFilterValue(value);
-                  setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:value}))
+              <div className="w-[200px]">
+              <Select
+                key={selectorFilter.id+"__"+index}
+                onValueChange={(value) => {
                   
-                }
+                  if (value === CLEAR_FILTER_VALUE) {
+                    table.getColumn(selectorFilter.id)?.setFilterValue(null);
+                    setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:""}))
+                  }
+                  
+                  else {
+                    table.getColumn(selectorFilter.id)?.setFilterValue(value);
+                    setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:value}))
+                    
+                  }
 
-              }}
-              value={filterSelectorValue[selectorFilter.id] || ""} 
-              defaultValue={selectorFilter.placeholder}
-            >
-              <SelectTrigger className="w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                <SelectValue placeholder={selectorFilter.placeholder} />
-              </SelectTrigger>
+                }}
+                value={filterSelectorValue[selectorFilter.id] || ""} 
+                defaultValue={selectorFilter.placeholder}
+              >
+                <SelectTrigger className={`${selectBoxStyles ? selectBoxStyles : "w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"}`}>
+                  <SelectValue placeholder={selectorFilter.placeholder} />
+                </SelectTrigger>
 
-              <SelectContent className="w-[240px] bg-slate-100">
+                <SelectContent className={`${selectContentStyles ? selectContentStyles : "w-[240px] bg-slate-100"}`}>
 
-                {selectorFilter.options.map((option) => {
-                   return (
-                      <SelectItem className="hover:cursor-pointer" value={option}>{option}</SelectItem>
-                   )
-                })}
+                  {selectorFilter.options.map((option) => {
+                    return (
+                        <SelectItem className="hover:cursor-pointer" value={option}>{option}</SelectItem>
+                    )
+                  })}
 
-                <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
+                  <SelectItem value={CLEAR_FILTER_VALUE} className="text-red-500 hover:cursor-pointer">Clear Filter</SelectItem>
 
-              </SelectContent>
+                </SelectContent>
 
-            </Select>
+              </Select>
+              </div>
+
         
         )})}
         </div>
@@ -205,19 +210,38 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
         {/* Search Filter */}
         {
           columns.some(column => 'accessorKey' in column) && searchFilter &&
-          <div className="flex items-center py-4">
+          <div className="flex items-center py-4 w-[300px]">
             <input
-              placeholder={filterPlaceholder}
+              placeholder={searchPlaceholder}
               value={(table.getColumn(searchFilter)?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn(searchFilter)?.setFilterValue(event.target.value)}
-              className="h-10 w-full rounded-md px-2 sm:px-4 py-2 bg-slate-300 text-sm ring-offset-background placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              className={`${searchFilterStyles ? searchFilterStyles : "h-10 w-full rounded-md px-4 py-2 bg-slate-300 text-slate-600 text-sm ring-offset-background placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"}`}
             />
           </div>
+        }
+
+        {/* Prev and Next Buttons - Only rendered if there is more than 10 data rows*/}
+        {data.length > 10 &&
+        <div className="flex_center gap-2">
+            <button
+                className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-md px-4 cursor-pointer'} 
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+            >
+                Prev
+            </button>
+            <button
+              className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-md px-4 cursor-pointer'}
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+            >
+                Next
+            </button>
+        </div>
         }
       </div>
 
 
-      <div className="">
 
         <Table className={tableStyles ? tableStyles : ''}>
           
@@ -225,7 +249,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             {table.getHeaderGroups().map((headerGroup) => (
 
               <TableRow key={headerGroup.id} className={headerRowStyles ? headerRowStyles : `bg-slate-400`}>
-                {headerGroup.headers.map((header, index) => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
                       <div className={headerCellStyles ? headerCellStyles : `flex_center text-black text-md font-semibold`}>
@@ -269,7 +293,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             (
               // No data available
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-creativity_gray">
+                <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-text_gray">
                   <div className="flex_center">
                     
                     <Image className="hidden md:flex rounded-full opacity-20" src="/images/noContent.webp" alt="icon" height={300} width={300}/>
@@ -294,27 +318,8 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
           </TableBody>
         </Table>
         
-        {/* Prev and Next Buttons */}
-        {data.length > 10 &&
-        <div className="flex_center gap-2">
-            <button
-                className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-full px-4 cursor-pointer'} 
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-            >
-                Prev
-            </button>
-            <button
-              className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-full px-4 cursor-pointer'}
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-            >
-                Next
-            </button>
-        </div>
-        }
 
-      </div>
+
     </div>
 
   )

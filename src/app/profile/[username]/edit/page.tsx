@@ -17,8 +17,8 @@ const page = async () => {
         <div className="flex_col_center gap-4">
             <LinkButton
                 buttonMsg="Save & Exit"
-                buttonMsgClass="text-white"
-                buttonColorClass="bg-info_blue hover:bg-dark_info_blue border-gray-300 py-2"
+                buttonMsgClass="text-white text-sm"
+                buttonColorClass="opacity-90 bg-info_blue hover:bg-dark_info_blue border-gray-300 py-1 w-[135px] shadow-md"
                 linksTo={`/profile/${username}`}
             />
             <UserProfile />

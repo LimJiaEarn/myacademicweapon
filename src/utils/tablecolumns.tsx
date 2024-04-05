@@ -294,7 +294,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
             }
             return (
             <div className="grid grid-cols-3">
-                <div className="col-start-2 col-span-2 flex justify-start items-center">
+                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
 
                 {
                     'resource' in info.row.original &&
@@ -356,7 +356,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
             }
             return (
             <div className="grid grid-cols-3">
-                <div className="col-start-2 col-span-2flex justify-start items-center">
+                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
 
                 {
                     'resource' in info.row.original &&
@@ -409,7 +409,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             }
             return (
             <div className="grid grid-cols-3">
-                <div className="col-start-2 col-span-2 flex justify-start items-center">
+                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
                     <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
@@ -428,7 +428,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     // Score
     ...(isOwnUser ? [{
         accessorKey: "score",
-        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Your Score", true),
+        header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Score (%)", true),
         cell: (info: CellContext<any, any>) => {
             
             if (info.getValue()==-1) return "NIL";
@@ -516,7 +516,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             }
             return (
             <div className="grid grid-cols-3">
-                <div className="col-start-2 col-span-2 flex justify-start items-center">
+                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
                     <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&

@@ -22,13 +22,8 @@ const SummarySection = () => {
       {user ? 
         <div className="text-center">
           <p className="py-4 md:py-6 text-2xl md:text-3xl text-success_gold">Welcome, <span className="font-bold">{user.firstName}!</span></p>
-          {/* {props.subjectSelection ?
-            <div className="flex flex-col items-center gap-2">
-              <p className="text-info_blue">Your Stats in <span className="font-bold">{props.subjectSelection}:</span></p>
-              <Progress value={33} className="w-full" />
-            </div> :
-            <p className="text-text_gray">What would you like to accomplish today?</p>} */}
-        </div> :
+        </div>
+        :
         <div className="flex_col_center gap-4">
           <p className="text-text_gray">
             Sign in to track your progress!

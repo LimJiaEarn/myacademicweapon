@@ -48,15 +48,13 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   useEffect(()=>{
     const getuserId = async () =>{
       const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
-      setUserID(currentSignedInUserObject._id);
+      setUserID(currentSignedInUserObject?._id);
     }
 
     getuserId();
 
   }, [user])
 
-
-  console.log(`useUser: ${user ? user.id : "No userId"}`);
 
   // https://ui.shadcn.com/docs/components/toast
   const { toast } = useToast();
@@ -299,12 +297,12 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
                 },
               ]}
               searchFilter="resource"
+              searchPlaceholder="Search Resources ..."
               tableStyles="bg-slate-200 rounded-lg"
-              headerRowStyles="bg-slate-400 rounded-t-lg"
+              selectBoxStyles="w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               headerCellStyles="flex_center text-black text-md font-semibold"
               dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-300"
-              dataCellStyles="align-middle text-center"
-              nextButtonStyles="bg-green-300 rounded-full px-4 cursor-pointer"
+              nextButtonStyles="text-white bg-slate-400 hover:bg-slate-500 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
             />
           }
           
