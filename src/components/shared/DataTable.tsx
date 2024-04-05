@@ -63,6 +63,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
+
   const table = useReactTable({
     data,
     columns,
@@ -95,13 +96,13 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   // Hide Status, Bookmark columns
   // Hide Year & Assessment columns for Yearly
   useEffect(()=>{
-
     table.getAllColumns().map((column) => {
-      if (toHideColumns.includes(column.id)){
+      if (toHideColumns.includes(column.id))
         column.toggleVisibility(false);
-      }
+      else
+        column.toggleVisibility(true);
     })
-  }, [])
+  }, [toHideColumns])
   
   return (
     <div className="w-full">

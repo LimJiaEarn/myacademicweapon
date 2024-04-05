@@ -434,8 +434,6 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             if (info.getValue()==-1) return "NIL";
 
             const totMarks = info.row.original.totMarks;
-
-            console.log(info.row.original);
             const percentScore : number = 100 * info.getValue() / totMarks;
 
             return Number(percentScore.toFixed(1))+"%"; // round to 1dp
@@ -443,7 +441,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     }] : []),
     // Edit
     ...(isOwnUser ? [{
-        accessorKey: 'resource', // This should match the key in your data for the status
+        accessorKey: 'totMarks', // This should match the key in your data for the status
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row
@@ -536,7 +534,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
     },
     // Edit
     ...(isOwnUser ? [{
-        accessorKey: 'resource', // This should match the key in your data for the status
+        accessorKey: 'totMarks', // This should match the key in your data for the status
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row

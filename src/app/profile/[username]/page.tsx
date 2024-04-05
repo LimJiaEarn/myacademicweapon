@@ -27,7 +27,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
         if (!resourceObject) return null;
 
-        console.log(resourceObject);
 
         if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
             return {
@@ -67,11 +66,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
     
-    console.log("Completed Initial");
-    console.table(completedItems);
 
-    console.log("Bookmark Initial");
-    console.table(bookmarkedResourceIDs);
 
     const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
         return await getStudyResourceByID(resourceId);
@@ -86,9 +81,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         if (!resourceObj || ('_doc' in resourceObj && !resourceObj._doc)) return null; // Check for null and structure
     
         // Directly adding score to the _doc object
-        const updatedObject = { ...resourceObj._doc, score: item.score };
-    
-        return updatedObject;
+        
+
+        if ('_doc' in resourceObj){
+
+            const mDoc : object = resourceObj._doc as object
+            return { ...mDoc, score: item.score };
+             
+        }
+        return null;
     });
 
 
@@ -112,33 +113,34 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             <section className="flex flex-col md:flex-row items-center gap-8">
 
 
-                <div className="absolute top-2 right-4">
-                    {isOwnUser &&
-                    <div className="flex_col_center gap-2">
-                        <LinkButton
-                            buttonMsg="Edit Profile"
-                            buttonMsgClass="text-white text-sm"
-                            buttonColorClass="opacity-90 bg-info_blue hover:bg-dark_info_blue border-gray-300 py-1 w-[135px]"
-                            linksTo={`/profile/${username}/edit`}
-                        />
 
-                        {/* Navigates user to home page */}
-                        <SignOutButton>
-                            <LinkButton
-                                buttonMsg="Sign Out"
-                                buttonMsgClass="text-white text-sm"
-                                buttonColorClass="opacity-90 bg-academic_red hover:bg-dark_red border-gray-300 py-1 w-[135px]"
-                                linksTo={`/`}
-                            />
-                        </SignOutButton>
-                    </div>}
-                </div>
 
                 <div className="flex_col_center gap-4">
 
                     <div className="flex_col_center">
                         <h1 className="text-3xl font-bold leading-tight sm:text-3xl sm:leading-normal md:text-4xl md:leading-relaxed">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</h1>
                         <p className="italic">{currentUserProfileObject?.bio}</p>
+
+                        {isOwnUser &&
+                        <div className="flex_center gap-2">
+                            <LinkButton
+                                buttonMsg="Edit Profile"
+                                buttonMsgClass="text-white text-sm"
+                                buttonColorClass="opacity-90 bg-info_blue hover:bg-dark_info_blue border-gray-300 py-1 w-[135px]"
+                                linksTo={`/profile/${username}/edit`}
+                            />
+
+                            {/* Navigates user to home page */}
+                            <SignOutButton>
+                                <LinkButton
+                                    buttonMsg="Sign Out"
+                                    buttonMsgClass="text-white text-sm"
+                                    buttonColorClass="opacity-90 bg-academic_red hover:bg-dark_red border-gray-300 py-1 w-[135px]"
+                                    linksTo={`/`}
+                                />
+                            </SignOutButton>
+                        </div>}
+
                     </div>
 
 

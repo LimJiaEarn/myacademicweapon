@@ -21,11 +21,11 @@ type ProfilePageTableProps = {
 
 const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : ProfilePageTableProps ) => {
     
-    console.log("Inside page table");
-    console.table(data);
-
 
     const [tableData, setTableData] = useState(data);
+    const [toggleEdit, setToggleEdit] = useState(false);
+    const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
+
     
     const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
 
@@ -90,13 +90,33 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
 
     const columns = sectionType==="Bookmarks" ?  getProfileBookmarkedColumns(onToggleBookmark, userID, isOwnUser) : getProfileCompletedColumns(onToggleStatus, userID, isOwnUser);
     
-    
+    useEffect(()=>{
+        if (toggleEdit){
+            setToHideColumns(["subject"]);
+        }
+        else{
+            setToHideColumns(["subject", "totMarks"]);
+        }
+
+        console.log("toHide: ", toHideColumns);
+    }, [toggleEdit])
         
   return (
 
       <div className="w-4/5">
 
-        <h2 className="text-xl font-bold text-center">{isOwnUser ? "" : user_name+"'s"} {sectionType}</h2>
+        <div className="flex_center gap-4">
+            <h2 className="text-xl font-bold text-center">{isOwnUser ? "" : user_name+"'s"} {sectionType}</h2>
+            {isOwnUser && 
+            <button
+                onClick={()=>{
+                    setToggleEdit((prev)=>!prev);
+                }}    
+            >
+                {`${toggleEdit ? "Editting" : "Edit"}`}
+            </button>}
+
+        </div>
         
 
       {tableData.length > 0?
@@ -104,7 +124,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
             <p className="italic text-center">{tableData.length}</p>
             <DataTable
                 columns={columns}
-                toHideColumns = {["subject"]}
+                toHideColumns = {toHideColumns}
                 data={tableData}
                 selectorFilters={[
                     {
