@@ -69,6 +69,7 @@ export async function getStudyResourceByID(resourceId : string) {
 
     const resource = await StudyResource.findById(resourceObjectId);
 
+
     if (!resource){
       return null;
     }

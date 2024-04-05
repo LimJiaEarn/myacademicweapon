@@ -429,7 +429,17 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     ...(isOwnUser ? [{
         accessorKey: "score",
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Your Score", true),
-        cell: (info: CellContext<any, any>) => {info.getValue() as string},
+        cell: (info: CellContext<any, any>) => {
+            
+            if (info.getValue()==-1) return "NIL";
+
+            const totMarks = info.row.original.totMarks;
+
+            console.log(info.row.original);
+            const percentScore : number = 100 * info.getValue() / totMarks;
+
+            return Number(percentScore.toFixed(1))+"%"; // round to 1dp
+        },
     }] : []),
     // Edit
     ...(isOwnUser ? [{

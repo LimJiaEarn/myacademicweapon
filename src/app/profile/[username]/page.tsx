@@ -23,44 +23,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     // console.table(currentUserProfileObject);
     // console.table(currentSignedInUserObject);
 
-
-    // Get user data
-    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
-
-    // Merge the completed , bookmarked resourceId strings
-    const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
-    const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
-    
-    console.log("Completed Initial");
-    let itemsL = bookmarkedResourceIDs.length;
-    for (let i=0; i<itemsL; i++){
-        console.table(completedItems[i]);
-    }
-
-    console.log("Bookmark Initial");
-    console.table(bookmarkedResourceIDs);
-
-    const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
-        return getStudyResourceByID(resourceId);
-    });
-
-    const completedResourceObjectPromises = completedItems.map(async (item: completedStudyResourceItem) => {
-        const resourceObj = getStudyResourceByID(item.resourceObjectId);
-        const score = item.score;
-        
-        if (!resourceObj) return null;
-
-        return {...resourceObj, score}
-    });
-
-    const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
-    const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
-
-
-
+    // Utility Function
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
         if (!resourceObject) return null;
+
+        console.log(resourceObject);
 
         if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
             return {
@@ -73,6 +40,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
+                ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
             }
         else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
             return {
@@ -85,20 +53,56 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
+                ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
             }
 
         return null;
     }
+
+    // Get user data
+    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+
+    // Merge the completed , bookmarked resourceId strings
+    const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
+    const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+    
+    console.log("Completed Initial");
+    console.table(completedItems);
+
+    console.log("Bookmark Initial");
+    console.table(bookmarkedResourceIDs);
+
+    const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
+        return await getStudyResourceByID(resourceId);
+    });
+
+
+
+
+    const completedResourceObjectPromises = completedItems.map(async (item) => {
+        const resourceObj = await getStudyResourceByID(item.resourceObjectId);
+
+        if (!resourceObj || ('_doc' in resourceObj && !resourceObj._doc)) return null; // Check for null and structure
+    
+        // Directly adding score to the _doc object
+        const updatedObject = { ...resourceObj._doc, score: item.score };
+    
+        return updatedObject;
+    });
+
+
+    const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
+    const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
+
+
     const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
-    console.log("bookmark");
-    console.table(simplifiedBookmarkedResourceObjects);
+
     
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
     
-    
-    console.log("completed");
-    console.table(simplifiedCompletedResourceObjects);
+
 
 
     return (
