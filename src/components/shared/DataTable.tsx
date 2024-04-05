@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   }, [toHideColumns])
   
   return (
-    <div className="w-full">
+    <div className="w-full max-w-[1500px]">
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
         

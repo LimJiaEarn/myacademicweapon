@@ -54,14 +54,14 @@ export const studyResourcesNav = [
 export const StudyResourceNavItems : StudyResourceNav = {
   "secondary":
   [    
-    {
-      id:"secondaryResources1",
-      title: "English",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
+    // {
+    //   id:"secondaryResources1",
+    //   title: "English",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
     {
       id:"secondaryResources2",
       title: "E Math",
@@ -78,49 +78,49 @@ export const StudyResourceNavItems : StudyResourceNav = {
         "Yearly Practice Papers",
       ]
     },
-    {
-      id:"secondaryResources4",
-      title: "Pure Chemistry",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
-    {
-      id:"secondaryResources5",
-      title: "Combined Chemistry",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
-    {
-      id:"secondaryResources6",
-      title: "Pure Physics",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
-    {
-      id:"secondaryResources7",
-      title: "Combined Physics",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
+    // {
+    //   id:"secondaryResources4",
+    //   title: "Pure Chemistry",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
+    // {
+    //   id:"secondaryResources5",
+    //   title: "Combined Chemistry",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
+    // {
+    //   id:"secondaryResources6",
+    //   title: "Pure Physics",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
+    // {
+    //   id:"secondaryResources7",
+    //   title: "Combined Physics",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
   ],
   "JC":
   [    
-    {
-      id:"jcResources1",
-      title: "H1 General Paper",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
+    // {
+    //   id:"jcResources1",
+    //   title: "H1 General Paper",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
     {
       id:"jcResources2",
       title: "H2 Chem",

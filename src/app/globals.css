@@ -42,6 +42,15 @@ p {
   font-size: 1rem;
 }
 
+/* Hiding Up down arrows */
+/* For WebKit-based browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 
 
 

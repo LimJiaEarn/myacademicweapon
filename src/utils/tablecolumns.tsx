@@ -40,6 +40,8 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
     const bookmarked = info.row.original.bookmark as boolean; 
     const status = info.row.original.status as boolean; 
 
+    const totMarks = info.row.original.totMarks;
+
     const [score, setScore] = useState<number|null>(null);
 
     const [copied, setCopied] = useState<boolean>(false);
@@ -57,6 +59,8 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
 
     return(
     <div className="w-full flex_center gap-4 md:gap-8">
+
+        {/* Update Bookmark */}
         <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
@@ -72,16 +76,17 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                 
             />
         </div>
-            
+        
+        {/* Update Status */}
         {status ? 
             <label className="inline-block relative cursor-pointer">
                 <input
                     type="checkbox"
                     checked={status}
                     onChange={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    onToggleStatus(studyResourceID, userID, false);
+                        e.stopPropagation();
+                        e.preventDefault();
+                        onToggleStatus(studyResourceID, userID, false);
                     }}
                     className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
                 />
@@ -101,9 +106,8 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                         type="checkbox"
                         checked={status}
                         onChange={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        
+                            e.stopPropagation();
+                            e.preventDefault();
                         }}
                         className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
                     />
@@ -120,50 +124,68 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
             <DialogContent className="sm:max-w-[425px]">
 
                 <DialogHeader>
-                    <DialogTitle>Track your score?</DialogTitle>
                     <DialogDescription>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <input
-                        defaultValue={url}
-                        readOnly
-                        className="mr-4"
-                    />
-                    <button onClick={handleCopy}>{copied ? "Copied" : "Copy"}</button>
-                </div>
-                    </DialogDescription>
-                </DialogHeader>
 
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <p className="text-right">
-                                Score
+                    <p className="font-semibold text-black text-lg">Track your score?</p>
+                    <div className="grid gap-2 py-4">
+                        <div className="grid grid-cols-4 items-center gap-1 h-10">
+                            <p className="text-right col-start-1 col-span-1">
+                                Your Score: 
                             </p>
-                            <input
-                                id="name"
-                                type="number"
-                                className="col-span-3"
-                                onChange={
-                                    (e)=>{
-                                        console.log(e.target.valueAsNumber);
-                                        setScore(e.target.valueAsNumber);
+                            <div className="col-start-2 col-span-2 flex justify-start items-center gap-2">
+                                <input
+                                    id="name"
+                                    type="number"
+                                    className=" bg-slate-100 h-8 ml-4 rounded-lg w-[50px] ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                    onChange={
+                                        (e)=>{
+                                            console.log(e.target.valueAsNumber);
+                                            setScore(e.target.valueAsNumber);
+                                        }
                                     }
-                                }
-                            />
+                                />
+                                {totMarks && <p className="text-xl">/ {totMarks}</p>}
+                            </div>
+                            
+                            
                         </div>
 
                     </div>
+                    <p className="font-semibold text-black text-lg">Share with your friends!</p>
+                    <div className="w-4/5 flex_center gap-2 sm:gap-4 py-4">
+                        
+                        <input
+                            defaultValue={url}
+                            readOnly
+                            className="mx-2 h-4 underline text-blue-600 border-1 border-slate-200 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                        />
+                        
+                        <button onClick={handleCopy} className="flex_center gap-2 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                            <p className="italic text-black text-sm">{copied ? "Copied" : "Copy"}</p>
+                            <Image src={copied ? "/icons/copied.svg" : "/icons/copy.svg"} alt="icon" height={20} width={20} />
+                        </button>
+                        
+                    </div>
+                    </DialogDescription>
+                </DialogHeader>
+
+
                 <DialogFooter>
                     <DialogClose asChild>
-                        <div className="flex_center gap-2">
-                            <button onClick={()=>onToggleStatus(studyResourceID, userID, true)}>
-                                Save W/O marks!
-                            </button>
-                            <button
-                                disabled={!score}
-                                onClick={()=>onToggleStatus(studyResourceID, userID, true, score)}
-                            >
-                                Save my marks!
-                            </button>
+                        <div className="flex justify-evenly items-center gap-2">
+                            <>
+                                <button className="bg-green-200 rounded-lg px-2 py-1" onClick={()=>onToggleStatus(studyResourceID, userID, true)}>
+                                    Save w/o marks!
+                                </button>      
+                            </>
+                            <>
+                                <button className="bg-emerald-300 rounded-lg px-2 py-1"
+                                    disabled={!score}
+                                    onClick={()=>onToggleStatus(studyResourceID, userID, true, score)}
+                                >
+                                    Save my marks!
+                                </button>
+                            </>
                         </div>
                     </DialogClose>
                 </DialogFooter>

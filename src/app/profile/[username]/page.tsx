@@ -145,7 +145,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                                     buttonMsg="Sign Out"
                                     buttonMsgClass="text-white text-sm"
                                     // Adjusted for a gentler red
-                                    buttonColorClass="opacity-90 bg-red-300 hover:bg-red-400 border-gray-300 py-1 w-[135px] shadow-lg"
+                                    buttonColorClass="opacity-90 bg-rose-300 hover:bg-red-400 border-gray-300 py-1 w-[135px] shadow-lg"
                                     linksTo={`/`}
                                 />
                             </SignOutButton>
@@ -156,15 +156,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
             </section>
             {currentUserProfileObject &&
-                <>
-                <section className="w-full flex_col_center">
-                    <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
-                </section>
+                <section className="w-full">
+                    <div className="w-full flex_col_center">
+                        <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
+                    </div>
 
-                <section className="w-full flex_col_center">
-                    <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
+                    <div className="w-full flex_col_center">
+                        <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
+                    </div>
                 </section>
-                </>
             }
             
             
