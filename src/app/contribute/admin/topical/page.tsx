@@ -93,7 +93,6 @@ const AdminPage = async () => {
   const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
   const userID = currentSignedInUserObject._id || null;
 
-  console.log(`auth: ${userId ? userId : "No userId"}`);
 
 
   const contributorUrl = "https://www.myacademicweapon.com";

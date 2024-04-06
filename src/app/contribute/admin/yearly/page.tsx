@@ -114,12 +114,11 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
 const AdminPage = async () => {
 
 
-  const { userId } = auth();
-  const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
-  const userID = currentSignedInUserObject._id || null;
-  const contributorUrl = "https://www.myacademicweapon.com";
+  // const { userId } = auth();
+  // const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
+  // const userID = currentSignedInUserObject._id || null;
+  // const contributorUrl = "https://www.myacademicweapon.com";
 
-  console.log(`auth: ${userId ? userId : "No userId"}`);
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"  
@@ -164,7 +163,7 @@ const AdminPage = async () => {
             ...(workingSolution && { workingSolution }), 
             ...(videoSolution && { videoSolution }), 
             ...(totMarks && { totMarks }), 
-            ...(contributor && { userID }), 
+            // ...(contributor && { userID }), 
             ...(contributorUrl && { contributorUrl }),
             ...(desc && { desc }), 
         };

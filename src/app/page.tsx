@@ -35,7 +35,7 @@ const HomePage = () => {
         <HeroParallax products={heroImages} />
       </section>
 
-      <section className="w-full max-w-[1800px] flex_col_center px-2 sm:px-4">
+      {/* <section className="w-full max-w-[1800px] flex_col_center px-2 sm:px-4">
         
         <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-gray-600 text-center">Our Suite of Services</h1>
 
@@ -59,7 +59,7 @@ const HomePage = () => {
             imagePath="/images/heroImg1.png"
           />
         </div>
-    </section>
+    </section> */}
 
 
 
