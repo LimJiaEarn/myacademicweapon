@@ -1,6 +1,6 @@
 import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
-import { auth } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
@@ -114,10 +114,14 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
 const AdminPage = async () => {
 
 
-  // const { userId } = auth();
-  // const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
-  // const userID = currentSignedInUserObject._id || null;
-  // const contributorUrl = "https://www.myacademicweapon.com";
+  const user = await currentUser();
+  const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
+
+  const userPlan = currentSignedInUserObject.planId;
+
+  if (userPlan<100){
+    redirect('/contribute');
+  }
 
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
@@ -163,7 +167,7 @@ const AdminPage = async () => {
             ...(workingSolution && { workingSolution }), 
             ...(videoSolution && { videoSolution }), 
             ...(totMarks && { totMarks }), 
-            // ...(contributor && { userID }), 
+            ...(contributor && { currentSignedInUserObject }), 
             ...(contributorUrl && { contributorUrl }),
             ...(desc && { desc }), 
         };

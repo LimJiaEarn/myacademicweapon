@@ -96,7 +96,7 @@ interface CreateStudyResourcesParams  {
   desc?: string;
   url: string;
   likes: number;
-  contributor?: string;
+  contributor?: object;
   contributorUrl?: string;
 }
 
