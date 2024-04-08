@@ -38,15 +38,16 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
 
   const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Initialize as an empty dictionary for form data
   const [formValid, setFormValid] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const [selectValues, setSelectValues] = useState<{ [key: string]: string }>({}); // To track the select values
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER"; // Value to clear the select filters
 
   const { toast } = useToast();
 
   const onFormSubmit = async (e: React.FormEvent) => {
-
+    setFormSubmitting(true);
     setFormValid(false);
-    
+
     e.preventDefault();
     try{
       handleSubmit(formData);
@@ -76,6 +77,9 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
       toast({
         description: "Error occured during submission!",
       })
+    }
+    finally{
+      setFormSubmitting(false);
     }
 
   };
@@ -134,6 +138,7 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
               <div key={fieldKey} className="flex_col_center gap-2 w-full">
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <textarea
+                  value={(fieldKey in formData && formData[fieldKey]) || ''}
                   className={`w-full text-black rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
@@ -146,6 +151,7 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
                 <p className="font-semibold text-dark_info_blue w-full text-center">{currentField.title}</p>
                 <input
                   type={currentField.type}
+                  value={(fieldKey in formData && formData[fieldKey]) || ''}
                   className={`w-full text-black rounded-md p-2 ${currentField.styles || ''} ${customStyles || ''} focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                   onChange={(e) => setFormData(prevData => ({ ...prevData, [fieldKey]: e.target.value }))}
                 />
@@ -160,9 +166,9 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
               ? 'bg-info_blue hover:bg-dark_info_blue' // Apply these styles only if the form is valid
               : 'bg-gray-400 cursor-not-allowed' // Otherwise, use a gray background and show a not-allowed cursor
           }`}
-          disabled={!formValid} // Disable the button based on formValid state
+          disabled={!formValid && !formSubmitting} // Disable the button based on formValid state
         >
-          Submit
+          {formSubmitting ? 'Submitting...' : 'Submit'}
         </button>
 
 
