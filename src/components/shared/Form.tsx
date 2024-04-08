@@ -3,6 +3,9 @@
 
 import { useState, useEffect } from "react";
 
+import { useToast } from "@/components/ui/use-toast"
+
+
 // Import your custom Select component and its subcomponents
 import {
   Select,
@@ -28,23 +31,51 @@ type FormProps = {
   fieldsConfig: FormFieldConfig[];
   handleSubmit: (formData: { [key: string]: string }) => void;
   customStyles?: string; // Optional, for custom styles
+  clearFieldsAfterSubmit:boolean;
 };
 
-const Form = ({ fieldsConfig, handleSubmit, customStyles }: FormProps) => {
+const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit }: FormProps) => {
 
   const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Initialize as an empty dictionary for form data
   const [formValid, setFormValid] = useState(false);
   const [selectValues, setSelectValues] = useState<{ [key: string]: string }>({}); // To track the select values
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER"; // Value to clear the select filters
 
+  const { toast } = useToast();
+
   const onFormSubmit = async (e: React.FormEvent) => {
+
+    setFormValid(false);
+    
     e.preventDefault();
     try{
       handleSubmit(formData);
+
+      toast({
+        description: "Successfully Submitted!",
+      })
+
+      if (clearFieldsAfterSubmit){
+        setFormData({});
+        setSelectValues({});
+      }
+      // this 'else' block is for admin mode where we only need to rewrite the links majority of time
+      else{
+        setFormData((prev)=>{
+          return {
+            ...prev,
+            ["resourceUrl"]:'',
+            ["workingUrl"]:'',
+          }
+        })
+      }
+      
     }
     catch(e){
       // TODO: Nicer alerts
-      alert("Error in submitting, please try again later!");
+      toast({
+        description: "Error occured during submission!",
+      })
     }
 
   };

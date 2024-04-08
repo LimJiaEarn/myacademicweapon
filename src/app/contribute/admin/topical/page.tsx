@@ -91,20 +91,17 @@ const AdminPage = async () => {
 
 
   const user = await currentUser();
+  
   const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
-
   const userPlan = currentSignedInUserObject.planId;
 
   if (userPlan<100){
     redirect('/contribute');
   }
 
-
-  const contributorUrl = "https://www.myacademicweapon.com";
-
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"  
-
+        const contributorUrl = "https://www.myacademicweapon.com";
 
         const {
           resourceLevel,
@@ -116,7 +113,7 @@ const AdminPage = async () => {
           topicName,
           totMarks : stringedtotMarks,
           contributor,
-          contributorUrl,
+          // contributorUrl,
         } = formData;
         
         const totMarks = stringedtotMarks ? Number(stringedtotMarks) : undefined;
@@ -144,12 +141,15 @@ const AdminPage = async () => {
             ...(desc && { desc }), 
         };
         
-        console.log("Creating:");
-        console.table(data);
 
-        await createPracticePaper(data);
-
-        console.log("Success!");
+        try{
+          await createPracticePaper(data);
+          console.log("Success!");
+          return {success:true};
+        }
+        catch (error){  
+          return {sucess:false, message:`failed to submit form due to ${error}`}
+        }
 
     }
 
@@ -166,6 +166,7 @@ const AdminPage = async () => {
                 fieldsConfig = {createStudyResourceFormDetails}
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
                 handleSubmit={handleSubmit}
+                clearFieldsAfterSubmit={false}
             />
 
             

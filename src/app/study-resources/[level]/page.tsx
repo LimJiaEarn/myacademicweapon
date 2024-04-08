@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { usePathname  } from 'next/navigation'
-import { useToast } from "@/components/ui/use-toast"
+import { usePathname  } from 'next/navigation';
+import { useToast } from "@/components/ui/use-toast";
 
 // Table Dependencies
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/shared/DataTable";
 import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 

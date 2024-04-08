@@ -66,6 +66,7 @@ const ContributePage = async () => {
                 fieldsConfig = {contributionFormDetails}
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
                 handleSubmit={handleSubmit}
+                clearFieldsAfterSubmit={true}
             />
 
             
