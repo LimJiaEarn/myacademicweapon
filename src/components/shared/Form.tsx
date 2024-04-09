@@ -73,7 +73,6 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
       
     }
     catch(e){
-      // TODO: Nicer alerts
       toast({
         description: "Error occured during submission!",
       })

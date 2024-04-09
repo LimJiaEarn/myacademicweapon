@@ -140,8 +140,9 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       const response = await updateBookmarkStudyResource({ userID, studyResourceID, newBookmark });
 
       if (!response) {
-        // TODO: NICER ALERTS
-        alert('Failed to update bookmark, try again later!');
+        toast({
+          description: 'Failed to update bookmark, try again later!',
+        })
         return;
       }
 

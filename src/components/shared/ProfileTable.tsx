@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import { useToast } from "@/components/ui/use-toast";
 
 // Table Dependencies
 import { DataTable } from "@/components/shared/DataTable";
@@ -26,35 +27,41 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
     const [toggleEdit, setToggleEdit] = useState(false);
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
 
+    const { toast } = useToast();
     
     const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
 
-        // Only signed in users are allowed 
+        // Only signed in users are allowed - This should not happen
         if (!userID) {
-            // TODO: nicer prompt to ask user to sign in
-            alert("You need to sign in to use this feature!");
-            return;
+            toast({
+                title: "Oh No!",
+                description: "Failed to remove, please try again later!",
+            })
+            return
         }
 
         try {
-        const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
+            const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
 
-        if (!response) {
-            // TODO: NICER ALERTS
-            alert('Failed to update status, try again later!');
-            return;
-        }
+            if (!response) {
+                toast({
+                    title: "Oh No!",
+                    description: "Failed to remove, please try again later!",
+                })
+            }
 
-        // If the update is successful, remove the object with the particular studyResourceID
-        setTableData((prevData) =>
-            prevData.filter(item => "_id" in item && item._id !== studyResourceID)
-        );
+            // If the update is successful, remove the object with the particular studyResourceID
+            setTableData((prevData) =>
+                prevData.filter(item => "_id" in item && item._id !== studyResourceID)
+            );
 
 
         } 
         catch (error) {
-            alert('Failed to update status, try again later!');
-        return;
+            toast({
+                title: "Oh No!",
+                description: "Failed to remove, please try again later!",
+            })
         }
     };
 
@@ -62,8 +69,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
 
         // Only signed in users are allowed 
         if (!userID) {
-        // TODO: nicer prompt to ask user to sign in
-            alert("You need to sign in to use this feature!");
+            toast({
+                title: "Oh No!",
+                description: "Failed to remove bookmark, please try again later!",
+            })
             return;
         }
 
@@ -71,8 +80,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
         const response = await updateBookmarkStudyResource({ userID, studyResourceID, newBookmark });
 
         if (!response) {
-            // TODO: NICER ALERTS
-            alert('Failed to update bookmark, try again later!');
+            toast({
+                title: "Oh No!",
+                description: "Failed to remove bookmark, please try again later!",
+            })
             return;
         }
 
@@ -83,7 +94,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
 
         } 
         catch (error) {
-            alert('Failed to update bookmark, try again later!');
+            toast({
+                title: "Oh No!",
+                description: "Failed to remove bookmark, please try again later!",
+            })
         return;
         }
     };
