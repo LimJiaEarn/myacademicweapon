@@ -36,7 +36,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
                 ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
-                ...(resourceObject.date && { totMarks: resourceObject.date}), 
+                ...(resourceObject.date && { date: resourceObject.date}), 
 
             }
         else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
@@ -51,7 +51,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
                 ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
-                ...(resourceObject.date && { totMarks: resourceObject.date}), 
+                ...(resourceObject.date && { date: resourceObject.date}), 
 
             }
 
@@ -102,8 +102,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     
     const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-    
-
 
 
     return (

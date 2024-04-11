@@ -48,6 +48,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
 
     const date = new Date(); 
 
+
     const handleCopy = () => {
         // Create a temporary input
         const inputBox = document.createElement('input');
@@ -132,7 +133,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     <div className="grid gap-2 py-4">
                         <div className="grid grid-cols-4 items-center gap-1 h-10">
                             <p className="text-right col-start-1 col-span-1">
-                                Your Score: 
+                                Your Score:
                             </p>
                             <div className="col-start-2 col-span-2 flex justify-start items-center gap-2">
                                 <input
@@ -433,7 +434,8 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                 videoSolution = info.row.original.videoSolution as string;
             }
             if ('date' in info.row.original){
-                date = info.row.original.date as Date;
+                const currDate = info.row.original.date as Date;
+                date = ("0" + currDate.getDate()).slice(-2) + "/" + ("0"+(currDate.getMonth()+1)).slice(-2) + "/" + ("0" + currDate.getFullYear()).slice(-2);
             }
             return (
             <div className="grid grid-cols-3">
