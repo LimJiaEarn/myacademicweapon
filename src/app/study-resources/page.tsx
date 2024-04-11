@@ -55,17 +55,17 @@ const StudyResourcesPage = () => {
         <div className="flex_col_center gap-6 mb-10">
 
           <h1 className="text-3xl md:text-5xl font-bold text-center max-w-[90ch] mx-auto mb-4 leading-[1.5]">
-            Your <span className="text-amber-600">Royal Treasury</span><br/> of Study Notes, Plans and Papers!
+            Your <span className="gold_grad_text">Royal Treasury</span><br/> of Study Notes, Plans and Papers!
           </h1>
 
           <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-            Forged in the academic foundry by an alliance of <span className="font-semibold text-orange-400"> experienced tutors, dedicated teachers, and
+            Forged in the academic foundry by an alliance of <span className="font-semibold gold_grad_text_2"> experienced tutors, dedicated teachers, and
             victorious students</span>, our Royal Treasury brims with
             meticulously crafted study materials!
           </p>
 
           <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-            Embark on your quest towards <span className="text-amber-500 font-bold">academic success now!</span>
+            Embark on your quest towards <span className="gold_grad_text_2 font-bold">academic success now!</span>
           </p>
 
         </div>

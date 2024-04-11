@@ -7,6 +7,9 @@ import LinkButton from "@/components/shared/LinkButton";
 import Link from "next/link";
 import Image from "next/image";
 
+
+
+
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     
@@ -105,62 +108,84 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
     return (
-        <div className="flex flex-col items-center gap-8 px-2 md:px-4 min-h-screen relative">
+        <div className="flex flex-col items-center mx-auto md:flex-row md:items-start gap-2 md:gap-4 px-2 md:px-4 min-h-screen relative max-w-[1500px]">
 
             {/* User meta datas */}
-            <section className="flex flex-col md:flex-row items-center gap-8">
+            <section className="bg-pri_bg_card rounded-lg flex flex-col w-full md:w-1/4 items-center justify-center md:items-start gap-4 px-2 md:px-4 py-2 md:py-4">
 
-                <div className="relative group w-45 h-45 rounded-full overflow-hidden">
-                    <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={180} width={180} className="rounded-full"/>
-                    <div className="absolute bottom-0 w-full flex justify-center items-end pb-2 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:-translate-y-2 flex_center">
-                        <Link href={`/profile/${username}/edit#/profile`} className="text-white text-sm py-1 px-4 rounded shadow-md">
-                            Edit Image
-                        </Link>
+                <div className="flex_center gap-2 md:gap-4">
+                    
+                    {/* Mini Profile Section */}
+                    <div className="relative group w-45 h-45 overflow-hidden">
+                        <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
+                        {/* { isOwnUser && <div className="absolute bottom-0 w-full flex justify-center items-end pb-2 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:-translate-y-2 flex_center">
+                            <Link href={`/profile/${username}/edit#/profile`} className="text-white text-sm py-1 px-4 rounded shadow-md">
+                                Edit Image
+                            </Link>
+                        </div>} */}
                     </div>
+
+                    <div>
+                        <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
+                        <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-text_gray text-center">@{currentUserProfileObject?.username}</p>
+                    </div>
+
                 </div>
 
-
-                <div className="flex_col_center gap-4">
-                    <div className="flex_col_center">
-                        <h1 className="text-3xl font-bold leading-tight sm:text-3xl sm:leading-normal md:text-4xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</h1>
-                        <p className="italic">{currentUserProfileObject?.bio}</p>
-
-                        {isOwnUser &&
-                        <div className="flex_center gap-2">
-                            <LinkButton
-                                buttonMsg="Edit Profile"
-                                buttonMsgClass="text-white text-sm"
-                                // Adjusted for a softer blue
-                                buttonColorClass="opacity-90 bg-cyan-500 hover:bg-cyan-600 border-gray-300 py-1 w-[135px] shadow-lg"
-                                linksTo={`/profile/${username}/edit`}
-                            />
-
-                            {/* Navigates user to home page */}
-                            <SignOutButton>
-                                <LinkButton
-                                    buttonMsg="Sign Out"
-                                    buttonMsgClass="text-white text-sm"
-                                    // Adjusted for a gentler red
-                                    buttonColorClass="opacity-90 bg-rose-300 hover:bg-red-400 border-gray-300 py-1 w-[135px] shadow-lg"
-                                    linksTo={`/`}
-                                />
-                            </SignOutButton>
-                        </div>}
-                    </div>
-                </div>
-
+                {/* Bio/Desc */}
+                {currentUserProfileObject?.bio &&
+                <div>
+                    <p className="font-semibold">Bio:</p>
+                    <p className="italic">{currentUserProfileObject?.bio}</p>
+                </div>}
                 
+                {/* Buttons */}
+                { isOwnUser &&
+                <div className="flex flex-col justify-center items-center md:flex-row gap-2 md:gap-4">
+                    <LinkButton
+                        buttonMsg="Edit Profile"
+                        buttonMsgClass="text-white text-xs"
+                        buttonColorClass="opacity-90 bg-teal-400 hover:bg-teal-500 border-gray-300 py-1 px-4 shadow-lg"
+                        linksTo={`/profile/${username}/edit`}
+                    />
+
+                    <SignOutButton>
+                        <LinkButton
+                            buttonMsg="Sign Out"
+                            buttonMsgClass="text-white text-xs"
+                            // Updated to a gentle red with some opacity
+                            buttonColorClass="opacity-90 bg-rose-300 hover:bg-rose-400 border-gray-300 py-1 px-4 shadow-lg"
+                            linksTo={`/`}
+                        />
+                    </SignOutButton>
+                </div>}
+                
+                <div className="flex flex-col w-full justify-start">
+                    <h2 className="w-full text-start pl-2 text-md md:text-lg font-bold md:text-md text-text_gray">Your Subjects</h2>
+                    <ul className="w-full text-start pl-4 text-sm md:text-md md:text-md text-slate-600">
+                        <li>English</li>
+                        <li>E Math</li>
+                        <li>A Math</li>
+
+                    </ul>
+
+                </div>
+
+
             </section>
+
+            
+
             {currentUserProfileObject &&
-                <section className="w-full">
-                    <div className="w-full flex_col_center">
+                <div className="w-3/4 flex_col_center gap-2 md:gap-4">
+                    <div className="bg-pri_bg_card rounded-lg px-2 md:px-4 py-2 md:py-4 w-full flex_col_center">
                         <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
                     </div>
 
-                    <div className="w-full flex_col_center">
+                    <div className="bg-pri_bg_card rounded-lg px-2 md:px-4 py-2 md:py-4 w-full flex_col_center">
                         <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
                     </div>
-                </section>
+                </div>
             }
             
             

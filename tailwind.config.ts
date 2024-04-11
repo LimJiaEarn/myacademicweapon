@@ -20,8 +20,10 @@ const config: Config = {
     extend: {
       colors: {
         // Background Colors
-        'light_gray': '#f3f4f6', // Secondary Navbar
+        'pri_orange_color': '#fef08a',
+        'sec_orange_color': '##fde68a', 
         'pri_bg_color': '#f9fafb', 
+        'pri_bg_card' : '#fefce8',
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
         
         // Primary Colors (For headers, important buttons, links)
@@ -30,6 +32,7 @@ const config: Config = {
         
         
         // Neutral Colors (For paragraphs, dividers, less important text)
+        'light_gray': '#f3f4f6',
         'text_gray': 'hsl(210, 10%, 40%)', // A darker gray for main text, ensuring good contrast and readability on the light background
         'light_text_gray': 'hsl(0, 0%, 80%)', // A very light gray for dividers and less prominent borders, maintaining a clean look
         
