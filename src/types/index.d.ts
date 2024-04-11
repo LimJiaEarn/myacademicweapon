@@ -64,6 +64,7 @@ interface PracticePaperInterface extends StudyResourceInterface {
   type: "Topical" | "Yearly";
   totMarks?: number;
   score?:number;
+  date?:Date;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
 }
@@ -132,6 +133,7 @@ declare type GetStudyResourcesParams = {
 declare type completedStudyResourceItem = {
   resourceObjectId: string;
   score: number;
+  date: Date;
 }
 
 declare type UpdateStudyResourceParams = {
@@ -155,6 +157,7 @@ declare type updateStatusStudyResourceParams = {
   studyResourceID: string;
   resourceType?: string;
   newStatus: boolean;
+  date: Date;
   score?: number; // optional if user wants to record their marks too, else it is marked as -1
 }
 

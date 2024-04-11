@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 
 // Define a type for your toggle status function
-type ToggleStatusFunction = (studyResourceID: string, userID: string|null, newStatus: boolean, score? : number|null) => void;
+type ToggleStatusFunction = (studyResourceID: string, userID: string|null, date : Date, newStatus: boolean, score? : number|null) => void;
 type ToggleBookmarkFunction = (studyResourceID: string, userID: string|null, newBookmark: boolean) => void;
 
 
@@ -45,6 +45,8 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
     const [score, setScore] = useState<number|null>(null);
 
     const [copied, setCopied] = useState<boolean>(false);
+
+    const date = new Date(); 
 
     const handleCopy = () => {
         // Create a temporary input
@@ -86,7 +88,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     onChange={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        onToggleStatus(studyResourceID, userID, false);
+                        onToggleStatus(studyResourceID, userID, date, false);
                     }}
                     className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
                 />
@@ -174,14 +176,14 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     <DialogClose asChild>
                         <div className="flex justify-evenly items-center gap-2">
                             <>
-                                <button className="bg-green-200 rounded-lg px-2 py-1" onClick={()=>onToggleStatus(studyResourceID, userID, true)}>
+                                <button className="bg-green-200 rounded-lg px-2 py-1" onClick={()=>onToggleStatus(studyResourceID, userID, date, true)}>
                                     Save w/o marks!
                                 </button>      
                             </>
                             <>
                                 <button className="bg-emerald-300 rounded-lg px-2 py-1"
                                     disabled={!score}
-                                    onClick={()=>onToggleStatus(studyResourceID, userID, true, score)}
+                                    onClick={()=>onToggleStatus(studyResourceID, userID, date, true, score)}
                                 >
                                     Save my marks!
                                 </button>
@@ -422,6 +424,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
 
             let workingSolution  = null;
             let videoSolution = null;
+            let date = null;
 
             if ('workingSolution' in info.row.original){
                 workingSolution = info.row.original.workingSolution as string;
@@ -429,10 +432,13 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             if ('videoSolution' in info.row.original){
                 videoSolution = info.row.original.videoSolution as string;
             }
+            if ('date' in info.row.original){
+                date = info.row.original.date as Date;
+            }
             return (
             <div className="grid grid-cols-3">
                 <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string} {` - completed on ${date}`}</p>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
@@ -467,6 +473,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Edit", false),
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row
+            const date = new Date();
             return (
             <div className="w-full flex justify-center" >
                 <div className="tooltip" data-tooltip="remove">
@@ -496,7 +503,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                         <DialogFooter>
                             <DialogClose asChild>
                                 <div className="flex_center gap-2">
-                                    <button onClick={()=>onToggleStatus(studyResourceID, userID, false)}>
+                                    <button onClick={()=>onToggleStatus(studyResourceID, userID, date, false)}>
                                         Confirm
                                     </button>
                                 </div>

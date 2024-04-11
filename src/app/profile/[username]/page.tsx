@@ -14,16 +14,10 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
     const user = await currentUser();
 
-
     const currentUserProfileObject : UserObject= await getUserByUsername(username);
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
     const userID = currentUserProfileObject._id; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
-
-    // console.log(`Clerk currentUser userId: ${user?.id}`);
-    // console.log(`MongoDb userID: ${userID}`);
-    // console.table(currentUserProfileObject);
-    // console.table(currentSignedInUserObject);
 
     // Utility Function
     const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
@@ -42,6 +36,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
                 ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+                ...(resourceObject.date && { totMarks: resourceObject.date}), 
+
             }
         else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
             return {
@@ -55,6 +51,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
                 ...(resourceObject.score && { score: resourceObject.score}), 
                 ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+                ...(resourceObject.date && { totMarks: resourceObject.date}), 
+
             }
 
         return null;
@@ -88,7 +86,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         if ('_doc' in resourceObj){
 
             const mDoc : object = resourceObj._doc as object
-            return { ...mDoc, score: item.score };
+            return { ...mDoc, score: item.score, date: item.date };
              
         }
         return null;

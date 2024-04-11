@@ -36,7 +36,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     try {
         await connectToDatabase();
 
-        const { userID, resourceType, studyResourceID, newStatus, score } = updateData;
+        const { userID, resourceType, studyResourceID, newStatus, score, date } = updateData;
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
@@ -63,10 +63,11 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
             if (newStatus) {
                 // If marking as complete and the resource is not already in the completedArray
                 if (resourceIndex === -1) {
-                    userResourceInteraction.completedArray.push({ resourceObjectId, score: score ?? -1 });
+                    userResourceInteraction.completedArray.push({ resourceObjectId, score: score ?? -1, date });
                 } else {
                     // If the resource is already in the array, update the score
                     userResourceInteraction.completedArray[resourceIndex].score = score ?? -1;
+                    userResourceInteraction.completedArray[resourceIndex].date = date;
                 }
             } else {
                 // If marking as incomplete, remove the resource from the completedArray
@@ -83,7 +84,7 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
                     type: resourceType,
                     likesArray: [],
                     bookmarkedArray: [],
-                    completedArray: [{ resourceObjectId, score: score ?? -1 }],
+                    completedArray: [{ resourceObjectId, score: score ?? -1, date }],
                 });
             }
         }
@@ -242,7 +243,7 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
 
         // TODO: MAP to string for completed resource Ids
         // Convert the ObjectId array to a string array
-        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score}));
+        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score, date: currObj.date}));
 
         // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());

@@ -28,8 +28,10 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
 
     const { toast } = useToast();
+
+    const date = new Date();
     
-    const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean) => {
+    const onToggleStatus = async (studyResourceID: string, userID : string|null, date: Date, newStatus : boolean) => {
 
         // Only signed in users are allowed - This should not happen
         if (!userID) {
@@ -41,7 +43,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
         }
 
         try {
-            const response = await updateStatusStudyResource({ userID, studyResourceID, newStatus  });
+            const response = await updateStatusStudyResource({ userID, studyResourceID, date, newStatus });
 
             if (!response) {
                 toast({

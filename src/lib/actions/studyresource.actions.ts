@@ -6,6 +6,10 @@ import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
 
+/*
+https://mongoosejs.com/docs/queries.html - Query Functions/Syntax
+
+*/
 
 /*
 Create Function:

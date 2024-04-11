@@ -67,7 +67,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   const [tableData, setTableData] = useState<StudyResourceInterface[]>([]);
 
   // This sets the status of the study resource selected by user
-  const onToggleStatus = async (studyResourceID: string, userID : string|null, newStatus : boolean, score? : number|null) => {
+  const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
 
     // Only signed in users are allowed 
     if (!userID) {
@@ -80,7 +80,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
 
 
     try {
-      const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, score: score ?? -1  });
+      const response = await updateStatusStudyResource({ userID, studyResourceID, resourceType, newStatus, date, score: score ?? -1  });
 
       if (!response) {
         toast({
