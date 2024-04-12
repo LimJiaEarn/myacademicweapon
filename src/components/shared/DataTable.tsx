@@ -132,7 +132,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
                 </svg>
               )}
             </div>
-            <label className="text-text_gray">Show Bookmarked</label>
+            <label className="text-pri_navy_dark">Show Bookmarked</label>
           </div>}
           {showStatusFilter &&
           <div className="flex_center gap-2">
@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
                 </svg>
               )}
             </div>
-            <label className="text-text_gray">Show Unattempted</label>
+            <label className="text-pri_navy_dark">Show Unattempted</label>
           </div>}
         </div>
         
@@ -215,7 +215,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
               placeholder={searchPlaceholder}
               value={(table.getColumn(searchFilter)?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn(searchFilter)?.setFilterValue(event.target.value)}
-              className={`${searchFilterStyles ? searchFilterStyles : "h-10 w-full rounded-md px-4 py-2 bg-slate-300 text-slate-600 text-sm ring-offset-background placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"}`}
+              className={`${searchFilterStyles ? searchFilterStyles : "h-10 w-full rounded-md px-4 py-2 bg-slate-200 text-pri_navy_dark text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"}`}
             />
           </div>
         }
@@ -224,14 +224,14 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
         {data.length > 10 &&
         <div className="flex_center gap-2">
             <button
-                className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-md px-4 cursor-pointer'} 
+                className={nextButtonStyles ? nextButtonStyles : 'rounded-md px-4 cursor-pointer'} 
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
             >
                 Prev
             </button>
             <button
-              className={nextButtonStyles ? nextButtonStyles : 'bg-green-300 rounded-md px-4 cursor-pointer'}
+              className={nextButtonStyles ? nextButtonStyles : 'rounded-md px-4 cursor-pointer'}
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
             >
@@ -244,7 +244,6 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
 
         <Table className={tableStyles ? tableStyles : ''}>
-          
           <TableHeader className="rounded-t-lg">
             {table.getHeaderGroups().map((headerGroup) => (
 
@@ -292,7 +291,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             :
             (
               // No data available
-              <TableRow>
+              <TableRow className="">
                 <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-text_gray">
                   <div className="flex_center">
                     

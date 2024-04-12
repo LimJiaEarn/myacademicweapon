@@ -41,6 +41,13 @@ const config: Config = {
         'pri_mint_dark': 'hsl(177.4, 76.9%, 42%)',
         'pri_mint_darker': 'hsl(177.4, 76.9%, 37%)',
 
+        // Gold
+        'pri_gold_light': 'hsl(49.3, 99%, 66%)',
+        'pri_gold_lighter': 'hsl(49.3, 99%, 71%)',
+        'pri_gold_dark': 'hsl(49.3, 99%, 56%)',
+        'pri_gold_darker': 'hsl(49.3, 99%, 51%)',
+
+
         // Red
         'pri_red_light': 'hsl(341.9, 100%, 65%)',
         'pri_red_lighter': 'hsl(341.9, 100%, 75%)',
@@ -55,7 +62,7 @@ const config: Config = {
         'pri_orange_color': '#fef08a',
         'sec_orange_color': '##fde68a', 
         'pri_bg_color': '#f9fafb', 
-        'pri_nav_color': 'hsl(177.4, 76.9%, 75%)',
+        'pri_nav_color': 'hsl(177.4, 76.9%, 65%)',
         'pri_bg_card' : '#fefce8',
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
       

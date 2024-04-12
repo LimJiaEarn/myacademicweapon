@@ -21,25 +21,31 @@ import {
 export default function StudyResourceNav() {
 
 
-const pathname = usePathname();
+  const pathname = usePathname();
 
 
-// Get the encoded data from url
-const resourceLevel = pathname.split('/').pop() || '';
+  // Get the encoded data from url
+  const resourceLevel = pathname.split('/').pop() || '';
 
-const navBarContent : StudyResourceNavItem[] = StudyResourceNavItems[resourceLevel] || [];
+  const navBarContent : StudyResourceNavItem[] = StudyResourceNavItems[resourceLevel] || [];
+
 
   return (
-    <div className="bg-light_gray rounded-md px-4 py-2 mx-4 my-4 md:mx-8 md:my-8 flex_center gap-2 font-bold shadow-md">
+    <div className="rounded-md px-2 md:px-4 py-2 flex_center gap-2 font-bold">
     <NavigationMenu>
         <NavigationMenuList>
 
             <NavigationMenuItem>
 
-                <NavigationMenuTrigger>Topical Practice Papers</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
+              <>
+                <p className="hidden sm:inline">Topical Practice Papers</p>
+                <p className="inline sm:hidden">Topical Papers</p>
+              </>
+            </NavigationMenuTrigger>
 
                 <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90">
                     {navBarContent.map((content) => (
                         <ListItem
                             key={content.id}
@@ -61,10 +67,15 @@ const navBarContent : StudyResourceNavItem[] = StudyResourceNavItems[resourceLev
 
             <NavigationMenuItem>
 
-                <NavigationMenuTrigger>Yearly Practice Papers</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
+                  <>
+                    <p className="hidden sm:inline">Yearly Practice Papers</p>
+                    <p className="inline sm:hidden">Yearly Papers</p>
+                  </>
+                </NavigationMenuTrigger>
 
                 <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90">
                     {navBarContent.map((content) => (
                         <ListItem
                             key={content.id}
@@ -111,10 +122,10 @@ const ListItem = ({ className, title, children, href } : ListItemProps) => {
             )}
             href={href} 
           >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            <div className="text-md text-pri_navy_dark font-semibold leading-none">{title}</div>
+            {/* <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
               {children}
-            </p>
+            </p> */}
           </Link>
         </NavigationMenuLink>
       </li>

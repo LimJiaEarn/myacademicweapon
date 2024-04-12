@@ -272,11 +272,11 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
   }, [resourceType, resourceSubject, resourceLevel, userID]);
   
  
-
+  
         
   return (
 
-      <div className="min-h-screen w-full">
+      <div className="min-h-screen w-full py-2 md:py-4">
       {resourceLevel && resourceSubject && resourceType?
 
         <div className="w-full px-2 md:px-6 flex_col_center">
@@ -299,10 +299,11 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
               ]}
               searchFilter="resource"
               searchPlaceholder="Search Resources ..."
-              tableStyles="bg-slate-200 rounded-lg"
-              selectBoxStyles="w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              headerCellStyles="flex_center text-black text-md font-semibold"
-              dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-300"
+              tableStyles="bg-pri_bg_color"
+              selectBoxStyles="w-[200px] bg-slate-200 text-pri_navy_dark ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              headerRowStyles="bg-slate-300"
+              headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
+              dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-200"
               nextButtonStyles="text-white bg-slate-400 hover:bg-slate-500 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
             />
           }

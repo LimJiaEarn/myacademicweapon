@@ -75,19 +75,20 @@ const Navbar = () => {
                     )
                 })}
 
-                <li className="hidden lg:flex w-full px-4 transition-all hover:text-green-200 text-gray-200">
+                <li className="hidden lg:flex w-full px-4 transition-all hover:text-pri_navy_darker text-gray-100">
                   <div className="relative group">
-                  <div className="absolute -inset-1.5 bg-gradient-to-r from-lime-200 to-lime-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative pl-4 pr-6 py-4 bg-red-300 rounded-lg leading-none flex items-center divide-x divide-white">
+                    {/* Div belows gives the glowing effect */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-pri_navy_light via-pri_navy_light to-pri_navy_darker rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative pl-4 pr-6 py-4 bg-pri_navy_lighter rounded-lg leading-none flex items-center divide-x divide-white">
                       
                       <Link href="/sign-in">
                         <div className="flex pr-6">
                           <Image src="/icons/sign-up-banner.svg" height={15} width={15} alt="icon"/>
-                          <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-green-200 transition duration-125 text-center">Sign In</p>
+                          <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-pri_navy_darker transition duration-125 text-center">Sign In</p>
                         </div>
                       </Link>
                       <Link href="/sign-up">
-                        <p className="text-md whitespace-nowrap pl-4 text-white hover:text-green-200 transition duration-125 text-center">Sign Up</p>
+                        <p className="text-md whitespace-nowrap pl-4 text-white hover:text-pri_navy_darker transition duration-125 text-center">Sign Up</p>
                       </Link>
                     </div>
                   </div>
@@ -186,7 +187,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex items-center sm:hidden w-full min-h-[35px]">
+        <div className="flex items-center sm:hidden w-full min-h-[38px]">
           <SignedIn>
             <ul className="grow flex justify-evenly py-1">
               {navLinks.map((link) => {
