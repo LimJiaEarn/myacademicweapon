@@ -245,7 +245,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
       else if (resourceType==="Topical"){
         data = (data as TopicalPracticePaper[])?.map(item=> ({
           ...item,
-          resource : item.topicName
+          resource : item.topicName + " Practice " + item.practice
         }))
       }
       // For other future types eg Notes/Summaries

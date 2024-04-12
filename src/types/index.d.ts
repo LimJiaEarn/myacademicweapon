@@ -75,6 +75,7 @@ interface RevisionPracticePaper extends PracticePaperInterface {
 
 interface TopicalPracticePaper extends PracticePaperInterface {
   topicName: string;
+  practice: number;
 }
 
 interface YearlyPracticePaper extends PracticePaperInterface {

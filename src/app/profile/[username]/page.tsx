@@ -38,13 +38,13 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               ...(resourceObject.date && { date: resourceObject.date}), 
 
           }
-      else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject)
+      else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject && 'practice' in resourceObject)
           return {
               _id: resourceObject._id.toString(),
               status: true,
               bookmark: true,
               subject: resourceObject.subject,
-              title : resourceObject.subject + " " + resourceObject.topicName,
+              title : resourceObject.subject + " " + resourceObject.topicName + " Practice " + resourceObject.practice,
               url : resourceObject.url,
               ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
               ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
