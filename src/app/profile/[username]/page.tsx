@@ -7,6 +7,13 @@ import LinkButton from "@/components/shared/LinkButton";
 import Link from "next/link";
 import Image from "next/image";
 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
@@ -109,7 +116,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px]">
 
     {/* User Profile */}
-    <section className="bg-pri_mint_lighter rounded-xl row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+    <section className="bg-pri_mint_lighter rounded-xl row-span-2 md:row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
       <div className="flex_center gap-2 md:gap-4">
                     
           {/* Mini Profile Section */}
@@ -170,20 +177,40 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     </section>
 
     {/* More Stats */}
-    <section className="bg-pri_mint_main rounded-xl row-span-1 col-span-2">
+    <section className="bg-pri_mint_main rounded-xl row-span-1 col-span-1 md:col-span-2">
 
     </section>
 
     {/* More Stats */}
-    <section className="bg-pri_red_main rounded-xl row-span-1 col-span-2">
+    <section className="bg-pri_red_main rounded-xl row-span-1 col-span-1 md:col-span-2">
 
     </section>
 
-    {/* Bookmarks/Completed - https://ui.shadcn.com/docs/components/tabs*/}
-    <section className="rounded-xl row-span-4 col-span-4">
+    {/* Bookmarks/Completed */}
+    <section className="rounded-xl row-span-4 col-span-1 md:col-span-4">
+      <Tabs defaultValue="completed" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="completed">
+            <div className="flex_center gap-1">
+              <Image src="/icons/completed.svg" alt="" height={22} width={22}/>
+              My Completed Papers
+            </div>
+          </TabsTrigger>
+          <TabsTrigger value="bookmarks">
+            <div className="flex_center gap-1">
+              <Image src="/icons/bookmarked.svg" alt="" height={22} width={22}/>
+              My Bookmarks
+            </div>
 
-        
-
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="completed">
+              <ProfilePageTable data={simplifiedCompletedResourceObjects} userID={userID} sectionType="Completed" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName + currentUserProfileObject?.lastName}/>
+        </TabsContent>
+        <TabsContent value="bookmarks">
+              <ProfilePageTable data={simplifiedBookmarkedResourceObjects} userID={userID} sectionType="Bookmarks" isOwnUser={isOwnUser} user_name={currentUserProfileObject?.firstName  + currentUserProfileObject?.lastName}/>
+        </TabsContent>
+      </Tabs>
     </section>
 
 
