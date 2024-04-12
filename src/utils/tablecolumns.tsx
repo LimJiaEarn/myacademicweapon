@@ -204,52 +204,6 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
 
 }
 
-// Commented out for faster load since these cells are hidden
-const bookmarkCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookmarkFunction, userID: string|null) => {
-    // const studyResourceID = info.row.original._id; // Access the id of the row
-    // const bookmarked = info.getValue() as boolean; // This is your boolean status
-    return (
-    <div className="w-full flex justify-center" >
-        {/* <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
-            <Image
-                src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
-                alt={`${bookmarked ? 'bookmarked' : 'bookmark'}`}
-                height={30}
-                width={30}
-                onClick={(e) => {
-                    e.stopPropagation(); // Prevent row click event
-                    e.preventDefault();
-                    onToggleBookmark(studyResourceID, userID, !bookmarked); 
-                }}
-                className="hover:cursor-pointer"
-                
-            />
-        </div> */}
-
-        
-    </div>
-    );
-}
-
-// Commented out for faster load since these cells are hidden
-const statusCell = (info: CellContext<any, any>, onToggleStatus: ToggleStatusFunction, userID: string|null) => {
-    // const studyResourceID = info.row.original._id; // Access the id of the row
-    // const status = info.getValue() as boolean; // This is your boolean status
-    return (
-    <div className="w-full flex justify-center">
-        {/* <input
-            type="checkbox"
-            checked={status} // Checkbox is checked if status is true (Completed)
-            onChange={(e) => {
-                e.stopPropagation(); // Prevent row click event
-                e.preventDefault();
-                onToggleStatus(studyResourceID, userID, !status); 
-            }}
-            className="checkbox w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500  focus:ring-2"
-        /> */}
-    </div>
-    );
-}
 
 const headerCell = (column : Column<any, any>, headerTitle : string, withSort : boolean) => {
     return (
@@ -278,13 +232,17 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
     {
         accessorKey: 'bookmark', // This should match the key in your data for the status
         header: ({ column }) => headerCell(column, "Bookmarks", false),
-        cell: info => bookmarkCell(info, onToggleBookmark, userID),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("bookmark")}</div>
+          ),
     },
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
         header: ({ column }) => headerCell(column, "Status", false),
-        cell: info => statusCell(info, onToggleStatus, userID),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status")}</div>
+          ),
     },
     // Year
     {
@@ -359,13 +317,17 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
     {
         accessorKey: 'bookmark', // This should match the key in your data for the status
         header: ({ column }) => headerCell(column, "Bookmarks", false),
-        cell: info => bookmarkCell(info, onToggleBookmark, userID),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("bookmark")}</div>
+          ),
     },
     // Status
     {
         accessorKey: 'status', // This should match the key in your data for the status
         header: ({ column }) => headerCell(column, "Status", false),
-        cell: info => statusCell(info, onToggleStatus, userID),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status")}</div>
+          ),
     },
     // Topical: topicName
     {
@@ -401,12 +363,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
             );
         },
     },
-    // // likes
-    // {
-    //     accessorKey: "likes",
-    //     header: ({ column }) => headerCell(column, "Likes", true),
-    //     cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
-    // },
+
 ];
 
 
@@ -457,16 +414,14 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     },
     // Score
     ...(isOwnUser ? [{
-        accessorKey: "score",
+        accessorKey: "scorePercent",
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Score (%)", true),
         cell: (info: CellContext<any, any>) => {
             
-            if (info.getValue()==-1) return "NIL";
+            if (info.getValue()<0) return "-";
 
-            const totMarks = info.row.original.totMarks;
-            const percentScore : number = 100 * info.getValue() / totMarks;
-
-            return Number(percentScore.toFixed(1))+"%"; // round to 1dp
+            const score = Number(info.getValue()) * 100;
+            return score.toFixed(1)+"%"; // round to 1dp
         },
     }] : []),
     // Edit

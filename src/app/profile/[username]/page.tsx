@@ -3,7 +3,6 @@ import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions'
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
 import LinkButton from "@/components/shared/LinkButton";
-import Link from "next/link";
 import Image from "next/image";
 import Tab from "@/components/shared/Tab";
 
@@ -35,6 +34,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
               ...(resourceObject.score && { score: resourceObject.score}), 
               ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+              ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
               ...(resourceObject.date && { date: resourceObject.date}), 
 
           }
@@ -50,8 +50,9 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
               ...(resourceObject.score && { score: resourceObject.score}), 
               ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+              ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
               ...(resourceObject.date && { date: resourceObject.date}), 
-
+            
           }
 
       return null;
@@ -105,7 +106,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
   return (
-    <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px]">
+    <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
     <section className="bg-pri_bg_card rounded-xl row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
@@ -113,13 +114,10 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                     
           {/* Mini Profile Section */}
         <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
-
-
           <div>
               <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
-              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-text_gray text-center">@{currentUserProfileObject?.username}</p>
+              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-text_gray text-center">@ {currentUserProfileObject?.username}</p>
           </div>
-
       </div>
 
       {/* Bio/Desc */}

@@ -126,8 +126,8 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
 
       <div className="w-full relative px-2">
         {isOwnUser &&
-        <div className="flex justify-center items-center gap-1">
-            <p>Edit Mode</p>
+        <div className="absolute top-0 left-2 flex justify-center items-center gap-2">
+            <p className="text-pri_navy_darker text-md italic">Edit Mode</p>
             
             <Switch
                 checked={toggleEdit}
@@ -156,11 +156,11 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
                     searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"} ...`}
                     tableStyles="w-full"
                     selectBoxStyles="w-[180px] bg-pri_mint_dark text-pri_navy_darker ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    selectContentStyles="w-[240px] bg-sky-100"
+                    selectContentStyles="w-[240px] bg-pri_bg_card2"
                     searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-pri_mint_dark text-pri_navy_darker text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     headerRowStyles="bg-pri_mint_darker"
                     headerCellStyles="flex justify-center items-center text-pri_navy_darker text-md font-semibold"
-                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_navy_light"
+                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_mint_light"
                     dataCellStyles="align-middle text-center"
                     nextButtonStyles="text-pri_navy_darker bg-pri_mint_dark hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
                 />
