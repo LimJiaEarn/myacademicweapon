@@ -119,7 +119,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
         
   return (
 
-      <div className="w-full">
+      <div className="w-4/5 mt-6 md:mt-10">
 
         <div className="flex justify-center items-center gap-4">
             <h2 className="font-bold text-center leading-relaxed text-text_gray text-2xl lg:text-3xl">{isOwnUser ? "Your " : user_name+"'s "}{sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"}</h2>
