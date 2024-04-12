@@ -6,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 // Table Dependencies
 import { DataTable } from "@/components/shared/DataTable";
 import { getProfileCompletedColumns, getProfileBookmarkedColumns } from "@/utils/tablecolumns";
+import { Switch } from "@/components/ui/switch"
 
 // Server Actions
 import { updateStatusStudyResource, updateBookmarkStudyResource } from '@/lib/actions/useractivity.actions';
@@ -124,19 +125,18 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
   return (
 
       <div className="w-full relative px-2">
-
-        <div className="flex justify-center items-center">
-            {isOwnUser && 
-            <button
-                className={`${toggleEdit ? "bg-pink-400":"bg-teal-500"} shadow-xl text-pri_navy_darker rounded-lg px-2 py-1`}
-                onClick={()=>{
+        {isOwnUser &&
+        <div className="flex justify-center items-center gap-1">
+            <p>Edit Mode</p>
+            
+            <Switch
+                checked={toggleEdit}
+                onCheckedChange={()=>{
                     setToggleEdit((prev)=>!prev);
-                }}    
-            >
-                {`${toggleEdit ? "Stop Edit" : "Edit"}`}
-            </button>}
-
-        </div>
+                }}
+            />
+            
+        </div>}
         
         {tableData.length > 0?
             <div className="w-full flex_center">
