@@ -38,9 +38,6 @@ body {
   overflow-x: hidden;
 }
 
-p {
-  font-size: 1rem;
-}
 
 /* Hiding Up down arrows */
 /* For WebKit-based browsers */
@@ -56,15 +53,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 @layer utilities {
 
-
-
   .debugger{
 
     @apply border-4 border-red-500
 
   }
-
-
 
   .flex_center{
 
@@ -90,20 +83,21 @@ input[type="number"]::-webkit-outer-spin-button {
 
   }
 
-  .red_grad_text{
-    @apply bg-gradient-to-r text-transparent bg-clip-text from-academic_red via-red-400 to-pink-500
+
+  .red_grad_text {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-pri_red_main via-pri_red_light to-pri_red_lighter;
   }
 
-  .red_grad_text_2{
-    @apply bg-gradient-to-r text-transparent bg-clip-text from-academic_red to-red-400
+  .red_grad_text_2 {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-pri_red_dark to-pri_red_main;
   }
 
-  .gold_grad_text{
-    @apply bg-gradient-to-r text-transparent bg-clip-text from-orange-600 via-success_gold to-orange-300
+  .gold_grad_text {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-pri_gold_main via-yellow-500 to-pri_gold_main;
   }
-  
-  .gold_grad_text_2{
-    @apply bg-gradient-to-r text-transparent bg-clip-text from-orange-600 to-orange-400
+
+  .gold_grad_text_2 {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-yellow-600 to-pri_gold_main;
   }
 
 }

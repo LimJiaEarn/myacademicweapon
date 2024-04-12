@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
 
-    <nav className="z-50 px-2 sm:px-6 py-2 xl:px-10 flex_between border-b bg-pri_orange_color fixed bottom-0 sm:bottom-auto sm:top-0 left-0 right-0">
+    <nav className="z-50 px-2 sm:px-6 py-2 xl:px-10 flex_between border-b bg-pri_nav_color fixed bottom-0 sm:bottom-auto sm:top-0 left-0 right-0">
 
         <div className="hidden sm:flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
@@ -42,7 +42,7 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex w-full mr-4 transition-all hover:text-text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                  <li key={link.id} className={`flex w-full mr-4 transition-all hover:text-text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                     <Link href={link.route} className="flex gap-2 hover:opacity-75">
                       <Image src={link.icon} alt="icon" height={24} width={24}/>
                       <p className="font-bold">{link.label}</p>
@@ -66,7 +66,7 @@ const Navbar = () => {
                   const isActive = link.route === pathname;
 
                   return (
-                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                       <Link href={link.route} className="flex gap-2 hover:opacity-75">
                         <Image src={link.icon} alt="icon" height={24} width={24} />
                         <p className="text-md font-bold">{link.label}</p>
@@ -93,7 +93,7 @@ const Navbar = () => {
                   </div>
                 </li>
 
-                <li className={`flex lg:hidden w-full px-4 transition-all hover:text-green-600 ${pathname==='/sign-in'? 'text-red-300' : 'text-red-600'}`}>
+                <li className={`flex lg:hidden w-full px-4 transition-all hover:text-pri_navy_main ${pathname==='/sign-in'? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                   <Link href='/sign-in' className="flex gap-2 hover:opacity-75">
                     <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
                     <p className="text-md whitespace-nowrap font-semibold">Sign In / Up</p>
@@ -133,7 +133,7 @@ const Navbar = () => {
                         const isActive = link.route === pathname;
 
                         return (
-                          <li key={link.id} className={`flex w-full transition-all hover:text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                          <li key={link.id} className={`flex w-full transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                             <SheetClose asChild>
                               <Link href={link.route} className="flex gap-2">
                                 <Image src={link.icon} alt="icon" height={24} width={24}/>
@@ -155,7 +155,7 @@ const Navbar = () => {
                           const isActive = link.route === pathname;
 
                           return (
-                            <li key={link.id} className={`flex w-full px-4 transition-all hover:text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                            <li key={link.id} className={`flex w-full px-4 transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                               <SheetClose asChild>
                                 <Link href={link.route} className="flex gap-2">
                                   <Image src={link.icon} alt="icon" height={24} width={24}/>
@@ -166,7 +166,7 @@ const Navbar = () => {
                             )
                         })}
 
-                        <li className={`flex w-full px-4 transition-all hover:text-green-600 ${pathname==='/sign-in'? 'text-red-300' : 'text-red-600'}`}>
+                        <li className={`flex w-full px-4 transition-all hover:text-pri_navy_main ${pathname==='/sign-in'? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                           <SheetClose asChild>
                             <Link href='/sign-in' className="flex gap-2">
                               <Image src="/icons/sign-in.svg" alt="icon" height={24} width={24}/>
@@ -194,7 +194,7 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex hover:text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                  <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                   <Link href={link.route} className="flex_col_center gap-1">
                     <Image src={link.icon} alt="icon" height={28} width={28} />
                     {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
@@ -221,7 +221,7 @@ const Navbar = () => {
                   const isActive = link.route === pathname;
 
                   return (
-                    <li key={link.id} className={`flex hover:text-green-600 ${isActive? 'text-red-300' : 'text-red-600'}`}>
+                    <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                       <Link href={link.route} className="flex_col_center gap-1">
                         <Image src={link.icon} alt="icon" height={28} width={28} />
                         {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
@@ -230,7 +230,7 @@ const Navbar = () => {
                     )
                 })}
 
-                <li className={`flex hover:text-green-600 ${pathname==='/sign-in'? 'text-red-300' : 'text-red-600'}`}>
+                <li className={`flex hover:text-pri_navy_main ${pathname==='/sign-in'? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                   <Link href='/sign-in' className="flex_col_center gap-1">
                     <Image src="/icons/sign-in.svg" alt="icon" height={28} width={28}/>
                     {/* <p className="font-bold text-center w-[90px]">Sign In / Up</p> */}

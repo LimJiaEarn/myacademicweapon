@@ -19,28 +19,48 @@ const config: Config = {
     },
     extend: {
       colors: {
+
+
+        // Main Colors
+        'pri_navy_main' : 'hsl(228.4, 41%, 32%)',
+        'pri_mint_main' : 'hsl(177.4,76.9%,47%)',
+        'pri_gold_main' : 'hsl(49.3,99%,61%)',
+        'pri_red_main' : 'hsl(341.9,100%,50%)',
+
+        // Main Colors' Palette
+
+        // Navy
+        'pri_navy_light': 'hsl(228.4, 41%, 42%)',
+        'pri_navy_lighter': 'hsl(228.4, 41%, 52%)',   
+        'pri_navy_dark': 'hsl(228.4, 41%, 22%)',
+        'pri_navy_darker': 'hsl(228.4, 41%, 17%)',
+
+        // Mint
+        'pri_mint_light': 'hsl(177.4, 76.9%, 65%)',          
+        'pri_mint_lighter': 'hsl(177.4, 76.9%, 75%)', 
+        'pri_mint_dark': 'hsl(177.4, 76.9%, 42%)',
+        'pri_mint_darker': 'hsl(177.4, 76.9%, 37%)',
+
+        // Red
+        'pri_red_light': 'hsl(341.9, 100%, 65%)',
+        'pri_red_lighter': 'hsl(341.9, 100%, 75%)',
+        'pri_red_dark': 'hsl(341.9, 100%, 35%)',
+        'pri_red_darker': 'hsl(341.9, 100%, 25%)',
+
+        // Support Colors
+        'info_blue': 'hsl(210, 100%, 50%)', 
+        'dark_info_blue': 'hsl(210, 100%, 30%)',
+
         // Background Colors
         'pri_orange_color': '#fef08a',
         'sec_orange_color': '##fde68a', 
         'pri_bg_color': '#f9fafb', 
+        'pri_nav_color': 'hsl(177.4, 76.9%, 75%)',
         'pri_bg_card' : '#fefce8',
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
+      
         
-        // Primary Colors (For headers, important buttons, links)
-        'academic_red': 'hsl(0, 80%, 50%)', // A dynamic, attention-grabbing red for primary actions and headers
-        'success_gold': 'hsl(46, 90%, 50%)', // A rich gold for highlighting success, achievements, and important features
-        
-        
-        // Neutral Colors (For paragraphs, dividers, less important text)
-        'light_gray': '#f3f4f6',
-        'text_gray': 'hsl(210, 10%, 40%)', // A darker gray for main text, ensuring good contrast and readability on the light background
-        'light_text_gray': 'hsl(0, 0%, 80%)', // A very light gray for dividers and less prominent borders, maintaining a clean look
-        
-        // Utility Colors (For warnings, errors, info messages)
-        'vibrant_orange': 'hsl(30, 100%, 50%)', 
-        'dark_red': 'hsl(0, 100%, 40%)', 
-        'info_blue': 'hsl(210, 100%, 50%)', 
-        'dark_info_blue': 'hsl(210, 100%, 30%)',
+
     
       },
       boxShadow: {
