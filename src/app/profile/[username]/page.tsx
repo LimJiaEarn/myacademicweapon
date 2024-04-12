@@ -106,10 +106,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
   return (
-    <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
+    <div className="grid grid-rows-5 grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
-    <section className="bg-pri_bg_card rounded-xl row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+    <section className="bg-pri_bg_card w-full rounded-xl row-span-2 md:row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+      
       <div className="flex_center gap-2 md:gap-4">
                     
           {/* Mini Profile Section */}

@@ -37,10 +37,10 @@ export default function StudyResourceNav() {
 
             <NavigationMenuItem>
 
-            <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
+            <NavigationMenuTrigger className="text-lg md:text-xl font-bold">
               <>
-                <p className="hidden sm:inline">Topical Practice Papers</p>
-                <p className="inline sm:hidden">Topical Papers</p>
+                <p className="hidden sm:inline text-pri_navy_dark">Topical Practice Papers</p>
+                <p className="inline sm:hidden text-pri_navy_dark">Topical Papers</p>
               </>
             </NavigationMenuTrigger>
 

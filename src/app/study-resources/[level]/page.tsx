@@ -290,13 +290,23 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
               data={tableData}
               showStatusFilter = {true}
               showBookmarkFilter = {true}
-              selectorFilters={[
+              selectorFilters={ resourceType==="Yearly" ?
+                [
                 {
                   id: "assessment",
                   placeholder:"Filter Assessment",
                   options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
                 },
-              ]}
+              ]
+              :
+              [
+                {
+                  id: "topicName",
+                  placeholder:"Filter Topics",
+                  options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
+                },
+              ]
+            }
               searchFilter="resource"
               searchPlaceholder="Search Resources ..."
               tableStyles="bg-pri_bg_color"
