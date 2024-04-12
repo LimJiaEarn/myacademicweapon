@@ -2,11 +2,10 @@ import { currentUser, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
 import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
-import ProfilePageTable from "@/components/shared/ProfileTable";
 import LinkButton from "@/components/shared/LinkButton";
 import Link from "next/link";
 import Image from "next/image";
-
+import Tab from "@/components/shared/Tab";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
@@ -16,7 +15,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
   const currentUserProfileObject : UserObject= await getUserByUsername(username);
   const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
-  const userID = currentUserProfileObject._id; // this is the mongoDB id
+  const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
   const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
   // Utility Function
@@ -97,11 +96,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
 
 
-  const simplifiedBookmarkedResourceObjects = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+  const simplifiedBookmarkedResourceObjects: ISummarisedPracticePaper[] = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
 
   
-  const simplifiedCompletedResourceObjects = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+  const simplifiedCompletedResourceObjects: ISummarisedPracticePaper[] = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
 
 
@@ -109,18 +108,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px]">
 
     {/* User Profile */}
-    <section className="bg-pri_mint_lighter rounded-xl row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+    <section className="bg-pri_bg_card rounded-xl row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
       <div className="flex_center gap-2 md:gap-4">
                     
           {/* Mini Profile Section */}
-          <div className="relative group w-45 h-45 overflow-hidden">
-              <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
-              {/* { isOwnUser && <div className="absolute bottom-0 w-full flex justify-center items-end pb-2 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:-translate-y-2 flex_center">
-                  <Link href={`/profile/${username}/edit#/profile`} className="text-white text-sm py-1 px-4 rounded shadow-md">
-                      Edit Image
-                  </Link>
-              </div>} */}
-          </div>
+        <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
+
 
           <div>
               <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
@@ -170,19 +163,35 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     </section>
 
     {/* More Stats */}
-    <section className="bg-pri_mint_main rounded-xl row-span-1 col-span-2">
+    <section className="bg-pri_bg_card rounded-xl row-span-1 col-span-4">
 
     </section>
 
-    {/* More Stats */}
-    <section className="bg-pri_red_main rounded-xl row-span-1 col-span-2">
 
-    </section>
 
-    {/* Bookmarks/Completed - https://ui.shadcn.com/docs/components/tabs*/}
-    <section className="rounded-xl row-span-4 col-span-4">
+    {/* Bookmarks/Completed*/}
+    <section className="bg-pri_bg_card rounded-xl row-span-4 col-span-4">
 
-        
+        <Tab
+            Tabs={[
+                {
+                    title:"Completed Papers",
+                    titleIcon: "/icons/completed.svg",
+                    data: simplifiedCompletedResourceObjects,
+                    sectionType: "Completed",
+                },
+                {
+                    title:"Bookmarks",
+                    titleIcon: "/icons/bookmarked.svg",
+                    data: simplifiedBookmarkedResourceObjects,
+                    sectionType: "Bookmarks",
+                    
+                },
+            ]}
+            isOwnUser= {isOwnUser}
+            userID = {userID}
+            username={username}
+        />
 
     </section>
 

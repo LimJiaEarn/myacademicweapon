@@ -16,16 +16,20 @@ type ProfilePageTableProps = {
     userID : string;
     sectionType : "Bookmarks" | "Completed";
     isOwnUser: boolean; // if this is false, we do not need to display the bookmark / status icons
-    user_name: string;
 }
 
 
-const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : ProfilePageTableProps ) => {
+const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
     
 
     const [tableData, setTableData] = useState(data);
     const [toggleEdit, setToggleEdit] = useState(false);
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
+
+    useEffect(()=>{
+        setTableData(data);
+    }, [data])
+
 
     const { toast } = useToast();
 
@@ -119,13 +123,12 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
         
   return (
 
-      <div className="w-4/5 mt-6 md:mt-10">
+      <div className="w-full relative px-2">
 
-        <div className="flex justify-center items-center gap-4">
-            <h2 className="font-bold text-center leading-relaxed text-text_gray text-2xl lg:text-3xl">{isOwnUser ? "Your " : user_name+"'s "}{sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"}</h2>
+        <div className="flex justify-center items-center">
             {isOwnUser && 
             <button
-                className={`${toggleEdit ? "bg-pink-400":"bg-teal-500"} shadow-xl text-white rounded-lg px-2 py-1`}
+                className={`${toggleEdit ? "bg-pink-400":"bg-teal-500"} shadow-xl text-pri_navy_darker rounded-lg px-2 py-1`}
                 onClick={()=>{
                     setToggleEdit((prev)=>!prev);
                 }}    
@@ -151,15 +154,15 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser, user_name} : P
                         ]}
                     searchFilter="title"
                     searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"} ...`}
-                    tableStyles="bg-teal-50 border-4 border-slate-100"
-                    selectBoxStyles="w-[180px] bg-emerald-500 text-white ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    selectContentStyles="w-[240px] bg-teal-100"
-                    searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-emerald-500 text-white text-sm ring-offset-background placeholder:text-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    headerRowStyles="bg-emerald-600"
-                    headerCellStyles="flex justify-center items-center text-white text-md font-medium"
-                    dataRowStyles="transition ease-in-out duration-200 hover:bg-emerald-100"
+                    tableStyles="w-full"
+                    selectBoxStyles="w-[180px] bg-pri_mint_dark text-pri_navy_darker ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    selectContentStyles="w-[240px] bg-sky-100"
+                    searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-pri_mint_dark text-pri_navy_darker text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    headerRowStyles="bg-pri_mint_darker"
+                    headerCellStyles="flex justify-center items-center text-pri_navy_darker text-md font-semibold"
+                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_navy_light"
                     dataCellStyles="align-middle text-center"
-                    nextButtonStyles="text-white bg-emerald-500 hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                    nextButtonStyles="text-pri_navy_darker bg-pri_mint_dark hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
                 />
             </div>
             :
