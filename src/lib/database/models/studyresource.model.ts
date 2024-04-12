@@ -20,6 +20,7 @@ interface TopicalPracticePaperDocument extends StudyResourceDocument {
   workingSolution?: string;
   videoSolution?: string;
   topicName: string;
+  practice: number; // Can have multiple docs for same topic, hence we use a `practice` to track similar topic but diff worksheets
 }
 
 // This is for revision sets which usually consists of multiple topics

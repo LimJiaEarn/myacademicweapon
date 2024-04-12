@@ -121,14 +121,14 @@ export const StudyResourceNavItems : StudyResourceNav = {
     //     "Yearly Practice Papers",
     //   ]
     // },
-    {
-      id:"jcResources2",
-      title: "H2 Chem",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
-    },
+    // {
+    //   id:"jcResources2",
+    //   title: "H2 Chem",
+    //   resources: [
+    //     "Topical Practice Papers",
+    //     "Yearly Practice Papers",
+    //   ]
+    // },
     {
       id:"jcResources3",
       title: "H2 Math",

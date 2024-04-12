@@ -111,10 +111,12 @@ interface CreatePracticePaperInterface extends CreateStudyResourcesParams {
 
 interface CreateRevisionPracticePaperParams extends CreatePracticePaperInterface {
   topicNames: string[];
+  practice: number;
 }
 
 interface CreateTopicalPracticePaperParams extends CreatePracticePaperInterface {
   topicName: string;
+  practice: number;
 }
 
 interface CreateYearlyPracticePaperParams extends CreatePracticePaperInterface {

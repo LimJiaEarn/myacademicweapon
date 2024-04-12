@@ -3,7 +3,7 @@ import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-
+import { useToast } from "@/components/ui/use-toast";
 
 const createStudyResourceFormDetails : FormFieldConfig[] = [
     {
@@ -62,6 +62,14 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         compulsory: true,
       },
       {
+        id:"practice",
+        type:"number",
+        styles: "h-[35px]",
+        title:"Practice",
+        placeholder:"",
+        compulsory: true,
+      },
+      {
         id:"totMarks",
         type:"number",
         title:"Total Marks",
@@ -95,6 +103,8 @@ const AdminPage = async () => {
   const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
   const userPlan = currentSignedInUserObject.planId;
 
+  const { toast } = useToast();
+
   if (userPlan<100){
     redirect('/contribute');
   }
@@ -111,12 +121,14 @@ const AdminPage = async () => {
           workingUrl : workingSolution,
           videoUrl : videoSolution,
           topicName,
+          practice : practiceString,
           totMarks : stringedtotMarks,
           contributor,
           // contributorUrl,
         } = formData;
         
         const totMarks = stringedtotMarks ? Number(stringedtotMarks) : undefined;
+        const practice = Number(practiceString);
 
         // hardcoded values
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
@@ -130,6 +142,7 @@ const AdminPage = async () => {
             url,
             likes:0,
             topicName,
+            practice,
             status,
             type,
             // Including optional properties only if they exist
@@ -144,10 +157,15 @@ const AdminPage = async () => {
 
         try{
           await createPracticePaper(data);
-          console.log("Success!");
+          toast({
+            description: "Success!",
+          })
           return {success:true};
         }
         catch (error){  
+          toast({
+            description: "Failed!",
+          })
           return {sucess:false, message:`failed to submit form due to ${error}`}
         }
 
