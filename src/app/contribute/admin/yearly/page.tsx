@@ -119,7 +119,6 @@ const AdminPage = async () => {
   const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
 
   const userPlan = currentSignedInUserObject.planId;
-  const { toast } = useToast();
 
   if (userPlan<100){
     redirect('/contribute');
@@ -175,15 +174,10 @@ const AdminPage = async () => {
         
         try{
           await createPracticePaper(data);
-          toast({
-            description: "Success!",
-          })
           return {success:true};
         }
         catch (error){  
-          toast({
-            description: "Failed!",
-          })
+
           return {sucess:false, message:`failed to submit form due to ${error}`}
         }
     }

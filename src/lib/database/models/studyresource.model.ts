@@ -29,6 +29,7 @@ interface RevisionPracticePaperDocument extends StudyResourceDocument {
   workingSolution?: string;
   videoSolution?: string;
   topicNames: string[];
+  practice: number;
 }
 
 interface YearlyPracticePaperDocument extends StudyResourceDocument {
@@ -64,6 +65,7 @@ const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   topicName: { type: String, required: true },
+  practice: { type: Number, required: true },
 });
 
 const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
@@ -71,6 +73,7 @@ const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   topicNames: [{type: String, required: true}],
+  practice: { type: Number, required: true },
 })
 
 
