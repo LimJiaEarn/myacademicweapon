@@ -104,6 +104,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const simplifiedCompletedResourceObjects: ISummarisedPracticePaper[] = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
 
+  // Get unique subjects
+  const userAttemptedSubjects : Record<string, number> = {};
+  simplifiedCompletedResourceObjects.forEach((curr : ISummarisedPracticePaper)=>{
+    userAttemptedSubjects[curr.subject] = (userAttemptedSubjects[curr.subject] || 0) + 1;
+  });
+  
 
   return (
     <div className="grid grid-rows-5 grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
@@ -122,11 +128,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       </div>
 
       {/* Bio/Desc */}
-      {currentUserProfileObject?.bio &&
+      {/* {currentUserProfileObject?.bio &&
       <div>
           <p className="font-semibold">Bio:</p>
           <p className="italic">{currentUserProfileObject?.bio}</p>
-      </div>}
+      </div>} */}
       
       {/* Buttons */}
       { isOwnUser &&
@@ -152,9 +158,16 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       <div className="flex flex-col w-full justify-start">
           <h2 className="w-full text-start pl-2 text-md md:text-lg font-bold md:text-md text-text_gray">Your Subjects</h2>
           <ul className="w-full text-start pl-4 text-sm md:text-md md:text-md text-slate-600">
-              <li>English</li>
-              <li>E Math</li>
-              <li>A Math</li>
+            {Object.entries(userAttemptedSubjects).map(([subject, completions])=>{
+
+
+                return(
+                    <li key={`${subject}_${completions}`}>
+                        <p>{subject}</p>
+                        <p>{completions}</p>
+                    </li>
+                )
+            })}
 
           </ul>
 
