@@ -79,7 +79,7 @@ const Navbar = () => {
                   <div className="relative group">
                     {/* Div belows gives the glowing effect */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-pri_navy_light via-pri_navy_light to-pri_navy_darker rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative pl-4 pr-6 py-4 bg-pri_navy_lighter rounded-lg leading-none flex items-center divide-x divide-white">
+                    <div className="relative pl-4 pr-6 py-4 bg-pri_navy_light rounded-lg leading-none flex items-center divide-x divide-white">
                       
                       <Link href="/sign-in">
                         <div className="flex pr-6">

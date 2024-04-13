@@ -115,7 +115,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     <div className="grid grid-rows-5 grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
-    <section className="bg-pri_bg_card w-full rounded-xl row-span-2 md:row-span-4 col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+    <section className="bg-pri_bg_card w-full rounded-xl row-auto md:row-auto col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
       
       <div className="flex_center gap-2 md:gap-4">
                     
@@ -154,17 +154,16 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
               />
           </SignOutButton>
       </div>}
+      <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
       
       <div className="flex flex-col w-full justify-start">
-          <h2 className="w-full text-start pl-2 text-md md:text-lg font-bold md:text-md text-text_gray">Your Subjects</h2>
-          <ul className="w-full text-start pl-4 text-sm md:text-md md:text-md text-slate-600">
+          <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-center mb-2">{isOwnUser && "Your "}Progress</h2>
+          <ul className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">
             {Object.entries(userAttemptedSubjects).map(([subject, completions])=>{
-
-
                 return(
-                    <li key={`${subject}_${completions}`}>
-                        <p>{subject}</p>
-                        <p>{completions}</p>
+                    <li key={`${subject}_${completions}`} className="flex my-1">
+                        <p className="font-semibold">{subject}</p>
+                        <p className="font-bold ml-auto">{completions} <span className="italic font-normal">completed</span></p>
                     </li>
                 )
             })}
@@ -175,14 +174,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     </section>
 
     {/* More Stats */}
-    <section className="bg-pri_bg_card rounded-xl row-span-1 col-span-4">
+    {/* <section className="bg-pri_bg_card rounded-xl row-span-1 col-span-4">
 
-    </section>
+    </section> */}
 
 
 
     {/* Bookmarks/Completed*/}
-    <section className="bg-pri_bg_card rounded-xl row-span-4 col-span-4">
+    <section className="bg-pri_bg_card rounded-xl row-span-4 col-start-1 md:col-start-2 col-span-4">
 
         <Tab
             Tabs={[

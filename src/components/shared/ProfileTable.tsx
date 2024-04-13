@@ -34,7 +34,6 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
 
     const { toast } = useToast();
 
-    const date = new Date();
     
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date: Date, newStatus : boolean) => {
 
@@ -158,9 +157,9 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
                     selectBoxStyles="w-[180px] bg-pri_mint_dark text-pri_navy_darker ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     selectContentStyles="w-[240px] bg-pri_bg_card2"
                     searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-pri_mint_dark text-pri_navy_darker text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    headerRowStyles="bg-pri_mint_darker"
+                    headerRowStyles="bg-pri_mint_dark"
                     headerCellStyles="flex justify-center items-center text-pri_navy_darker text-md font-semibold"
-                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_mint_light"
+                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_bg_card2"
                     dataCellStyles="align-middle text-center"
                     nextButtonStyles="text-pri_navy_darker bg-pri_mint_dark hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
                 />
