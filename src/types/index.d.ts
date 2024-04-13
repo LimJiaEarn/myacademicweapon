@@ -21,6 +21,9 @@ declare type UserObject = {
   lastName: string;
   planId: number;
   photo: string;
+  school?: string; // may not exist if user do not update in profile
+  level?:string; // may not exist if user do not update in profile
+  joinDate: Date;
 }
 
 declare type CreateUserParams = {
@@ -30,6 +33,7 @@ declare type CreateUserParams = {
   firstName: string;
   lastName: string;
   photo: string;
+  joinDate: Date;
 };
   
 declare type UpdateUserParams = {

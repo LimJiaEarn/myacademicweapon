@@ -84,11 +84,11 @@ const Navbar = () => {
                       <Link href="/sign-in">
                         <div className="flex pr-6">
                           <Image src="/icons/sign-up-banner.svg" height={15} width={15} alt="icon"/>
-                          <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-pri_navy_darker transition duration-125 text-center">Sign In</p>
+                          <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-pri_mint_lighter transition duration-125 text-center">Sign In</p>
                         </div>
                       </Link>
                       <Link href="/sign-up">
-                        <p className="text-md whitespace-nowrap pl-4 text-white hover:text-pri_navy_darker transition duration-125 text-center">Sign Up</p>
+                        <p className="text-md whitespace-nowrap pl-4 text-white hover:text-pri_mint_lighter transition duration-125 text-center">Sign Up</p>
                       </Link>
                     </div>
                   </div>

@@ -10,6 +10,9 @@ interface IUser extends Document {
   firstName?: string; // Optional since it's not required
   lastName?: string;  // Optional since it's not required
   planId: number;
+  school: string;
+  level: string;
+  joinDate: Date;
 }
 
 // Define the User schema
@@ -45,6 +48,16 @@ const UserSchema = new Schema<IUser>({
   planId: {
     type: Number,
     default: 1,
+  },
+  school: {
+    type: String,
+  },
+  level: {
+    type: String,
+  },
+  joinDate: {
+    type: Date,
+    required: true,
   },
 });
 

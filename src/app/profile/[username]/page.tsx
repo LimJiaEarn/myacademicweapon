@@ -115,15 +115,15 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     <div className="grid grid-rows-5 grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
-    <section className="bg-pri_bg_card w-full rounded-xl row-auto md:row-auto col-span-1 p-2 flex flex-col justify-start gap-2 md:gap-4">
+    <section className="bg-pri_bg_card w-full rounded-xl row-auto md:row-auto col-span-1 px-2 py-2 md:py-4 flex flex-col justify-start gap-4 md:gap-6">
       
+      {/* Mini Profile Section */}
       <div className="flex_center gap-2 md:gap-4">
                     
-          {/* Mini Profile Section */}
         <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
           <div>
-              <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-text_gray">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
-              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-text_gray text-center">@ {currentUserProfileObject?.username}</p>
+              <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
+              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main text-center">@ {currentUserProfileObject?.username}</p>
           </div>
       </div>
 
@@ -136,7 +136,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       
       {/* Buttons */}
       { isOwnUser &&
-      <div className="flex flex-col justify-center items-center md:flex-row gap-2 md:gap-4">
+      <div className="flex_center gap-2 md:gap-4">
           <LinkButton
               buttonMsg="Edit Profile"
               buttonMsgClass="text-white text-xs"
@@ -155,10 +155,21 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
           </SignOutButton>
       </div>}
       <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
-      
+    
+      <div>
+        <p>{('school' in currentUserProfileObject) ? currentUserProfileObject.school : "No School"}</p>
+        <p>{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
+      </div>
+
+
+
       <div className="flex flex-col w-full justify-start">
           <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-center mb-2">{isOwnUser && "Your "}Progress</h2>
-          <ul className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">
+          
+          {Object.keys(userAttemptedSubjects).length === 0 ?
+            <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
+            :
+            <ul className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">
             {Object.entries(userAttemptedSubjects).map(([subject, completions])=>{
                 return(
                     <li key={`${subject}_${completions}`} className="flex my-1">
@@ -168,7 +179,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 )
             })}
 
-          </ul>
+          </ul>}
 
       </div>
     </section>

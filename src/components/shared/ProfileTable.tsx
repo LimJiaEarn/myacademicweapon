@@ -123,23 +123,24 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
         
   return (
 
-      <div className="w-full relative px-2">
-        {isOwnUser &&
-        <div className="absolute top-0 left-2 flex justify-center items-center gap-2">
-            <p className="text-pri_navy_darker text-md italic">Edit Mode</p>
-            
-            <Switch
-                checked={toggleEdit}
-                onCheckedChange={()=>{
-                    setToggleEdit((prev)=>!prev);
-                }}
-            />
-            
-        </div>}
+      <div className="w-full px-2">
+
         
         {tableData.length > 0?
-            <div className="w-full flex_center">
+            <div className="w-full flex_col_center">
                 {/* <p className="italic text-center">{tableData.length}</p> */}
+                {isOwnUser &&
+                    <div className="flex justify-center items-center gap-2">
+                        <p className="text-pri_navy_darker text-md italic">Edit Mode</p>
+                        
+                        <Switch
+                            checked={toggleEdit}
+                            onCheckedChange={()=>{
+                                setToggleEdit((prev)=>!prev);
+                            }}
+                        />
+                        
+                    </div>}
                 <DataTable
                     columns={columns}
                     toHideColumns = {toHideColumns}
@@ -167,7 +168,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             :
             // Render a CTA image
             <div className="py-4 flex_col_center gap-4">
-                <p className="text-slate-400 text-lg">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
+                <p className="text-slate-700 text-lg md:text-xl">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
             </div>
         }
 
