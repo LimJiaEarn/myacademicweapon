@@ -403,7 +403,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                 date = ("0" + currDate.getDate()).slice(-2) + "/" + ("0"+(currDate.getMonth()+1)).slice(-2) + "/" + ("0" + currDate.getFullYear()).slice(-2);
             }
             return (
-            <div className="grid grid-rows-2 grid-cols-3">
+            <div className="grid grid-rows-2 grid-cols-3 gap-1">
                 <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
                     <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
@@ -416,9 +416,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                     }
                     
                 </div>
-                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="italic">{`- completed on ${date}`}</p>
-                </div>
+                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 italic text-left">{`(completed ${date})`}</div>
             </div>
             );
         },

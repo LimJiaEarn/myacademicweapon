@@ -17,9 +17,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
   const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-  const joinDate = new Date(currentUserProfileObject.joinDate);
     
-    const formattedJoinDate = joinDate.toLocaleDateString('en-GB', {
+    const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
     day: 'numeric', // numeric day
     month: 'short', // abbreviated month
     year: 'numeric' // full year
@@ -139,7 +138,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         
         {/* Buttons */}
         { isOwnUser &&
-        <div className="flex flex-row sm:flex-col lg:flex-row justify-center items-center gap-2 md:gap-4">
+        <div className="flex flex-row sm:flex-col lg:flex-row lg:w-full justify-center items-center gap-2 md:gap-4">
             <LinkButton
                 buttonMsg="Edit Profile"
                 buttonMsgClass="text-white text-xs md:text-sm"
