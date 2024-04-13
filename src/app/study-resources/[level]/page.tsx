@@ -286,7 +286,7 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
             :
             <DataTable
               columns={tableColumns}
-              toHideColumns = {["bookmark", "status", "year", "assessment"]}
+              toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
               data={tableData}
               showStatusFilter = {true}
               showBookmarkFilter = {true}

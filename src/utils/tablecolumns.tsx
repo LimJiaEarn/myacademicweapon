@@ -329,6 +329,14 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
             <div className="capitalize">{row.getValue("status")}</div>
           ),
     },
+    // topicName
+    {
+        accessorKey: 'topicName', // This should match the key in your data for the status
+        header: ({ column }) => headerCell(column, "Topic", false),
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("topicName")}</div>
+            ),
+    },
     // Topical: topicName
     {
         accessorKey: "resource",
