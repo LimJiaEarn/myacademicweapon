@@ -23,12 +23,12 @@ const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: bool
     <div className="w-full grid grid-rows-auto">
 
         {/* Tab Selector */}
-        <div className="row-span-1 grid grid-cols-2 w-full bg-pri_mint_main h-12 md:h-14 rounded-t-xl">
+        <div className="row-span-1 grid grid-cols-2 w-full bg-pri_mint_main min-h-12 md:min-h-14 rounded-t-xl">
             {Tabs.map((currTab : Tab, index) => {
             return(
                 <div
                     key={`${currTab.title}_${index}`}
-                    className={`m-1 rounded-xl flex_center gap-1 md:gap-2 cursor-pointer col-span-1 ${tabSelection===currTab.sectionType ? 'bg-pri_mint_lighter' : ''}`}
+                    className={`m-1 rounded-xl flex_center gap-2 md:gap-4 cursor-pointer col-span-1 ${tabSelection===currTab.sectionType ? 'bg-pri_mint_lighter' : ''}`}
                     onClick={()=>{
                         setTabSelection(currTab.sectionType);
                         setTableData(currTab.data);
@@ -41,7 +41,7 @@ const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: bool
         </div>
         
         {/* Table */}
-        <div className="grid-cols-2 mt-4">
+        <div className="mt-4">
             <ProfilePageTable data={tableData} userID={userID} sectionType={tabSelection} isOwnUser={isOwnUser}/>
         </div>
 

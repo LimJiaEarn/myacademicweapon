@@ -17,6 +17,14 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
   const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
+  const joinDate = new Date(currentUserProfileObject.joinDate);
+    
+    const formattedJoinDate = joinDate.toLocaleDateString('en-GB', {
+    day: 'numeric', // numeric day
+    month: 'short', // abbreviated month
+    year: 'numeric' // full year
+    });
+
   // Utility Function
   const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
       if (!resourceObject) return null;
@@ -112,59 +120,61 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   
 
   return (
-    <div className="grid grid-rows-5 grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
+    <div className="grid grid-rows-5 grid-cols-1 gap-y-4 lg:grid-cols-5 lg:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
-    <section className="bg-pri_bg_card w-full rounded-xl row-auto md:row-auto col-span-1 px-2 py-2 md:py-4 flex flex-col justify-start gap-4 md:gap-6">
+    <section className="bg-pri_bg_card w-full rounded-xl row-auto xl:row-auto col-span-1 px-6 md:px-4 py-4 md:py-6 flex flex-col justify-start gap-4 md:gap-6">
       
-      {/* Mini Profile Section */}
-      <div className="flex_center gap-2 md:gap-4">
-                    
-        <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={70} width={70} className="rounded-lg"/>
-          <div>
-              <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
-              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main text-center">@ {currentUserProfileObject?.username}</p>
-          </div>
+      <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
+        {/* Mini Profile Section */}
+        <div className="flex lg:flex-col xl:flex-row justify-start items-center gap-2 md:gap-4">
+                        
+            <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={90} width={90} className="rounded-lg"/>
+            <div className="">
+                <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
+                {/* <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">@ {currentUserProfileObject?.username}</p> */}
+                <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">joined {formattedJoinDate}</p>
+            </div>
+        </div>
+        
+        {/* Buttons */}
+        { isOwnUser &&
+        <div className="flex flex-row sm:flex-col lg:flex-row justify-center items-center gap-2 md:gap-4">
+            <LinkButton
+                buttonMsg="Edit Profile"
+                buttonMsgClass="text-white text-xs md:text-sm"
+                buttonColorClass="opacity-90 bg-teal-400 hover:bg-teal-500 border-gray-300 py-1 px-4 shadow-lg"
+                linksTo={`/profile/${username}/edit`}
+            />
+
+            <SignOutButton>
+                <LinkButton
+                    buttonMsg="Sign Out"
+                    buttonMsgClass="text-white text-xs md:text-sm"
+                    // Updated to a gentle red with some opacity
+                    buttonColorClass="opacity-90 bg-rose-300 hover:bg-rose-400 border-gray-300 py-1 px-4 shadow-lg"
+                    linksTo={`/`}
+                />
+            </SignOutButton>
+        </div>}
       </div>
 
-      {/* Bio/Desc */}
-      {/* {currentUserProfileObject?.bio &&
-      <div>
-          <p className="font-semibold">Bio:</p>
-          <p className="italic">{currentUserProfileObject?.bio}</p>
-      </div>} */}
-      
-      {/* Buttons */}
-      { isOwnUser &&
-      <div className="flex_center gap-2 md:gap-4">
-          <LinkButton
-              buttonMsg="Edit Profile"
-              buttonMsgClass="text-white text-xs"
-              buttonColorClass="opacity-90 bg-teal-400 hover:bg-teal-500 border-gray-300 py-1 px-4 shadow-lg"
-              linksTo={`/profile/${username}/edit`}
-          />
 
-          <SignOutButton>
-              <LinkButton
-                  buttonMsg="Sign Out"
-                  buttonMsgClass="text-white text-xs"
-                  // Updated to a gentle red with some opacity
-                  buttonColorClass="opacity-90 bg-rose-300 hover:bg-rose-400 border-gray-300 py-1 px-4 shadow-lg"
-                  linksTo={`/`}
-              />
-          </SignOutButton>
-      </div>}
+
       <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
     
-      <div>
-        <p>{('school' in currentUserProfileObject) ? currentUserProfileObject.school : "No School"}</p>
-        <p>{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
+      <div className="flex_col_center w-full">
+        <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">About{isOwnUser && " You"}</h2>
+
+        <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('school' in currentUserProfileObject) ? currentUserProfileObject.school : "No School"}</p>
+        <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
       </div>
 
+      <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
 
 
-      <div className="flex flex-col w-full justify-start">
-          <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-center mb-2">{isOwnUser && "Your "}Progress</h2>
+      <div className="flex_col_center w-full">
+          <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">{isOwnUser && "Your "}Progress</h2>
           
           {Object.keys(userAttemptedSubjects).length === 0 ?
             <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
@@ -192,7 +202,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
     {/* Bookmarks/Completed*/}
-    <section className="bg-pri_bg_card rounded-xl row-span-4 col-start-1 md:col-start-2 col-span-4">
+    <section className="bg-pri_bg_card rounded-xl row-span-4 col-start-1 lg:col-start-2 col-span-4">
 
         <Tab
             Tabs={[
