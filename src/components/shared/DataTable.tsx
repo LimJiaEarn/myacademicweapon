@@ -292,7 +292,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             (
               // No data available
               <TableRow className="">
-                <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-text_gray">
+                <TableCell colSpan={columns.length} className="h-24 text-center text-lg text-slate-400">
                   <div className="flex_center">
                     
                     <Image className="hidden md:flex rounded-full opacity-20" src="/images/noContent.webp" alt="icon" height={300} width={300}/>

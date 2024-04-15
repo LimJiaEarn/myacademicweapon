@@ -22,6 +22,8 @@ const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: bool
     return (
     <div className="w-full grid grid-rows-auto">
 
+        
+
         {/* Tab Selector */}
         <div className="row-span-1 grid grid-cols-2 w-full bg-pri_mint_main min-h-12 md:min-h-14 rounded-t-xl">
             {Tabs.map((currTab : Tab, index) => {

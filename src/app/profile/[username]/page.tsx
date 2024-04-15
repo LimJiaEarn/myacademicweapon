@@ -80,16 +80,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   });
 
 
-
-
   const completedResourceObjectPromises = completedItems.map(async (item) => {
       const resourceObj = await getStudyResourceByID(item.resourceObjectId);
 
       if (!resourceObj || ('_doc' in resourceObj && !resourceObj._doc)) return null; // Check for null and structure
   
-      // Directly adding score to the _doc object
-      
-
+      // Directly adding score & completed date to the _doc object
       if ('_doc' in resourceObj){
 
           const mDoc : object = resourceObj._doc as object
@@ -104,10 +100,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
 
 
-  const simplifiedBookmarkedResourceObjects: ISummarisedPracticePaper[] = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
-
-
-  
+  const simplifiedBookmarkedResourceObjects: ISummarisedPracticePaper[] = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);  
   const simplifiedCompletedResourceObjects: ISummarisedPracticePaper[] = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
 
@@ -119,10 +112,10 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   
 
   return (
-    <div className="grid grid-rows-5 grid-cols-1 gap-y-4 lg:grid-cols-5 lg:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
+    <div className="grid grid-rows-auto grid-cols-1 gap-y-4 lg:grid-cols-7 lg:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px] mx-auto">
 
     {/* User Profile */}
-    <section className="bg-pri_bg_card w-full rounded-xl row-auto xl:row-auto col-span-1 px-6 md:px-4 py-4 md:py-6 flex flex-col justify-start gap-4 md:gap-6">
+    <section className="bg-pri_bg_card w-full rounded-xl row-start-1 row-span-2 col-span-2 px-6 md:px-4 py-4 md:py-6 flex flex-col justify-start gap-4 md:gap-6">
       
       <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
         {/* Mini Profile Section */}
@@ -131,7 +124,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={90} width={90} className="rounded-lg"/>
             <div className="">
                 <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
-                {/* <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">@ {currentUserProfileObject?.username}</p> */}
                 <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">joined {formattedJoinDate}</p>
             </div>
         </div>
@@ -169,39 +161,34 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
       </div>
 
-      <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
-
-
       <div className="flex_col_center w-full">
-          <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">{isOwnUser && "Your "}Progress</h2>
-          
-          {Object.keys(userAttemptedSubjects).length === 0 ?
-            <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
-            :
-            <ul className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">
-            {Object.entries(userAttemptedSubjects).map(([subject, completions])=>{
-                return(
-                    <li key={`${subject}_${completions}`} className="flex my-1">
-                        <p className="font-semibold">{subject}</p>
-                        <p className="font-bold ml-auto">{completions} <span className="italic font-normal">completed</span></p>
-                    </li>
-                )
-            })}
+            <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">{isOwnUser && "Your "}Completed Practices</h2>
+            
+            {Object.keys(userAttemptedSubjects).length === 0 ?
+                <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
+                :
+                <ul className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">
+                {Object.entries(userAttemptedSubjects).map(([subject, completions])=>{
+                    return(
+                        <li key={`${subject}_${completions}`} className="flex my-1">
+                            <p className="font-semibold">{subject}</p>
+                            <p className="font-bold ml-auto">{completions} <span className="italic font-normal">completed</span></p>
+                        </li>
+                    )
+                })}
 
-          </ul>}
+            </ul>}
 
-      </div>
+        </div>
+
+
     </section>
 
-    {/* More Stats */}
-    {/* <section className="bg-pri_bg_card rounded-xl row-span-1 col-span-4">
-
-    </section> */}
 
 
 
     {/* Bookmarks/Completed*/}
-    <section className="bg-pri_bg_card rounded-xl row-span-4 col-start-1 lg:col-start-2 col-span-4">
+    <section className="bg-pri_bg_card rounded-xl row-auto col-start-1 lg:col-start-3 lg:col-span-5">
 
         <Tab
             Tabs={[

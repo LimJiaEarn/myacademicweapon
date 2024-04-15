@@ -355,7 +355,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-pri_navy_darker text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -405,7 +405,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             return (
             <div className="grid grid-rows-2 grid-cols-3 gap-1">
                 <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
@@ -416,7 +416,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                     }
                     
                 </div>
-                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 italic text-left">{`(completed ${date})`}</div>
+                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 italic text-pri_navy_dark text-left">{`(completed ${date})`}</div>
             </div>
             );
         },
@@ -430,7 +430,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             if (info.getValue()<0) return "-";
 
             const score = Number(info.getValue()) * 100;
-            return score.toFixed(1)+"%"; // round to 1dp
+            return <p className="font-medium text-pri_navy_main text-sm md:text-base">{score.toFixed(1)+"%"}</p> // round to 1dp
         },
     }] : []),
     // Edit
@@ -512,7 +512,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             return (
             <div className="grid grid-cols-3">
                 <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-left transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>

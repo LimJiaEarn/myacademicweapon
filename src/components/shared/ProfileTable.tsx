@@ -61,7 +61,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
                 prevData.filter(item => "_id" in item && item._id !== studyResourceID)
             );
 
-
+            
         } 
         catch (error) {
             toast({

@@ -22,13 +22,13 @@ export const navLinks = [
 
 export const studyResourcesNav = [
   {
-    id:"studyResources1",
-    label: "Primary",
-    route: "", // Coming Soon
-    title: "Primary Pupils' Pavilion",
-    descShort: "For Primary Students",
-    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!",
-    image: "/images/pri-section.webp"
+    id:"studyResources3",
+    label: "JC",
+    route: "/study-resources/JC",
+    title: "Tertiary Titans Tower",
+    descShort: "For JC Students",
+    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
+    image: "/images/jc-section.webp"
   },
   {
     id:"studyResources2",
@@ -40,14 +40,14 @@ export const studyResourcesNav = [
     image: "/images/sec-section.webp"
   },
   {
-    id:"studyResources3",
-    label: "JC",
-    route: "/study-resources/JC",
-    title: "Tertiary Titans Tower",
-    descShort: "For JC Students",
-    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
-    image: "/images/jc-section.webp"
-  }
+    id:"studyResources1",
+    label: "Primary",
+    route: "", // Coming Soon
+    title: "Primary Pupils' Pavilion",
+    descShort: "For Primary Students",
+    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!",
+    image: "/images/pri-section.webp"
+  },
 ];
 
 

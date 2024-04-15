@@ -55,10 +55,9 @@ const ContributePage = async () => {
                 <span className="red_grad_text_2">Gift </span> Your Wisdom!
             </h1>
 
-            <p className="text-lg md:text-xl text-center max-w-[60ch] mx-auto leading-normal">
-                Your contributions are the beacon for students navigating their educational journeys.
-                Embark on our mission to share the wealth of academic resources and
-                let's build a world where <span className="gold_grad_text"> knowledge knows no boundaries!</span> 
+            <p className="text-xl md:text-2xl text-center text-pri_navy_darker max-w-[60ch] mx-auto leading-normal">
+                Embark on our mission to share the <span className="gold_grad_text font-semibold">wealth of academic resources</span>  and
+                let's build a world where knowledge knows no boundaries!
             </p>
 
             
