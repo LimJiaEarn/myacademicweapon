@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
+import mongoose from "mongoose";
 
 // Tutorial at: https://www.youtube.com/watch?v=Ahwoks_dawU&t=5978s
 
@@ -62,7 +63,7 @@ export async function getUserByUsername(username: string) {
 }
 
 // UPDATE
-export async function updateUser(clerkId: string, user: UpdateUserParams) {
+export async function updateUserByClerkId(clerkId: string, user: UpdateUserParams) {
   try {
     await connectToDatabase();
 
@@ -72,6 +73,23 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
 
     if (!updatedUser) throw new Error("User update failed");
     
+    return JSON.parse(JSON.stringify(updatedUser));
+  }
+  catch (error) {
+    handleError(error);
+  }
+}
+
+// UPDATE
+export async function updateUserByUserID(userID: string, user: UpdateUserParams) {
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findByIdAndUpdate(userID, user, {
+      new: true,
+    });
+
+
     return JSON.parse(JSON.stringify(updatedUser));
   }
   catch (error) {

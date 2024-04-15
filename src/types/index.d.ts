@@ -42,6 +42,9 @@ declare type UpdateUserParams = {
   username: string;
   bio: string;
   photo: string;
+  bio?: string;
+  school?: string;
+  level?: string;
 };
 
 

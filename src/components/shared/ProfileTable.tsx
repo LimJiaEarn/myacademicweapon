@@ -118,7 +118,6 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
             setToHideColumns(["subject", "totMarks"]);
         }
 
-        console.log("toHide: ", toHideColumns);
     }, [toggleEdit])
         
   return (

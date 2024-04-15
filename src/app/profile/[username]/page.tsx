@@ -6,6 +6,7 @@ import LinkButton from "@/components/shared/LinkButton";
 import Image from "next/image";
 import Calendar from "@/components/shared/Calendar";
 
+import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
@@ -148,26 +149,37 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 </div>}
             </div>
 
+
+
+            <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+
+            <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
+
+                <UserAbout isOwnUser={isOwnUser} username={username} currentUserProfileObject={currentUserProfileObject}/>
+                {/* <div className="flex_col_center">
+                
+                    <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">About{isOwnUser && " You"}</h2>
+                    <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('school' in currentUserProfileObject) ? currentUserProfileObject.school : "No School"}</p>
+                    <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
+                </div> */}
+
+            </div>
             <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
             
             <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
-                <div className="flex_col_center">
-                    <h2 className="w-full px-2 text-md md:text-lg font-bold md:text-md text-pri_navy_dark text-start mb-2">About{isOwnUser && " You"}</h2>
 
-                    <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('school' in currentUserProfileObject) ? currentUserProfileObject.school : "No School"}</p>
-                    <p className="w-full px-2 text-sm md:text-md md:text-md text-pri_navy_main">{('level' in currentUserProfileObject) ? currentUserProfileObject.level : "No level"}</p>
-                </div>
+                <p className="w-full text-center text-pri_navy_dark font-bold text-lg lg:text-xl">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
+
 
             </div>
 
             <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
-
-
             <div className="flex justify-center w-full">
                     
                 <Calendar/>
 
             </div>
+
 
 
         </section>
