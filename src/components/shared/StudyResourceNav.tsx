@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link";
-import { usePathname } from 'next/navigation'
 import { StudyResourceNavItems } from '../../../constants';
 
 
@@ -13,22 +12,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
 
 
-export default function StudyResourceNav() {
+export default function StudyResourceNav({level} : {level: string}) {
 
-
-  const pathname = usePathname();
-
-
-  // Get the encoded data from url
-  const resourceLevel = pathname.split('/').pop() || '';
-
-  const navBarContent : StudyResourceNavItem[] = StudyResourceNavItems[resourceLevel] || [];
-
+  const navBarContent : StudyResourceNavItem[] = StudyResourceNavItems[level] || [];
 
   return (
     <div className="rounded-md px-2 md:px-4 py-2 flex_center gap-2 font-bold">
@@ -52,7 +42,7 @@ export default function StudyResourceNav() {
                             title={content.title}
                             
                             href={`?${new URLSearchParams({
-                                level:resourceLevel as string,
+                                level:level,
                                 subject:content.title,
                                 resourceType:"Topical Practice Papers"
                             })}`}
@@ -81,7 +71,7 @@ export default function StudyResourceNav() {
                             key={content.id}
                             title={content.title}
                             href={`?${new URLSearchParams({
-                                level:resourceLevel as string,
+                                level:level,
                                 subject:content.title,
                                 resourceType:"Yearly Practice Papers"
                             })}`}

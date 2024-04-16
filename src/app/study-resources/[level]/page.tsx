@@ -1,5 +1,6 @@
 
 import Image from 'next/image';
+import StudyResourceNav from '@/components/shared/StudyResourceNav';
 import StudyResourceSection from '@/components/shared/StudyResourceSection'
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
@@ -43,6 +44,10 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     return (
 
         <div className="min-h-screen w-full py-2 md:py-4">
+
+          <StudyResourceNav level={resourceLevel}/>
+
+          <hr className="my-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_navy_dark to-transparent opacity-25" />
 
           <StudyResourceSection
             userID={userID} 
