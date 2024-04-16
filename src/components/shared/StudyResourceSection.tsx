@@ -245,59 +245,57 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
 
 
     return (
-      <section className="flex flex-col items-center mb-4 p-4 bg-slate-100 rounded-lg shadow-md">
-        <div className="min-h-screen w-full py-2 md:py-4">
-        {resourceLevel && resourceSubject && resourceType?
+      <section className="flex flex-col items-center mb-4 p-4 min-h-screen w-full py-2 md:py-4">
+          {resourceLevel && resourceSubject && resourceType?
 
-          <div className="w-full px-2 md:px-6 flex_col_center">
+            <div className="w-full px-2 md:px-6 flex_col_center">
 
-            {isLoadingData ?
-              <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
-              :
-              <DataTable
-                columns={tableColumns}
-                toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
-                data={tableData}
-                showStatusFilter = {true}
-                showBookmarkFilter = {true}
-                selectorFilters={ resourceType==="Yearly" ?
-                  [
-                  {
-                    id: "assessment",
-                    placeholder:"Filter Assessment",
-                    options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
-                  },
-                ]
+              {isLoadingData ?
+                <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
                 :
-                [
-                  {
-                    id: "topicName",
-                    placeholder:"Filter Topics",
-                    options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
-                  },
-                ]
+                <DataTable
+                  columns={tableColumns}
+                  toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
+                  data={tableData}
+                  showStatusFilter = {true}
+                  showBookmarkFilter = {true}
+                  selectorFilters={ resourceType==="Yearly" ?
+                    [
+                    {
+                      id: "assessment",
+                      placeholder:"Filter Assessment",
+                      options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+                    },
+                  ]
+                  :
+                  [
+                    {
+                      id: "topicName",
+                      placeholder:"Filter Topics",
+                      options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
+                    },
+                  ]
+                }
+                  searchFilter="resource"
+                  searchPlaceholder="Search Resources ..."
+                  tableStyles="bg-pri_bg_color"
+                  selectBoxStyles="w-[200px] bg-slate-200 text-pri_navy_dark ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  headerRowStyles="bg-slate-300"
+                  headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
+                  dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-200"
+                  nextButtonStyles="text-white bg-slate-400 hover:bg-slate-500 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                />
               }
-                searchFilter="resource"
-                searchPlaceholder="Search Resources ..."
-                tableStyles="bg-pri_bg_color"
-                selectBoxStyles="w-[200px] bg-slate-200 text-pri_navy_dark ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                headerRowStyles="bg-slate-300"
-                headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
-                dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-200"
-                nextButtonStyles="text-white bg-slate-400 hover:bg-slate-500 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
-              />
-            }
-            
+              
 
-          </div>
-        :
-          // Render a CTA image
-          <div className="py-4 flex_col_center gap-4">
-            <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
-            <p className="text-slate-400 text-lg capitalize">Select Content To Begin!</p>
-          </div>
-        }
-      </div>
+            </div>
+          :
+            // Render a CTA image
+            <div className="py-4 flex_col_center gap-4">
+              <Image className="rounded-full opacity-20" src="/images/pickContentCTA.webp" alt="icon" height={300} width={300}/>
+              <p className="text-slate-400 text-lg capitalize">Select Content To Begin!</p>
+            </div>
+          }
       </section>
     )
 }

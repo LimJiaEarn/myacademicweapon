@@ -33,7 +33,7 @@ export const studyResourcesNav = [
   {
     id:"studyResources2",
     label: "Secondary",
-    route: "/study-resources/secondary",
+    route: "/study-resources/Secondary",
     title: "Secondary Scholars Sanctum",
     descShort: "For Secondary Students",
     desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!",
@@ -52,7 +52,7 @@ export const studyResourcesNav = [
 
 
 export const StudyResourceNavItems : StudyResourceNav = {
-  "secondary":
+  "Secondary":
   [    
     // {
     //   id:"secondaryResources1",

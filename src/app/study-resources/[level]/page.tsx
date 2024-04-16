@@ -32,7 +32,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     const user = await currentUser();
 
     // Get the encoded data from url
-    const resourceLevel = capitalize(params.level);
+    const resourceLevel = params.level;
 
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
     
@@ -45,7 +45,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
 
         <div className="min-h-screen w-full py-2 md:py-4">
 
-          <StudyResourceNav level={resourceLevel}/>
+          <StudyResourceNav level={params.level}/>
 
           <hr className="my-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_navy_dark to-transparent opacity-25" />
 
