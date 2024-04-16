@@ -1,6 +1,24 @@
 import SummarySection from '@/components/shared/SummarySection';
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
-import { auth } from "@clerk/nextjs";
+import type { Metadata, ResolvingMetadata } from 'next'
+
+type Props = {
+  params: { level: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  function capitalize(str : string) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  const level = capitalize(params.level);
+
+  return {
+    title: `${level} Resources`,
+    description: `Our diverse library of ${level} practice papers and study notes`
+  }
+}
 
 
 export default function StudyResourcesLayout({ children,}: Readonly<{children: React.ReactNode;}>) {

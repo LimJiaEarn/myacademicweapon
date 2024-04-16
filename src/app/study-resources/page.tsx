@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { studyResourcesNav } from '../../../constants';
 
 export const metadata: Metadata = {
-  title: "Study Resources",
+  title: "Explore Study Resources",
+  description: "Our comprehensive collection of practice papers and study notes tailored for each academic levels. Empower your learning journey with these essential study resources!"
 };
 
 interface StudyResourcesSectionCardProps {

@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "My Academic Weapon",
-  description: "Empowering your academic success",
+  description: "Build Your Academic Arsenal & Empower Your Study Sessions!",
 };
 
 export default function RootLayout({

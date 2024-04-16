@@ -51,7 +51,8 @@ export async function getUserByUsername(username: string) {
 
 
     if (!user){
-      throw new Error("Invalid Username");
+      // throw new Error("Invalid Username");
+      return null;
     }
 
     return JSON.parse(JSON.stringify(user));

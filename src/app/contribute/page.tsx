@@ -4,7 +4,12 @@ import { contributionFormDetails } from '../../../constants'
 import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
 import { auth } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Become a Contributor!",
+  description: "Give back to the student community & help enrich our resource hub!"
+};
 
 const ContributePage = async () => {
 

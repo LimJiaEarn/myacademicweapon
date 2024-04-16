@@ -8,103 +8,135 @@ import Calendar from "@/components/shared/Calendar";
 
 import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
+import { Metadata } from 'next'
+import { revalidatePath } from 'next/cache'
+type Props = {
+  params: { username: string }
+}
+ 
+export async function generateMetadata( { params }: Props): Promise<Metadata> {
+    const user = await currentUser();
+    const username = params.username;
+    const currentUserProfileObject : UserObject= await getUserByUsername(username);
+    if (!currentUserProfileObject){
+        return {
+            title: "Invalid User"
+        }
+    }
+    const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
+    const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
+    
+
+
+    return {
+        title: `${isOwnUser ? "Your Profile" : currentUserProfileObject?.firstName + "'s Profile"}`,
+
+    }
+}
+ 
+
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
-  const { username } = params;
-
-  const user = await currentUser();
-
-  const currentUserProfileObject : UserObject= await getUserByUsername(username);
-  const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
-  const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
-  const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
-
     
+    const { username } = params;
+
+    const user = await currentUser();
+
+    const currentUserProfileObject : UserObject= await getUserByUsername(username);
+    if (!currentUserProfileObject) throw new Error("Invalid User");
+
+    const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
+    const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
+    const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
+
+    revalidatePath(`/username/${username}`);
+
+        
     const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
     day: 'numeric', // numeric day
     month: 'short', // abbreviated month
     year: 'numeric' // full year
     });
 
-  // Utility Function
-  const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
-      if (!resourceObject) return null;
+    // Utility Function
+    const simplifyResourceObject = (resourceObject : PracticePaperInterface) => {
+        if (!resourceObject) return null;
 
 
-      if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
-          return {
-              _id: resourceObject._id.toString(),
-              status: true,
-              bookmark: true,
-              subject: resourceObject.subject,
-              title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
-              url : resourceObject.url,
-              ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-              ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
-              ...(resourceObject.score && { score: resourceObject.score}), 
-              ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
-              ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
-              ...(resourceObject.date && { date: resourceObject.date}), 
+        if (resourceObject.type==="Yearly" && 'year' in resourceObject && 'assessment' in resourceObject && 'schoolName' in resourceObject && 'paper' in resourceObject && 'subject' in resourceObject)
+            return {
+                _id: resourceObject._id.toString(),
+                status: true,
+                bookmark: true,
+                subject: resourceObject.subject,
+                title : resourceObject.subject + " " + resourceObject.year + " " + resourceObject.schoolName + " " + resourceObject.assessment + " P" + resourceObject.paper,
+                url : resourceObject.url,
+                ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
+                ...(resourceObject.score && { score: resourceObject.score}), 
+                ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+                ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
+                ...(resourceObject.date && { date: resourceObject.date}), 
 
-          }
-      else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject && 'practice' in resourceObject)
-          return {
-              _id: resourceObject._id.toString(),
-              status: true,
-              bookmark: true,
-              subject: resourceObject.subject,
-              title : resourceObject.subject + " " + resourceObject.topicName + " Practice " + resourceObject.practice,
-              url : resourceObject.url,
-              ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
-              ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
-              ...(resourceObject.score && { score: resourceObject.score}), 
-              ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
-              ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
-              ...(resourceObject.date && { date: resourceObject.date}), 
+            }
+        else if (resourceObject.type==="Topical" && 'topicName' in resourceObject && 'subject' in resourceObject && 'practice' in resourceObject)
+            return {
+                _id: resourceObject._id.toString(),
+                status: true,
+                bookmark: true,
+                subject: resourceObject.subject,
+                title : resourceObject.subject + " " + resourceObject.topicName + " Practice " + resourceObject.practice,
+                url : resourceObject.url,
+                ...(resourceObject.workingSolution && { workingSolution: resourceObject.workingSolution}),
+                ...(resourceObject.videoSolution && { videoSolution: resourceObject.videoSolution}),
+                ...(resourceObject.score && { score: resourceObject.score}), 
+                ...(resourceObject.totMarks && { totMarks: resourceObject.totMarks}), 
+                ...(resourceObject.score && resourceObject.totMarks && { scorePercent: resourceObject.score/resourceObject.totMarks}), 
+                ...(resourceObject.date && { date: resourceObject.date}), 
+                
+            }
+
+        return null;
+    }
+
+    // Get user data
+    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+
+    // Merge the completed , bookmarked resourceId strings
+    const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
+    const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
+    
+
+
+    const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
+        return await getStudyResourceByID(resourceId);
+    });
+
+
+    const completedResourceObjectPromises = completedItems.map(async (item) => {
+        const resourceObj = await getStudyResourceByID(item.resourceObjectId);
+
+        if (!resourceObj || ('_doc' in resourceObj && !resourceObj._doc)) return null; // Check for null and structure
+    
+        // Directly adding score & completed date to the _doc object
+        if ('_doc' in resourceObj){
+
+            const mDoc : object = resourceObj._doc as object
+            return { ...mDoc, score: item.score, date: item.date };
             
-          }
-
-      return null;
-  }
-
-  // Get user data
-  const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-  const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
-
-  // Merge the completed , bookmarked resourceId strings
-  const completedItems : completedStudyResourceItem[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
-  const bookmarkedResourceIDs : string[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
-  
+        }
+        return null;
+    });
 
 
-  const bookmarkedResourceObjectPromises = bookmarkedResourceIDs.map(async (resourceId) => {
-      return await getStudyResourceByID(resourceId);
-  });
+    const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
+    const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
 
 
-  const completedResourceObjectPromises = completedItems.map(async (item) => {
-      const resourceObj = await getStudyResourceByID(item.resourceObjectId);
-
-      if (!resourceObj || ('_doc' in resourceObj && !resourceObj._doc)) return null; // Check for null and structure
-  
-      // Directly adding score & completed date to the _doc object
-      if ('_doc' in resourceObj){
-
-          const mDoc : object = resourceObj._doc as object
-          return { ...mDoc, score: item.score, date: item.date };
-           
-      }
-      return null;
-  });
-
-
-  const bookmarkedResourceObjects = (await Promise.all(bookmarkedResourceObjectPromises)).filter(obj => obj !== null);
-  const completedResourceObjects = (await Promise.all(completedResourceObjectPromises)).filter(obj => obj !== null);
-
-
-  const simplifiedBookmarkedResourceObjects: ISummarisedPracticePaper[] = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);  
-  const simplifiedCompletedResourceObjects: ISummarisedPracticePaper[] = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
+    const simplifiedBookmarkedResourceObjects: ISummarisedPracticePaper[] = (bookmarkedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);  
+    const simplifiedCompletedResourceObjects: ISummarisedPracticePaper[] = (completedResourceObjects.map(simplifyResourceObject as any).filter(obj => obj !== null)  as ISummarisedPracticePaper[]);
 
 
 
