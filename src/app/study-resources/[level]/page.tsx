@@ -125,7 +125,6 @@ const StudyResourcePage = ( {searchParams} : {searchParams : { [key:string]:stri
     };
 
     const onToggleBookmark = async (studyResourceID: string, userID : string|null, newBookmark : boolean) => {
-
       // Only signed in users are allowed 
       if (!userID) {
         toast({

@@ -111,6 +111,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                         onChange={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
+                            if (!userID) return;
                         }}
                         className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
                     />

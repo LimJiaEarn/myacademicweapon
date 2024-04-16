@@ -152,7 +152,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 {/* Mini Profile Section */}
                 <div className="flex flex-row justify-start items-center gap-2 md:gap-4">
                                 
-                    <Image src={user?.imageUrl || "/images/placeholderDP.webp"} alt="profile pic" height={90} width={90} className="rounded-lg"/>
+                    <Image src={currentUserProfileObject?.photo || "/images/placeholderDP.webp"} alt="profile pic" height={90} width={90} className="rounded-lg"/>
                     <div className="">
                         <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
                         <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">joined {formattedJoinDate}</p>

@@ -1,6 +1,5 @@
-import SummarySection from '@/components/shared/SummarySection';
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
-import type { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 
 type Props = {
   params: { level: string }
@@ -25,8 +24,6 @@ export default function StudyResourcesLayout({ children,}: Readonly<{children: R
 
   return (
     <div className="w-full px-2 md:px-8 lg:px-10 flex_col_center max-w-[1500px] mx-auto">
-
-      {/* <SummarySection/> */}
 
 
       <div className="w-full px-2 md:px-4 py-2">
