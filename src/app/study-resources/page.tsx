@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { Metadata } from "next";
 import { studyResourcesNav } from '../../../constants';
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Explore Study Resources",
