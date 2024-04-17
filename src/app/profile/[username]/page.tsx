@@ -222,7 +222,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
         <UserProfile
             isOwnUser={isOwnUser}
             userID={userID}
-            username={username}
             simplifiedCompletedResourceObjects={simplifiedCompletedResourceObjects}
             simplifiedBookmarkedResourceObjects={simplifiedBookmarkedResourceObjects}
 

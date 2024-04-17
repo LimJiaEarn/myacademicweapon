@@ -24,14 +24,11 @@ type ProfilePageTableProps = {
 const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
     
 
-    // const [tableData, setTableData] = useState(tableData2);
 
     const [toggleEdit, setToggleEdit] = useState(false);
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
 
-    // useEffect(()=>{
-    //     setTableData(data);
-    // }, [data])
+
 
 
     const { toast } = useToast();

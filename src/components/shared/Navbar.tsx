@@ -195,7 +195,7 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
+                  <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main bg-pri_gold_light rounded-full p-2' : 'text-pri_navy_main'}`}>
                   <Link href={link.route} className="flex_col_center gap-1">
                     <Image src={link.icon} alt="icon" height={28} width={28} />
                     {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
@@ -205,7 +205,7 @@ const Navbar = () => {
               })}
             <div className="pr-2">
               <Link href={`/profile/${user?.username}`}>
-                <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={30} width={30}/>
+                <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={38} width={38}/>
               </Link>
             </div>
             </ul>
@@ -222,7 +222,7 @@ const Navbar = () => {
                   const isActive = link.route === pathname;
 
                   return (
-                    <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
+                    <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main bg-pri_gold_light rounded-full p-2' : 'text-pri_navy_main'}`}>
                       <Link href={link.route} className="flex_col_center gap-1">
                         <Image src={link.icon} alt="icon" height={28} width={28} />
                         {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
