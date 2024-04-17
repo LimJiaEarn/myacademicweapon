@@ -394,7 +394,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                 date = ("0" + currDate.getDate()).slice(-2) + "/" + ("0"+(currDate.getMonth()+1)).slice(-2) + "/" + ("0" + currDate.getFullYear()).slice(-2);
             }
             return (
-            <div className="grid grid-rows-2 grid-cols-3 gap-1" key={info.row.original._id+"_assessment"}>
+            <div className="grid grid-rows-2 grid-cols-3 gap-1" key={info.row.original._id+"_assessmentC"}>
                 <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
                     <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
@@ -421,7 +421,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             if (info.getValue()<0) return "-";
 
             const score = Number(info.getValue()) * 100;
-            return <p className="font-medium text-pri_navy_main text-sm md:text-base" key={info.row.original._id+"_score"}>{score.toFixed(1)+"%"}</p> // round to 1dp
+            return <p className="font-medium text-pri_navy_main text-sm md:text-base" key={info.row.original._id+"_scoreC"}>{score.toFixed(1)+"%"}</p> // round to 1dp
         },
     }] : []),
     // Edit
@@ -432,7 +432,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             const studyResourceID = info.row.original._id; // Access the id of the row
             const date = new Date();
             return (
-            <div className="w-full flex justify-center" key={studyResourceID+"_edit"}>
+            <div className="w-full flex justify-center" key={studyResourceID+"_editC"}>
                 <div className="tooltip" data-tooltip="remove">
 
                 <Dialog>
@@ -501,7 +501,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
                 videoSolution = info.row.original.videoSolution as string;
             }
             return (
-            <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
+            <div className="grid grid-cols-3" key={info.row.original._id+"_resourceB"}>
                 <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
                     <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
@@ -525,7 +525,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
         cell: (info: CellContext<any, any>) => {
             const studyResourceID = info.row.original._id; // Access the id of the row
             return (
-            <div className="w-full flex justify-center" key={studyResourceID+"_edit"}>
+            <div className="w-full flex justify-center" key={studyResourceID+"_editB"}>
                 <div className="tooltip" data-tooltip="remove">
                 <Dialog>
                     <DialogTrigger asChild>

@@ -13,23 +13,25 @@ import { updateStatusStudyResource, updateBookmarkStudyResource } from '@/lib/ac
 
 
 type ProfilePageTableProps = {
-    data : ISummarisedPracticePaper[];
+    tableData : ISummarisedPracticePaper[];
+    setTableData : React.Dispatch<React.SetStateAction<ISummarisedPracticePaper[]>>;
     userID : string;
     sectionType : "Bookmarks" | "Completed";
     isOwnUser: boolean; // if this is false, we do not need to display the bookmark / status icons
 }
 
 
-const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
+const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
     
 
-    const [tableData, setTableData] = useState(data);
+    // const [tableData, setTableData] = useState(tableData2);
+
     const [toggleEdit, setToggleEdit] = useState(false);
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
 
-    useEffect(()=>{
-        setTableData(data);
-    }, [data])
+    // useEffect(()=>{
+    //     setTableData(data);
+    // }, [data])
 
 
     const { toast } = useToast();
@@ -125,7 +127,7 @@ const ProfilePageTable = ( {data, userID, sectionType, isOwnUser} : ProfilePageT
       <div className="w-full px-2">
 
         
-        {tableData.length > 0?
+        {tableData?.length > 0?
             <div className="w-full flex_col_center">
                 {/* <p className="italic text-center">{tableData.length}</p> */}
                 {isOwnUser &&

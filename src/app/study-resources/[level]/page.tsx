@@ -12,7 +12,7 @@ function capitalize(str : string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function paramsMap(str : string) : String{
+function paramsMap(str : string) : string{
 
   switch(str){
     case 'secondary':

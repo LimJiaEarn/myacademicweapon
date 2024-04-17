@@ -1,7 +1,7 @@
 "use client"
 
 import Tab from "@/components/shared/Tab";
-
+import { useState, useEffect } from 'react';
 
 interface UserProfileProps {
   isOwnUser : boolean;
@@ -13,11 +13,32 @@ interface UserProfileProps {
 
 
 const UserProfile = ({isOwnUser, userID, username, simplifiedCompletedResourceObjects, simplifiedBookmarkedResourceObjects} : UserProfileProps) => {
-    // Get unique subjects
-    const userAttemptedSubjects : Record<string, number> = {};
-    simplifiedCompletedResourceObjects.forEach((curr : ISummarisedPracticePaper)=>{
-      userAttemptedSubjects[curr.subject] = (userAttemptedSubjects[curr.subject] || 0) + 1;
-    });
+    
+    // Set it as states so we can sync the data changes to other cards
+    const [completedTableData, setCompletedTableData] = useState<ISummarisedPracticePaper[]>(simplifiedCompletedResourceObjects);
+    const [bookmarkTableData, setBookmarkTableData] = useState<ISummarisedPracticePaper[]>(simplifiedBookmarkedResourceObjects);
+
+    const [userAttemptedSubjects, setUserAttemptedSubjects] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+      const subjects: Record<string, number> = {};
+
+      console.log("Completed");
+      console.log(completedTableData);
+
+      console.log("Bookmark");
+      console.log(bookmarkTableData);
+
+      completedTableData?.forEach((paper) => {
+        subjects[paper.subject] = (subjects[paper.subject] || 0) + 1;
+      });
+
+      setUserAttemptedSubjects(subjects);
+
+    }, [completedTableData, bookmarkTableData]);
+
+
+
   
   
     return (
@@ -49,20 +70,21 @@ const UserProfile = ({isOwnUser, userID, username, simplifiedCompletedResourceOb
                 {
                     title:"Completed Papers",
                     titleIcon: "/icons/completed.svg",
-                    data: simplifiedCompletedResourceObjects,
+                    data: completedTableData,
+                    setData: setCompletedTableData,
                     sectionType: "Completed",
                 },
                 {
                     title:"Bookmarks",
                     titleIcon: "/icons/bookmarked.svg",
-                    data: simplifiedBookmarkedResourceObjects,
+                    data: bookmarkTableData,
+                    setData: setBookmarkTableData,
                     sectionType: "Bookmarks",
                     
                 },
             ]}
             isOwnUser= {isOwnUser}
             userID = {userID}
-            username={username}
         />
       </div>
 

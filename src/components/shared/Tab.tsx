@@ -8,21 +8,18 @@ type Tab = {
     title:string;
     titleIcon:string;
     data : ISummarisedPracticePaper[];
+    setData : React.Dispatch<React.SetStateAction<ISummarisedPracticePaper[]>>;
     sectionType : "Bookmarks" | "Completed";
 }
 
 
-const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: boolean, userID: string, username:string}) => {
+const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userID: string}) => {
     
-    const [tabSelection, setTabSelection] = useState(Tabs[0].sectionType);
-    
-    const [tableData, setTableData] = useState<ISummarisedPracticePaper[]>(Tabs[0].data);
-    
+    const [tabSelection, setTabSelection] = useState(0); // 0-Complete, 1-Bookmark
+
   
     return (
     <div className="w-full grid grid-rows-auto">
-
-        
 
         {/* Tab Selector */}
         <div className="row-span-1 grid grid-cols-2 w-full bg-pri_mint_main min-h-12 md:min-h-14 rounded-t-xl">
@@ -30,10 +27,11 @@ const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: bool
             return(
                 <div
                     key={`${currTab.title}_${index}`}
-                    className={`m-1 rounded-xl flex_center gap-2 md:gap-4 cursor-pointer col-span-1 ${tabSelection===currTab.sectionType ? 'bg-pri_mint_lighter' : ''}`}
+                    className={`m-1 rounded-xl flex_center gap-2 md:gap-4 cursor-pointer col-span-1 ${tabSelection===index ? 'bg-pri_mint_lighter' : ''}`}
                     onClick={()=>{
-                        setTabSelection(currTab.sectionType);
-                        setTableData(currTab.data);
+                        setTabSelection(index);
+                        // setTableData(currTab.data);
+                        // setTableDataSetter(currTab.setData);
                     }}
                 >
                     <Image src={currTab.titleIcon} alt="" height={22} width={22}/>
@@ -44,7 +42,12 @@ const Tab = ({Tabs, isOwnUser, userID, username} : {Tabs: Tab[], isOwnUser: bool
         
         {/* Table */}
         <div className="mt-4">
-            <ProfilePageTable data={tableData} userID={userID} sectionType={tabSelection} isOwnUser={isOwnUser}/>
+            <ProfilePageTable
+                tableData={tabSelection===0 ? Tabs[0].data : Tabs[1].data}
+                setTableData={tabSelection===0 ? Tabs[0].setData : Tabs[1].setData}
+                userID={userID} sectionType={tabSelection===0 ? Tabs[0].sectionType : Tabs[1].sectionType}
+                isOwnUser={isOwnUser}
+            />
         </div>
 
     </div>
