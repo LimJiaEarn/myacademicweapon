@@ -21,8 +21,8 @@ declare type UserObject = {
   lastName: string;
   planId: number;
   photo: string;
-  school?: string; // may not exist if user do not update in profile
-  level?:string; // may not exist if user do not update in profile
+  school: string; 
+  level:string; 
   joinDate: Date;
 }
 
