@@ -231,7 +231,7 @@ const Navbar = () => {
                     )
                 })}
 
-                <li className={`flex hover:text-pri_navy_main ${pathname==='/sign-in'? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
+                <li className={`flex hover:text-pri_navy_main ${pathname==='/sign-in'? 'text-pri_navy_main bg-pri_gold_light rounded-full p-2' : 'text-pri_navy_main'}`}>
                   <Link href='/sign-in' className="flex_col_center gap-1">
                     <Image src="/icons/sign-in.svg" alt="icon" height={28} width={28}/>
                     {/* <p className="font-bold text-center w-[90px]">Sign In / Up</p> */}
