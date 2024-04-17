@@ -1,16 +1,30 @@
 
-import Image from 'next/image';
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
 import StudyResourceSection from '@/components/shared/StudyResourceSection'
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
  
 function capitalize(str : string) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function paramsMap(str : string) : String{
+
+  switch(str){
+    case 'secondary':
+      return 'Secondary';
+    case 'jc':
+      return 'JC';
+  
+    default:
+      return 'JC';
+    }
+
+
 }
 
 type Props = {
@@ -18,13 +32,14 @@ type Props = {
   searchParams: { [key: string]: string }
 }
  
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const level = capitalize(params.level)
- 
-  return {
-    title: searchParams.subject ? `${level} ${searchParams.subject}` : `${level} Resources`,
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
 
-  }
+    const level = paramsMap(params.level)
+    
+    return {
+      title: searchParams.subject ? `${level} ${searchParams.subject}` : `${level} Resources`,
+
+    }
 }
 
 const StudyResourcePage = async ( {params, searchParams} : {params: { level: string }, searchParams : { [key:string]:string}} ) => {
@@ -32,7 +47,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     const user = await currentUser();
 
     // Get the encoded data from url
-    const resourceLevel = params.level;
+    const resourceLevel = paramsMap(params.level);
 
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
     

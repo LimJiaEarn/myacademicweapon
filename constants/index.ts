@@ -24,7 +24,7 @@ export const studyResourcesNav = [
   {
     id:"studyResources3",
     label: "JC",
-    route: "/study-resources/JC",
+    route: "/study-resources/jc",
     title: "Tertiary Titans Tower",
     descShort: "For JC Students",
     desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
@@ -33,7 +33,7 @@ export const studyResourcesNav = [
   {
     id:"studyResources2",
     label: "Secondary",
-    route: "/study-resources/Secondary",
+    route: "/study-resources/secondary",
     title: "Secondary Scholars Sanctum",
     descShort: "For Secondary Students",
     desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!",
@@ -52,7 +52,7 @@ export const studyResourcesNav = [
 
 
 export const StudyResourceNavItems : StudyResourceNav = {
-  "Secondary":
+  "secondary":
   [    
     // {
     //   id:"secondaryResources1",
@@ -111,7 +111,7 @@ export const StudyResourceNavItems : StudyResourceNav = {
     //   ]
     // },
   ],
-  "JC":
+  "jc":
   [    
     // {
     //   id:"jcResources1",
