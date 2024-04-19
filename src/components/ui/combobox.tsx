@@ -23,11 +23,12 @@ import {
 interface ComboBoxProps {
     contents : string[];
     placeholder: string;
+    setProfile: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 
 
-export function ComboBox({contents, placeholder} : ComboBoxProps) {
+export function ComboBox({contents, placeholder, setProfile} : ComboBoxProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -56,6 +57,10 @@ export function ComboBox({contents, placeholder} : ComboBoxProps) {
                     value={content}
                     onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
+                    setProfile(prevState => ({
+                        ...prevState,
+                        ['school']: currentValue
+                      }));
                     setOpen(false)
                     }}
                 >

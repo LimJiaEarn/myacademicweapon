@@ -2,7 +2,7 @@
 "use client"
 
 import { DayPicker } from 'react-day-picker';
-import '@/components/shared/Calendar.css';
+import '@/components/css/calendar.css';
 
 
 const Calendar = () => {

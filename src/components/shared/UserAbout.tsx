@@ -6,9 +6,7 @@ import { useToast } from '../ui/use-toast';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -26,7 +24,7 @@ interface UserAboutProps {
 interface SelectFieldProps {
   title: string;
   contents: string[];
-  fieldValue: string | null;
+  fieldValue: string;
   placeholder: string;
   inputName: string;
   editMode: boolean;
@@ -35,20 +33,21 @@ interface SelectFieldProps {
 
 interface InputFieldProps {
   title: string;
-  fieldValue: string | null;
+  fieldValue: string;
   placeholder: string;
   inputName: string;
   editMode: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SelectField = ({title, contents, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
+const SelectField = ({title, contents, fieldValue, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
   
     return(
       <div className="flex_center">
       
       <p>{title}:</p>
       <>
+      {editMode ?
         <Select
           onValueChange={(value)=>{
             setProfile(prevState => ({
@@ -56,32 +55,40 @@ const SelectField = ({title, contents, placeholder, inputName, editMode, setProf
               [inputName]: value
             }));
           }}
-          disabled={!editMode}
         >
           <SelectTrigger className="w-[200px] border-none">
-            <SelectValue placeholder={placeholder} />
+            <SelectValue placeholder={fieldValue==""? placeholder : fieldValue} />
           </SelectTrigger>
           <SelectContent>
             {contents.map((content)=><SelectItem value={content}>{content}</SelectItem>)}
 
           </SelectContent>
         </Select>
+      :
+        <p>{fieldValue==""? placeholder : fieldValue}</p>
+      }
+
 
       </>
       </div>)
 }
 
-const SearchSelectField = ({title, contents, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
+const SearchSelectField = ({title, contents, fieldValue, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
 
   return(
     <div className="flex_center">
     
     <p>{title}:</p>
     <>
+    {editMode?
       <ComboBox
         contents={contents}
-        placeholder={placeholder}
+        placeholder={fieldValue==""? placeholder : fieldValue}
+        setProfile={setProfile}
       />
+    :
+    <p>{fieldValue==""? placeholder : fieldValue}</p>
+  }
     </>
     </div>
     
@@ -96,13 +103,16 @@ const InputField = ({title, fieldValue, placeholder, inputName, editMode, handle
     return (
       <div className="flex_center gap-2">
         <p>{title}:</p>
-        <input
-          className="w-full px-2 text-sm md:text-md text-pri_navy_main"
-          value={fieldValue || placeholder}
-          name={inputName}
-          onChange={handleChange}
-          disabled={!editMode}
-        />
+        {editMode?
+          <input
+            className="w-full px-2 text-sm md:text-md text-pri_navy_main"
+            value={fieldValue==""? "" : fieldValue}
+            name={inputName}
+            onChange={handleChange}
+          />
+        :
+        <p>{fieldValue==""? placeholder : fieldValue}</p>
+        }
       </div>
     
     )
@@ -175,7 +185,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
       <InputField
         title="Bio"
         fieldValue={profile.bio}
-        placeholder="no bio set"
+        placeholder="+set bio"
         inputName="bio"
         editMode={editMode}
         handleChange={handleChange}
@@ -184,14 +194,12 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
       <SearchSelectField
         title="School"
         contents={schools}
-        fieldValue={profile.level}
+        fieldValue={profile.school}
         placeholder="+set school"
         inputName="school"
         editMode={editMode}
         setProfile={setProfile}
       />
-
-
 
       <SelectField
         title="Level"
