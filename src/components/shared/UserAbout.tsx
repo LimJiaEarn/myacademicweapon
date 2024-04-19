@@ -1,5 +1,6 @@
 "use client"
 
+import { schools, levels } from '../../../constants/studentconstants';
 import { useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/select"
 import { updateUserByUserID } from '@/lib/actions/user.actions';
 import Image from 'next/image';
+import { ComboBox } from '../ui/combobox';
 
 interface UserAboutProps {
     isOwnUser : boolean;
@@ -23,6 +25,7 @@ interface UserAboutProps {
 
 interface SelectFieldProps {
   title: string;
+  contents: string[];
   fieldValue: string | null;
   placeholder: string;
   inputName: string;
@@ -39,38 +42,46 @@ interface InputFieldProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SelectField = ({title, fieldValue, placeholder, inputName, editMode, setProfile}:SelectFieldProps) =>{
+const SelectField = ({title, contents, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
+  
+    return(
+      <div className="flex_center">
+      
+      <p>{title}:</p>
+      <>
+        <Select
+          onValueChange={(value)=>{
+            setProfile(prevState => ({
+              ...prevState,
+              [inputName]: value
+            }));
+          }}
+          disabled={!editMode}
+        >
+          <SelectTrigger className="w-[200px] border-none">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            {contents.map((content)=><SelectItem value={content}>{content}</SelectItem>)}
+
+          </SelectContent>
+        </Select>
+
+      </>
+      </div>)
+}
+
+const SearchSelectField = ({title, contents, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
 
   return(
     <div className="flex_center">
     
     <p>{title}:</p>
     <>
-      <Select
-        onValueChange={(value)=>{
-          setProfile(prevState => ({
-            ...prevState,
-            [inputName]: value
-          }));
-        }}
-        disabled={!editMode}
-      >
-        <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Your School" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Secondary Schools</SelectLabel>
-            <SelectItem value="Woodgrove Sec">Woodgrove Sec</SelectItem>
-            <SelectItem value="Marsiling Sec">Marsiling Sec</SelectItem>
-
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Junior Colleges</SelectLabel>
-            <SelectItem value="Yishun Innova JC">Yishun Innova JC</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      <ComboBox
+        contents={contents}
+        placeholder={placeholder}
+      />
     </>
     </div>
     
@@ -170,23 +181,26 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         handleChange={handleChange}
       />
 
-      <SelectField
+      <SearchSelectField
         title="School"
-        fieldValue={profile.school}
-        placeholder="set school"
+        contents={schools}
+        fieldValue={profile.level}
+        placeholder="+set school"
         inputName="school"
         editMode={editMode}
         setProfile={setProfile}
       />
 
 
-      <InputField
+
+      <SelectField
         title="Level"
+        contents={levels}
         fieldValue={profile.level}
-        placeholder="no level set"
+        placeholder="+set level"
         inputName="level"
         editMode={editMode}
-        handleChange={handleChange}
+        setProfile={setProfile}
       />
 
 

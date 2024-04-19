@@ -42,6 +42,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     }
 }
 
+
 const StudyResourcePage = async ( {params, searchParams} : {params: { level: string }, searchParams : { [key:string]:string}} ) => {
 
     const user = await currentUser();
@@ -59,6 +60,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     return (
 
         <div className="min-h-screen w-full py-2 md:py-4">
+
 
           <StudyResourceNav level={params.level}/>
 
