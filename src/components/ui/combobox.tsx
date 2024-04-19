@@ -32,7 +32,7 @@ export function ComboBox({contents, placeholder} : ComboBoxProps) {
   const [value, setValue] = useState("");
 
   return (
-        <Popover open={open} onOpenChange={setOpen} disabled={true}>
+        <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
             <button
             className="w-[250px]"
