@@ -50,7 +50,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-    revalidatePath(`/username/${username}`);
+    revalidatePath(`/profile/${username}`);
 
         
     const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
