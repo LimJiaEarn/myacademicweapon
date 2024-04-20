@@ -23,12 +23,12 @@ import {
 interface ComboBoxProps {
     contents : string[];
     placeholder: string;
-    setProfile: React.Dispatch<React.SetStateAction<{}>>;
+    setEditProfile: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 
 
-export function ComboBox({contents, placeholder, setProfile} : ComboBoxProps) {
+export function ComboBox({contents, placeholder, setEditProfile} : ComboBoxProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -51,13 +51,13 @@ export function ComboBox({contents, placeholder, setProfile} : ComboBoxProps) {
             <CommandGroup>
                 <CommandList>
 
-                {contents.map((content) => (
+                {contents.map((content, index) => (
                 <CommandItem
-                    key={content}
+                    key={`${content}_${index}`}
                     value={content}
                     onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
-                    setProfile(prevState => ({
+                    setEditProfile(prevState => ({
                         ...prevState,
                         ['school']: currentValue
                       }));

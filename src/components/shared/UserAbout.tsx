@@ -1,7 +1,7 @@
 "use client"
 
-import { schools, levels } from '../../../constants/studentconstants';
-import { useState } from 'react';
+import { schools, levels } from '../../../constants/schools';
+import { useState, useEffect } from 'react';
 import { useToast } from '../ui/use-toast';
 import {
   Select,
@@ -22,17 +22,17 @@ interface UserAboutProps {
 }
 
 interface SelectFieldProps {
-  title: string;
+  displayValue: string;
   contents: string[];
   fieldValue: string;
   placeholder: string;
   inputName: string;
   editMode: boolean;
-  setProfile: React.Dispatch<React.SetStateAction<{}>>;
+  setEditProfile: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 interface InputFieldProps {
-  title: string;
+  displayValue: string;
   fieldValue: string;
   placeholder: string;
   inputName: string;
@@ -40,17 +40,14 @@ interface InputFieldProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SelectField = ({title, contents, fieldValue, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
+const SelectField = ({contents, displayValue, fieldValue, placeholder, inputName, editMode, setEditProfile} : SelectFieldProps) =>{
   
     return(
-      <div className="flex_center">
-      
-      <p>{title}:</p>
       <>
       {editMode ?
         <Select
           onValueChange={(value)=>{
-            setProfile(prevState => ({
+            setEditProfile(prevState => ({
               ...prevState,
               [inputName]: value
             }));
@@ -60,63 +57,74 @@ const SelectField = ({title, contents, fieldValue, placeholder, inputName, editM
             <SelectValue placeholder={fieldValue==""? placeholder : fieldValue} />
           </SelectTrigger>
           <SelectContent>
-            {contents.map((content)=><SelectItem value={content}>{content}</SelectItem>)}
+            {contents.map((content, index)=><SelectItem key={`${content}_${index}`} value={content}>{content}</SelectItem>)}
 
           </SelectContent>
         </Select>
       :
-        <p>{fieldValue==""? placeholder : fieldValue}</p>
+        <p className="text-left text-pri_navy_light">{fieldValue==""? placeholder : displayValue}</p>
       }
 
 
       </>
-      </div>)
+      )
 }
 
-const SearchSelectField = ({title, contents, fieldValue, placeholder, inputName, editMode, setProfile} : SelectFieldProps) =>{
+const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inputName, editMode, setEditProfile} : SelectFieldProps) =>{
 
   return(
-    <div className="flex_center">
     
-    <p>{title}:</p>
     <>
     {editMode?
       <ComboBox
         contents={contents}
         placeholder={fieldValue==""? placeholder : fieldValue}
-        setProfile={setProfile}
+        setEditProfile={setEditProfile}
       />
     :
-    <p>{fieldValue==""? placeholder : fieldValue}</p>
+    <p className="text-left text-pri_navy_light ">{fieldValue==""? placeholder : displayValue}</p>
   }
     </>
-    </div>
     
   
   )
 
 }
 
-const InputField = ({title, fieldValue, placeholder, inputName, editMode, handleChange} : InputFieldProps) => {
+const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode, handleChange} : InputFieldProps) => {
+  const [showMaxLengthWarning, setShowMaxLengthWarning] = useState(displayValue.length >= 30);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    handleChange(e);
+    setShowMaxLengthWarning(value.length >= 30);
+  };
 
 
-    return (
-      <div className="flex_center gap-2">
-        <p>{title}:</p>
-        {editMode?
+
+  return (
+    <div className="flex_center gap-2">
+      {editMode ?
+        <div className="flex_col_center gap-1">
           <input
-            className="w-full px-2 text-sm md:text-md text-pri_navy_main"
-            value={fieldValue==""? "" : fieldValue}
+            className="w-full px-2 text-sm md:text-md text-pri_navy_main bg-transparent"
+            value={fieldValue === "" ? "" : fieldValue}
             name={inputName}
-            onChange={handleChange}
+            onChange={handleInputChange}
+            maxLength={30}
           />
-        :
-        <p>{fieldValue==""? placeholder : fieldValue}</p>
-        }
-      </div>
-    
-    )
-}
+          {showMaxLengthWarning ?
+            <p className="text-xs text-red-500">character limit reached.</p>
+          :
+            <p className="text-xs text-darker">30 character limit</p>
+          }
+        </div>
+      :
+        <p className="text-left text-pri_navy_light">{fieldValue === "" ? placeholder : displayValue}</p>
+      }
+    </div>
+  );
+};
 
 
 function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutProps) {
@@ -131,18 +139,30 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
     level: currentUserProfileObject.level || ""
   });
 
+  const [editProfile, setEditProfile] = useState<Record<string, string>>({
+    bio: currentUserProfileObject.bio || "",
+    school: currentUserProfileObject.school || "",
+    level: currentUserProfileObject.level || ""
+  })
+
   const handleEdit = () => {
     setEditMode(true);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
+  const handleSave = async () => {
+    
+    setProfile((prevValue)=>({
+      ...prevValue,
+      bio: editProfile.bio,
+      school: editProfile.school,
+      level: editProfile.level
+    }));
+    
 
     // Here you would typically send the updated profile data to the server
     // For example using fetch API to update MongoDB database
     try{
-        updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, bio:profile.bio, school:profile.school, level:profile.level});
-    
+        await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, bio:editProfile.bio, school:editProfile.school, level:editProfile.level});
         toast({
             description:"Profile Updated!"
         })
@@ -153,15 +173,21 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         })
     }
 
+    setEditMode(false);
 
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProfile(prevState => ({
+    setEditProfile(prevState => ({
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+    setEditProfile(profile);
   };
 
   return (
@@ -172,9 +198,16 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         </h2>
         {isOwnUser && (
           editMode ?
-          <button className="cursor-pointer absolute top-0 right-0" onClick={handleSave}>
-            <Image src='/icons/save.svg' alt='save' height={25} width={25} />
+          <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
+          <button className="cursor-pointer bg-red-500 rounded-lg p-1" onClick={handleCancel}>
+            <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
           </button>
+          <button className="cursor-pointer bg-blue-500 rounded-lg p-1" onClick={handleSave}>
+            <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
+          </button>
+          
+          </div>
+          
           :
           <button className="cursor-pointer absolute top-0 right-0" onClick={handleEdit}>
             <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
@@ -182,34 +215,53 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         )}
       </div>
 
-      <InputField
-        title="Bio"
-        fieldValue={profile.bio}
-        placeholder="+set bio"
-        inputName="bio"
-        editMode={editMode}
-        handleChange={handleChange}
-      />
+      <div className="grid grid-cols-3 gap-2 mt-2 grid-rows-auto">
 
-      <SearchSelectField
-        title="School"
-        contents={schools}
-        fieldValue={profile.school}
-        placeholder="+set school"
-        inputName="school"
-        editMode={editMode}
-        setProfile={setProfile}
-      />
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">Bio:</p>
+        <div className="col-span-2">
+          <InputField
+            displayValue={profile.bio}
+            fieldValue={editProfile.bio}
+            placeholder="+set bio"
+            inputName="bio"
+            editMode={editMode}
+            handleChange={handleChange}
+          />
+        </div>
 
-      <SelectField
-        title="Level"
-        contents={levels}
-        fieldValue={profile.level}
-        placeholder="+set level"
-        inputName="level"
-        editMode={editMode}
-        setProfile={setProfile}
-      />
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">School:</p>
+        <div className="col-span-2">
+          <SearchSelectField
+            contents={schools}
+            displayValue={profile.school}
+            fieldValue={editProfile.school}
+            placeholder="+set school"
+            inputName="school"
+            editMode={editMode}
+            setEditProfile={setEditProfile}
+          />
+        </div>
+
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">Level:</p>
+        <div className="col-span-2">
+          <SelectField
+            contents={levels}
+            displayValue={profile.level}
+            fieldValue={editProfile.level}
+            placeholder="+set level"
+            inputName="level"
+            editMode={editMode}
+            setEditProfile={setEditProfile}
+          />
+        </div>
+
+      </div>
+
+
+
+
+
+
 
 
     </div>

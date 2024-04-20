@@ -27,7 +27,7 @@ const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userI
             return(
                 <div
                     key={`${currTab.title}_${index}`}
-                    className={`m-1 rounded-xl flex_center gap-2 md:gap-4 cursor-pointer col-span-1 ${tabSelection===index ? 'bg-pri_mint_lighter' : ''}`}
+                    className={`m-1 rounded-xl flex_center gap-2 cursor-pointer col-span-1 ${tabSelection===index ? 'bg-pri_mint_lighter' : ''}`}
                     onClick={()=>{
                         setTabSelection(index);
                         // setTableData(currTab.data);
