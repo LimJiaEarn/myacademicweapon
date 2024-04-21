@@ -10,6 +10,8 @@ import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
+
+
 type Props = {
   params: { username: string }
 }
@@ -50,7 +52,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
 
-    revalidatePath(`/profile/${username}`);
+    revalidatePath(`/username/${username}`);
 
         
     const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
@@ -152,7 +154,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                     {/* Mini Profile Section */}
                     <div className="flex flex-row justify-start items-center gap-2 md:gap-4">
                                     
-                        <Image src={currentUserProfileObject?.photo || "/images/placeholderDP.webp"} alt="profile pic" height={90} width={90} className="rounded-lg"/>
+                        <Image src={currentUserProfileObject?.photo || "/images/placeholderDP.webp"} alt="profile pic" height={100} width={100} className="rounded-lg"/>
                         <div className="">
                             <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">{currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}</p>
                             <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">joined {formattedJoinDate}</p>
@@ -219,7 +221,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 />
 
             </section>
-
+            
 
         </div>
     )

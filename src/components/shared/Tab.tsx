@@ -30,8 +30,6 @@ const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userI
                     className={`m-1 rounded-xl flex_center gap-2 cursor-pointer col-span-1 ${tabSelection===index ? 'bg-pri_mint_lighter' : ''}`}
                     onClick={()=>{
                         setTabSelection(index);
-                        // setTableData(currTab.data);
-                        // setTableDataSetter(currTab.setData);
                     }}
                 >
                     <Image src={currTab.titleIcon} alt="" height={22} width={22}/>
@@ -45,7 +43,8 @@ const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userI
             <ProfilePageTable
                 tableData={tabSelection===0 ? Tabs[0].data : Tabs[1].data}
                 setTableData={tabSelection===0 ? Tabs[0].setData : Tabs[1].setData}
-                userID={userID} sectionType={tabSelection===0 ? Tabs[0].sectionType : Tabs[1].sectionType}
+                userID={userID}
+                sectionType={tabSelection===0 ? Tabs[0].sectionType : Tabs[1].sectionType}
                 isOwnUser={isOwnUser}
             />
         </div>

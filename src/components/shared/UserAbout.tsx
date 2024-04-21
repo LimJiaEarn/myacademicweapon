@@ -1,15 +1,8 @@
 "use client"
 
 import { schools, levels } from '../../../constants/schools';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useToast } from '../ui/use-toast';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { updateUserByUserID } from '@/lib/actions/user.actions';
 import Image from 'next/image';
 import { ComboBox } from '../ui/combobox';
@@ -37,46 +30,19 @@ interface InputFieldProps {
   placeholder: string;
   inputName: string;
   editMode: boolean;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const SelectField = ({contents, displayValue, fieldValue, placeholder, inputName, editMode, setEditProfile} : SelectFieldProps) =>{
-  
-    return(
-      <>
-      {editMode ?
-        <Select
-          onValueChange={(value)=>{
-            setEditProfile(prevState => ({
-              ...prevState,
-              [inputName]: value
-            }));
-          }}
-        >
-          <SelectTrigger className="w-[200px] border-none">
-            <SelectValue placeholder={fieldValue==""? placeholder : fieldValue} />
-          </SelectTrigger>
-          <SelectContent>
-            {contents.map((content, index)=><SelectItem key={`${content}_${index}`} value={content}>{content}</SelectItem>)}
 
-          </SelectContent>
-        </Select>
-      :
-        <p className="text-left text-pri_navy_light">{fieldValue==""? placeholder : displayValue}</p>
-      }
-
-
-      </>
-      )
-}
 
 const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inputName, editMode, setEditProfile} : SelectFieldProps) =>{
 
   return(
     
-    <>
+    <div className="w-full">
     {editMode?
       <ComboBox
+        inputName={inputName}
         contents={contents}
         placeholder={fieldValue==""? placeholder : fieldValue}
         setEditProfile={setEditProfile}
@@ -84,7 +50,7 @@ const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inp
     :
     <p className="text-left text-pri_navy_light ">{fieldValue==""? placeholder : displayValue}</p>
   }
-    </>
+    </div>
     
   
   )
@@ -94,20 +60,22 @@ const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inp
 const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode, handleChange} : InputFieldProps) => {
   const [showMaxLengthWarning, setShowMaxLengthWarning] = useState(displayValue.length >= 30);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
-    handleChange(e);
+    if (value.length <= 30) {
+      handleChange(e);
+    }
     setShowMaxLengthWarning(value.length >= 30);
-  };
+  }
 
 
 
   return (
-    <div className="flex_center gap-2">
+    <div className="flex justify-start items-center gap-2">
       {editMode ?
         <div className="flex_col_center gap-1">
-          <input
-            className="w-full px-2 text-sm md:text-md text-pri_navy_main bg-transparent"
+          <textarea
+            className="w-full px-2 py-1 text-md text-pri_navy_main bg-pri_bg_card text-left"
             value={fieldValue === "" ? "" : fieldValue}
             name={inputName}
             onChange={handleInputChange}
@@ -116,7 +84,7 @@ const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode,
           {showMaxLengthWarning ?
             <p className="text-xs text-red-500">character limit reached.</p>
           :
-            <p className="text-xs text-darker">30 character limit</p>
+            <p className="text-xs text-slate-400">30 character limit</p>
           }
         </div>
       :
@@ -159,8 +127,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
     }));
     
 
-    // Here you would typically send the updated profile data to the server
-    // For example using fetch API to update MongoDB database
+
     try{
         await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, bio:editProfile.bio, school:editProfile.school, level:editProfile.level});
         toast({
@@ -177,7 +144,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
 
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditProfile(prevState => ({
       ...prevState,
@@ -215,9 +182,9 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mt-2 grid-rows-auto">
+      <div className="grid grid-cols-3 gap-3 mt-2 grid-rows-auto">
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">Bio:</p>
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Bio:</p>
         <div className="col-span-2">
           <InputField
             displayValue={profile.bio}
@@ -229,7 +196,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           />
         </div>
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">School:</p>
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">School:</p>
         <div className="col-span-2">
           <SearchSelectField
             contents={schools}
@@ -242,9 +209,9 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           />
         </div>
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main ">Level:</p>
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Level:</p>
         <div className="col-span-2">
-          <SelectField
+          <SearchSelectField
             contents={levels}
             displayValue={profile.level}
             fieldValue={editProfile.level}

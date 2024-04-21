@@ -40,7 +40,6 @@ declare type UpdateUserParams = {
   firstName: string;
   lastName: string;
   username: string;
-  bio: string;
   photo: string;
   bio?: string;
   school?: string;

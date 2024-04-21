@@ -1,9 +1,7 @@
 "use client"
 
-import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from 'react';
 
-import { cn } from "@/lib/utils";
 import {
   Command,
   CommandEmpty,
@@ -21,6 +19,7 @@ import {
 
 
 interface ComboBoxProps {
+    inputName: string;
     contents : string[];
     placeholder: string;
     setEditProfile: React.Dispatch<React.SetStateAction<{}>>;
@@ -28,7 +27,7 @@ interface ComboBoxProps {
 
 
 
-export function ComboBox({contents, placeholder, setEditProfile} : ComboBoxProps) {
+export function ComboBox({inputName, contents, placeholder, setEditProfile} : ComboBoxProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -36,7 +35,7 @@ export function ComboBox({contents, placeholder, setEditProfile} : ComboBoxProps
         <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
             <button
-            className="w-[250px]"
+              className="w-full text-left px-2 py-1 bg-pri_bg_card"
             >
             {value
                 ? contents.find((content) => content === value)
@@ -46,30 +45,30 @@ export function ComboBox({contents, placeholder, setEditProfile} : ComboBoxProps
         
         <PopoverContent className="w-[200px] p-0" side="bottom">
             <Command>
-            <CommandInput placeholder="Search schools..." />
-            <CommandEmpty>No school found.</CommandEmpty>
-            <CommandGroup>
-                <CommandList>
+              <CommandInput placeholder={`Search ${inputName}...`} />
+              <CommandEmpty>No {inputName} found.</CommandEmpty>
+              <CommandGroup>
+                  <CommandList>
 
-                {contents.map((content, index) => (
-                <CommandItem
-                    key={`${content}_${index}`}
-                    value={content}
-                    onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setEditProfile(prevState => ({
-                        ...prevState,
-                        ['school']: currentValue
-                      }));
-                    setOpen(false)
-                    }}
-                >
+                  {contents.map((content, index) => (
+                  <CommandItem
+                      key={`${content}_${index}`}
+                      value={content}
+                      onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue)
+                      setEditProfile(prevState => ({
+                          ...prevState,
+                          ['school']: currentValue
+                        }));
+                      setOpen(false)
+                      }}
+                  >
 
-                    {content}
-                </CommandItem>
-                ))}
-                </CommandList>
-            </CommandGroup>
+                      {content}
+                  </CommandItem>
+                  ))}
+                  </CommandList>
+              </CommandGroup>
             </Command>
         </PopoverContent>
         </Popover>

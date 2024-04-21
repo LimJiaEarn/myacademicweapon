@@ -23,16 +23,9 @@ type ProfilePageTableProps = {
 
 const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnUser} : ProfilePageTableProps ) => {
     
-
-
     const [toggleEdit, setToggleEdit] = useState(false);
     const [toHideColumns, setToHideColumns] = useState(["subject", "totMarks"]);
-
-
-
-
     const { toast } = useToast();
-
     
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date: Date, newStatus : boolean) => {
 
@@ -122,12 +115,12 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
   return (
 
       <div className="w-full px-2">
-
         
         {tableData?.length > 0?
             <div className="w-full flex_col_center">
                 {/* <p className="italic text-center">{tableData.length}</p> */}
                 {isOwnUser &&
+                <div className="flex flex-col md:flex-row justify-center items-center gap-2">
                     <div className="flex justify-center items-center gap-2">
                         <p className="text-pri_navy_darker text-md italic">Edit Mode</p>
                         
@@ -136,9 +129,11 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                             onCheckedChange={()=>{
                                 setToggleEdit((prev)=>!prev);
                             }}
-                        />
-                        
-                    </div>}
+                        />                        
+                    </div>
+                    {sectionType==="Completed" && <p className="text-slate-400 text-md">Your scores are not visible to others</p>}
+
+                </div>}
                 <DataTable
                     columns={columns}
                     toHideColumns = {toHideColumns}
