@@ -48,7 +48,7 @@ const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inp
         setEditProfile={setEditProfile}
       />
     :
-    <p className="text-left text-pri_navy_light ">{fieldValue==""? placeholder : displayValue}</p>
+    <p className="text-left text-sm text-pri_navy_light">{fieldValue==""? placeholder : displayValue}</p>
   }
     </div>
     
@@ -75,7 +75,7 @@ const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode,
       {editMode ?
         <div className="flex_col_center gap-1">
           <textarea
-            className="w-full px-2 py-1 text-md text-pri_navy_main bg-pri_bg_card text-left"
+            className="w-full px-2 py-1 text-sm text-pri_navy_main bg-pri_bg_card text-left"
             value={fieldValue === "" ? "" : fieldValue}
             name={inputName}
             onChange={handleInputChange}
@@ -88,7 +88,7 @@ const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode,
           }
         </div>
       :
-        <p className="text-left text-pri_navy_light">{fieldValue === "" ? placeholder : displayValue}</p>
+        <p className="text-left text-sm text-pri_navy_light">{fieldValue === "" ? placeholder : displayValue}</p>
       }
     </div>
   );
@@ -184,17 +184,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
 
       <div className="grid grid-cols-3 gap-3 mt-2 grid-rows-auto">
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Bio:</p>
-        <div className="col-span-2">
-          <InputField
-            displayValue={profile.bio}
-            fieldValue={editProfile.bio}
-            placeholder="+set bio"
-            inputName="bio"
-            editMode={editMode}
-            handleChange={handleChange}
-          />
-        </div>
+
 
         <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">School:</p>
         <div className="col-span-2">
@@ -219,6 +209,18 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
             inputName="level"
             editMode={editMode}
             setEditProfile={setEditProfile}
+          />
+        </div>
+
+        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Bio:</p>
+        <div className="col-span-2">
+          <InputField
+            displayValue={profile.bio}
+            fieldValue={editProfile.bio}
+            placeholder="+set bio"
+            inputName="bio"
+            editMode={editMode}
+            handleChange={handleChange}
           />
         </div>
 

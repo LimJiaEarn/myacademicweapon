@@ -37,7 +37,7 @@ const HomePage = () => {
 
       {/* <section className="w-full max-w-[1800px] flex_col_center px-2 sm:px-4">
         
-        <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-gray-600 text-center">Our Suite of Services</h1>
+        <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-pri_navy_dark text-center">Ready for your grade glow-up? Track your improvements</h1>
 
         <div className="grid grid-rows-3 w-full md:grid-cols-3 gap-2">
           <ServiceCard
@@ -59,6 +59,10 @@ const HomePage = () => {
             imagePath="/images/heroImg1.png"
           />
         </div>
+    </section> */}
+
+    {/* <section className="w-full max-w-[1800px] flex_col_center px-2 sm:px-4">
+      <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-pri_navy_dark text-center">From Academic Victim to Victor!</h1>
     </section> */}
 
 

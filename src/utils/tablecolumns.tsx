@@ -282,11 +282,11 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
                 }
                 {
                     workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
                 }
                 {
                     videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                    <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
                 }
                 </div>
                 
@@ -350,11 +350,11 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
                 }
                 {
                     workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                    <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
                 }
                 {
                     videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                    <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
                 }
                 </div>
                 
@@ -399,11 +399,11 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                     <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
-                        <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                        <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
                     }
                     {
                         videoSolution &&
-                        <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                        <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
                     }
                     
                 </div>
@@ -506,11 +506,11 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
                     <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
-                        <Tag icon="/icons/solutionsIcon.svg" tooltip="with solutions!" onClickUrl={workingSolution}/>
+                        <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
                     }
                     {
                         videoSolution &&
-                        <Tag icon="/icons/videoIcon.svg" tooltip="with video solutions!" onClickUrl={videoSolution}/>
+                        <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
                     }
                     
                 </div>

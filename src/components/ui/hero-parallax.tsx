@@ -77,8 +77,8 @@ export const HeroParallax = (
         className=""
       >
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
-          FREE Topical Practice Papers
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
+          <span className="font-bold text-pri_mint_dark">FREE</span> Topical Practice Papers
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {firstRow.map((product) => (
@@ -90,8 +90,8 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
-          FREE MYE / Prelim Practice Papers
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
+          <span className="font-bold text-pri_mint_dark">FREE</span> MYE / Prelim Practice Papers
         </motion.div>
         <motion.div className="flex flex-row mb-20 space-x-10">
           {secondRow.map((product) => (
@@ -103,8 +103,8 @@ export const HeroParallax = (
           ))}
         </motion.div>
 
-        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-gray-600 text-center">
-          FREE Solution Sheets, Walkthroughs, Notes & More !
+        <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
+          <span className="font-bold text-pri_mint_dark">FREE</span> Solution Sheets, Walkthroughs, Notes & More !
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {thirdRow.map((product) => (
@@ -138,7 +138,7 @@ export const Header = () => {
         <div className="flex flex-col items-start gap-4 md:align-center lg:flex-row lg:items-center">
 
           <p className="mt-6 text-lg leading-relaxed text-pri_navy_darker md:text-2xl max-w-sm md:max-w-[570px]">
-              Chart through the treacherous waters of education with our map of study guides and practice papers!<br/>We're than just a collection of materials, we're your steadfast ally in your pursuit of academic excellence!
+            Elevate your study game with our unbeatable collection of study resources<br/> — it's time for your <span className="font-medium red_grad_text_2">Academic Comeback!</span>
           </p>
           <div className="flex_center">
             <LinkButton iconUrl="/icons/sword.svg" buttonMsg={buttonMsg} buttonColorClass="py-3 px-6 bg-gradient-to-r from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500 hover:pr-8" linksTo={linksTo}/>

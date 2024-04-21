@@ -35,7 +35,7 @@ export function ComboBox({inputName, contents, placeholder, setEditProfile} : Co
         <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
             <button
-              className="w-full text-left px-2 py-1 bg-pri_bg_card"
+              className="w-full text-left text-sm px-2 py-1 bg-pri_bg_card"
             >
             {value
                 ? contents.find((content) => content === value)

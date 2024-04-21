@@ -47,7 +47,7 @@ const config: Config = {
         'pri_gold_light': 'hsl(49.3, 99%, 66%)',
         'pri_gold_lighter': 'hsl(49.3, 99%, 71%)',
         'pri_gold_dark': 'hsl(49.3, 99%, 56%)',
-        'pri_gold_darker': 'hsl(49.3, 99%, 51%)',
+        'pri_gold_darker': 'hsl(49.3, 99%, 67%)',
 
 
         // Red

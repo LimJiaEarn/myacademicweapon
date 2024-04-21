@@ -175,7 +175,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                             <LinkButton
                                 buttonMsg="Sign Out"
                                 buttonMsgClass="text-white text-xs md:text-sm"
-                                // Updated to a gentle red with some opacity
                                 buttonColorClass="opacity-90 bg-rose-300 hover:bg-rose-400 border-gray-300 py-1 px-4 shadow-lg"
                                 linksTo={`/`}
                             />
