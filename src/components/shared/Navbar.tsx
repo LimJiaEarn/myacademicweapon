@@ -14,9 +14,34 @@ import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { navLinks } from "../../../constants";
 
+
+const ProfileLink = ({fullPath, username, imageUrl, imgSize} : {fullPath : string, username: string | null | undefined, imageUrl: string | null | undefined, imgSize: number}) => {
+
+  if (!username) return <></>
+  const isActive : boolean = fullPath==`/profile/${username}`;
+
+
+  return(
+    <Link
+      href={`/profile/${username}`}
+      className={`rounded-full ${isActive ? 'border-2 border-pri_gold_light' : ''}`}
+    >
+      <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={imageUrl || "/images/Logo.svg"} alt="userDP" height={imgSize} width={imgSize}/>
+    </Link>
+  )
+}
+
+
+
+
 const Navbar = () => {
 
-  const pathname = usePathname();
+  const fullPath = usePathname();
+  const pathSegments = fullPath.split('/').filter(Boolean);
+
+
+  const pathname = pathSegments.length > 0 ? '/' + pathSegments[0] : '/';
+
 
   const { user } = useUser();
 
@@ -52,10 +77,12 @@ const Navbar = () => {
               })}
             </ul>
             
-            <Link href={`/profile/${user?.username}`}>
-               <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
-            </Link>
-
+            <ProfileLink
+              fullPath={fullPath}
+              username={user?.username}
+              imageUrl={user?.imageUrl}
+              imgSize={40}
+            />
 
           </SignedIn>
 
@@ -109,9 +136,12 @@ const Navbar = () => {
         {/* iPad Navigation */}
         <div className="hidden sm:flex md:hidden gap-4">
             <SignedIn>
-              <Link href={`/profile/${user?.username}`}>
-                <Image className="rounded-full" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={40} width={40}/>
-              </Link>
+              <ProfileLink
+                fullPath={fullPath}
+                username={user?.username}
+                imageUrl={user?.imageUrl}
+                imgSize={40}
+              />
             </SignedIn>
 
             <Sheet>
@@ -203,11 +233,18 @@ const Navbar = () => {
                 </li>   
                   )
               })}
-            <div className="pr-2">
-              <Link href={`/profile/${user?.username}`}>
-                <Image className="rounded-full hover:scale-[1.05] transition ease-in-out delay-100" src={user?.imageUrl || "/images/Logo.svg"} alt="userDP" height={38} width={38}/>
-              </Link>
-            </div>
+              <div className="pr-2">
+                <Link href={`/profile/${user?.username}`}>
+                  <Image
+                    className={`rounded-full hover:scale-[1.05] transition ease-in-out delay-100 ${fullPath === `/profile/${user?.username}` ? 'border-2 border-pri_gold_light' : ''}`}
+                    src={user?.imageUrl || "/images/Logo.svg"}
+                    alt="userDP"
+                    height={38}
+                    width={38}
+                  />
+                </Link>
+              </div>
+            
             </ul>
             
 

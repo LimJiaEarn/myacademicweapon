@@ -66,7 +66,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
             Disclaimer:
           </p>
           <p className="text-pri_navy_light">
-            Our watermarks are used solely to <span className="font-medium underline">deter resellers</span> & keep these valuable resources <span className="font-medium underline">free for students</span>. <span className="font-medium text-pri_red_main">My Academic Weapon do not claim ownership of these study resources.</span> We have the utmost respect for the creators of these resources & have made every effort to acknowledge them as thoroughly as possible.
+            Our watermarks are used solely to <span className="font-medium underline">deter resellers</span> & keep these valuable resources <span className="font-medium underline">free for students</span>. <span className="font-medium text-pri_red_main">My Academic Weapon do not claim ownership of these study resources.</span> We have the utmost respect for the authors & have made every effort to acknowledge them as thoroughly as possible.
           </p>
         </div>
 
