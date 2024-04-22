@@ -58,7 +58,7 @@ export function ComboBox({inputName, contents, placeholder, setEditProfile} : Co
                       setValue(currentValue === value ? "" : currentValue)
                       setEditProfile(prevState => ({
                           ...prevState,
-                          ['school']: currentValue
+                          [inputName]: currentValue
                         }));
                       setOpen(false)
                       }}
