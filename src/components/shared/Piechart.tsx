@@ -8,6 +8,7 @@ interface PieProps {
   colors: string[];
   hole: number;
   strokeWidth: number;
+  innerText: string;  // Optional prop for inner text
 }
 
 interface SliceProps {
@@ -23,8 +24,58 @@ interface SliceProps {
   showLabel: boolean;
 }
 
+
+
+const Pie: React.FC<PieProps> = ({ radius, data, colors, hole, strokeWidth, innerText }) => {
+  const sum = 100;
+  let startAngle = -90;
+
+  const extraPadding = strokeWidth * 2;
+  const viewBoxDimension = radius * 2 + extraPadding;
+  const viewBoxOffset = -extraPadding / 2;
+  const center = radius + extraPadding / 2;
+
+  return (
+    <svg
+      width={viewBoxDimension}
+      height={viewBoxDimension}
+      viewBox={`${viewBoxOffset} ${viewBoxOffset} ${viewBoxDimension} ${viewBoxDimension}`}
+    >
+      {data.map((item, index) => {
+        const angle = (item / sum) * 360;
+        const slice = (
+          <Slice
+            key={index}
+            value={item}
+            percent={(item / sum) * 100}
+            startAngle={startAngle}
+            angle={angle==360? 359.9 : angle}
+            radius={radius}
+            hole={radius - hole}
+            trueHole={hole}
+            fill={colors[index % colors.length]}
+            strokeWidth={strokeWidth}
+            showLabel={false} 
+          />
+        );
+        startAngle += angle;
+        return slice;
+      })}
+        <text
+          x={center}
+          y={center}
+          fill="#aaf"
+          textAnchor="middle"
+          alignmentBaseline="central"
+          fontSize={radius / 5}
+        >
+          {innerText}
+        </text>
+    </svg>
+  );
+};
+
 const Slice: React.FC<SliceProps> = ({
-  value,
   percent,
   startAngle,
   angle,
@@ -65,7 +116,7 @@ const Slice: React.FC<SliceProps> = ({
       setPath(d);
 
       if (s < angle) {
-        setTimeout(() => draw(s + (angle / 30)), 16);
+        setTimeout(() => draw(s + (angle / 30)), 8);
       } else if (showLabel && percent > 5) {
         // Update label coordinates only if the label should be shown and is meaningful (more than 5%)
         const { x2: labelX, y2: labelY } = getAnglePoint(startAngle, startAngle + angle / 2, radius / 2 + trueHole / 2, radius, radius);
@@ -81,53 +132,13 @@ const Slice: React.FC<SliceProps> = ({
       <path d={path} fill={fill} stroke={fill} strokeWidth={strokeWidth} />
       {showLabel && percent > 5 && (
         <text x={coords.x} y={coords.y} fill="#fff" textAnchor="middle">
-          {`${percent.toFixed(1)}%`}
+          {`${percent.toFixed(2)}%`}
         </text>
       )}
     </g>
   );
 };
 
-
-
-const Pie: React.FC<PieProps> = ({ radius, data, colors, hole, strokeWidth }) => {
-  const sum = data.reduce((acc, curr) => acc + curr, 0);
-  let startAngle = -90;  // Start from 12 o'clock by setting the initial angle to -90 degrees
-
-  // Calculate adjusted dimensions
-  const extraPadding = strokeWidth * 2;  // Add extra padding equal to twice the stroke width
-  const viewBoxDimension = radius * 2 + extraPadding;
-  const viewBoxOffset = -extraPadding / 2;
-
-  return (
-    <svg
-      width={viewBoxDimension}
-      height={viewBoxDimension}
-      viewBox={`${viewBoxOffset} ${viewBoxOffset} ${viewBoxDimension} ${viewBoxDimension}`}
-    >
-      {data.map((item, index) => {
-        const angle = (item / sum) * 360;
-        const slice = (
-          <Slice
-            key={index}
-            value={item}
-            percent={(item / sum) * 100}
-            startAngle={startAngle}
-            angle={angle}
-            radius={radius}
-            hole={radius - hole}
-            trueHole={hole}
-            fill={colors[index % colors.length]}
-            strokeWidth={strokeWidth}
-            showLabel={true}
-          />
-        );
-        startAngle += angle;  // Update startAngle for the next slice
-        return slice;
-      })}
-    </svg>
-  );
-};
 
 
 export default Pie;
