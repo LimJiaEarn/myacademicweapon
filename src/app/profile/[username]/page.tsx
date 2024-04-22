@@ -56,9 +56,9 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
         
     const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
-    day: 'numeric', // numeric day
-    month: 'short', // abbreviated month
-    year: 'numeric' // full year
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
     });
 
     // Utility Function
@@ -188,7 +188,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
 
                 <UserAbout isOwnUser={isOwnUser} username={username} currentUserProfileObject={currentUserProfileObject}/>
-
+                
+                <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+                
+                <div className="flex_center w-full">        
+                    <Calendar/>
+                </div>
 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
@@ -198,11 +203,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 
                 </div>
 
-                <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
-                
-                <div className="flex_center w-full">        
-                    <Calendar/>
-                </div>
+
 
 
 

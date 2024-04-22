@@ -8,7 +8,6 @@ interface PieProps {
   colors: string[];
   hole: number;
   strokeWidth: number;
-  innerText: string;  // Optional prop for inner text
 }
 
 interface SliceProps {
@@ -26,7 +25,7 @@ interface SliceProps {
 
 
 
-const Pie: React.FC<PieProps> = ({ radius, data, colors, hole, strokeWidth, innerText }) => {
+const Pie: React.FC<PieProps> = ({ radius, data, colors, hole, strokeWidth }) => {
   const sum = 100;
   let startAngle = -90;
 
@@ -61,16 +60,6 @@ const Pie: React.FC<PieProps> = ({ radius, data, colors, hole, strokeWidth, inne
         startAngle += angle;
         return slice;
       })}
-        <text
-          x={center}
-          y={center}
-          fill="#aaf"
-          textAnchor="middle"
-          alignmentBaseline="central"
-          fontSize={radius / 5}
-        >
-          {innerText}
-        </text>
     </svg>
   );
 };
