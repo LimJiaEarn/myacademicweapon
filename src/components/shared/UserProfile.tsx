@@ -29,6 +29,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
     
     const updateGoal = async () => {
       
+      setGoal(goal2);
       try{
         await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, goal: goal});
         toast({
@@ -101,33 +102,34 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
             <div className="absolute flex flex-col items-center justify-center inset-0">
                 <p className="text-center">{innerText}<br/>completed</p>
             </div>
+            
+            {isOwnUser && <>
+              {editGoal ?
+              <div className="w-[50] flex_center gap-2">
+
+                <input
+                  className="bg-pri_mint_main w-20 h-20"
+                  type="number"
+                  min="0"
+                  max="1000"
+                  onChange={(e)=>setGoal2(Number(e.target.value))}
+                />
+
+                <button className="cursor-pointer bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
+                  <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
+                </button>
+                <button className="cursor-pointer bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
+                  <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
+                </button>
+              </div>
+              :
+              <button className="cursor-pointer" onClick={()=>{setEditGoal(true)}}>
+                <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
+              </button>}
+            </>
+          }
         </div>
         
-        {isOwnUser && <>
-          {editGoal ?
-          <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
-
-            <input
-              className="bg-pri_mint_main w-20 h-20"
-              type="number"
-              min="0"
-              max="1000"
-              onChange={(e)=>setGoal2(Number(e.target.value))}
-            />
-
-            <button className="cursor-pointer bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
-              <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
-            </button>
-            <button className="cursor-pointer bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
-              <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
-            </button>
-          </div>
-          :
-          <button className="cursor-pointer absolute top-0 right-0" onClick={()=>{setEditGoal(true)}}>
-            <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
-          </button>}
-        </>
-      }
 
         </div>
 
