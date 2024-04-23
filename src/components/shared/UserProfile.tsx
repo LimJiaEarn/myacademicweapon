@@ -31,7 +31,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
       
       setGoal(goal2);
       try{
-        await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, goal: goal});
+        await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, goal: goal2});
         toast({
             description:"Goal Updated!"
         })
@@ -91,7 +91,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
             </ul>}
         </div>
 
-        <div className="col-span-1 row-span-1 relative flex items-center justify-center">
+        <div className="col-span-1 row-span-1 relative flex items-center justify-center gap-4">            
             <Pie
                 data={goal > 0 ? data : [50, 50]}
                 colors={colors}
@@ -102,13 +102,15 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
             <div className="absolute flex flex-col items-center justify-center inset-0">
                 <p className="text-center">{innerText}<br/>completed</p>
             </div>
+
             
-            {isOwnUser && <>
+        </div>
+        {isOwnUser && <>
               {editGoal ?
-              <div className="w-[50] flex_center gap-2">
+              <div className="flex_center gap-2">
 
                 <input
-                  className="bg-pri_mint_main w-20 h-20"
+                  className="bg-pri_mint_main w-10 h-10"
                   type="number"
                   min="0"
                   max="1000"
@@ -128,8 +130,6 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
               </button>}
             </>
           }
-        </div>
-        
 
         </div>
 
