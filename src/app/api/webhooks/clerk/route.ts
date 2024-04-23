@@ -67,6 +67,7 @@ export async function POST(req: Request) {
       bio:"",
       school:"",
       level:"",
+      goal: 0,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,

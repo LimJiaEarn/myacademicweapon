@@ -213,11 +213,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             <section className="w-full flex-grow">
 
                 <UserProfile
+                    currentUserProfileObject = {currentUserProfileObject}
                     isOwnUser={isOwnUser}
                     userID={userID}
                     simplifiedCompletedResourceObjects={simplifiedCompletedResourceObjects}
                     simplifiedBookmarkedResourceObjects={simplifiedBookmarkedResourceObjects}
-
                 />
 
             </section>

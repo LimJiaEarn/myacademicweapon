@@ -24,6 +24,7 @@ declare type UserObject = {
   school: string; 
   level:string; 
   joinDate: Date;
+  goal: number;
 }
 
 declare type CreateUserParams = {
@@ -44,6 +45,7 @@ declare type UpdateUserParams = {
   bio?: string;
   school?: string;
   level?: string;
+  goal?: number;
 };
 
 

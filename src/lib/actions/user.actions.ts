@@ -63,7 +63,7 @@ export async function getUserByUsername(username: string) {
   }
 }
 
-// UPDATE
+// UPDATE - Called via Clerk's webhook
 export async function updateUserByClerkId(clerkId: string, user: UpdateUserParams) {
   try {
     await connectToDatabase();

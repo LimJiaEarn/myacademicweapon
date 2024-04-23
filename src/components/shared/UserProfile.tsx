@@ -1,10 +1,14 @@
 "use client"
 
+import Image from "next/image";
 import Tab from "@/components/shared/Tab";
 import { useState } from 'react';
 import Pie from '@/components/shared/Piechart';
+import { updateUserByUserID } from '@/lib/actions/user.actions';
+import { useToast } from '../ui/use-toast';
 
 interface UserProfileProps {
+  currentUserProfileObject: UserObject;
   isOwnUser : boolean;
   userID : string;
   simplifiedCompletedResourceObjects : ISummarisedPracticePaper[];
@@ -12,13 +16,35 @@ interface UserProfileProps {
 }
 
 
-const UserProfile = ({isOwnUser, userID, simplifiedCompletedResourceObjects, simplifiedBookmarkedResourceObjects} : UserProfileProps) => {
+const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCompletedResourceObjects, simplifiedBookmarkedResourceObjects} : UserProfileProps) => {
     
     // Set it as states so we can sync the data changes to other cards
     const [completedTableData, setCompletedTableData] = useState<ISummarisedPracticePaper[]>(simplifiedCompletedResourceObjects);
     const [bookmarkTableData, setBookmarkTableData] = useState<ISummarisedPracticePaper[]>(simplifiedBookmarkedResourceObjects);
+    const { toast } = useToast();
 
-    const [goal, setGoal] = useState<number>(3);
+    const [goal, setGoal] = useState<number>(currentUserProfileObject.goal);
+    const [goal2, setGoal2] = useState<number>(3);
+    const [editGoal, setEditGoal] = useState<boolean>(false);
+    
+    const updateGoal = async () => {
+      
+      try{
+        await updateUserByUserID(currentUserProfileObject._id, {...currentUserProfileObject, goal: goal});
+        toast({
+            description:"Goal Updated!"
+        })
+    }
+    catch (error){
+        toast({
+            description:"Encountered error in updating goal. Try again later!"
+        })
+    }
+      
+      setEditGoal(false)
+    }
+
+
     const completed = completedTableData.length;
     const percentShade = Math.min(100, (completed/goal) * 100); 
     const data = [percentShade, 100 - percentShade];
@@ -76,6 +102,32 @@ const UserProfile = ({isOwnUser, userID, simplifiedCompletedResourceObjects, sim
                 <p className="text-center">{innerText}<br/>completed</p>
             </div>
         </div>
+        
+        {isOwnUser && <>
+          {editGoal ?
+          <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
+
+            <input
+              className="bg-pri_mint_main w-20 h-20"
+              type="number"
+              min="0"
+              max="1000"
+              onChange={(e)=>setGoal2(Number(e.target.value))}
+            />
+
+            <button className="cursor-pointer bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
+              <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
+            </button>
+            <button className="cursor-pointer bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
+              <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
+            </button>
+          </div>
+          :
+          <button className="cursor-pointer absolute top-0 right-0" onClick={()=>{setEditGoal(true)}}>
+            <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
+          </button>}
+        </>
+      }
 
         </div>
 
