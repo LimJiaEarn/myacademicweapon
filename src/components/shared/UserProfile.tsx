@@ -77,10 +77,10 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
             {isOwnUser && <div className="absolute top-2 right-2">
                 {editGoal ?
                 <div className="flex_center gap-2">
-                  <button className="cursor-pointer hover:scale-105 bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
+                  <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
                     <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
                   </button>
-                  <button className="cursor-pointer hover:scale-105 bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
+                  <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
                     <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
                   </button>
                 </div>
@@ -103,7 +103,10 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                     strokeWidth={1}
                 />
                 <div className="absolute flex flex-col items-center justify-center inset-0">
-                    <p className="text-center font-bold text-pri_navy_lighter text-2xl">{percentShade}%</p>
+                    {percentShade===100 ?
+                     <p className="text-center font-bold gold_grad_text_2 text-3xl">Goal<br/>Hit!</p>
+                    :
+                      <p className="text-center font-bold text-pri_navy_light text-2xl">{percentShade}%</p>}
                 </div>
     
               
@@ -112,11 +115,11 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
               <div className="h-full flex flex-col justify-start items-center gap-2">
               
                   <div className="flex_col_center gap-1">
-                    <h2 className="font-semibold text-md text-pri_navy_main">Your current goal:</h2>
+                    <h2 className="font-semibold text-md text-pri_navy_main">{isOwnUser && "Your "} Goal:</h2>
                     {editGoal ?
 
                     <input
-                      className="bg-pri_bg_card2 rounded-xl px-1 max-w-[100px] font-semibold text-3xl text-pri_navy_lighter"
+                      className="bg-pri_bg_card2 rounded-xl px-1 max-w-[100px] font-semibold text-3xl text-pri_navy_lighter text-center"
                       type="text"
                       pattern="[0-9]*"
                       inputMode="numeric"
@@ -132,7 +135,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                   </div>
 
                   <div className="flex_col_center gap-1">
-                    <h2 className="font-semibold text-md text-pri_navy_main">Your progress</h2>
+                    <h2 className="font-semibold text-md text-pri_navy_main">{isOwnUser && "Your "} Progress</h2>
                     <p className="font-semibold text-3xl text-pri_navy_lighter">{completed}</p>
                   </div>
               
@@ -143,15 +146,15 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
         </div>
         
         <div className="bg-pri_bg_card rounded-xl col-span-1 row-span-1 flex flex-col justify-start items-center p-2 md:p-4">
-            <h1 className="font-bold text-pri_navy_main text-center text-lg md:text-xl mb-2">{isOwnUser && "Your "}Completed Practices</h1>
+            <h1 className="font-bold text-pri_navy_main text-center text-lg md:text-xl mb-4">{isOwnUser && "Your "}Completed Practices</h1>
             
             {Object.keys(completedRecords).length === 0 ?
                 <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
                 :
                 <ul className="w-4/5 px-4 lg:px-10 text-sm md:text-md md:text-md text-pri_navy_main max-w-[240]">
-                {Object.entries(completedRecords).map(([subject, completions])=>{
+                {Object.entries(completedRecords).map(([subject, completions], index)=>{
                     return(
-                        <li key={`${subject}_${completions}`} className="flex my-1">
+                        <li key={`${subject}_${completions}_${index}`} className="flex my-2">
                             <p className="font-semibold">{subject}</p>
                             <p className="font-bold ml-auto">{completions} <span className="italic font-normal">completed</span></p>
                         </li>

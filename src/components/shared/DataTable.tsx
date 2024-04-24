@@ -162,9 +162,8 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
         <div className="flex_center gap-2 md:gap-4">
           {selectorFilters.map((selectorFilter, index) => {
             return(
-              <div className="w-[200px]">
+              <div className="w-[200px]" key={selectorFilter.id+"__"+index}>
               <Select
-                key={selectorFilter.id+"__"+index}
                 onValueChange={(value) => {
                   
                   if (value === CLEAR_FILTER_VALUE) {
@@ -188,9 +187,9 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
                 <SelectContent className={`${selectContentStyles ? selectContentStyles : "w-[240px] bg-slate-100"}`}>
 
-                  {selectorFilter.options.map((option) => {
+                  {selectorFilter.options.map((option, index) => {
                     return (
-                        <SelectItem className="hover:cursor-pointer" value={option}>{option}</SelectItem>
+                        <SelectItem className="hover:cursor-pointer" value={option} key={`${option}_${index}`}>{option}</SelectItem>
                     )
                   })}
 

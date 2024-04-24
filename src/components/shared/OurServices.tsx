@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const OurServices = () => {
   return (
-    <div className="grid mx-auto max-w-[1500px] md:auto-rows-[25rem] grid-cols-1 md:grid-cols-3 gap-2">
+    <div className="grid mx-auto max-w-[1500px] auto-rows-auto grid-cols-1 md:grid-cols-3 gap-4">
         
         <div className="col-span-1 row-span-1">
             <ServiceCard
@@ -24,7 +24,7 @@ const OurServices = () => {
             <ServiceCard
                 header="Shoot your shot!"
                 desc="Set Goals! If you fail to plan, you plan to fail!"
-                imagePath="/images/service5.png"
+                imagePath="/images/service3.png"
             />
         </div>
 
@@ -51,14 +51,13 @@ const OurServices = () => {
 
 const ServiceCard = ({ header, desc, imagePath }: { header: string, desc: string, imagePath: string }) => {
     return (
-        <div className="flex flex-col w-full h-full bg-pri_bg_card rounded-xl p-4">
-            {/* Image container that covers half the height of the card */}
-            <div className="relative w-full flex-1">
+        <div className="flex flex-col w-full h-full bg-pri_bg_card rounded-xl border-2 border-pri_navy_dark p-4">
+            <div className="relative w-full min-h-[280px]">
                 <Image 
                     src={imagePath} 
                     alt="icon" 
-                    layout="fill" // Use the fill layout to expand the image
-                    objectFit="cover" // Cover the container without distorting the aspect ratio
+                    layout="fill"
+                    objectFit="cover"
                 />
             </div>
             <div className="flex flex-col justify-start items-start flex-1 gap-4 p-2">
