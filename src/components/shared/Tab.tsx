@@ -33,7 +33,7 @@ const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userI
                     }}
                 >
                     <Image src={currTab.titleIcon} alt="" height={22} width={22}/>
-                    <p className="font-semibold text-pri_navy_main text-md md:text-lg">{currTab.title}</p>
+                    <h1 className="font-semibold text-pri_navy_main text-center text-md md:text-xl">{currTab.title}</h1>
                 </div>
             )})}
         </div>

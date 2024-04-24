@@ -16,7 +16,7 @@ const HomePage = () => {
 
 
       <section className="w-full px-2 sm:px-4 md:px-6 mx-auto">
-        {/* <OurServices/> */}
+        <OurServices/>
       </section>
 
     {/* <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-pri_navy_dark text-center">From Academic Victim to Victor!</h1>

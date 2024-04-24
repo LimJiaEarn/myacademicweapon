@@ -4,28 +4,48 @@ const LoadingProfilePage = () => {
 
 
   return (
-    <div className="max-auto grid grid-rows-5 grid-cols-1 md:grid-cols-5 gap-2 md:gap-4 px-2 md:px-4 min-h-screen max-w-[1800px]">
+    <div className="max-w-[1600px] mx-auto w-full flex flex-col lg:flex-row justify-start gap-4 md:gap-6 px-2 md:px-4 py-2">
 
-    {/* User Profile */}
-    <section className="bg-pri_navy_main rounded-xl row-span-4 col-span-1">
+    {/* Profile Page Side Bar (lg) */}
+    <section className="bg-pri_bg_card rounded-xl w-full px-6 md:px-4 py-4 md:py-6 flex flex-col justify-start gap-4 md:gap-6 lg:max-w-[340px]">
+    
+        <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center gap-4 md:gap-6">
+
+        </div>
+
+        
+        <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+        
+          <div className="h-[250px] w-full">
+
+          </div>
+
+        <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+        
+        <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
+
+            <p className="w-full text-center text-pri_navy_dark font-bold text-lg lg:text-xl">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
+
+        </div>
+
+
+
+
 
     </section>
 
-    {/* More Stats */}
-    <section className="bg-pri_mint_main rounded-xl row-span-1 col-span-2">
+    {/* Profile Page Client Components */}
+    <section className="w-full flex-grow">
+
+        <div className="h-[150px] w-full p-4 bg-pri_bg_card">
+        </div>
+
+        <div className="min-h-screen w-full p-4 bg-pri_bg_card">
+
+        </div>
 
     </section>
-
-    {/* More Stats */}
-    <section className="bg-pri_red_main rounded-xl row-span-1 col-span-2">
-
-    </section>
-
-    {/* Bookmarks/Completed - https://ui.shadcn.com/docs/components/tabs*/}
-    <section className="rounded-xl row-span-4 col-span-4">
-
-    </section>
-
+    
 
 </div>
   )

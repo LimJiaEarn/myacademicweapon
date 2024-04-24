@@ -376,7 +376,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
     // Resource
     {
         accessorKey: "title",
-        header: ({ column }) => headerCell(column, "Resource", true),
+        header: ({ column }) => headerCell(column, "Completed Practices", true),
         cell: info => {
 
             let workingSolution  = null;
@@ -488,7 +488,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
     },
     {
         accessorKey: "title",
-        header: ({ column }) => headerCell(column, "Resource", true),
+        header: ({ column }) => headerCell(column, "Bookmarks", true),
         cell: info => {
 
             let workingSolution  = null;

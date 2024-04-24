@@ -166,17 +166,17 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
         {isOwnUser && (
           editMode ?
           <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
-          <button className="cursor-pointer bg-red-500 rounded-lg p-1" onClick={handleCancel}>
+          <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={handleCancel}>
             <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
           </button>
-          <button className="cursor-pointer bg-blue-500 rounded-lg p-1" onClick={handleSave}>
+          <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={handleSave}>
             <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
           </button>
           
           </div>
           
           :
-          <button className="cursor-pointer absolute top-0 right-0" onClick={handleEdit}>
+          <button className="cursor-pointer hover:scale-105 absolute top-0 right-0" onClick={handleEdit}>
             <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
           </button>
         )}
