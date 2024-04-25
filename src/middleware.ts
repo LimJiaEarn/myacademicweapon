@@ -7,7 +7,7 @@ export default authMiddleware({
 
   // Routes that can always be accessed, and have
   // no authentication information
-  ignoredRoutes: ["/piechart"]
+  ignoredRoutes: ["/privacypolicy"]
 });
  
 export const config = {

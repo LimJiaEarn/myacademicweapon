@@ -15,14 +15,12 @@ const HomePage = () => {
       </section>
 
 
-      <section className="w-full px-2 sm:px-4 md:px-6 mx-auto">
+      {/* <section className="w-full px-2 sm:px-4 md:px-6 mx-auto">
         <Services/>
-      </section>
+      </section> */}
 
-    {/* <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-pri_navy_dark text-center">From Academic Victim to Victor!</h1>
       
         
-      <h1 className="mb-4 md:mb-6 text-2xl md:text-3xl font-semibold text-pri_navy_dark text-center">Ready for your grade glow-up? Track your improvements</h1> */}
 
     </div>
   )
