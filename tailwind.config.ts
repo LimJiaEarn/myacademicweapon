@@ -68,6 +68,27 @@ const config: Config = {
         'pri_bg_card' : 'hsla(177.4, 76.9%, 46%, 0.1)',
         'pri_bg_card2' : 'hsla(177.4, 76.9%, 46%, 0.2)',
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
+
+
+        // Bentobox Colours:
+        'purple_bg': 'rgb(195, 178, 231)',
+        'purple_text': 'rgb(82, 34, 94)',
+
+        'pink_bg': 'rgb(246, 130, 165)',
+        'pink_text': 'rgb(82, 34, 94)',
+
+        'green_bg': 'rgb(201, 218, 143)',
+        'green_text': 'rgb(28, 71, 31)',
+
+        'yellow_bg': ' rgb(254, 223, 111)',
+        'yellow_text': 'rgb(74, 65, 30)',
+
+        'orange_bg': 'rgb(249, 164, 116)',
+        'orange_text': 'rgb(88, 38, 20)',
+
+        'blue_bg': 'rgb(184, 206, 220)',
+        'blue_text': 'rgb(24, 67, 99)',
+
     
       },
       boxShadow: {

@@ -1,8 +1,8 @@
 "use client"
 
-
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 const cardVariants = {
     offscreenTop: {
@@ -28,41 +28,57 @@ const cardVariants = {
     }
 };
 
+type ServiceCardProps = {
+    initial: string,
+    header: string,
+    desc: string,
+    imagePath: string[],
+    cardStyles: string,
+    headerStyles: string,
+    paraStyles: string,
+    variant: number, // 1 - Image Top, 2 - Image Right, 3 - Image Bottom, 4- Image top
+}
 
-const ServiceCard = ({ initial, header, desc, imagePath }: { initial: string, header: string, desc: string, imagePath: string }) => {
+
+const ServiceCard = ({ initial, header, desc, imagePath, cardStyles, headerStyles, paraStyles, variant }: ServiceCardProps) => {
     
     
     const isMobile = window.innerWidth <= 768;
 
-    const getInitialVariant = (initial : string) => {
-        if (isMobile) {
-            return 'offscreenLeft';
-        }
-        return initial;
-    };
+    let motionVariant = "";
+    
+    useEffect(()=>{
+        const getInitialVariant = (initial : string) => {
+            if (isMobile) {
+                return 'offscreenLeft';
+            }
+            return initial;
+        };
+        motionVariant = getInitialVariant(initial);
+    }, [])
     
     return (
 
     <motion.div
-        initial={getInitialVariant(initial)}
+        initial={motionVariant}
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.8 }}
         variants={cardVariants}
-        className="w-full h-full bg-pri_bg_card rounded-xl border-2 border-pri_mint_dark flex flex-col p-2"
+        className={`${cardStyles} rounded-3xl p-2`}
     >
         <div className="relative w-full min-h-[240px] lg:min-h-[280px]">
             <Image 
-                src={imagePath}
+                src={imagePath[0]}
                 alt="icon"
                 fill
                 style={{ objectFit: 'cover' }}
             />
         </div>
         <div className="flex flex-col h-full justify-start items-start gap-4 p-2">
-            <h2 className="text-base md:text-lg font-semibold text-pri_navy_dark">
+            <h2 className={`text-base md:text-lg font-semibold ${headerStyles}`}>
                 {header}
             </h2>
-            <p className="text-sm leading-relaxed text-pri_navy_main md:text-base">
+            <p className={`text-sm md:text-base leading-relaxed ${paraStyles}`}>
                 {desc}
             </p>
         </div>
