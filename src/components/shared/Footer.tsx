@@ -1,4 +1,4 @@
-import { socialLinks } from '../../../constants';
+import { contributeLinks, socialLinks } from '../../../constants';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,11 +8,22 @@ const Footer = () => {
     <footer className="hidden min-w-screen-*  sm:flex_col_center bg-pri_bg_card2 py-10">
       
       <div className="sm:flex sm:flex-col md:flex-row justify-evenly">
-        {/* Popular Links */}
-        <div className="">
-          <p className="font-bold">| Find an issue on this page ? | Need help ? |</p>
-          <p className="font-semibold">Contact us at <span className="font-bold">myacademicweapon@gmail.com</span> !</p>
+
+        {/* Social Links */}
+        <div className="flex_col_center gap-2">
+          <p className="font-bold text-pri_navy_light">Follow Us</p>
+          <ul>
+          {contributeLinks.map((contributeLink) => (
+              <li key={contributeLink.id} className="flex items-center gap-2 p-2">
+                  <Link href={contributeLink.link} className="text-left text-pri_navy_main hover:text-pri_mint_light">
+                    {contributeLink.title}
+                  </Link>
+              </li>
+            ))}
+          </ul>
         </div>
+
+
 
         {/* Social Links */}
         <div className="flex_col_center gap-2">
@@ -28,6 +39,13 @@ const Footer = () => {
             ))}
           </ul>
         </div>
+      </div>
+
+
+      {/* Popular Links */}
+      <div className="">
+        <p className="font-bold">| Find an issue on this page ? | Need help ? |</p>
+        <p className="font-semibold">Contact us at <span className="font-bold">myacademicweapon@gmail.com</span> !</p>
       </div>
         
       <div>

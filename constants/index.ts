@@ -23,17 +23,17 @@ export const contributeLinks = [
   {
     id:"contributeLink1",
     title: "Primary Resources",
-    link: "/contribute",
+    link: "/contribute?resourceLevel=Primary",
   },
   {
     id:"contributeLink2",
     title: "Secondary Resources",
-    link: "https://www.tiktok.com",
+    link: "/contribute?resourceLevel=Secondary",
   },
   {
     id:"contributeLink2",
     title: "JC Resources",
-    link: "https://www.tiktok.com",
+    link: "/contribute?resourceLevel=JC",
   },
 ];
 
