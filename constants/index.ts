@@ -416,3 +416,31 @@ export const unbookmarkToasts = [
     desc: "Chapters end but the story goes on. What will your next chapter hold?",
   },
 ]
+
+export const FeaturesInfo = [
+  {
+    "header": "No Paywall, No Fees",
+    "desc": "Our dazzling study resources are free to download to ensure your academic glow up!",
+    "imagePath": "/images/service5.png",
+  },
+  {
+    "header": "Progress Tracker",
+    "desc": "Track your progress and milestones towards academic excellence!",
+    "imagePath": "/images/service2.png",
+  },
+  {
+    "header": "Bookmark Materials",
+    "desc": "Never lose sight of your favourite materials and revisit them anytime!",
+    "imagePath": "/images/service3.png",
+  },
+  {
+    "header": "Solution Recordings",
+    "desc": "Grab a cup, it's time to catch the latest tea on exam tips and resources!",
+    "imagePath": "/images/service5.png",
+  },
+  {
+    "header": "Goal Settings",
+    "desc": "Lock in your target! Remember, if you fail to plan, you plan to fail!",
+    "imagePath": "/images/service5.png",
+  },
+]
