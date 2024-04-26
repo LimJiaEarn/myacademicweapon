@@ -19,6 +19,24 @@ export const navLinks = [
   }
 ];
 
+export const mostPopularLinks = [
+  {
+    id:"mostPopularLink1",
+    title: "O Level E Math Prelims",
+    link: "/study-resources/secondary?level=secondary&subject=E+Math&resourceType=Yearly+Practice+Papers&assessment=O+level+Prelims",
+  },
+  {
+    id:"mostPopularLink2",
+    title: "O Level A Math Prelims",
+    link: "/study-resources/secondary?level=secondary&subject=A+Math&resourceType=Yearly+Practice+Papers&assessment=O+level+Prelims",
+  },
+  {
+    id:"mostPopularLink3",
+    title: "A Level H2 Math Prelims",
+    link: "/study-resources/jc?level=jc&subject=H2+Math&resourceType=Yearly+Practice+Papers&assessment=A+level+Prelims",
+  },
+];
+
 export const contributeLinks = [
   {
     id:"contributeLink1",
@@ -31,7 +49,7 @@ export const contributeLinks = [
     link: "/contribute?resourceLevel=Secondary",
   },
   {
-    id:"contributeLink2",
+    id:"contributeLink3",
     title: "JC Resources",
     link: "/contribute?resourceLevel=JC",
   },

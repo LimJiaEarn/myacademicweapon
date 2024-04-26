@@ -19,12 +19,6 @@ const ContributePage = async ({searchParams} : {searchParams : { [key:string]:st
 
 
     const initialFormValues : { [key: string]: string } = searchParams.resourceLevel ? {'resourceLevel': searchParams.resourceLevel} : {}
-    // const initialFormValues: { [key: string]: string } = {};
-    // if (searchParams.level) {
-    //     initialFormValues.level = searchParams.level;
-    // }
-
-    console.log(initialFormValues);
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"

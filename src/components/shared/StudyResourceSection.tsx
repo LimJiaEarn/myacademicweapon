@@ -21,6 +21,7 @@ interface StudyResourceSectionProps {
   resourceLevel : string;
   resourceSubject : string;
   resourceType : string;
+  searchParams : { [key:string]:string}
 }
 
 
@@ -29,7 +30,7 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * range) + min;
 }
 
-const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceType } : StudyResourceSectionProps) => {
+const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceType, searchParams } : StudyResourceSectionProps) => {
 
     const { toast } = useToast();
 
@@ -127,8 +128,6 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
 
         fetchData();
     }, [resourceType, resourceSubject])
-
-
 
     // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
@@ -243,7 +242,6 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
       }
     };
 
-
     return (
       <section className="flex flex-col items-center mb-4 p-4 min-h-screen w-full py-2 md:py-4">
           {resourceLevel && resourceSubject && resourceType?
@@ -265,6 +263,7 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
                       id: "assessment",
                       placeholder:"Filter Assessment",
                       options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+                      currentSelected: searchParams.assessment || "",
                     },
                   ]
                   :

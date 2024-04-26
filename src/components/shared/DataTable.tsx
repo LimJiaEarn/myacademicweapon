@@ -67,7 +67,6 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
-
   const table = useReactTable({
     data,
     columns,
@@ -86,7 +85,15 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   });
 
   // Selector states
-  const [filterSelectorValue, setFilterSelectorValue] = useState<{[key : string]: string}>({});
+  const [filterSelectorValue, setFilterSelectorValue] = useState<{[key : string]: string}>(() => {
+    const initialFilterValues : {[key : string]: string} = {};
+    selectorFilters?.forEach(filter => {
+      const currentValue = filter.currentSelected || "";
+      initialFilterValues[filter.id] = currentValue;
+    });
+    return initialFilterValues;
+  });
+
 
   // Status states
   const [showBookmarked, setShowBookmarked] = useState(false);
@@ -94,6 +101,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
+
 
   // Hide Status, Bookmark columns
   // Hide Year & Assessment columns for Yearly

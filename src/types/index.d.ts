@@ -214,4 +214,5 @@ type SelectorFieldConfig = {
   id: string; // this is the column id
   placeholder: string;
   options: string[];
+  currentSelected?: string;
 }

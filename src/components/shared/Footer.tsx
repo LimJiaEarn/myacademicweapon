@@ -1,4 +1,4 @@
-import { contributeLinks, socialLinks } from '../../../constants';
+import { mostPopularLinks, contributeLinks, socialLinks } from '../../../constants';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,7 +9,21 @@ const Footer = () => {
       
       <div className="sm:flex sm:flex-col md:flex-row justify-evenly">
 
-        {/* Social Links */}
+        {/* Most Popular Links */}
+        <div className="flex_col_center gap-2">
+          <p className="font-bold text-pri_navy_light">Follow Us</p>
+          <ul>
+          {mostPopularLinks.map((mostPopularLink) => (
+              <li key={mostPopularLink.id} className="flex items-center gap-2 p-2">
+                  <Link href={mostPopularLink.link} className="text-left text-pri_navy_main hover:text-pri_mint_light">
+                    {mostPopularLink.title}
+                  </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contribute Links */}
         <div className="flex_col_center gap-2">
           <p className="font-bold text-pri_navy_light">Follow Us</p>
           <ul>

@@ -50,6 +50,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     
     const resourceSubject = searchParams.subject;
     const resourceType = searchParams.resourceType?.split(' ')[0];
+    
 
     return (
 
@@ -73,6 +74,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
             resourceLevel={resourceLevel}
             resourceSubject={resourceSubject}
             resourceType={resourceType}
+            searchParams={searchParams}
           />
 
       </div>
