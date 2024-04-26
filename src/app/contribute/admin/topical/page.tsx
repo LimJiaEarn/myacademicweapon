@@ -182,6 +182,7 @@ const AdminPage = async () => {
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
                 handleSubmit={handleSubmit}
                 clearFieldsAfterSubmit={false}
+                initialFormValues={{}}
             />
 
             

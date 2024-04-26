@@ -19,6 +19,39 @@ export const navLinks = [
   }
 ];
 
+export const contributeLinks = [
+  {
+    id:"contributeLink1",
+    title: "Primary Resources",
+    link: "/contribute",
+  },
+  {
+    id:"contributeLink2",
+    title: "Secondary Resources",
+    link: "https://www.tiktok.com",
+  },
+  {
+    id:"contributeLink2",
+    title: "JC Resources",
+    link: "https://www.tiktok.com",
+  },
+];
+
+export const socialLinks = [
+  {
+    id:"socialLink1",
+    social: "Youtube",
+    link: "https://www.youtube.com",
+    icon: "/icons/youtube.svg",
+  },
+  {
+    id:"socialLink2",
+    social: "Tiktok",
+    link: "https://www.tiktok.com",
+    icon: "/icons/tiktok.svg",
+  },
+];
+
 
 export const studyResourcesNav = [
   {

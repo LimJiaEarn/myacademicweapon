@@ -57,7 +57,8 @@ const config: Config = {
         'pri_red_darker': 'hsl(341.9, 100%, 25%)',
 
         // Support Colors
-        'info_blue': 'hsl(210, 100%, 50%)', 
+        'info_blue': 'hsl(210, 100%, 50%)',
+        'bg_info_blue': 'hsla(210, 100%, 50%, 0.6)', 
         'dark_info_blue': 'hsl(210, 100%, 30%)',
 
         // Background Colors

@@ -32,14 +32,15 @@ type FormProps = {
   handleSubmit: (formData: { [key: string]: string }) => void;
   customStyles?: string; // Optional, for custom styles
   clearFieldsAfterSubmit:boolean;
+  initialFormValues: { [key: string]: string };
 };
 
-const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit }: FormProps) => {
+const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit, initialFormValues }: FormProps) => {
 
-  const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Initialize as an empty dictionary for form data
+  const [formData, setFormData] = useState<{ [key: string]: string }>(initialFormValues); // Initialize as an empty dictionary for form data
   const [formValid, setFormValid] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
-  const [selectValues, setSelectValues] = useState<{ [key: string]: string }>({}); // To track the select values
+  const [selectValues, setSelectValues] = useState<{ [key: string]: string }>(initialFormValues); // To track the select values
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER"; // Value to clear the select filters
 
   const { toast } = useToast();
@@ -120,9 +121,9 @@ const Form = ({ fieldsConfig, handleSubmit, customStyles, clearFieldsAfterSubmit
                   value={selectValue}
                 >
                   <SelectTrigger className={`${customStyles || ''}`}>
-                    <SelectValue className="w-full bg-light_gray flex_col_center gap-2 text-text_gray"/>
+                    <SelectValue className="w-full bg-blue-200 flex_col_center gap-2 text-pri_navy_darker"/>
                   </SelectTrigger>
-                  <SelectContent className="w-full bg-light_gray flex_col_center gap-2 text-text_gray">
+                  <SelectContent className="w-full bg-blue-200 flex_col_center gap-2 text-pri_navy_darker">
                     {currentField.options?.map((option, idx) => (
                       <SelectItem className="hover:cursor-pointer" key={`${option}-${idx}`} value={option}>{option}</SelectItem>
                     ))}

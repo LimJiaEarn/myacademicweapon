@@ -11,16 +11,20 @@ export const metadata: Metadata = {
   description: "Give back to the student community & help enrich our resource hub!"
 };
 
-const ContributePage = async () => {
+const ContributePage = async ({searchParams} : {searchParams : { [key:string]:string}}) => {
 
     const { userId } = auth();
-
-
-    console.log(`auth: ${userId ? userId : "No userId"}`);
-
-
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;
+
+
+    const initialFormValues : { [key: string]: string } = searchParams.resourceLevel ? {'resourceLevel': searchParams.resourceLevel} : {}
+    // const initialFormValues: { [key: string]: string } = {};
+    // if (searchParams.level) {
+    //     initialFormValues.level = searchParams.level;
+    // }
+
+    console.log(initialFormValues);
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"
@@ -48,7 +52,6 @@ const ContributePage = async () => {
         };
 
         createResourceContribution(data as ResourceContributionParams);
-        console.log("Success!");
     }
 
     return (
@@ -71,6 +74,7 @@ const ContributePage = async () => {
                 customStyles="w-[240px] bg-[#bfdbfe] text-black rounded-md"
                 handleSubmit={handleSubmit}
                 clearFieldsAfterSubmit={true}
+                initialFormValues = {initialFormValues}
             />
 
             

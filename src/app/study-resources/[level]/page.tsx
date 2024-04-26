@@ -3,14 +3,8 @@ import StudyResourceNav from '@/components/shared/StudyResourceNav';
 import StudyResourceSection from '@/components/shared/StudyResourceSection'
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
-
-
 import { Metadata } from 'next'
- 
-function capitalize(str : string) {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+
 
 function paramsMap(str : string) : string{
 
