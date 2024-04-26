@@ -263,7 +263,6 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
                       id: "assessment",
                       placeholder:"Filter Assessment",
                       options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
-                      currentSelected: searchParams.assessment || "",
                     },
                   ]
                   :

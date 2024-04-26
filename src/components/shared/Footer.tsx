@@ -2,6 +2,8 @@ import { mostPopularLinks, contributeLinks, socialLinks } from '../../../constan
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Inspiration:
+// https://www.google.com/search?sca_esv=3e9dc9b55742d0c1&sca_upv=1&rlz=1C1GCEU_enSG1092SG1093&sxsrf=ACQVn08Z7JHmkhtYQsH-1Pi_k8SJ29wkuw:1714117284325&q=website+footer+inspiration&uds=AMwkrPsZszVergVy6YXnPhyY71BcgA0sSW53l__hTBPDve7TMwuq0h-8yx5tbTzb5aXdUNGjxRzwT5DYZU8weYZZt1XRfqQu3g9XQlh-vv3nSZ5mI6f5mMXiW4fM8cH-_ByOBJd8RewZFhFAn4mzAcSKEyhaam_F6TcuTbGZHC_V-bv12D_UBYJFRGbr40JbxhXCO8fPrbHZdnwQCKMi1YDjZX-NOSzbRjoU1pIzuzvUaP8YXkDfA2pMpESuSDoz6U3tcfi1dBgD1Quouj03zLb6eLFDDkuw1lVD8UVdYD1mc8i4wLWD-oEbUOtjRL2gqFehZpcZOaL_&udm=2&prmd=isvnmbtz&sa=X&ved=2ahUKEwiWm9e-sN-FAxWASGwGHU7lCvcQtKgLegQIEhAB&biw=1536&bih=776&dpr=1.25#vhid=ZbpviqUBCemn2M&vssid=mosaic
 const Footer = () => {
   return (
     // Hidden in small devices as Navbar will be at bottom replacing footer

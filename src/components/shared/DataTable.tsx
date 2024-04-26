@@ -1,7 +1,10 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -63,6 +66,9 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
 
+  const router = useRouter();
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -88,11 +94,23 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   const [filterSelectorValue, setFilterSelectorValue] = useState<{[key : string]: string}>(() => {
     const initialFilterValues : {[key : string]: string} = {};
     selectorFilters?.forEach(filter => {
-      const currentValue = filter.currentSelected || "";
-      initialFilterValues[filter.id] = currentValue;
-    });
+      const currentValue = searchParams.get(filter.id) || "";
+      if (currentValue){
+        table.getColumn(filter.id)?.setFilterValue(currentValue);
+        initialFilterValues[filter.id] = currentValue;
+      }
+      });
     return initialFilterValues;
   });
+
+  const updateSearchParams = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      router.push(pathname + '?' +params.toString());
+    },
+    [searchParams]
+  )
 
 
   // Status states
@@ -177,12 +195,13 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
                   if (value === CLEAR_FILTER_VALUE) {
                     table.getColumn(selectorFilter.id)?.setFilterValue(null);
                     setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:""}))
+                    updateSearchParams(selectorFilter.id, "");
                   }
                   
                   else {
                     table.getColumn(selectorFilter.id)?.setFilterValue(value);
                     setFilterSelectorValue((prevData) => ({...prevData, [selectorFilter.id]:value}))
-                    
+                    updateSearchParams(selectorFilter.id, value);
                   }
 
                 }}
