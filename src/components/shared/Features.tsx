@@ -18,17 +18,18 @@ function useParallax(value: MotionValue<number>, distance: number) {
 function FeatureCard({ header, desc, imagePath }: { header: string, desc: string, imagePath: string }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
-  const y = useParallax(scrollYProgress, 300);
+  const y = useParallax(scrollYProgress, 80);
 
   return (
-    <div className="grid grid-cols-3 gap-4 rows-auto ">
-      <div ref={ref} className="col-span-2 flex_center">
+    <div className="grid grid-cols-2 gap-4 md:gap-16 pt-20">
+      <div ref={ref} className="col-span-1 flex justify-end items-center">
         <Image src={imagePath} alt="image" height={500} width={500} />
       </div>
-      <motion.h2 style={{ y }}  className="col-span-1 flex_col_center text-left">
-        
-        <h2>{header}</h2>
-        <p>{desc}</p>
+      <motion.h2 style={{ y }}  className="col-span-1">
+      <div className="flex flex-col items-start justify-center h-full">
+        <h2 className={`font-semibold text-lg sm:text-2xl`}>{header}</h2>
+        <p className={`text-base sm:text-lg`}>{desc}</p>
+      </div>
       
       </motion.h2>
     </div>
