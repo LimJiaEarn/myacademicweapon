@@ -7,17 +7,17 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     // Hidden in small devices as Navbar will be at bottom replacing footer
-    <footer className="hidden min-w-screen-*  sm:flex_col_center bg-pri_bg_card2 py-10">
+    <footer className="hidden min-w-screen-* sm:flex_col_center bg-pri_bg_card2 py-10 px-2 md:px-4">
       
-      <div className="sm:flex sm:flex-col md:flex-row justify-evenly">
+      <div className="w-full flex items-start justify-evenly gap-10 md:gap-20">
 
         {/* Most Popular Links */}
-        <div className="flex_col_center gap-2">
-          <p className="font-bold text-pri_navy_light">Follow Us</p>
+        <div className="flex_col_center gap-4 md:gap-6">
+          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Popular Resources</p>
           <ul>
           {mostPopularLinks.map((mostPopularLink) => (
-              <li key={mostPopularLink.id} className="flex items-center gap-2 p-2">
-                  <Link href={mostPopularLink.link} className="text-left text-pri_navy_main hover:text-pri_mint_light">
+              <li key={mostPopularLink.id} className="flex items-center mb-3 text-left">
+                  <Link href={mostPopularLink.link} className="text-left text-sm text-pri_navy_main hover:underline hover:text-pri_mint_main">
                     {mostPopularLink.title}
                   </Link>
               </li>
@@ -26,12 +26,12 @@ const Footer = () => {
         </div>
 
         {/* Contribute Links */}
-        <div className="flex_col_center gap-2">
-          <p className="font-bold text-pri_navy_light">Follow Us</p>
+        <div className="flex_col_center gap-4 md:gap-6">
+          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Be a Contributor</p>
           <ul>
           {contributeLinks.map((contributeLink) => (
-              <li key={contributeLink.id} className="flex items-center gap-2 p-2">
-                  <Link href={contributeLink.link} className="text-left text-pri_navy_main hover:text-pri_mint_light">
+              <li key={contributeLink.id} className="flex items-center mb-3 text-left">
+                  <Link href={contributeLink.link} className="text-left text-sm text-pri_navy_main hover:underline hover:text-pri_mint_main">
                     {contributeLink.title}
                   </Link>
               </li>
@@ -42,30 +42,33 @@ const Footer = () => {
 
 
         {/* Social Links */}
-        <div className="flex_col_center gap-2">
-          <p className="font-bold text-pri_navy_light">Follow Us</p>
+        <div className="flex_col_center gap-4 md:gap-6">
+          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Follow Us</p>
           <ul>
           {socialLinks.map((socialLink) => (
-              <li key={socialLink.id} className="flex items-center gap-2 p-2">
+              <li key={socialLink.id} className="flex items-center justify-start gap-2 mb-3 text-left">
                 <Image src={socialLink.icon} alt={`${socialLink.social} icon`} width={20} height={20}/>
-                  <a href={socialLink.link} target="_blank" rel="noopener noreferrer" className="text-left text-pri_navy_main hover:text-pri_mint_light">
-                    {socialLink.social}
-                  </a>
+                <a href={socialLink.link} target="_blank" rel="noopener noreferrer" className="text-left text-sm text-pri_navy_main hover:underline hover:text-pri_mint_main">
+                  {socialLink.social}
+                </a>
               </li>
             ))}
           </ul>
         </div>
+
+        {/* Popular Links */}
+        <div className="flex_col_center gap-4 md:gap-6">
+          <p className="font-bold text-left w-full text-pri_navy_light">Contact Us</p>
+          <p className="italic text-sm">myacademicweapon@gmail.com</p>
+        </div>
+
       </div>
 
 
-      {/* Popular Links */}
-      <div className="">
-        <p className="font-bold">| Find an issue on this page ? | Need help ? |</p>
-        <p className="font-semibold">Contact us at <span className="font-bold">myacademicweapon@gmail.com</span> !</p>
-      </div>
+
         
-      <div>
-        <Link href="/privacypolicy" className="underline text-sm text-left text-pri_navy_main hover:text-pri_mint_light">Our Privacy Policy</Link>
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <Link href="/privacypolicy" className="underline text-sm text-left text-pri_navy_main hover:text-pri_mint_main">Privacy Policy</Link>
       </div>
 
     </footer>

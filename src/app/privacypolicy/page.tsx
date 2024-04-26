@@ -5,7 +5,7 @@ const PrivacyPolicyPage = () => {
     return (
         <main className="flex flex-col items-center justify-center p-4 bg-pri_bg_color text-pri_navy_main">
 
-            <h1 className="text-2xl md:text-4xl font-bold text-pri_navy_darker mb-10">
+            <h1 className="text-2xl md:text-4xl font-bold text-pri_navy_lighter mb-10">
                 Our Privacy Policy
             </h1>
 

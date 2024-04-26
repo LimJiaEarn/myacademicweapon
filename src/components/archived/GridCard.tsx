@@ -40,7 +40,7 @@ type ServiceCardProps = {
 }
 
 
-const ServiceCard = ({ initial, header, desc, imagePath, cardStyles, headerStyles, paraStyles, variant }: ServiceCardProps) => {
+const GridCard = ({ initial, header, desc, imagePath, cardStyles, headerStyles, paraStyles, variant }: ServiceCardProps) => {
     
     
     const isMobile = window.innerWidth <= 768;
@@ -66,6 +66,10 @@ const ServiceCard = ({ initial, header, desc, imagePath, cardStyles, headerStyle
         variants={cardVariants}
         className={`${cardStyles} rounded-3xl p-2`}
     >
+
+        <h2 className={`text-xl md:text-2xl font-bold text-left ml-4 ${headerStyles}`}>
+            {header}
+        </h2>
         <div className="relative w-full min-h-[240px] lg:min-h-[280px]">
             <Image 
                 src={imagePath[0]}
@@ -75,9 +79,7 @@ const ServiceCard = ({ initial, header, desc, imagePath, cardStyles, headerStyle
             />
         </div>
         <div className="flex flex-col h-full justify-start items-start gap-4 p-2">
-            <h2 className={`text-base md:text-lg font-semibold ${headerStyles}`}>
-                {header}
-            </h2>
+            
             <p className={`text-sm md:text-base leading-relaxed ${paraStyles}`}>
                 {desc}
             </p>
@@ -86,4 +88,4 @@ const ServiceCard = ({ initial, header, desc, imagePath, cardStyles, headerStyle
     )
 }
 
-export default ServiceCard;
+export default GridCard;

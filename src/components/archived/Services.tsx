@@ -1,13 +1,13 @@
-import ServiceCard from "./ServiceCard";
+import GridCard from "./GridCard";
   
 
 // Inspiration: https://www.givingli.com/
 
 const Services = () => {
   return (
-    <div className="grid mx-auto max-w-[1500px] auto-rows-auto grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-3">
+    <div className="grid mx-auto max-w-[1200px] auto-rows-auto grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-8">
         
-        <ServiceCard
+        <GridCard
             initial="offscreenLeft"
             variant={1}
             header="No Paywall, No Fees"
@@ -18,7 +18,7 @@ const Services = () => {
             paraStyles="text-purple_text"
         />
 
-        <ServiceCard
+        <GridCard
             initial="offscreenTop"
             variant={1}
             header="Progress Tracker"
@@ -29,18 +29,18 @@ const Services = () => {
             paraStyles="text-pink_text"
         />
 
-        <ServiceCard
+        <GridCard
             initial="offscreenRight"
             variant={1}
-            header="Goal Settings"
-            desc="Lock in your target! Remember, if you fail to plan, you plan to fail!"
+            header="Bookmark Materials"
+            desc="Never lose sight of your favourite materials and revisit them anytime!"
             imagePath={["/images/service3.png"]}
             cardStyles="col-span-1 lg:col-span-2 row-span-1 bg-blue_bg flex flex-col"
             headerStyles="text-blue_text"
             paraStyles="text-blue_text"
         />
 
-        <ServiceCard
+        <GridCard
             initial="offscreenLeft"
             variant={1}
             header="Solution Recordings"
@@ -51,11 +51,11 @@ const Services = () => {
             paraStyles="text-yellow_text"
         />
 
-        <ServiceCard
+        <GridCard
             initial="offscreenRight"
             variant={1}
-            header="Bookmark Materials"
-            desc="Never lose sight of your favourite materials and revisit them anytime!"
+            header="Goal Settings"
+            desc="Lock in your target! Remember, if you fail to plan, you plan to fail!"
             imagePath={["/images/service5.png"]}
             cardStyles="col-span-1 lg:col-span-2 row-span-1 bg-orange_bg flex flex-col"
             headerStyles="text-orange_text"
