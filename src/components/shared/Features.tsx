@@ -18,7 +18,7 @@ function useParallax(value: MotionValue<number>, distance: number) {
 function FeatureCard({ header, desc, imagePath }: { header: string, desc: string, imagePath: string }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
-  const y = useParallax(scrollYProgress, 300);
+  const y = useParallax(scrollYProgress, 110);
 
   return (
     <div className="grid grid-cols-3 gap-4 rows-auto ">
@@ -52,7 +52,7 @@ const Features = () => {
             imagePath={feature.imagePath}
         />
       ))}
-      <motion.div className="progress" style={{ scaleX }} />
+      <motion.div style={{ scaleX }} />
     </div>
   );
 }
