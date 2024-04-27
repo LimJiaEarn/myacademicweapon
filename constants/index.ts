@@ -421,7 +421,7 @@ export const FeaturesInfo = [
   {
     "header": "No Paywall, No Fees",
     "desc": "Our dazzling study resources are free to download to ensure your academic glow up!",
-    "imagePath": "/images/service5.png",
+    "imagePath": "/images/service1.png",
   },
   {
     "header": "Progress Tracker",

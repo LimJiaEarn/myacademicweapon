@@ -59,8 +59,8 @@ const Footer = () => {
         {/* Popular Links */}
         <div className="flex_col_center gap-4 md:gap-6">
           <p className="font-bold text-left w-full text-pri_navy_light">Contact Us</p>
-          <p className="italic text-sm">myacademicweapon@gmail.com</p>
-        </div>
+          <p className="italic text-sm text-pri_navy_main">myacademicweapon@gmail.com</p>
+        </div>x
 
       </div>
 
