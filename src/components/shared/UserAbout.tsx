@@ -192,7 +192,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
             contents={schools}
             displayValue={profile.school}
             fieldValue={editProfile.school}
-            placeholder="+set school"
+            placeholder={isOwnUser ? "+set school" : "no sch set"}
             inputName="school"
             editMode={editMode}
             setEditProfile={setEditProfile}
@@ -205,7 +205,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
             contents={levels}
             displayValue={profile.level}
             fieldValue={editProfile.level}
-            placeholder="+set level"
+            placeholder={isOwnUser ? "+set level" : "no level set"}
             inputName="level"
             editMode={editMode}
             setEditProfile={setEditProfile}
@@ -217,7 +217,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           <InputField
             displayValue={profile.bio}
             fieldValue={editProfile.bio}
-            placeholder="+set bio"
+            placeholder={isOwnUser ? "+set bio" : "no bio set"}
             inputName="bio"
             editMode={editMode}
             handleChange={handleChange}
