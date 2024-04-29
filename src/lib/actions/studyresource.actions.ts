@@ -111,6 +111,23 @@ export async function updateStudyResource(resourceId : string, updateData : Upda
   }
 }
 
+export async function incrementStudyResourceClicks(resourceId : string) {
+  try {
+    await connectToDatabase();
+
+    const resource = await StudyResource.findByIdAndUpdate(
+      resourceId,
+      { $inc: { clicks: 1 } },
+      { new: true }
+    );
+
+    return JSON.parse(JSON.stringify(resource));
+
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 // DELETE
 export async function deleteStudyResource(resourceId : string) {
   try {

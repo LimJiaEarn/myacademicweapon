@@ -9,6 +9,7 @@ interface StudyResourceDocument extends Document {
   contributor?: string;
   contributorUrl?: string;
   type: string;
+  clicks: number;
 }
 
 interface NotesDocument extends StudyResourceDocument {
@@ -50,6 +51,7 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
   likes: { type: Number, default: 0 },
   contributor : { type : String },
   contributorUrl : { type : String },
+  clicks: { type: Number, default: 0 }
 }, { discriminatorKey: 'type' });
 
 

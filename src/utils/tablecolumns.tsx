@@ -17,6 +17,9 @@ import {
   } from "@/components/ui/dialog"
 import { useState } from "react";
 
+import { handleOpenStudyResourceLink } from '@/utils/toggles';
+
+
 // Define a type for your toggle status function
 type ToggleStatusFunction = (studyResourceID: string, userID: string|null, date : Date, newStatus: boolean, score? : number|null) => void;
 type ToggleBookmarkFunction = (studyResourceID: string, userID: string|null, newBookmark: boolean) => void;
@@ -278,7 +281,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
 
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -346,7 +349,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-pri_navy_darker text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-pri_navy_darker text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -396,7 +399,7 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             return (
             <div className="grid grid-rows-2 grid-cols-3 gap-1" key={info.row.original._id+"_assessmentC"}>
                 <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
@@ -503,7 +506,7 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             return (
             <div className="grid grid-cols-3" key={info.row.original._id+"_resourceB"}>
                 <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {window.open(info.row.original.url, '_blank');}}>{info.getValue() as string}</p>
+                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.getValue() as string}</p>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>

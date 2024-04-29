@@ -1,10 +1,8 @@
-
 import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-
 
 
 
