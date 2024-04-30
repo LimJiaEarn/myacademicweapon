@@ -170,9 +170,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 </div>
 
 
-
-
-
             </section>
 
             {/* Profile Page Client Components */}
