@@ -233,26 +233,74 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
         const userResourceInteraction = await UserActivity.findOne({
             userObjectId,
             type: resourceType
+        })
+        .populate({ 
+            path: 'bookmarkedArray', // Populate all documents referenced in the bookmarkedArray
+            model: 'studyresources' // Ensure this matches the name used when registering your StudyResource model
+        })
+        .populate({ 
+            path: 'completedArray.resourceObjectId', // Populate all documents referenced in the completedArray
+            model: 'studyresources' // Ensure this matches the name used when registering your StudyResource model
         });
-        
+
         // Handle case where there is no document found for the user and resource type
-        // This could mean the user has not completed any resources of this type
         if (!userResourceInteraction) {
             return { completed: [], bookmarked: [] }; // Return empty arrays for both properties
         }
 
-        // TODO: MAP to string for completed resource Ids
-        // Convert the ObjectId array to a string array
-        const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score, date: currObj.date}));
+        // Mapping completed items to include the resource details
+        const completedResourceItems = userResourceInteraction.completedArray.map((item : any) => ({
+            resourceObjectId: item.resourceObjectId._id.toString(),
+            score: item.score,
+            date: item.date,
+            resourceDetails: item.resourceObjectId // This now includes all the populated fields from StudyResource
+        }));
 
-        // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
-        const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+        // Mapping bookmarked items to include the resource details
+        const bookmarkedResourceIDs = userResourceInteraction.bookmarkedArray.map((doc : any) => ({
+            resourceObjectId: doc._id.toString(),
+            resourceDetails: doc // This includes all the populated fields from StudyResource
+        }));
 
-        return {"completed": completedResourceItems, "bookmarked": bookmarkedResourceIDs};
+        return { completed: completedResourceItems, bookmarked: bookmarkedResourceIDs };
     }
     catch (error) {
         handleError(error);
         return { completed: [], bookmarked: [] }; 
     }
 }
+
+// export async function getAllUserActivities(params: getBookmarkStudyResourceParams) {
+//     try {
+//         await connectToDatabase();
+
+//         const { userID, resourceType } = params;
+//         const userObjectId = new mongoose.Types.ObjectId(userID);
+
+//         // Find the UserActivity document for the specified user and resource type
+//         const userResourceInteraction = await UserActivity.findOne({
+//             userObjectId,
+//             type: resourceType
+//         });
+        
+//         // Handle case where there is no document found for the user and resource type
+//         // This could mean the user has not completed any resources of this type
+//         if (!userResourceInteraction) {
+//             return { completed: [], bookmarked: [] }; // Return empty arrays for both properties
+//         }
+
+//         // TODO: MAP to string for completed resource Ids
+//         // Convert the ObjectId array to a string array
+//         const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score, date: currObj.date}));
+
+//         // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
+//         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+
+//         return {"completed": completedResourceItems, "bookmarked": bookmarkedResourceIDs};
+//     }
+//     catch (error) {
+//         handleError(error);
+//         return { completed: [], bookmarked: [] }; 
+//     }
+// }
 

@@ -57,7 +57,7 @@ interface StudyResourceInterface {
   subject: string;
   desc?: string;
   url: string;
-  likes: number;
+  // likes: number;
   contributor?: string // Person/Organisation who created/contributed the resource
   contributorUrl?: string // relevant links to this person/organisation 
 }
