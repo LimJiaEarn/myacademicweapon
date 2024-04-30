@@ -47,7 +47,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
 
 
     const completed = completedTableData.length;
-    const percentShade = Number(Math.min(100, (completed/goal) * 100).toFixed(1)); 
+    const percentShade = goal===0 ? 0 : Number(Math.min(100, (completed/goal) * 100).toFixed(1)); 
     const data : number[] = [percentShade, 100 - Number(percentShade)];
     const colors =  ['hsl(49.3, 99%, 55%)', 'hsla(49.3, 99%, 55%, 0.1)'];
     const radius = 70;
@@ -78,10 +78,10 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                 {editGoal ?
                 <div className="flex_center gap-2">
                   <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
-                    <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
+                    <Image src='/icons/cancelW.svg' alt='save' height={22} width={22} />
                   </button>
                   <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
-                    <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
+                    <Image src='/icons/saveW.svg' alt='save' height={22} width={22} />
                   </button>
                 </div>
                 :
@@ -96,7 +96,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
               <div className="relative flex items-center justify-center">
                 
                 <Pie
-                    data={goal > 0 ? data : [50, 50]}
+                    data={goal > 0 ? data : [0, 100]}
                     colors={colors}
                     radius={radius}
                     hole={hole}
@@ -106,7 +106,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                     {percentShade===100 ?
                      <p className="text-center font-bold gold_grad_text_2 text-3xl">Goal<br/>Hit!</p>
                     :
-                      <p className="text-center font-bold text-pri_navy_light text-2xl">{percentShade}%</p>}
+                      <p className="text-center font-bold text-pri_navy_light text-2xl">{`${goal > 0 ? percentShade+"%" : '-'}`}</p>}
                 </div>
     
               

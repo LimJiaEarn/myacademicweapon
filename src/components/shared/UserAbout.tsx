@@ -167,10 +167,10 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           editMode ?
           <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
           <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={handleCancel}>
-            <Image src='/icons/cancelW.svg' alt='save' height={18} width={18} />
+            <Image src='/icons/cancelW.svg' alt='save' height={22} width={22} />
           </button>
           <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={handleSave}>
-            <Image src='/icons/saveW.svg' alt='save' height={18} width={18} />
+            <Image src='/icons/saveW.svg' alt='save' height={22} width={22} />
           </button>
           
           </div>
