@@ -1,6 +1,6 @@
 import { HeroParallax } from '@/components/ui/hero-parallax';
 import { heroImages } from '../../constants';
-// import Features from '@/components/shared/Features';
+import Features from '@/components/shared/Features';
 
 
 const HomePage = () => {
