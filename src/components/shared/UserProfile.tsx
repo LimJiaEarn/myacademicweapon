@@ -119,7 +119,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                     {editGoal ?
 
                     <input
-                      className="bg-pri_bg_card2 rounded-xl px-1 max-w-[100px] font-semibold text-3xl text-pri_navy_lighter text-center"
+                      className="bg-pri_bg_card2 rounded-xl px-1 max-w-[100px] font-semibold text-3xl text-pri_navy_lighter text-center focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                       type="text"
                       pattern="[0-9]*"
                       inputMode="numeric"

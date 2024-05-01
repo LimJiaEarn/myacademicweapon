@@ -75,7 +75,7 @@ const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode,
       {editMode ?
         <div className="flex_col_center gap-1">
           <textarea
-            className="w-full px-2 py-1 text-sm text-pri_navy_main bg-pri_bg_card text-left"
+            className="w-full px-2 py-1 text-sm text-pri_navy_main rounded-lg bg-pri_bg_card text-left focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             value={fieldValue === "" ? "" : fieldValue}
             name={inputName}
             onChange={handleInputChange}

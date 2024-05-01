@@ -22,17 +22,17 @@ export const navLinks = [
 export const mostPopularLinks = [
   {
     id:"mostPopularLink1",
-    title: "O Level E Math Prelims",
+    title: "O Level E Math Prelim Collections",
     link: "/study-resources/secondary?level=secondary&subject=E+Math&resourceType=Yearly+Practice+Papers&assessment=O+level+Prelims",
   },
   {
     id:"mostPopularLink2",
-    title: "O Level A Math Prelims",
+    title: "O Level A Math Prelim Collections",
     link: "/study-resources/secondary?level=secondary&subject=A+Math&resourceType=Yearly+Practice+Papers&assessment=O+level+Prelims",
   },
   {
     id:"mostPopularLink3",
-    title: "A Level H2 Math Prelims",
+    title: "A Level H2 Math Prelim Collections",
     link: "/study-resources/jc?level=jc&subject=H2+Math&resourceType=Yearly+Practice+Papers&assessment=A+level+Prelims",
   },
 ];

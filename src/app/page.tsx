@@ -13,9 +13,9 @@ const HomePage = () => {
       </section>
 
 
-      {/* <section className="w-full px-2 sm:px-4 md:px-6 mx-auto mb-[200px]">
+      <section className="w-full px-2 sm:px-4 md:px-6 mx-auto mb-[200px]">
         <Features/>
-      </section> */}
+      </section>
 
 
     </div>

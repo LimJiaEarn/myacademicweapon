@@ -13,7 +13,7 @@ const Footer = () => {
 
         {/* Most Popular Links */}
         <div className="flex_col_center gap-4 md:gap-6">
-          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Popular Resources</p>
+          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Most Popular Resources</p>
           <ul>
           {mostPopularLinks.map((mostPopularLink) => (
               <li key={mostPopularLink.id} className="flex items-center mb-3 text-left">
