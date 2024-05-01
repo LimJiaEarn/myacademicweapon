@@ -104,7 +104,7 @@ export const HeroParallax = (
         </motion.div>
 
         <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
-          Solution Sheets, Walkthroughs, Notes & More !
+          Solution Sheets, Walkthroughs, Notes & More
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {thirdRow.map((product) => (

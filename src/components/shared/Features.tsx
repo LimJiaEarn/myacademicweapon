@@ -29,10 +29,10 @@ const Features = () => {
                 
                 <h2 className={`${baseHeadingStyle} `}>Track Your Progress</h2>
                 <div className="flex lg:flex-col justify-center h-full items-center gap-8">
-                    <div className="relative  w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
+                    <div className="relative w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
                         <div className="absolute h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.1.png" alt="f2" fill={true}
-                                className="rounded-lg object-cover object-top -translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
+                                className="rounded-lg object-cover object-top sm:-translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-2 sm:group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
                         </div>
                         <div className="absolute z-10 h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
@@ -79,11 +79,7 @@ const Features = () => {
                 </div>
             </div>
 
-
-
-
-
-            <div className="bg-yellow_bg p-4 md:p-6 rounded-2xl col-span-1 row-span-1 w-full h-full flex flex-col justify-center items-center gap-4 text-yellow_text group ">
+            <div className="bg-yellow_bg p-4 md:p-6 rounded-2xl col-span-1 row-span-1 w-full h-full flex flex-col justify-start items-center gap-4 text-yellow_text group ">
                 <h2 className={`${baseHeadingStyle} w-full text-left`}>No Paywall, No Hidden Fees</h2>
                 <div className="relative w-full flex justify-center items-center gap-2 h-[170px]">
                     <div className="absolute w-40 h-40">
@@ -98,18 +94,21 @@ const Features = () => {
                 <p className={baseParaStyle}>All our dazzling study resources are free to view and download to ensure your academic glow up!</p>
             </div>
 
-            <div className="bg-orange_bg p-4 md:p-6 rounded-2xl col-span-1 lg:col-span-2 row-span-1 w-full h-full grid grid-cols-2 grid-rows-3 text-orange_text group ">
-                <h2 className={`${baseHeadingStyle} col-start-1 col-span-full`}>Solution Recordings & Walkthroughs</h2>
-                <p className={`${baseParaStyle} col-start-1 col-span-1 lg:max-w-[300px]`}>Catch the latest tea on exam strategies and tips<br className="sm:hidden"/> brewed by tutors with proven track records!</p>
-                
-                <div className="col-start-2 row-span-2 relative w-full flex justify-center items-center gap-2 min-h-[200px]">
-                    <div className="absolute h-[250px] w-[250px] md:h-[280px] md:w-[280px] lg:h-[320px] lg:w-[320px]">
-                        <Image src="/images/heroImg22.png" alt="f4" fill={true}
-                            className="rounded-lg object-cover object-top -translate-x-4 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-10 group-hover:-translate-y-4 duration-100 ease-in-out"/>
-                    </div>
-                    <div className="absolute z-10 h-[250px] w-[250px] md:h-[280px] md:w-[280px] lg:h-[320px] lg:w-[320px]">
-                        <Image src="/images/heroImg17.png" alt="f4" fill={true} quality={100}
-                            className="rounded-lg object-cover object-top translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-10 group-hover:translate-y-4 duration-100 ease-in-out"/>
+            <div className="bg-orange_bg p-4 md:p-6 rounded-2xl col-span-1 lg:col-span-2 row-span-1 w-full h-full flex flex-col justify-start items-center text-orange_text group ">
+                <h2 className={`${baseHeadingStyle} w-full text-left`}>Solution Recordings & Walkthroughs</h2>
+
+                <div className="flex flex-col md:flex-row justify-evenly items-center gap-4">
+                    <p className={`${baseParaStyle} w-full text-left h-24`}>Catch the latest tea on exam strategies and tips<br className="sm:hidden"/> brewed by tutors with proven track records!</p>
+                    
+                    <div className="relative left-14 lg:left-10 -top-8 lg:top-8 w-full flex justify-center items-center gap-2 min-w-[200px] min-h-[200px] md:min-h-[220px]">
+                        <div className="absolute h-[230px] w-[230px] md:h-[280px] md:w-[280px]">
+                            <Image src="/images/heroImg22.png" alt="f4" fill={true}
+                                className="rounded-lg object-cover object-top -translate-x-4 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-10 group-hover:-translate-y-4 duration-100 ease-in-out"/>
+                        </div>
+                        <div className="absolute z-10 h-[230px] w-[230px] md:h-[280px] md:w-[280px]">
+                            <Image src="/images/heroImg17.png" alt="f4" fill={true} quality={100}
+                                className="rounded-lg object-cover object-top translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-10 group-hover:translate-y-4 duration-100 ease-in-out"/>
+                        </div>
                     </div>
                 </div>
             </div>
