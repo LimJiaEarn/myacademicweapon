@@ -60,11 +60,12 @@ interface DataTableProps<TData, TValue> {
   dataRowStyles?: string;
   dataCellStyles?: string;
   nextButtonStyles?: string;
+  showLegend: boolean;
 }
 
 
 
-export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles, showLegend }: DataTableProps<TData, TValue>, ) {
 
   const router = useRouter();
   const pathname = usePathname()
@@ -72,6 +73,8 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+
+  const [showGuide, setShowGuide] = useState(false);
 
   const table = useReactTable({
     data,
@@ -137,7 +140,20 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
         
+      {showLegend &&
+        <div className="tooltip flex_col_center" data-tooltip={`${showGuide ? 'close guide' : 'show guide'}`}>
+          <Image
+              src={`${showGuide ? "/icons/cancelW.svg" : "/icons/helpIcon.svg"}`}
+              alt="guide"
+              height={38} width={38}
+              className={`border-2 border-black ${showGuide && 'bg-red-400'} rounded-full hover:scale-[1.05] cursor-pointer`}
+              onClick={()=>{setShowGuide((prev)=>!prev)}}
+            />
+        </div>
+        }
+
         <div className="flex flex-col items-start gap-2 md:gap-4">
+          
           {showBookmarkFilter &&
           <div className="flex_center gap-2">
             <div className="inline-block relative cursor-pointer">
@@ -265,9 +281,20 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             </button>
         </div>
         }
+
+        
       </div>
 
+        {showGuide && 
+        <div className="bg-pri_bg_card mx-auto max-w-[400px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md">
+          <p className="font-semibold underline">Guide</p>
+            <p> Click <span className="text-pri_navy_dark underline text-base hover:text-blue-600">the underlined text</span> to open resource links</p>
 
+            <p> Click<Image src={"/icons/solutionsIcon.svg"} alt="tag icon" height={28} width={28} className="inline relative -translate-y-1" />to open working solutions</p>
+            
+            <p> Click<Image src={"/icons/videoIcon.svg"} alt="tag icon" height={28} width={28} className="mx-1 inline relative" />to open video solutions</p>
+
+        </div>}
 
         <Table className={tableStyles ? tableStyles : ''}>
           <TableHeader className="rounded-t-lg">

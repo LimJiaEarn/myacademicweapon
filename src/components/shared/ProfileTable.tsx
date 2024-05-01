@@ -156,6 +156,7 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                     dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_bg_card2"
                     dataCellStyles="align-middle text-center"
                     nextButtonStyles="text-pri_navy_darker bg-pri_mint_dark hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                    showLegend={false}
                 />
             </div>
             :

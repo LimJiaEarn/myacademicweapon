@@ -282,6 +282,7 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
                   headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
                   dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
                   nextButtonStyles="text-white bg-pri_mint_main hover:bg-pri_mint_dark rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                  showLegend={true}
                 />
               }
               
