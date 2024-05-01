@@ -7,6 +7,7 @@ const Features = () => {
 
     return (
         <section className="grid mx-auto max-w-[1500px] auto-rows-min grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-8">
+
             <div className="bg-pink_bg p-4 md:p-6 rounded-2xl group col-span-1 lg:col-span-2 row-span-1 w-full h-full flex flex-col gap-4 text-pink_text">
                 <h2 className={`${baseHeadingStyle} `}>Set Goals</h2>
                 <p className={`${baseParaStyle} max-w-[450px]`}>Set your ambitious targets and don't lose sight of it! If you fail to plan, you plan to fail!</p>
@@ -31,7 +32,7 @@ const Features = () => {
                     <div className="relative  w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
                         <div className="absolute h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.1.png" alt="f2" fill={true}
-                                className="rounded-lg object-cover object-top -translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
+                                className="rounded-lg object-cover object-top -translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
                         </div>
                         <div className="absolute z-10 h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
@@ -48,7 +49,7 @@ const Features = () => {
                 <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
 
                 <Image src="/images/feature3.png" alt="f4" width={280} height={250} 
-                    className="rounded-lg mx-auto -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
+                    className="rounded-lg mx-auto -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
 
                 <p className={`${baseParaStyle} `}>Bookmark your favourite resources and revisit them anytime you wish!</p>
             </div>
