@@ -72,22 +72,22 @@ const config: Config = {
 
 
         // Bentobox Colours:
-        'purple_bg': 'rgb(195, 178, 231)',
+        'purple_bg': 'rgba(195, 178, 231, 0.72)',
         'purple_text': 'rgb(82, 34, 94)',
 
-        'pink_bg': 'rgb(246, 130, 165)',
+        'pink_bg': 'rgba(246, 130, 165, 0.72)',
         'pink_text': 'rgb(82, 34, 94)',
 
-        'green_bg': 'rgb(201, 218, 143)',
+        'green_bg': 'rgba(201, 218, 143, 0.72)',
         'green_text': 'rgb(28, 71, 31)',
 
-        'yellow_bg': ' rgb(254, 223, 111)',
+        'yellow_bg': ' rgba(254, 223, 111, 0.72)',
         'yellow_text': 'rgb(74, 65, 30)',
 
-        'orange_bg': 'rgb(249, 164, 116)',
+        'orange_bg': 'rgba(249, 164, 116, 0.72)',
         'orange_text': 'rgb(88, 38, 20)',
 
-        'blue_bg': 'rgb(184, 206, 220)',
+        'blue_bg': 'rgba(184, 206, 220, 0.72)',
         'blue_text': 'rgb(24, 67, 99)',
 
     
