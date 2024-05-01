@@ -131,7 +131,6 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
 
     // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
-
       // Only signed in users are allowed 
       if (!userID) {
         toast({
@@ -276,12 +275,13 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
                 }
                   searchFilter="resource"
                   searchPlaceholder="Search Resources ..."
-                  tableStyles="bg-pri_bg_color"
-                  selectBoxStyles="w-[200px] bg-slate-200 text-pri_navy_dark ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  headerRowStyles="bg-slate-300"
+                  searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+                  tableStyles="bg-pri_bg_card"
+                  selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+                  headerRowStyles="bg-pri_mint_dark"
                   headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
-                  dataRowStyles="transition ease-in-out delay-125 hover:bg-slate-200"
-                  nextButtonStyles="text-white bg-slate-400 hover:bg-slate-500 rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                  dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
+                  nextButtonStyles="text-white bg-pri_mint_main hover:bg-pri_mint_dark rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
                 />
               }
               

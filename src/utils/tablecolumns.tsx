@@ -96,7 +96,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     }}
                     className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
                 />
-                <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-gray-100 border-gray-300'}`}></span>
+                <span className={`block w-6 h-6 rounded-md border-2 ${status ? 'bg-green-600 border-lime-200' : 'bg-pri_bg_card2 border-pri_bg_card2'}`}></span>
                 {status && (
                     <svg className="absolute top-1 left-1 w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     {/* SVG path for checkmark */}
@@ -281,7 +281,7 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
 
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&
@@ -297,12 +297,6 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
             );
         },
     },
-    // // likes
-    // {
-    //     accessorKey: "likes",
-    //     header: ({ column }) => headerCell(column, "Likes", true),
-    //     cell: info => likesCell(info, ()=>alert("TODO: Likes Feature"))
-    // },
 ];
 
 export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] => [
@@ -349,7 +343,7 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
 
                 {
                     'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-pri_navy_darker text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
+                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                 }
                 {
                     workingSolution &&

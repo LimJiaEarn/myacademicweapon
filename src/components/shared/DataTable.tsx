@@ -241,7 +241,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
               placeholder={searchPlaceholder}
               value={(table.getColumn(searchFilter)?.getFilterValue() as string) ?? ""}
               onChange={(event) => table.getColumn(searchFilter)?.setFilterValue(event.target.value)}
-              className={`${searchFilterStyles ? searchFilterStyles : "h-10 w-full rounded-md px-4 py-2 bg-slate-200 text-pri_navy_dark text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"}`}
+              className={`${searchFilterStyles ? searchFilterStyles : "h-10 w-full rounded-md px-4 py-2 bg-slate-200 text-pri_navy_dark text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"}`}
             />
           </div>
         }
