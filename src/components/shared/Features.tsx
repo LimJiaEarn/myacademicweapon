@@ -44,25 +44,31 @@ const Features = () => {
                 
             </div>
 
-            <div className="bg-green_bg p-4 md:p-6 rounded-2xl col-span-1 row-span-1 w-full h-full grid grid-cols-2 grid-rows-3 text-green_text">
-                <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Downloads</h2>
-                <p className={`${baseParaStyle} `}>Download our coveted resources to review them offline or just for practice anytime anywhere!</p>
+            <div className="bg-blue_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 w-full h-full flex flex-col gap-6 text-blue_text">
+                <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
+
+                <Image src="/images/feature3.png" alt="f4" width={280} height={250} 
+                    className="rounded-lg mx-auto -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
+
+                <p className={`${baseParaStyle} `}>Bookmark your favourite resources and revisit them anytime you wish!</p>
             </div>
 
-            <div className="bg-blue_bg p-4 md:p-6 rounded-2xl col-span-1 row-span-1 w-full h-full grid grid-cols-2 grid-rows-3 text-blue_text">
-                <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
-                <p className={`${baseParaStyle} `}>Bookmark your favourite resources and revisit them anytime you wish!</p>
+            <div className="bg-green_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 w-full h-full flex flex-col gap-4 grid-rows-3 text-green_text">
+                <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Downloads</h2>
+                <p className={`${baseParaStyle} `}>Download our coveted resources to review them offline or just for practice anytime anywhere!</p>
+                <Image src="/images/feature4.webp" alt="f4" width={280} height={250} 
+                    className="rounded-lg mx-auto -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
             </div>
 
             <div className="bg-yellow_bg p-4 md:p-6 rounded-2xl col-span-1 row-span-1 w-full h-full flex flex-col justify-center items-center gap-4 text-yellow_text group ">
                 <h2 className={baseHeadingStyle}>No Paywall, No Hidden Fees</h2>
                 <div className="relative w-full flex justify-center items-center gap-2 h-[170px]">
                     <div className="absolute w-40 h-40">
-                        <Image src="/images/feature4.png" alt="f4" width={160} height={160} 
+                        <Image src="/images/feature5.png" alt="f4" width={160} height={160} 
                             className="rounded-lg -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
                     </div>
                     <div className="absolute w-40 h-40 z-10">
-                        <Image src="/images/feature4.1.webp" alt="f4" width={160} height={160} 
+                        <Image src="/images/feature5.1.webp" alt="f4" width={160} height={160} 
                             className="rounded-lg translate-x-4 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-6 group-hover:translate-y-4 duration-100 ease-in-out"/>
                     </div>
                 </div>

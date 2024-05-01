@@ -67,7 +67,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
     <div className="w-full flex_center gap-4 md:gap-8" key={studyResourceID+"_actions"}>
 
         {/* Update Bookmark */}
-        <div className="tooltip" data-tooltip={`${bookmarked ? 'un-bookmark' : 'bookmark'}`}>
+        <div >
             <Image
                 src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
                 alt="bookmark"
@@ -78,7 +78,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                     e.preventDefault();
                     onToggleBookmark(studyResourceID, userID, !bookmarked); 
                 }}
-                className="hover:cursor-pointer hover:rotate-6 hover:scale-[1.20]"
+                className="hover:cursor-pointer hover:rotate-6 hover:scale-[1.30]"
                 
             />
         </div>

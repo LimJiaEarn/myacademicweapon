@@ -27,15 +27,15 @@ export default function StudyResourceNav({level} : {level: string}) {
 
             <NavigationMenuItem>
 
-            <NavigationMenuTrigger className="text-lg md:text-xl font-bold">
+            <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
               <>
-                <p className="hidden sm:inline text-pri_navy_dark">Topical Practice Papers</p>
-                <p className="inline sm:hidden text-pri_navy_dark">Topical Papers</p>
+                <p className="hidden sm:inline text-pri_navy_main">Topical Practice Papers</p>
+                <p className="inline sm:hidden text-pri_navy_main">Topical Papers</p>
               </>
             </NavigationMenuTrigger>
 
                 <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90">
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90 text-pri_navy_main">
                     {navBarContent.map((content) => (
                         <ListItem
                             key={content.id}
@@ -59,13 +59,13 @@ export default function StudyResourceNav({level} : {level: string}) {
 
                 <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
                   <>
-                    <p className="hidden sm:inline">Yearly Practice Papers</p>
-                    <p className="inline sm:hidden">Yearly Papers</p>
+                    <p className="hidden sm:inline text-pri_navy_main">Yearly Practice Papers</p>
+                    <p className="inline sm:hidden text-pri_navy_main">Yearly Papers</p>
                   </>
                 </NavigationMenuTrigger>
 
                 <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90">
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90 text-pri_navy_main">
                     {navBarContent.map((content) => (
                         <ListItem
                             key={content.id}
