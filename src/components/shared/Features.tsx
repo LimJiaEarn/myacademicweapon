@@ -25,27 +25,14 @@ const Features = () => {
 
             </div>
 
-            <div className="bg-purple_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 lg:row-span-2 w-full h-full flex flex-col text-purple_text overflow-hidden">
+            <div className="bg-purple_bg p-2 rounded-2xl group col-span-1 row-span-1 lg:row-span-2 w-full h-full flex flex-col text-purple_text overflow-hidden">
                 
-                <h2 className={`${baseHeadingStyle} `}>Track Your Progress</h2>
-                <div className="flex flex_col_center h-full gap-8">
-
-
-                    {/* <div className="relative w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
-                        <div className="absolute h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
-                            <Image src="/images/feature2.1.png" alt="f2" fill={true}
-                                className="rounded-lg object-cover object-top sm:-translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-2 sm:group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-300 ease-in-out"/>
-                        </div>
-                        <div className="absolute z-10 h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
-                            <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
-                                className="rounded-lg object-cover object-top translate-x-8 translate-y-2 rotate-6 group-hover:object-bottom group-hover:rotate-12 group-hover:translate-x-12 group-hover:translate-y-8 duration-300 ease-in-out"/>
-                        </div>
-                    </div> */}
-
-                    <p className={`${baseParaStyle} w-full text-left`}>Reflect on your performance and celebrate milestones towards academic excellence!</p>
-                    <div className="relative w-full flex justify-center items-center gap-2 min-h-[500px] lg:min-h-[600px]">
-                        <Image src="/images/feature2.2.png" alt="f2" fill={true} quality={100}
-                            className="absolute rounded-lg object-cover object-top group-hover:object-bottom duration-200 ease-linear"
+                <h2 className={`${baseHeadingStyle} px-2 py-4`}>Track Your Progress</h2>
+                <div className="flex flex-col justify-start items-center h-full gap-8 lg:gap-12">
+                    <p className={`${baseParaStyle} w-full text-left px-4`}>Reflect on your performance and celebrate milestones towards academic excellence!</p>
+                    <div className="relative flex justify-center items-center gap-2 w-3/5 lg:w-full h-[400px] lg:h-[600px]">
+                        <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
+                            className="absolute rounded-lg object-cover object-top -rotate-6 lg:rotate-2 lg:group-hover:object-bottom duration-300 ease-linear"
                         />
                     </div>
                 </div>
@@ -56,7 +43,7 @@ const Features = () => {
                 <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
 
                 <Image src="/images/feature3.png" alt="f4" width={280} height={250} 
-                    className="rounded-lg mx-auto -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
+                    className="rounded-lg mx-auto skew-y-3 skew-x-3 group-hover:skew-y-0  group-hover:skew-x-0 -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
 
                 <p className={`${baseParaStyle} `}>Bookmark your favourite resources and revisit them anytime you wish!</p>
             </div>
