@@ -2,7 +2,7 @@ import Image from "next/image";
 // Inspiration: https://www.givingli.com/
 
 const Features = () => {
-    const baseHeadingStyle = "font-bold text-2xl lg:font-semibold lg:text-3xl z-20";
+    const baseHeadingStyle = "font-bold text-2xl lg:font-semibold sm:text-3xl z-20 mb-4";
     const baseParaStyle = "font-medium text-lg z-20";
 
     return (
@@ -10,16 +10,16 @@ const Features = () => {
 
             <div className="bg-pink_bg p-4 md:p-6 rounded-2xl group col-span-1 lg:col-span-2 row-span-1 w-full h-full flex flex-col gap-4 text-pink_text">
                 <h2 className={`${baseHeadingStyle} `}>Set Goals</h2>
-                <p className={`${baseParaStyle} max-w-[450px]`}>Set your ambitious targets and don't lose sight of it! If you fail to plan, you plan to fail!</p>
+                <p className={`${baseParaStyle} lg:max-w-[450px]`}>Set your ambitious targets and don't lose sight of it! If you fail to plan, you plan to fail!</p>
 
                 <div className="flex-grow relative w-full flex justify-center items-center gap-2 min-h-[330px]">
                     <div className="absolute h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
                         <Image src="/images/feature1.png" alt="f2" fill={true}
-                            className="rounded-lg object-cover object-top -translate-x-24 lg:-translate-x-40 -translate-y-2 -rotate-2 group-hover:-rotate-12 group-hover:-translate-x-28 lg:group-hover:-translate-x-48 group-hover:-translate-y-4 duration-300 ease-in-out"/>
+                            className="rounded-lg object-cover object-top md:-translate-x-24 lg:-translate-x-40 -translate-y-12 -rotate-2 group-hover:-rotate-12 md:group-hover:-translate-x-28 lg:group-hover:-translate-x-48 group-hover:-translate-y-16 duration-300 ease-in-out"/>
                     </div>
                     <div className="absolute z-10 h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
                         <Image src="/images/feature1.1.png" alt="f2" fill={true} quality={100}
-                            className="rounded-lg object-cover object-top translate-x-24 lg:translate-x-40 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-28 lg:group-hover:translate-x-48 group-hover:translate-y-4 duration-300 ease-in-out"/>
+                            className="rounded-lg object-cover object-top md:translate-x-24 lg:translate-x-40 translate-y-16 md:translate-y-8 rotate-6 group-hover:rotate-12 md:group-hover:translate-x-28 lg:group-hover:translate-x-48 group-hover:translate-y-16 md:group-hover:translate-y-20 duration-300 ease-in-out"/>
                     </div>
                 </div>
 
@@ -28,19 +28,21 @@ const Features = () => {
             <div className="bg-purple_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 lg:row-span-2 w-full h-full flex flex-col text-purple_text">
                 
                 <h2 className={`${baseHeadingStyle} `}>Track Your Progress</h2>
-                <div className="flex lg:flex-col justify-center h-full items-center gap-8">
+                <div className="flex flex_col_center h-full gap-8">
+
+
                     <div className="relative w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
-                        <div className="absolute h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
+                        <div className="absolute h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.1.png" alt="f2" fill={true}
                                 className="rounded-lg object-cover object-top sm:-translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-2 sm:group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
                         </div>
-                        <div className="absolute z-10 h-[250px] w-[160px] lg:h-[320px] lg:w-[270px] xl:h-[400px] xl:w-[300px]">
+                        <div className="absolute z-10 h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
                                 className="rounded-lg object-cover object-top translate-x-8 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-12 group-hover:translate-y-8 duration-100 ease-in-out"/>
                         </div>
                     </div>
 
-                    <p className={`${baseParaStyle}`}>Reflect on your performance and celebrate milestones towards academic excellence!</p>
+                    <p className={`${baseParaStyle} w-full text-left`}>Reflect on your performance and celebrate milestones towards academic excellence!</p>
                 </div>
                 
             </div>
@@ -91,14 +93,14 @@ const Features = () => {
                             className="rounded-lg translate-x-4 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-6 group-hover:translate-y-4 duration-100 ease-in-out"/>
                     </div>
                 </div>
-                <p className={baseParaStyle}>All our dazzling study resources are free to view and download to ensure your academic glow up!</p>
+                <p className={`${baseParaStyle} w-full text-left`}>All our dazzling study resources are free to view and download to ensure your academic glow up!</p>
             </div>
 
             <div className="bg-orange_bg p-4 md:p-6 rounded-2xl col-span-1 lg:col-span-2 row-span-1 w-full h-full flex flex-col justify-start items-center text-orange_text group ">
                 <h2 className={`${baseHeadingStyle} w-full text-left`}>Solution Recordings & Walkthroughs</h2>
 
                 <div className="flex flex-col md:flex-row justify-evenly items-center gap-4">
-                    <p className={`${baseParaStyle} w-full text-left h-24`}>Catch the latest tea on exam strategies and tips<br className="sm:hidden"/> brewed by tutors with proven track records!</p>
+                    <p className={`${baseParaStyle} w-full text-left min-h-[140px] sm:min-h-[100px]`}>Catch the latest tea on exam strategies and tips<br className="sm:hidden"/> brewed by tutors with proven track records!</p>
                     
                     <div className="relative left-14 lg:left-10 -top-8 lg:top-8 w-full flex justify-center items-center gap-2 min-w-[200px] min-h-[200px] md:min-h-[220px]">
                         <div className="absolute h-[230px] w-[230px] md:h-[280px] md:w-[280px]">

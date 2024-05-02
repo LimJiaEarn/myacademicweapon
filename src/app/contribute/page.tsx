@@ -58,8 +58,7 @@ const ContributePage = async ({searchParams} : {searchParams : { [key:string]:st
             </h1>
 
             <p className="text-xl md:text-2xl text-center text-pri_navy_darker max-w-[60ch] mx-auto leading-normal">
-                Embark on our mission to share the <span className="gold_grad_text font-semibold">wealth of academic resources</span>  and
-                let's build a world where knowledge knows no boundaries!
+                Embark on our mission to share the <span className="gold_grad_text font-semibold">wealth of academic resources!</span>
             </p>
 
             
