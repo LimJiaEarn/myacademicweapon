@@ -97,7 +97,6 @@ export async function updateStatusStudyResource(updateData: updateStatusStudyRes
     }
 }
 
-
 export async function getStatusStudyResource(params: getStatusStudyResourceParams) {
     try {
         await connectToDatabase();
@@ -130,6 +129,7 @@ export async function getStatusStudyResource(params: getStatusStudyResourceParam
         return []; // Return an empty array or suitable error response
     }
 }
+
 
 export async function getBookmarksStudyResource(params: getBookmarkStudyResourceParams) {
     try {
@@ -222,9 +222,45 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
     }
 }
 
+export async function getUserActivities(params: getStatusStudyResourceParams) {
+    try {
+        await connectToDatabase();
 
+        const { userID, resourceType } = params;
+        const userObjectId = new mongoose.Types.ObjectId(userID);
 
-export async function getAllUserActivities(params: getBookmarkStudyResourceParams) {
+        // Find the UserActivity document for the specified user and resource type
+        const userResourceInteraction = await UserActivity.findOne({
+            userObjectId,
+            type : resourceType,
+        });
+        
+        // Handle case where there is no document found for the user and resource type
+        // This could mean the user has not completed any resources of this type
+        if (!userResourceInteraction) {    
+            return [[], []];
+        }
+
+        // Convert the ObjectId array to a string array
+        const completedResources = userResourceInteraction.completedArray.map((item: any) => ({
+            resourceObjectId: item.resourceObjectId.toString(), // Convert ObjectId to String
+            score: item.score // Keep the score as is
+        }));
+
+        // Convert the ObjectId array to a string array
+        const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+
+        return [bookmarkedResourceIDs, completedResources];
+
+        ;
+    }
+    catch (error) {
+        handleError(error);
+        return [[], []];; // Return an empty array or suitable error response
+    }
+}
+
+export async function getPopulatedUserActivities(params: getBookmarkStudyResourceParams) {
     try {
         await connectToDatabase();
 
@@ -272,37 +308,4 @@ export async function getAllUserActivities(params: getBookmarkStudyResourceParam
     }
 }
 
-// export async function getAllUserActivities(params: getBookmarkStudyResourceParams) {
-//     try {
-//         await connectToDatabase();
-
-//         const { userID, resourceType } = params;
-//         const userObjectId = new mongoose.Types.ObjectId(userID);
-
-//         // Find the UserActivity document for the specified user and resource type
-//         const userResourceInteraction = await UserActivity.findOne({
-//             userObjectId,
-//             type: resourceType
-//         });
-        
-//         // Handle case where there is no document found for the user and resource type
-//         // This could mean the user has not completed any resources of this type
-//         if (!userResourceInteraction) {
-//             return { completed: [], bookmarked: [] }; // Return empty arrays for both properties
-//         }
-
-//         // TODO: MAP to string for completed resource Ids
-//         // Convert the ObjectId array to a string array
-//         const completedResourceItems : completedStudyResourceItem[] = userResourceInteraction.completedArray.map((currObj : any)=> ({resourceObjectId: currObj.resourceObjectId.toString(), score: currObj.score, date: currObj.date}));
-
-//         // const completedResourceIDs : string[]  = completedResourceObject.map((item: completedStudyResourceItem) => item.resourceObjectId.toString() );
-//         const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
-
-//         return {"completed": completedResourceItems, "bookmarked": bookmarkedResourceIDs};
-//     }
-//     catch (error) {
-//         handleError(error);
-//         return { completed: [], bookmarked: [] }; 
-//     }
-// }
 

@@ -1,7 +1,6 @@
 import { currentUser, SignOutButton } from "@clerk/nextjs";
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
-import { getAllUserActivities } from '@/lib/actions/useractivity.actions';
-import { getStudyResourceByID } from '@/lib/actions/studyresource.actions';
+import { getPopulatedUserActivities } from '@/lib/actions/useractivity.actions';
 import LinkButton from "@/components/shared/LinkButton";
 import Image from "next/image";
 import Calendar from "@/components/shared/Calendar";
@@ -62,8 +61,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     });
 
     // Get user data
-    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
-    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getAllUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
+    const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getPopulatedUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
+    const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getPopulatedUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
 
 
 

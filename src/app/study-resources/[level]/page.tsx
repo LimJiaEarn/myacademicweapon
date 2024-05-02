@@ -1,4 +1,3 @@
-
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
 import StudyResourceSection from '@/components/shared/StudyResourceSection'
 import { currentUser } from "@clerk/nextjs";
