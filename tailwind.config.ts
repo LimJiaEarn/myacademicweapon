@@ -68,6 +68,7 @@ const config: Config = {
         'pri_nav_color': 'hsl(177.4, 76.9%, 46%)',
         'pri_bg_card' : 'hsla(177.4, 76.9%, 46%, 0.1)',
         'pri_bg_card2' : 'hsla(177.4, 76.9%, 46%, 0.2)',
+        'pri_bg_card3' : 'hsla(177.4, 76.9%, 46%, 0.8)',
         'soft_sky_blue': 'hsl(200, 30%, 80%)', // Footer
 
 

@@ -149,7 +149,7 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                     searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"} ...`}
                     tableStyles="w-full"
                     selectBoxStyles="w-[180px] bg-pri_mint_dark text-pri_navy_darker ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    selectContentStyles="w-[240px] bg-pri_bg_card2"
+                    selectContentStyles="w-[240px] bg-pri_bg_card3"
                     searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-pri_mint_dark text-pri_navy_darker text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     headerRowStyles="bg-pri_mint_dark"
                     headerCellStyles="flex justify-center items-center text-pri_navy_darker text-base font-bold"

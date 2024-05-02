@@ -69,12 +69,6 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             });
         
             if (userID) {
-              // concurrently fetch the status and bookmark information
-              // const [completedResourceObject, bookmarkedResourceIDs] = await Promise.all([
-              //   getStatusStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
-              //   getBookmarksStudyResource({ userID, resourceType: resourceType as 'Yearly' | 'Topical' }),
-              // ]);
-
               const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Yearly' | 'Topical' })
             
               const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );

@@ -15,34 +15,39 @@ const Features = () => {
                 <div className="flex-grow relative w-full flex justify-center items-center gap-2 min-h-[330px]">
                     <div className="absolute h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
                         <Image src="/images/feature1.png" alt="f2" fill={true}
-                            className="rounded-lg object-cover object-top md:-translate-x-24 lg:-translate-x-40 -translate-y-12 -rotate-2 group-hover:-rotate-12 md:group-hover:-translate-x-28 lg:group-hover:-translate-x-48 group-hover:-translate-y-16 duration-300 ease-in-out"/>
+                            className="rounded-lg object-cover object-top md:-translate-x-20 lg:-translate-x-40 -translate-y-12 -rotate-2 group-hover:-rotate-12 md:group-hover:-translate-x-24 lg:group-hover:-translate-x-48 group-hover:-translate-y-16 duration-300 ease-in-out"/>
                     </div>
                     <div className="absolute z-10 h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
                         <Image src="/images/feature1.1.png" alt="f2" fill={true} quality={100}
-                            className="rounded-lg object-cover object-top md:translate-x-24 lg:translate-x-40 translate-y-16 md:translate-y-8 rotate-6 group-hover:rotate-12 md:group-hover:translate-x-28 lg:group-hover:translate-x-48 group-hover:translate-y-16 md:group-hover:translate-y-20 duration-300 ease-in-out"/>
+                            className="rounded-lg object-cover object-top md:translate-x-24 lg:translate-x-40 translate-y-16 md:translate-y-8 rotate-6 group-hover:rotate-12 md:group-hover:translate-x-28 lg:group-hover:translate-x-48 group-hover:translate-y-16 md:group-hover:translate-y-16 duration-300 ease-in-out"/>
                     </div>
                 </div>
 
             </div>
 
-            <div className="bg-purple_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 lg:row-span-2 w-full h-full flex flex-col text-purple_text">
+            <div className="bg-purple_bg p-4 md:p-6 rounded-2xl group col-span-1 row-span-1 lg:row-span-2 w-full h-full flex flex-col text-purple_text overflow-hidden">
                 
                 <h2 className={`${baseHeadingStyle} `}>Track Your Progress</h2>
                 <div className="flex flex_col_center h-full gap-8">
 
 
-                    <div className="relative w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
+                    {/* <div className="relative w-full flex justify-center items-center gap-2 min-h-[350px] lg:min-h-[450px]">
                         <div className="absolute h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.1.png" alt="f2" fill={true}
-                                className="rounded-lg object-cover object-top sm:-translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-2 sm:group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-100 ease-in-out"/>
+                                className="rounded-lg object-cover object-top sm:-translate-x-8 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-2 sm:group-hover:-translate-x-8 lg:group-hover:-translate-x-12 group-hover:-translate-y-12 duration-300 ease-in-out"/>
                         </div>
                         <div className="absolute z-10 h-[320px] w-[270px] xl:h-[400px] xl:w-[300px]">
                             <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
-                                className="rounded-lg object-cover object-top translate-x-8 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-12 group-hover:translate-y-8 duration-100 ease-in-out"/>
+                                className="rounded-lg object-cover object-top translate-x-8 translate-y-2 rotate-6 group-hover:object-bottom group-hover:rotate-12 group-hover:translate-x-12 group-hover:translate-y-8 duration-300 ease-in-out"/>
                         </div>
-                    </div>
+                    </div> */}
 
                     <p className={`${baseParaStyle} w-full text-left`}>Reflect on your performance and celebrate milestones towards academic excellence!</p>
+                    <div className="relative w-full flex justify-center items-center gap-2 min-h-[500px] lg:min-h-[600px]">
+                        <Image src="/images/feature2.2.png" alt="f2" fill={true} quality={100}
+                            className="absolute rounded-lg object-cover object-top group-hover:object-bottom duration-200 ease-linear"
+                        />
+                    </div>
                 </div>
                 
             </div>
