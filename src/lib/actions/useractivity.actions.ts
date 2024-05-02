@@ -131,6 +131,36 @@ export async function getStatusStudyResource(params: getStatusStudyResourceParam
     }
 }
 
+export async function getBookmarksStudyResource(params: getBookmarkStudyResourceParams) {
+    try {
+        await connectToDatabase();
+
+        const { userID, resourceType } = params;
+        const userObjectId = new mongoose.Types.ObjectId(userID);
+
+        // Find the UserActivity document for the specified user and resource type
+        const userResourceInteraction = await UserActivity.findOne({
+            userObjectId,
+            type: resourceType
+        });
+        
+        // Handle case where there is no document found for the user and resource type
+        // This could mean the user has not completed any resources of this type
+        if (!userResourceInteraction) {    
+            return [];
+        }
+
+        // Convert the ObjectId array to a string array
+        const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
+
+        return bookmarkedResourceIDs;
+    }
+    catch (error) {
+        handleError(error);
+        return []; // Return an empty array or suitable error response
+    }
+}
+
 // Bookmark CRU operatons
 export async function updateBookmarkStudyResource(updateData: updateBookmarkStudyResourceParams) {
     try {
@@ -192,35 +222,7 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
     }
 }
 
-export async function getBookmarksStudyResource(params: getBookmarkStudyResourceParams) {
-    try {
-        await connectToDatabase();
 
-        const { userID, resourceType } = params;
-        const userObjectId = new mongoose.Types.ObjectId(userID);
-
-        // Find the UserActivity document for the specified user and resource type
-        const userResourceInteraction = await UserActivity.findOne({
-            userObjectId,
-            type: resourceType
-        });
-        
-        // Handle case where there is no document found for the user and resource type
-        // This could mean the user has not completed any resources of this type
-        if (!userResourceInteraction) {    
-            return [];
-        }
-
-        // Convert the ObjectId array to a string array
-        const bookmarkedResourceIDs : string[] = userResourceInteraction.bookmarkedArray.map((id: mongoose.Types.ObjectId)=> id.toString());
-
-        return bookmarkedResourceIDs;
-    }
-    catch (error) {
-        handleError(error);
-        return []; // Return an empty array or suitable error response
-    }
-}
 
 export async function getAllUserActivities(params: getBookmarkStudyResourceParams) {
     try {

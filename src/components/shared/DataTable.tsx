@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
@@ -61,11 +62,12 @@ interface DataTableProps<TData, TValue> {
   dataCellStyles?: string;
   nextButtonStyles?: string;
   showLegend: boolean;
+  userName?: string | null;
 }
 
 
 
-export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles, showLegend }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, userName, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles, showLegend }: DataTableProps<TData, TValue>, ) {
 
   const router = useRouter();
   const pathname = usePathname()
@@ -145,8 +147,8 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
           <Image
               src={`${showGuide ? "/icons/cancelW.svg" : "/icons/helpIcon.svg"}`}
               alt="guide"
-              height={38} width={38}
-              className={`border-2 border-black ${showGuide && 'bg-red-400'} rounded-full hover:scale-[1.05] cursor-pointer`}
+              height={40} width={40}
+              className={`border-2 border-slate-300 ${showGuide && 'bg-red-400'} rounded-full hover:scale-[1.05] cursor-pointer`}
               onClick={()=>{setShowGuide((prev)=>!prev)}}
             />
         </div>
@@ -281,19 +283,19 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             </button>
         </div>
         }
-
         
       </div>
 
         {showGuide && 
-        <div className="bg-pri_bg_card mx-auto max-w-[400px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md">
-          <p className="font-semibold underline">Guide</p>
-            <p> Click <span className="text-pri_navy_dark underline text-base hover:text-blue-600">the underlined text</span> to open resource links</p>
-
-            <p> Click<Image src={"/icons/solutionsIcon.svg"} alt="tag icon" height={28} width={28} className="inline relative -translate-y-1" />to open working solutions</p>
-            
-            <p> Click<Image src={"/icons/videoIcon.svg"} alt="tag icon" height={28} width={28} className="mx-1 inline relative" />to open video solutions</p>
-
+        <div className="bg-pri_bg_card mr-auto max-w-[600px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md p-2">
+          <p className="font-semibold underline mb-2">Guide</p>
+          <ul className="list-disc list-outside p-4">
+            <li><p className="align-baseline tracking-wide">Click <span className="text-pri_navy_dark underline text-base hover:text-blue-600">the underlined text</span> to open resource links</p></li>
+            <li><p className="align-baseline tracking-wide">Click<Image src={"/icons/solutionsIcon.svg"} alt="tag icon" height={28} width={28} className="inline relative -translate-y-1" />to open working solutions</p></li>
+            <li><p className="align-baseline tracking-wide">Click<Image src={"/icons/videoIcon.svg"} alt="tag icon" height={28} width={28} className="mx-1 inline relative" />to open video solutions</p></li>
+            {userName && <li><p className="align-baseline tracking-wide">Go to your <Link href={`/profile/${userName}`} className="text-pri_navy_dark underline text-base hover:text-blue-600">Profile</Link> to track your progress/bookmarks or set goals!</p></li>}
+          </ul>
+          
         </div>}
 
         <Table className={tableStyles ? tableStyles : ''}>

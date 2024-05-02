@@ -15,7 +15,7 @@ function paramsMap(str : string) : string{
       return 'JC';
   
     default:
-      return 'JC';
+      return 'Invalid';
     }
 
 
@@ -47,6 +47,8 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
     
     const userID = currentSignedInUserObject?._id || null;
+
+    const userName = currentSignedInUserObject?.username || null;
     
     const resourceSubject = searchParams.subject;
     const resourceType = searchParams.resourceType?.split(' ')[0];
@@ -71,6 +73,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
 
           <StudyResourceSection
             userID={userID} 
+            userName={userName}
             resourceLevel={resourceLevel}
             resourceSubject={resourceSubject}
             resourceType={resourceType}

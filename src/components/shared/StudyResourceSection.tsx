@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
+import { Progress } from '@/components/ui/progress';
 
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,6 +19,7 @@ import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } fr
 
 interface StudyResourceSectionProps {
   userID : string | null;
+  userName : string | null;
   resourceLevel : string;
   resourceSubject : string;
   resourceType : string;
@@ -30,7 +32,7 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * range) + min;
 }
 
-const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceType, searchParams } : StudyResourceSectionProps) => {
+const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject, resourceType, searchParams } : StudyResourceSectionProps) => {
 
     const { toast } = useToast();
 
@@ -42,6 +44,9 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
     const [tableData, setTableData] = useState<StudyResourceInterface[]>([]);
 
     const [isLoadingData, setIsLoadingData] = useState(false);
+
+    const [completedResources, setCompletedResources] = useState<number>(0);
+
 
     useEffect(()=>{
 
@@ -72,6 +77,7 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
               
             
               const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );
+              setCompletedResources(completedResourceIDs.length);
     
               // Update the data with status and bookmarked fields
               data = data?.map(item => ({
@@ -111,9 +117,6 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
             else{
               console.log("Other types");
             }
-    
-    
-        
             if (data) setTableData(data);
             else setTableData([]); // no resources in database
     
@@ -127,6 +130,7 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
         }
 
         fetchData();
+
     }, [resourceType, resourceSubject])
 
     // This sets the status of the study resource selected by user
@@ -167,16 +171,18 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
           toast({
             title: completedToasts[toastIndex].title,
             description: completedToasts[toastIndex].desc,
-          })
+          });
+          setCompletedResources((prev)=>prev+1);
         }
         else{
           toast({
             title: incompleteToasts[toastIndex].title,
             description: incompleteToasts[toastIndex].desc,
-          })
-        }
-        
+          });
+          setCompletedResources((prev)=>prev-1);
 
+        }
+      
       } 
       catch (error) {
         toast({
@@ -250,40 +256,47 @@ const StudyResourceSection = ({userID, resourceLevel, resourceSubject, resourceT
               {isLoadingData ?
                 <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
                 :
-                <DataTable
-                  columns={tableColumns}
-                  toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
-                  data={tableData}
-                  showStatusFilter = {true}
-                  showBookmarkFilter = {true}
-                  selectorFilters={ resourceType==="Yearly" ?
-                    [
-                    {
-                      id: "assessment",
-                      placeholder:"Filter Assessment",
-                      options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
-                    },
-                  ]
-                  :
-                  [
-                    {
-                      id: "topicName",
-                      placeholder:"Filter Topics",
-                      options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
-                    },
-                  ]
-                }
-                  searchFilter="resource"
-                  searchPlaceholder="Search Resources ..."
-                  searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-                  tableStyles="bg-pri_bg_card"
-                  selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-                  headerRowStyles="bg-pri_mint_dark"
-                  headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
-                  dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
-                  nextButtonStyles="text-white bg-pri_mint_main hover:bg-pri_mint_dark rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
-                  showLegend={true}
-                />
+                <div className="flex_col_center gap-4 w-full"> 
+                    <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
+                        <p className="text-sm text-pri_navy_main">You have completed {completedResources}/{tableData.length} {resourceSubject} Practices!</p>
+                        <Progress value={(completedResources / tableData.length)*100} className="w-full "/>
+                    </div>
+                    <DataTable
+                      columns={tableColumns}
+                      toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
+                      data={tableData}
+                      showStatusFilter = {true}
+                      showBookmarkFilter = {true}
+                      selectorFilters={ resourceType==="Yearly" ?
+                        [
+                        {
+                          id: "assessment",
+                          placeholder:"Filter Assessment",
+                          options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+                        },
+                      ]
+                      :
+                      [
+                        {
+                          id: "topicName",
+                          placeholder:"Filter Topics",
+                          options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
+                        },
+                      ]
+                    }
+                      searchFilter="resource"
+                      searchPlaceholder="Search Resources ..."
+                      searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+                      tableStyles="bg-pri_bg_card"
+                      selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+                      headerRowStyles="bg-pri_mint_dark"
+                      headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
+                      dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
+                      nextButtonStyles="text-white bg-pri_mint_main hover:bg-pri_mint_dark rounded-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
+                      showLegend={true}
+                      userName={userName}
+                    />
+                </div>
               }
               
 
