@@ -99,7 +99,8 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             if (resourceType==="Yearly"){
               data = (data as YearlyPracticePaper[])?.map(item=> ({
                 ...item,
-                resource : item.year + " " + item.assessment + " " + item.schoolName + " P" + item.paper
+                resource: item.paper === 0 ? `${item.year} ${item.assessment} ${item.schoolName}` :
+                          `${item.year} ${item.assessment} ${item.schoolName} P${item.paper}`
               }))
             }
             else if (resourceType==="Topical"){
@@ -112,6 +113,7 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             else{
               console.log("Other types");
             }
+
             if (data) setTableData(data);
             else setTableData([]); // no resources in database
     

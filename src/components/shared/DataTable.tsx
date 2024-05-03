@@ -272,8 +272,9 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
           Showing {table.getRowModel().rows.length.toLocaleString()} of {table.getRowCount().toLocaleString()} papers
         </div> */}
 
-        {showGuide && 
-        <div className="bg-pri_bg_card mr-auto max-w-[400px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md p-2">
+        {showGuide &&
+        <div className="inline-flex p-3">
+        <div className="bg-pri_bg_card pl-8 pr-2 rounded-lg flex flex-col items-center justify-center shadow-md p-2">
           <p className="font-semibold underline mb-2">Guide</p>
           <ul className="list-disc">
             <li><p className="align-baseline tracking-wide">Click <span className="text-pri_navy_dark underline text-base hover:text-blue-600">the underlined text</span> to open resource links</p></li>
@@ -282,6 +283,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             {userName && <li><p className="align-baseline tracking-wide">Go to your <Link href={`/profile/${userName}`} className="text-pri_navy_dark underline text-base hover:text-blue-600">Profile</Link> to track your progress/bookmarks or set goals!</p></li>}
           </ul>
           
+        </div>
         </div>}
 
         <Table className={tableStyles ? tableStyles : ''}>

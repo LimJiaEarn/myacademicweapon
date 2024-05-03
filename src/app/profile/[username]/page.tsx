@@ -77,7 +77,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
             status: true,
             bookmark: false,
             subject: resource.subject,
-            title: resource.type === "Yearly" ? `${resource.subject} ${resource.year} ${resource.schoolName} ${resource.assessment} P${resource.paper}` : `${resource.subject} ${resource.topicName} Practice ${resource.practice}`,
+            title: resource.type === "Yearly" ?
+            (resource.paper === 0 ?
+                `${resource.subject} ${resource.year} ${resource.schoolName} ${resource.assessment}` :
+                `${resource.subject} ${resource.year} ${resource.schoolName} ${resource.assessment} P${resource.paper}`
+            ) :
+            `${resource.subject} ${resource.topicName} Practice ${resource.practice}`,
             url: resource.url,
             workingSolution: resource.workingSolution,
             videoSolution: resource.videoSolution,

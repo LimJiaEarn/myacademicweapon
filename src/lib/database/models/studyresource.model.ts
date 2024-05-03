@@ -40,7 +40,7 @@ interface YearlyPracticePaperDocument extends StudyResourceDocument {
   year: number;
   schoolName: string;
   assessment: string; // MYE | EOY | Prelims
-  paper: number;
+  paper: number; // if 0 means single paper (eg promos)
 }
 
 const StudyResourceSchema = new Schema<StudyResourceDocument>({
