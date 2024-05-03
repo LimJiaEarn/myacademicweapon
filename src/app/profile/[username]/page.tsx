@@ -4,7 +4,6 @@ import { getPopulatedUserActivities } from '@/lib/actions/useractivity.actions';
 import LinkButton from "@/components/shared/LinkButton";
 import Image from "next/image";
 import Calendar from "@/components/shared/Calendar";
-
 import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
 import { Metadata } from 'next'
@@ -26,8 +25,6 @@ export async function generateMetadata( { params }: Props): Promise<Metadata> {
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
     
-
-
     return {
         title: `${isOwnUser ? "Your Profile" : currentUserProfileObject?.firstName + "'s Profile"}`,
 
@@ -131,7 +128,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                     { isOwnUser &&
                     <div className="flex flex-row sm:flex-col lg:flex-row lg:w-full justify-center items-center gap-2 md:gap-4">
                         <LinkButton
-                            buttonMsg="Edit Profile"
+                            buttonMsg="Edit Account"
                             buttonMsgClass="text-white text-xs md:text-sm"
                             buttonColorClass="opacity-90 bg-teal-400 hover:bg-teal-500 border-gray-300 py-1 px-4 shadow-lg"
                             linksTo={`/profile/${username}/edit`}
