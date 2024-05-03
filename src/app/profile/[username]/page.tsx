@@ -8,7 +8,6 @@ import Calendar from "@/components/shared/Calendar";
 import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
 import { Metadata } from 'next'
-import { revalidatePath } from 'next/cache'
 
 
 type Props = {
@@ -50,9 +49,6 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user.id) : null;
     const userID : string = currentUserProfileObject._id as string; // this is the mongoDB id
     const isOwnUser : boolean = currentSignedInUserObject && currentSignedInUserObject._id === currentUserProfileObject._id;
-
-    revalidatePath(`/username/${username}`);
-
         
     const formattedJoinDate = new Date(currentUserProfileObject.joinDate).toLocaleDateString('en-GB', {
     day: 'numeric',

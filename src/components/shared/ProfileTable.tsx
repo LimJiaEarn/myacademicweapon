@@ -117,7 +117,7 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
       <div className="w-full px-2">
         
         {tableData?.length > 0?
-            <div className="w-full flex_col_center">
+            <div className="w-full flex_col_center pb-4">
                 {/* <p className="italic text-center">{tableData.length}</p> */}
                 {isOwnUser &&
                 <div className="flex flex-col md:flex-row justify-center items-center gap-2">
@@ -155,8 +155,9 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                     headerCellStyles="flex justify-center items-center text-pri_navy_darker text-base font-bold"
                     dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_bg_card2"
                     dataCellStyles="align-middle text-center"
-                    nextButtonStyles="text-pri_navy_darker bg-pri_mint_dark hover:bg-emerald-400 rounded-lg shadow-lg px-4 py-2 cursor-pointer transition ease-in-out duration-200"
-                    showLegend={false}
+                    nextButtonStyles="text-pri_navy_darker bg-pri_bg_card2 hover:bg-pri_mint_light rounded-lg shadow-lg w-8 h-8 cursor-pointer transition ease-in-out duration-200"
+                    displayGuide={false}
+                    maxRows={8}
                 />
             </div>
             :

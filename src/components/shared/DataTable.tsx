@@ -42,7 +42,6 @@ import {
 */
 
 
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   toHideColumns: string[]
@@ -61,13 +60,14 @@ interface DataTableProps<TData, TValue> {
   dataRowStyles?: string;
   dataCellStyles?: string;
   nextButtonStyles?: string;
-  showLegend: boolean;
+  displayGuide: boolean;
   userName?: string | null;
+  maxRows: number;
 }
 
 
 
-export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, userName, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles, showLegend }: DataTableProps<TData, TValue>, ) {
+export function DataTable<TData, TValue>({ columns, toHideColumns, data, showStatusFilter, showBookmarkFilter, selectorFilters, searchFilter, userName, searchPlaceholder, searchFilterStyles, tableStyles, selectBoxStyles, selectContentStyles, headerRowStyles, headerCellStyles, dataRowStyles, dataCellStyles, nextButtonStyles, displayGuide, maxRows }: DataTableProps<TData, TValue>, ) {
 
   const router = useRouter();
   const pathname = usePathname()
@@ -94,6 +94,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
       columnVisibility,
     },
   });
+  
 
   // Selector states
   const [filterSelectorValue, setFilterSelectorValue] = useState<{[key : string]: string}>(() => {
@@ -135,6 +136,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
       else
         column.toggleVisibility(true);
     })
+    table.setPageSize(maxRows);
   }, [toHideColumns])
   
   return (
@@ -142,7 +144,7 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
 
       <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
         
-      {showLegend &&
+      {displayGuide &&
         <div className="tooltip flex_col_center" data-tooltip={`${showGuide ? 'close guide' : 'show guide'}`}>
           <Image
               src={`${showGuide ? "/icons/cancelW.svg" : "/icons/helpIcon.svg"}`}
@@ -263,33 +265,17 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             />
           </div>
         }
-
-        {/* Prev and Next Buttons - Only rendered if there is more than 10 data rows*/}
-        {data.length > 10 &&
-        <div className="flex_center gap-2">
-            <button
-                className={nextButtonStyles ? nextButtonStyles : 'rounded-md px-4 cursor-pointer'} 
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-            >
-                Prev
-            </button>
-            <button
-              className={nextButtonStyles ? nextButtonStyles : 'rounded-md px-4 cursor-pointer'}
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-            >
-                Next
-            </button>
-        </div>
-        }
         
       </div>
 
+        {/* <div>
+          Showing {table.getRowModel().rows.length.toLocaleString()} of {table.getRowCount().toLocaleString()} papers
+        </div> */}
+
         {showGuide && 
-        <div className="bg-pri_bg_card mr-auto max-w-[600px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md p-2">
+        <div className="bg-pri_bg_card mr-auto max-w-[400px] m-4 rounded-lg flex flex-col items-center justify-center shadow-md p-2">
           <p className="font-semibold underline mb-2">Guide</p>
-          <ul className="list-disc list-outside p-4">
+          <ul className="list-disc">
             <li><p className="align-baseline tracking-wide">Click <span className="text-pri_navy_dark underline text-base hover:text-blue-600">the underlined text</span> to open resource links</p></li>
             <li><p className="align-baseline tracking-wide">Click<Image src={"/icons/solutionsIcon.svg"} alt="tag icon" height={28} width={28} className="inline relative -translate-y-1" />to open working solutions</p></li>
             <li><p className="align-baseline tracking-wide">Click<Image src={"/icons/videoIcon.svg"} alt="tag icon" height={28} width={28} className="mx-1 inline relative" />to open video solutions</p></li>
@@ -371,9 +357,72 @@ export function DataTable<TData, TValue>({ columns, toHideColumns, data, showSta
             )}
           </TableBody>
         </Table>
+
+        {data.length > 15 && <div className="grid grid-rows-2 md:grid-rows-1 grid-cols-3 w-full mt-2">
+
+          <div className="row-start-2 md:row-start-1 col-start-1 col-span-1 flex items-center justify-start gap-2 px-1">
+            <button
+                className={nextButtonStyles ? nextButtonStyles : 'rounded-md p-1 cursor-pointer'} 
+                onClick={() => table.firstPage()}
+                disabled={!table.getCanPreviousPage()}
+            >
+                {'<<'}
+            </button>
+            <button
+                className={nextButtonStyles ? nextButtonStyles : 'rounded-md p-1 cursor-pointer'} 
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+            >
+                {'<'}
+            </button>
+          </div>
+
+          <div className="row-start-1 col-start-1 col-span-full md:col-start-2 md:col-span-1 flex_center gap-4">
+            <p className="font-medium text-pri_navy_dark">
+              Page {table.getState().pagination.pageIndex + 1} / {table.getPageCount().toLocaleString()} 
+            </p>
+            <span className="font-bold">|</span>
+            <div className="flex items-center gap-1">
+              <p className="font-medium text-pri_navy_dark">Go to page: </p>
+              <input
+                type="number"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={e => {
+                  let page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  const maxPage = table.getPageCount() - 1;
+                  
+                  if (page < 0) {
+                    page = 0;
+                  } else if (page > maxPage) {
+                    page = maxPage;
+                  }
+                  
+                  table.setPageIndex(page);
+                }}
+                className="bg-pri_bg_card2 p-1 text-center w-8 rounded-lg focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              />
+            </div>
+          </div>
+          
+          <div className="row-start-2 md:row-start-1 col-start-3 col-span-1 flex items-center justify-end gap-2 px-1">
+            <button
+              className={nextButtonStyles ? nextButtonStyles : 'rounded-md p-1 cursor-pointer'}
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+            >
+                {'>'}
+            </button>
+            <button
+              className={nextButtonStyles ? nextButtonStyles : 'rounded-md p-1 cursor-pointer'}
+              onClick={() => table.lastPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {'>>'}
+            </button>
+          </div>
+
+        </div>}
         
-
-
     </div>
 
   )
