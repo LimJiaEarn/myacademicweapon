@@ -50,12 +50,21 @@ export async function createPracticePaper(data : CreatePracticePaperInterface) {
 */
 export async function getStudyResources({ type, level, subject }: GetStudyResourcesParams) {
   try {
-
     await connectToDatabase();
 
     // Define query with a type that includes both level and an optional assessment
     let query: GetStudyResourcesParams = { type, level, subject };
-    const resources = await StudyResource.find(query);
+    let resources: any[];
+
+    if (type === 'Yearly') {
+      resources = await StudyResource.find(query).sort({ year: -1, schoolName: 1 });
+    }
+    else if (type==="Topical") {
+      resources = await StudyResource.find(query).sort({ topicName: 1 });
+    }
+    else{
+      resources = await StudyResource.find(query);
+    }
 
     return resources.map(resource => JSON.parse(JSON.stringify(resource)));
   }
