@@ -43,7 +43,7 @@ const Features = () => {
                 <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
 
                 <Image src="/images/feature3.png" alt="f4" width={280} height={250} 
-                    className="rounded-lg mx-auto skew-y-3 skew-x-3 group-hover:skew-y-0  group-hover:skew-x-0 -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
+                    className="rounded-lg mx-auto skew-x-1 group-hover:skew-x-0 -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
 
                 <p className={`${baseParaStyle} `}>Bookmark your favourite resources and revisit them anytime you wish!</p>
             </div>
@@ -85,7 +85,7 @@ const Features = () => {
                             className="rounded-lg translate-x-4 translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-6 group-hover:translate-y-4 duration-100 ease-in-out"/>
                     </div>
                 </div>
-                <p className={`${baseParaStyle} w-full text-left`}>All our dazzling study resources are free to view and download to ensure your academic glow up!</p>
+                <p className={`${baseParaStyle} w-full text-left`}>All our resources are free for practice & download and we aren't planning to change this! Ever.</p>
             </div>
 
             <div className="bg-orange_bg p-4 md:p-6 rounded-2xl col-span-1 lg:col-span-2 row-span-1 w-full h-full flex flex-col justify-start items-center text-orange_text group ">

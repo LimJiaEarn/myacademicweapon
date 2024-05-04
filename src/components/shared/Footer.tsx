@@ -27,7 +27,7 @@ const Footer = () => {
 
         {/* Contribute Links */}
         <div className="flex_col_center gap-4 md:gap-6">
-          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Be a Contributor</p>
+          <p className="font-semibold text-left text-base w-full text-pri_navy_light">Become a Contributor</p>
           <ul>
           {contributeLinks.map((contributeLink) => (
               <li key={contributeLink.id} className="flex items-center mb-3 text-left">

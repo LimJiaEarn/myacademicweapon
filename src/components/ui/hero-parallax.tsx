@@ -22,9 +22,9 @@ export const HeroParallax = (
 }) => {
 
   
-  const firstRow = products.slice(0, 8);
-  const secondRow = products.slice(8, 16);
-  const thirdRow = products.slice(16, 24);
+  const firstRow = products.slice(0, 7);
+  const secondRow = products.slice(7, 15);
+  const thirdRow = products.slice(15, 22);
 
   const ref = React.useRef(null);
   
@@ -65,7 +65,7 @@ export const HeroParallax = (
 
 
   return (
-    <div ref={ref} className="min-h-[2180px] sm:min-h-[2430px] w-full max-w-[1500px] overflow-hidden antialiased relative flex flex-col mx-auto self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
+    <div ref={ref} className="min-h-[2180px] sm:min-h-[2430px] w-full max-w-[2000px] overflow-hidden antialiased relative flex flex-col mx-auto self-auto [perspective:1200px] [transform-style:preserve-3d] py-20 lg:py-40">
       <Header />
       <motion.div
         style={{
@@ -78,7 +78,7 @@ export const HeroParallax = (
       >
 
         <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
-          Topical Practice Papers
+          Topical/Tutorial Practices
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-10 mb-20">
           {firstRow.map((product) => (
@@ -91,7 +91,7 @@ export const HeroParallax = (
         </motion.div>
 
         <motion.div style={{ opacity: textOpacity }} className="mb-4 md:mb-6 text-xl md:text-3xl font-semibold text-pri_navy_main text-center">
-           MYE / Prelim Practice Papers
+          MYE/Promos/Prelim Papers
         </motion.div>
         <motion.div className="flex flex-row mb-20 space-x-10">
           {secondRow.map((product) => (

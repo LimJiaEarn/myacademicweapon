@@ -255,7 +255,7 @@ export const heroImages = [
   },
   {
     title: "heroImg16",
-    thumbnail: "/images/heroImg16.png",
+    thumbnail: "/images/heroImg16.jpg",
   },
   {
     title: "heroImg17",
