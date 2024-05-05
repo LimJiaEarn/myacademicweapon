@@ -451,13 +451,13 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                         <DialogHeader>
                             <DialogTitle>Confirm remove?</DialogTitle>
                             <DialogDescription>
-                                <p>Progress cannot be restored</p>
+                                <p>Progress cannot be restored!</p>
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <DialogClose asChild>
                                 <div className="flex_center gap-2">
-                                    <button onClick={()=>onToggleStatus(studyResourceID, userID, date, false)}>
+                                    <button className="text-red-900 bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg" onClick={()=>onToggleStatus(studyResourceID, userID, date, false)}>
                                         Confirm
                                     </button>
                                 </div>
@@ -542,13 +542,13 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
                         <DialogHeader>
                             <DialogTitle>Confirm remove?</DialogTitle>
                             <DialogDescription>
-                                <p>Progress cannot be restored</p>
+                                <p>You can still add it back in Study Resources!</p>
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <DialogClose asChild>
                                 <div className="flex_center gap-2">
-                                    <button onClick={()=>onToggleBookmark(studyResourceID, userID, false)}>
+                                    <button className="text-red-900 bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg" onClick={()=>onToggleBookmark(studyResourceID, userID, false)}>
                                         Confirm
                                     </button>
                                 </div>

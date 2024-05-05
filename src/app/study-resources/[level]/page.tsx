@@ -57,14 +57,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
 
         <div className="min-h-screen w-full py-2 md:py-4">
 
-        <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[800px] mx-auto">
-          <p className="text-pri_navy_dark font-bold mb-2">
-            Disclaimer:
-          </p>
-          <p className="text-pri_navy_light">
-            Our watermarks are used solely to <span className="font-medium underline">deter resellers</span> & keep these valuable resources <span className="font-medium underline">free for students</span>.<br/><span className="font-medium text-pri_red_main">My Academic Weapon do not claim ownership of these study resources</span>.
-          </p>
-        </div>
+
 
           <StudyResourceNav level={params.level}/>
 

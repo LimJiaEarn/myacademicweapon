@@ -29,13 +29,13 @@ const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
       />
 
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-4 flex_col_center">
-        <h1 className="text-xl font-bold text-white text-center">
+        <h1 className="text-xl md:text-2xl font-bold text-white text-center">
           {props.title}
         </h1>
-        <h3 className="text-sm md:text-md italic text-white text-center">
-          {props.descShort}
+        <h3 className="text-md md:text-lg italic text-slate-100 text-center">
+          ( {props.descShort} )
         </h3>
-        <p className="hidden md:flex text-white text-sm text-center max-w-xl pt-2">
+        <p className="hidden sm:flex text-slate-200 text-md text-center max-w-xl pt-2">
           {props.desc}
         </p>
 
@@ -59,15 +59,19 @@ const StudyResourcesPage = () => {
             Your <span className="gold_grad_text">Royal Treasury</span><br/> of Study Notes, Plans and Papers!
           </h1>
 
-          {/* <p className="text-lg md:text-xl text-center max-w-[80ch] mx-auto leading-normal">
-            Forged in the academic foundry by an alliance of <span className="font-semibold gold_grad_text_2"> experienced tutors, dedicated teachers, and
-            victorious students</span>, our Royal Treasury brims with
-            meticulously crafted study materials!
+          {/* <p className="text-lg md:text-xl text-pri_navy_darker text-center max-w-[80ch] mx-auto leading-normal">
+            Embark on your quest towards <span className="gold_grad_text_2 font-bold">academic success now!</span>
           </p> */}
 
-          <p className="text-lg md:text-xl text-pri_navy_darker text-center max-w-[80ch] mx-auto leading-normal">
-            Embark on your quest towards <span className="gold_grad_text_2 font-bold">academic success now!</span>
+        <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] mx-auto">
+          <p className="text-pri_navy_dark font-bold mb-2">
+            Disclaimer:
           </p>
+          <p className="text-pri_navy_light">
+            <span className="font-medium text-pri_red_main">My Academic Weapon does not claim ownership of these study resources.</span><br/>
+            Our watermarks are used solely to <span className="font-medium underline">deter resellers</span>, and we intend to keep these resources <span className="font-medium underline">free for students</span> indefinitely.
+          </p>
+        </div>
 
         </div>
         
@@ -75,7 +79,7 @@ const StudyResourcesPage = () => {
           {studyResourcesNav.map((studyResource) => {
 
           return (
-            <Link href={studyResource.route} key={studyResource.id}>
+            <Link href={studyResource.route} key={studyResource.id} prefetch={true}>
               <StudyResourcesSectionCard
                 title={studyResource.title}
                 desc={studyResource.desc}
@@ -87,9 +91,6 @@ const StudyResourcesPage = () => {
           );
           })}
         </div>
-        
-        
-
 
       </div>
     </div>

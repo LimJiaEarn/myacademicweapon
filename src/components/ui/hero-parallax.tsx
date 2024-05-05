@@ -140,6 +140,7 @@ export const Header = () => {
           <p className="mt-6 text-lg leading-relaxed text-pri_navy_darker md:text-2xl max-w-sm md:max-w-[570px]">
             Elevate your study game with our unbeatable collection of study resources<br/> — it's time for your <span className="font-medium red_grad_text_2">Academic Comeback!</span>
           </p>
+
           <div className="flex_center">
             <LinkButton iconUrl="/icons/sword.svg" buttonMsg={buttonMsg} buttonColorClass="py-3 px-6 bg-gradient-to-r from-pink-600 to-yellow-600 hover:from-pink-500 hover:to-yellow-500 hover:pr-8" linksTo={linksTo}/>
           </div>

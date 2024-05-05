@@ -11,6 +11,8 @@ import { Switch } from "@/components/ui/switch"
 // Server Actions
 import { updateStatusStudyResource, updateBookmarkStudyResource } from '@/lib/actions/useractivity.actions';
 
+import Link from 'next/link';
+import Image from 'next/image';
 
 type ProfilePageTableProps = {
     tableData : ISummarisedPracticePaper[];
@@ -161,9 +163,12 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                 />
             </div>
             :
-            // Render a CTA image
-            <div className="py-4 flex_col_center gap-4">
-                <p className="text-slate-700 text-lg md:text-xl">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
+            <div className="py-4 flex flex-col md:flex-row-reverse justify-center items-center gap-6">
+                <div className="flex_col_center gap-4">
+                    <p className="text-pri_navy_light text-lg md:text-xl">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
+                    <p>Get Started in our <Link className="text-blue-500 italic underline" href="/study-resources">Study Resources Collection</Link>!</p>
+                </div>
+                <Image src="/images/noItems.webp" alt="empty" height={300} width={300} className="rounded-full opacity-80"/>
             </div>
         }
 

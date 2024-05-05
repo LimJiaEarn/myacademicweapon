@@ -78,7 +78,7 @@ export const studyResourcesNav = [
     route: "/study-resources/jc",
     title: "Tertiary Titans Tower",
     descShort: "For JC Students",
-    desc: "Stocked with rigorous exam sets and elite resources, this domain is for the persistent and ambitious. Sharpen your intellect and prepare for the ultimate triumph in the scholarly arena!",
+    desc: "J1 Promos , J2 Prelims & GCE A Levels Prelims Exam Prep!",
     image: "/images/jc-section.webp"
   },
   {
@@ -87,7 +87,7 @@ export const studyResourcesNav = [
     route: "/study-resources/secondary",
     title: "Secondary Scholars Sanctum",
     descShort: "For Secondary Students",
-    desc: "Arm yourself with our arsenal of detailed study materials as you navigate the twisting corridors of higher learning. Light your path to academic valor and victory!",
+    desc: "Prelims & GCE O and N Levels Exam Prep!",
     image: "/images/sec-section.webp"
   },
   {
@@ -96,7 +96,7 @@ export const studyResourcesNav = [
     route: "", // Coming Soon
     title: "Primary Pupils' Pavilion",
     descShort: "For Primary Students",
-    desc: "Tailored to ignite curiosity and build a solid foundation, these resources mark your first step on the grand ladder of learning. Embark on an educational adventure that makes every lesson a discovery!",
+    desc: "Ultimate PSLE Prep!",
     image: "/images/pri-section.webp"
   },
 ];
