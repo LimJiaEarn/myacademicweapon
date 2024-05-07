@@ -18,7 +18,7 @@ const HomePage = () => {
           Explore Our Features
         </h1>
         <p className="mt-6 mb-12 text-lg text-center leading-relaxed text-pri_navy_main md:text-2xl max-w-[700px] px-2">
-          We're more than just a collection of study resources, we're your steadfast ally in your pursuit of academic success!
+          We're more than just a collection of study resources, we're your all-in wingman on your academic journey!
         </p>
         <Features/>
       </section>

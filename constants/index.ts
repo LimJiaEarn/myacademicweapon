@@ -76,7 +76,7 @@ export const studyResourcesNav = [
     id:"studyResources3",
     label: "JC",
     route: "/study-resources/jc",
-    title: "Tertiary Titans Tower",
+    title: "JC Champions' Chamber",
     descShort: "For JC Students",
     desc: "J1 Promos , J2 Prelims & GCE A Levels Prelims Exam Prep!",
     image: "/images/jc-section.webp"
@@ -172,14 +172,14 @@ export const StudyResourceNavItems : StudyResourceNav = {
     //     "Yearly Practice Papers",
     //   ]
     // },
-    // {
-    //   id:"jcResources2",
-    //   title: "H2 Chem",
-    //   resources: [
-    //     "Topical Practice Papers",
-    //     "Yearly Practice Papers",
-    //   ]
-    // },
+    {
+      id:"jcResources2",
+      title: "H2 Chem",
+      resources: [
+        "Topical Practice Papers",
+        "Yearly Practice Papers",
+      ]
+    },
     {
       id:"jcResources3",
       title: "H2 Math",

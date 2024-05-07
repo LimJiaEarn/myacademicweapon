@@ -72,7 +72,11 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
               const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Yearly' | 'Topical' })
             
               const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );
-              setCompletedResources(completedResourceIDs.length);
+              
+              // Filter the completedResourceIDs to include only those that exist in the current data set
+              const relevantCompletedResourceIDs = completedResourceIDs.filter((id: string) => data?.some(item => item._id === id));
+
+              setCompletedResources(relevantCompletedResourceIDs.length);
     
               // Update the data with status and bookmarked fields
               data = data?.map(item => ({
