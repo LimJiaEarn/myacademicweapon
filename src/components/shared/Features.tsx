@@ -52,22 +52,22 @@ const Features = () => {
                 <p className={`${baseParaStyle}`}>Download our resources to practice/review them offline. No limits, just learning!</p>
                 <div className="relative w-full flex justify-center items-center min-h-[250px]">
                     <div className="absolute transition-transform duration-300 ease-in-out transform -translate-x-12 rotate-[-12deg] group-hover:-translate-x-24 group-hover:rotate-[-24deg]">
-                        <Image src="/images/heroImg11.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg14.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[9] transition-transform duration-300 ease-in-out transform -translate-x-6 rotate-[-6deg] group-hover:-translate-x-12 group-hover:rotate-[-12deg]">
-                        <Image src="/images/heroImg12.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg12.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[10] transition-transform duration-300 ease-in-out transform translate-x-3 rotate-3 group-hover:translate-x-6 group-hover:rotate-6">
-                        <Image src="/images/heroImg13.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg10.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[11] transition-transform duration-300 ease-in-out transform -translate-x-3 rotate-[-3deg] group-hover:-translate-x-6 group-hover:rotate-[-6deg]">
-                        <Image src="/images/heroImg16.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg13.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[12] transition-transform duration-300 ease-in-out transform translate-x-6 rotate-6 group-hover:translate-x-12 group-hover:rotate-12">
-                        <Image src="/images/heroImg15.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg11.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[13] transition-transform duration-300 ease-in-out transform translate-x-12 rotate-12 group-hover:translate-x-24 group-hover:rotate-24">
-                        <Image src="/images/heroImg14.png" alt="f4" width={160} height={224} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg9.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
                     </div>
                 </div>
             </div>
