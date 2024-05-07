@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react"
 import { Roboto } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -41,6 +42,7 @@ export default function RootLayout({
         <Footer/>
         <SpeedInsights />
         <Toaster />
+        <Analytics />
       </body>
     </html>
   </ClerkProvider>
