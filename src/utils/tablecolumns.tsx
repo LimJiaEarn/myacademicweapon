@@ -57,7 +57,6 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
         const inputBox = document.createElement('input');
         document.body.appendChild(inputBox);
         inputBox.value = url; // Set its value to the URL
-        // inputBox.select(); // Select the value
         document.execCommand('copy'); // Execute the copy command
         document.body.removeChild(inputBox); // Remove the temporary input
         setCopied(true);

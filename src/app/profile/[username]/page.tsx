@@ -7,6 +7,7 @@ import Calendar from "@/components/shared/Calendar";
 import UserAbout from '@/components/shared/UserAbout';
 import UserProfile from "@/components/shared/UserProfile";
 import { Metadata } from 'next'
+import Reminders from '@/components/shared/Reminders';
 
 
 type Props = {
@@ -154,8 +155,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
-                <div className="flex_center w-full">        
+                <div className="flex_col_Center w-full">        
                     <Calendar/>
+                    {/* <Reminders
+                        userId={userID}
+                        isOwnUser={isOwnUser}
+                    /> */}
                 </div>
 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />

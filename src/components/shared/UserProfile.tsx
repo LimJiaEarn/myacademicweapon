@@ -151,7 +151,7 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
             {Object.keys(completedRecords).length === 0 ?
                 <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
                 :
-                <ul className="w-4/5 px-4 lg:px-10 text-sm md:text-md md:text-md text-pri_navy_main max-w-[240]">
+                <ul className="w-4/5 px-4 lg:px-10 text-sm md:text-md text-pri_navy_main max-w-[240]">
                 {Object.entries(completedRecords).map(([subject, completions], index)=>{
                     return(
                         <li key={`${subject}_${completions}_${index}`} className="flex my-2">

@@ -215,3 +215,16 @@ type SelectorFieldConfig = {
   placeholder: string;
   options: string[];
 }
+
+// Reminders
+
+interface ReminderDocument extends Document {
+  userObjectId: Schema.Types.ObjectId;
+  remindersArray: Array<{reminder: string, setDate: Date, dueDate: Date}>;
+}
+
+interface ReminderItem {
+  reminder: string,
+  setDate: Date,
+  dueDate: Date,
+}

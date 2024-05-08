@@ -9,7 +9,6 @@ const Calendar = () => {
   return (
     <div className="">
 
-
         <DayPicker
           numberOfMonths={1}
           selected={new Date()}

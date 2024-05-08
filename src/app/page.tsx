@@ -3,6 +3,7 @@ import { heroImages } from '../../constants';
 import Features from '@/components/shared/Features';
 
 
+
 const HomePage = () => {
 
   return (
@@ -22,6 +23,8 @@ const HomePage = () => {
         </p>
         <Features/>
       </section>
+
+
 
 
     </div>
