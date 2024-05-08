@@ -155,19 +155,19 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
-                <div className="flex_col_Center w-full">        
+                <div className="flex_col_center w-full">        
                     <Calendar/>
-                    {/* <Reminders
+                    <Reminders
                         userId={userID}
                         isOwnUser={isOwnUser}
-                    /> */}
+                    />
                 </div>
 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
                 <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
 
-                    <p className="w-full text-center text-pri_navy_dark font-bold text-lg lg:text-xl">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
+                    <p className="w-full text-center text-pri_navy_dark font-semibold text-lg lg:text-xl">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
 
                 </div>
 

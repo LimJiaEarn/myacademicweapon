@@ -47,7 +47,6 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
 
     const [completedResources, setCompletedResources] = useState<number>(0);
 
-
     useEffect(()=>{
 
         const fetchData = async () => {

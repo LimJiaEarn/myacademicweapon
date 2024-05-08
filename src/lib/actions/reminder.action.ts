@@ -2,8 +2,7 @@
 
 import { Reminder } from "@/lib/database/models/reminder.model";
 import { connectToDatabase } from "../database/mongoose";
-
-import mongoose, {Schema, Document} from 'mongoose';
+import mongoose from 'mongoose';
 
 
 // CREATE & UPDATE & DELETE
@@ -45,8 +44,7 @@ export async function updateRemindersByUserId({userId, remindersArrayNew} : {use
     }
 }
 
-// READ
-export async function getRemindersByUserId(userId : string): Promise<ReminderItem[] | null>{
+export async function getRemindersByUserId({userId} : {userId: string}): Promise<ReminderItem[]>{
 
     try{
 
@@ -56,12 +54,12 @@ export async function getRemindersByUserId(userId : string): Promise<ReminderIte
 
         const UserReminders = await Reminder.findOne({ userObjectId: userObjectId });
 
-        return UserReminders.remindersArray;
+        // return UserReminders.remindersArray;
+        return JSON.parse(JSON.stringify(UserReminders.remindersArray));
 
     }
     catch(error){
-        console.log(error);
-        return null;
+        return [];
     }
 
 }
