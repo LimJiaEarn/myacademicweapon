@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { StudyResource, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
+import { StudyResource, Notes, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
@@ -32,6 +32,22 @@ export async function createPracticePaper(data : CreatePracticePaperInterface) {
     } else {
       newResource = await StudyResource.create(data);
     }
+
+    return JSON.parse(JSON.stringify(newResource));
+  } catch (error) {
+    handleError(error);
+  }
+
+}
+
+export async function createNote(data : CreateStudyNotesInterface) {
+
+  try {
+
+    await connectToDatabase();
+
+
+    const newResource = await Notes.create(data);
 
     return JSON.parse(JSON.stringify(newResource));
   } catch (error) {

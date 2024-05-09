@@ -67,6 +67,18 @@ interface StudyNotesInterface extends StudyResourceInterface {
   topicNames : string[];
 }
 
+interface CreateStudyNotesInterface {
+  level: "Primary" | "Secondary" | "JC";
+  subject: string;
+  desc?: string;
+  url: string;
+  contributor?: string
+  contributorUrl?: string
+  title: string;
+  note: number;
+  topicNames : string[];
+}
+
 interface PracticePaperInterface extends StudyResourceInterface {
   status: boolean;
   bookmark: boolean;
@@ -118,10 +130,12 @@ interface CreatePracticePaperInterface extends CreateStudyResourcesParams {
   videoSolution?:string; // link to solution recording 
 }
 
+
 interface CreateRevisionPracticePaperParams extends CreatePracticePaperInterface {
   topicNames: string[];
   practice: number;
 }
+
 
 interface CreateTopicalPracticePaperParams extends CreatePracticePaperInterface {
   topicName: string;
