@@ -151,7 +151,7 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
                                         }
                                     }
                                 />
-                                {totMarks && <p className="text-xl">/ {totMarks}</p>}
+                                {totMarks>0 ? <p className="text-xl">/ {totMarks}</p> : <p className="text-xl">%</p>}
                             </div>
                             
                             

@@ -67,7 +67,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const simplifiedCompletedResourceObjects : ISummarisedPracticePaper[] = completed.map((item:any) => {
         const resource = item.resourceDetails;
 
-        const scorePercent = resource.totMarks && Number(item.score)/Number(resource.totMarks) || -1;
+        const scorePercent = resource.totMarks && Number(item.score)/Number(resource.totMarks > 0 ? resource.totMarks : 100) || -1;
 
         return {
             _id: resource._id.toString(),

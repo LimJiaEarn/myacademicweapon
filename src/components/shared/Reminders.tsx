@@ -109,7 +109,7 @@ const Reminders = ({userId, isOwnUser} : {userId: string, isOwnUser: boolean}) =
                     }}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            e.preventDefault();  // Prevent the default Enter key behavior
+                            e.preventDefault();
                             submitReminder();
                         }
                     }}
