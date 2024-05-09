@@ -62,6 +62,8 @@ interface StudyResourceInterface {
 }
 
 interface StudyNotesInterface extends StudyResourceInterface {
+  title: string;
+  note: number;
   topicNames : string[];
 }
 
@@ -71,7 +73,6 @@ interface PracticePaperInterface extends StudyResourceInterface {
   type: "Topical" | "Yearly";
   totMarks?: number;
   score?:number;
-  date?:Date;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
 }

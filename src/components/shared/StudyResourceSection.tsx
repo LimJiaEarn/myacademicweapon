@@ -122,7 +122,8 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             else if (resourceType==="Notes"){
               data = (data as StudyNotesInterface[])?.map(item=> ({
                 ...item,
-                resource : item.topicNames.join(", ")
+                resource: item.title,
+                topicNames : item.topicNames.join(", ")
               }))
             }
             // For other future types eg Revision (not implemented)

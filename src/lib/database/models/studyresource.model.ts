@@ -13,6 +13,8 @@ interface StudyResourceDocument extends Document {
 }
 
 interface NotesDocument extends StudyResourceDocument {
+  title: string;
+  note: number;
   topicNames: string[];
 }
 
@@ -59,7 +61,9 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
 const StudyResource: Model<StudyResourceDocument> = models.studyresources || model<StudyResourceDocument>('studyresources', StudyResourceSchema);
 
 const NotesSchema =  new Schema<NotesDocument>({
-  topicNames: [{type: String, required: true}]
+  title: {type: String, required: true},
+  note: {type: Number, required: true}, // to differentiate same titled notes
+  topicNames: [{type: String, required: true}],
 })
 
 const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({

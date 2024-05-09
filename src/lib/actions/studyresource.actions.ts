@@ -63,7 +63,7 @@ export async function getStudyResources({ type, level, subject }: GetStudyResour
       resources = await StudyResource.find(query).sort({ topicName: 1 });
     }
     else if (type === "Notes") {
-      resources = await StudyResource.find(query).sort({ "topicNames.0": 1 });
+      resources = await StudyResource.find(query).sort({ title: 1, note: 1 });
     }
     else{
       resources = await StudyResource.find(query);
