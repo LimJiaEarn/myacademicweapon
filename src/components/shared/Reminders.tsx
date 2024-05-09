@@ -3,41 +3,29 @@
 import { useState, useEffect } from 'react';
 import { updateRemindersByUserId, getRemindersByUserId } from '@/lib/actions/reminder.action';
 
-const Reminders = ({ userId, isOwnUser }: { userId: string, isOwnUser: boolean }) => {
+const Reminders = ({ userId }: { userId: string}) => {
     const initialReminderState = {
         reminder: '',
         setDate: new Date(),
         dueDate: new Date(),
     };
 
-    const TEST_DATA = [
-        {
-            reminder: "Do homework",
-            setDate: new Date(),
-            dueDate: new Date(),
-        },
-        {
-            reminder: "Revise",
-            setDate: new Date(),
-            dueDate: new Date(),
-        },
-    ]
 
-    const [remindersArray, setRemindersArray] = useState<ReminderItem[]>(TEST_DATA);
+    const [remindersArray, setRemindersArray] = useState<ReminderItem[]>([]);
     const [newReminder, setNewReminder] = useState<ReminderItem>(initialReminderState);
     const [checkReminders, setCheckReminders] = useState<Set<string>>(new Set());
 
-    // useEffect(() => {
-    //     const getReminder = async () => {
-    //         try {
-    //             const remindersArrayResult = await getRemindersByUserId({ userId });
-    //             setRemindersArray(remindersArrayResult);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     getReminder();
-    // }, [userId]);
+    useEffect(() => {
+        const getReminder = async () => {
+            try {
+                const remindersArrayResult = await getRemindersByUserId({ userId });
+                setRemindersArray(remindersArrayResult);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getReminder();
+    }, [userId]);
 
     const handleCheck = (checkedReminder: string) => {
         const filteredReminders = remindersArray.filter(item => item.reminder !== checkedReminder);

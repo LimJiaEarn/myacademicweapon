@@ -157,10 +157,9 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <div className="flex_col_center w-full">        
                     <Calendar/>
-                    <Reminders
+                    {isOwnUser && <Reminders
                         userId={userID}
-                        isOwnUser={isOwnUser}
-                    />
+                    />}
                 </div>
 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />

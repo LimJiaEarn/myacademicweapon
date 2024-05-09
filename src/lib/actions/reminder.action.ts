@@ -39,7 +39,6 @@ export async function updateRemindersByUserId({userId, remindersArrayNew} : {use
         return true;
     }
     catch(error){
-        console.log(error);
         throw new Error("Failed to update reminders, try again later!")
     }
 }
