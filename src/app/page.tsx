@@ -2,7 +2,6 @@ import { HeroParallax } from '@/components/ui/hero-parallax';
 import { heroImages } from '../../constants';
 import Features from '@/components/shared/Features';
 
-import Reminders from '@/components/shared/Reminders';
 
 const HomePage = () => {
 
@@ -23,12 +22,6 @@ const HomePage = () => {
         </p>
         <Features/>
       </section>
-
-      <Reminders
-        userId={"test"}
-        isOwnUser={false}
-      />
-
 
     </div>
   )
