@@ -50,23 +50,23 @@ const Reminders = ({userId, isOwnUser} : {userId: string, isOwnUser: boolean}) =
 
     }, [])
 
-    // const submitReminder = async () => {
-    //     if (newReminder.reminder.length > 0){
+    const submitReminder = async () => {
+        if (newReminder.reminder.length > 0){
             
-    //         try{
-    //             await updateRemindersByUserId({userId: userId, remindersArrayNew: [...remindersArray, newReminder as ReminderItem]});
-    //             setRemindersArray(prev => [...prev, newReminder as ReminderItem]);
+            try{
+                await updateRemindersByUserId({userId: userId, remindersArrayNew: [...remindersArray, newReminder as ReminderItem]});
+                setRemindersArray(prev => [...prev, newReminder as ReminderItem]);
 
-    //             setNewReminder(initialReminderState);
-    //         }
-    //         catch(error){
-    //             alert("Failed")
-    //         }
-    //     }
-    //     else{
-    //         alert("No reminder set");
-    //     }
-    // }
+                setNewReminder(initialReminderState);
+            }
+            catch(error){
+                alert("Failed")
+            }
+        }
+        else{
+            alert("No reminder set");
+        }
+    }
 
     return (
         <div className="flex_col_center w-full bg-pri_bg_card gap-4">
@@ -94,8 +94,7 @@ const Reminders = ({userId, isOwnUser} : {userId: string, isOwnUser: boolean}) =
                 })}
             </ul>
             
-            {/* For user to add reminders */}
-            {/* <div className="flex_center gap-2 ">
+            <div className="flex_center gap-2 ">
                 <input
                     type="text"
                     placeholder="finish math algebra hmk"
@@ -129,7 +128,7 @@ const Reminders = ({userId, isOwnUser} : {userId: string, isOwnUser: boolean}) =
                 >
                     + Add
                 </button>
-            </div> */}
+            </div>
 
 
         </div>
@@ -137,25 +136,3 @@ const Reminders = ({userId, isOwnUser} : {userId: string, isOwnUser: boolean}) =
 }
 
 export default Reminders
-
-/* TODO: Add deadline to reminder */
-/* <input
-    type="date"
-    className="bg-transparent p-2 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
-    onChange={(e) => {
-        setNewReminder((prev) => ({
-            ...prev,
-            dueDate: new Date(e.target.value)
-        }));
-    }}
-/> */
-
-                
-// // Function to handle date selection
-// const handleDateChange = (date) => {
-//     setNewReminder((prev) => ({
-//         ...prev,
-//         dueDate: date
-//     }));
-//     setShowDatePicker(false); // Hide the picker after selection
-// };

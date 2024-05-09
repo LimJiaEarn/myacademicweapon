@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/shared/DataTable";
-import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
+import { getNotesColumns, getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 
 // Server Actions
 import { updateStatusStudyResource, updateBookmarkStudyResource, getUserActivities } from '@/lib/actions/useractivity.actions';
@@ -57,18 +57,25 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
         
           try {
     
-            const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
-            setTableColumns(columns);
+            if (resourceType==="Yearly"){
+              setTableColumns(getYearlyColumns(onToggleStatus, onToggleBookmark, userID));
+            }
+            else if (resourceType==="Topical"){
+              setTableColumns(getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
+            }
+            else{
+              setTableColumns(getNotesColumns(onToggleBookmark, userID))
+            }
     
             // Call a server action to get data to populate the table
             let data: StudyResourceInterface[] | undefined = await getStudyResources({
-              type: resourceType as 'Yearly' | 'Topical',
+              type: resourceType as "Notes" | "Topical" | "Yearly",
               level: resourceLevel as "Primary" | "Secondary" | "JC",
               subject: resourceSubject,
             });
         
             if (userID) {
-              const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Yearly' | 'Topical' })
+              const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Notes' | 'Yearly' | 'Topical' })
             
               const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );
               
@@ -112,7 +119,13 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                 resource : item.topicName + " Practice " + item.practice
               }))
             }
-            // For other future types eg Notes/Summaries
+            else if (resourceType==="Notes"){
+              data = (data as StudyNotesInterface[])?.map(item=> ({
+                ...item,
+                resource : item.topicNames.join(", ")
+              }))
+            }
+            // For other future types eg Revision (not implemented)
             else{
               console.log("Other types");
             }
@@ -254,7 +267,7 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             <div className="w-full px-2 md:px-6 flex_col_center">
 
               {isLoadingData ?
-                <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
+                <p className="w-full text-center">Loading {resourceSubject} {resourceType==="Notes" ? 'Notes' : resourceType + " Practice Papers"}...</p>
                 :
                 <div className="flex_col_center gap-4 w-full"> 
                     { userID && <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
@@ -263,7 +276,7 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                     </div>}
                     <DataTable
                       columns={tableColumns}
-                      toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
+                      toHideColumns = {resourceType==="Notes" ? [] : ["bookmark", "status", "year", "assessment", "topicName"]}
                       data={tableData}
                       showStatusFilter = {true}
                       showBookmarkFilter = {true}

@@ -116,18 +116,10 @@ export const StudyResourceNavItems : StudyResourceNav = {
     {
       id:"secondaryResources2",
       title: "E Math",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
     },
     {
       id:"secondaryResources3",
       title: "A Math",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
     },
     // {
     //   id:"secondaryResources4",
@@ -175,18 +167,10 @@ export const StudyResourceNavItems : StudyResourceNav = {
     {
       id:"jcResources2",
       title: "H2 Chem",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
     },
     {
       id:"jcResources3",
       title: "H2 Math",
-      resources: [
-        "Topical Practice Papers",
-        "Yearly Practice Papers",
-      ]
     }
   ]
 }

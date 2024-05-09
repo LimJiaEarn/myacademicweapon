@@ -52,7 +52,6 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     const resourceSubject = searchParams.subject;
     const resourceType = searchParams.resourceType?.split(' ')[0];
     
-
     return (
 
         <div className="min-h-screen w-full py-2 md:py-4">

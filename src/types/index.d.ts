@@ -7,7 +7,6 @@ declare type StudyResourceNav = {
 declare type StudyResourceNavItem = {
   id: string;
   title: string;
-  resources: string[]
 }
 
 // USER PARAMS
@@ -136,7 +135,7 @@ interface CreateYearlyPracticePaperParams extends CreatePracticePaperInterface {
 }
 
 declare type GetStudyResourcesParams = {
-  type: "Topical" | "Yearly";
+  type: "Notes" | "Topical" | "Yearly";
   level: "Primary" | "Secondary" | "JC";
   subject: string;
 };
@@ -160,7 +159,7 @@ declare type UpdateStudyResourceParams = {
 
 declare type getStatusStudyResourceParams = {
   userID: string;
-  resourceType: "Topical" | "Yearly";
+  resourceType: "Notes" | "Topical" | "Yearly";
 }
 
 declare type updateStatusStudyResourceParams = {
@@ -174,7 +173,7 @@ declare type updateStatusStudyResourceParams = {
 
 declare type getBookmarkStudyResourceParams = {
   userID: string;
-  resourceType: "Topical" | "Yearly";
+  resourceType: "Notes" | "Topical" | "Yearly";
 }
 
 declare type updateBookmarkStudyResourceParams = {

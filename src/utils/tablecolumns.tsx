@@ -31,8 +31,9 @@ function isTopicalPracticePaper(item: any): item is TopicalPracticePaper {
   }
   
 function isYearlyPracticePaper(item: any): item is YearlyPracticePaper {
-return 'assessment' in item && 'year' in item && 'schoolName' in item && 'paper' in item && 'status' in item && 'type' in item;
+    return 'assessment' in item && 'year' in item && 'schoolName' in item && 'paper' in item && 'status' in item && 'type' in item;
 }
+
 
 
 // Utility Cell Components
@@ -221,6 +222,60 @@ const headerCell = (column : Column<any, any>, headerTitle : string, withSort : 
     )
 }
 
+export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
+    [
+        // Bookmark
+        {
+            accessorKey: 'bookmark', // This should match the key in your data for the status
+            header: ({ column }) => headerCell(column, "Bookmarks", false),
+            cell: (info : CellContext<any, any>) => {
+                const studyResourceID = info.row.original._id;
+                const bookmarked = info.row.original.bookmark as boolean; 
+                return(
+                    <div className="flex_center">
+                        <Image
+                            src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
+                            alt="bookmark"
+                            height={30}
+                            width={30}
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent row click event
+                                e.preventDefault();
+                                onToggleBookmark(studyResourceID, userID, !bookmarked); 
+                            }}
+                            className="hover:cursor-pointer hover:rotate-6 hover:scale-[1.30]"
+                            
+                        />
+                    </div>)
+            },
+        },
+        // Notes: topicNames.join(", ")
+        {
+            accessorKey: "resource",
+            header: ({ column }) => headerCell(column, "Notes", true),
+            cell: info => {
+                let videoSolution = null;
+                let workingSolution = null;
+                if (isYearlyPracticePaper(info.row.original)) {
+                    workingSolution = info.row.original.workingSolution;
+                    videoSolution = info.row.original.videoSolution;
+                }
+                return (
+                <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
+                    <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
+    
+                    {
+                        'resource' in info.row.original &&
+                        <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
+                    }
+
+                    </div>
+                    
+                </div>
+                );
+            },
+        },
+    ];
 
 
 export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>

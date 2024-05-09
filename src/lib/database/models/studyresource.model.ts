@@ -91,9 +91,10 @@ const YearlyPracticePaperSchema = new Schema<YearlyPracticePaperDocument>({
 
 
 // Use discriminators for sub-types
+const Notes: Model<NotesDocument> = StudyResource.discriminators?.Notes || StudyResource.discriminator<NotesDocument>('Notes', NotesSchema);
 const TopicalPracticePaper: Model<TopicalPracticePaperDocument> = StudyResource.discriminators?.Topical || StudyResource.discriminator<TopicalPracticePaperDocument>('Topical', TopicalPracticePaperSchema);
 const RevisionPracticePaper: Model<RevisionPracticePaperDocument> = StudyResource.discriminators?.Revision || StudyResource.discriminator<RevisionPracticePaperDocument>('Revision',RevisionPracticePaperSchema);
 const YearlyPracticePaper: Model<YearlyPracticePaperDocument> = StudyResource.discriminators?.Yearly || StudyResource.discriminator<YearlyPracticePaperDocument>('Yearly', YearlyPracticePaperSchema);
 
-export { StudyResource, TopicalPracticePaper, RevisionPracticePaper, YearlyPracticePaper };
+export { StudyResource, Notes, TopicalPracticePaper, RevisionPracticePaper, YearlyPracticePaper };
 
