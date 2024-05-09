@@ -28,7 +28,7 @@ interface TopicalPracticePaperDocument extends StudyResourceDocument {
 
 // This is for revision sets which usually consists of multiple topics
 interface RevisionPracticePaperDocument extends StudyResourceDocument {
-  totMarks?: number;
+  totMarks: number;
   workingSolution?: string;
   videoSolution?: string;
   topicNames: string[];
@@ -36,7 +36,7 @@ interface RevisionPracticePaperDocument extends StudyResourceDocument {
 }
 
 interface YearlyPracticePaperDocument extends StudyResourceDocument {
-  totMarks?: number;
+  totMarks: number;
   workingSolution?: string;
   videoSolution?: string;
   year: number;
@@ -75,7 +75,7 @@ const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({
 });
 
 const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
-  totMarks: { type: Number, required: false },
+  totMarks: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   topicNames: [{type: String, required: true}],
@@ -84,7 +84,7 @@ const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
 
 
 const YearlyPracticePaperSchema = new Schema<YearlyPracticePaperDocument>({
-  totMarks: { type: Number, required: false },
+  totMarks: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   year: { type: Number, required: true },
