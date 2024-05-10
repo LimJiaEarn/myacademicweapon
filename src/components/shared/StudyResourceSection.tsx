@@ -123,7 +123,7 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
               data = (data as StudyNotesInterface[])?.map(item=> ({
                 ...item,
                 resource: item.title,
-                topicNames : item.topicNames.join(", ")
+                topicNames : item.topicNames.join(', ')
               }))
             }
             // For other future types eg Revision (not implemented)

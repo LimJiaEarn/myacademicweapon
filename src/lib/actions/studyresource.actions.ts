@@ -46,7 +46,6 @@ export async function createNote(data : CreateStudyNotesInterface) {
 
     await connectToDatabase();
 
-
     const newResource = await Notes.create(data);
 
     return JSON.parse(JSON.stringify(newResource));

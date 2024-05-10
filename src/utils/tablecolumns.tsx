@@ -254,21 +254,18 @@ export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID
             accessorKey: "resource",
             header: ({ column }) => headerCell(column, "Notes", true),
             cell: info => {
-                let videoSolution = null;
-                let workingSolution = null;
-                if (isYearlyPracticePaper(info.row.original)) {
-                    workingSolution = info.row.original.workingSolution;
-                    videoSolution = info.row.original.videoSolution;
-                }
                 return (
                 <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
-                    <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
+                    <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex flex-col items-start justify-center">
     
                     {
                         'resource' in info.row.original &&
                         <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                     }
-
+                    {
+                        'topicNames' in info.row.original &&
+                        <p className="text-sm text-pri_navy_main text-left italic">Topics: {info.row.original.topicNames as string}</p>
+                    }
                     </div>
                     
                 </div>

@@ -104,9 +104,8 @@ const AdminPage = async () => {
 
         // hardcoded values
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
-        const type = "Notes";
-
-        const topicNames = topicNamesToSplit.split(', ');
+        const type : string = "Notes";
+        const topicNames : string[]= topicNamesToSplit.split(',');
         
         const data = {
             level,
