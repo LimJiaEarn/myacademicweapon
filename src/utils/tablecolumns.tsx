@@ -263,7 +263,7 @@ export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID
                         <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
                     }
                     {
-                        'topicNames' in info.row.original &&
+                        'topicNames' in info.row.original && (info.row.original.topicNames as string).length > 0 &&
                         <p className="text-sm text-pri_navy_main text-left italic">Topics: {info.row.original.topicNames as string}</p>
                     }
                     </div>
