@@ -32,6 +32,33 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * range) + min;
 }
 
+function getSelectorFilters(resourceType : string, tableData :StudyResourceInterface[]) : SelectorFieldConfig[]{
+
+  switch (resourceType){
+
+    case 'Yearly':
+      return [
+        {
+          id: "assessment",
+          placeholder:"Filter Assessment",
+          options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+        },
+      ]
+    case 'Topical':
+      return [
+        {
+          id: "topicName",
+          placeholder:"Filter Topics",
+          options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
+        },
+      ]
+
+    default:
+      return [];
+  }
+
+}
+
 const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject, resourceType, searchParams } : StudyResourceSectionProps) => {
 
     const { toast } = useToast();
@@ -279,25 +306,9 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                       columns={tableColumns}
                       toHideColumns = {resourceType==="Notes" ? [] : ["bookmark", "status", "year", "assessment", "topicName"]}
                       data={tableData}
-                      showStatusFilter = {true}
+                      showStatusFilter = {resourceType==="Notes" ? false : true}
                       showBookmarkFilter = {true}
-                      selectorFilters={ resourceType==="Yearly" ?
-                        [
-                        {
-                          id: "assessment",
-                          placeholder:"Filter Assessment",
-                          options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
-                        },
-                      ]
-                      :
-                      [
-                        {
-                          id: "topicName",
-                          placeholder:"Filter Topics",
-                          options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
-                        },
-                      ]
-                    }
+                      selectorFilters={getSelectorFilters(resourceType, tableData)}
                       searchFilter="resource"
                       searchPlaceholder="Search Resources ..."
                       searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
