@@ -16,6 +16,7 @@ import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
 // Toast Messages
 import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } from '../../../constants';
+import { quotes } from '../../../constants/quotes';
 
 interface StudyResourceSectionProps {
   userID : string | null;
@@ -174,6 +175,8 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
 
     }, [resourceType, resourceSubject])
 
+    const randomQuoteIndex = getRandomInt(0, quotes.length-1);
+
     // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
       // Only signed in users are allowed 
@@ -298,10 +301,20 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                 <p className="w-full text-center">Loading {resourceSubject} {resourceType==="Notes" ? 'Notes' : resourceType + " Practice Papers"}...</p>
                 :
                 <div className="flex_col_center gap-4 w-full"> 
+                    
+                    
+                    <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
+                      <p>{quotes[randomQuoteIndex].quote}</p>
+                      {'writer' in quotes[randomQuoteIndex] && <p className="font-semibold">- {quotes[randomQuoteIndex].writer}</p>}
+                    </div>
+                    
                     { userID && <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
                         <p className="text-sm text-pri_navy_main">You have completed {completedResources}/{tableData.length} {resourceSubject} Practices!</p>
                         <Progress value={(completedResources / tableData.length)*100} className="w-full "/>
                     </div>}
+
+
+                  
                     <DataTable
                       columns={tableColumns}
                       toHideColumns = {resourceType==="Notes" ? [] : ["bookmark", "status", "year", "assessment", "topicName"]}

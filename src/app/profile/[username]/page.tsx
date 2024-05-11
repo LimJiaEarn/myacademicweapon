@@ -31,7 +31,6 @@ export async function generateMetadata( { params }: Props): Promise<Metadata> {
 
     }
 }
- 
 
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
@@ -58,11 +57,8 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     const currentUserProfileTopicalData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getPopulatedUserActivities({userID: currentUserProfileObject._id, resourceType: "Topical"});
     const currentUserProfileYearlyData : { completed: completedStudyResourceItem[], bookmarked: string[] } = await getPopulatedUserActivities({userID: currentUserProfileObject._id, resourceType: "Yearly"});
 
-
-
     const completed : any[] = [...currentUserProfileTopicalData.completed, ...currentUserProfileYearlyData.completed];
     const bookmarked : any[] = [...currentUserProfileTopicalData.bookmarked, ...currentUserProfileYearlyData.bookmarked];
-
 
     const simplifiedCompletedResourceObjects : ISummarisedPracticePaper[] = completed.map((item:any) => {
         const resource = item.resourceDetails;
@@ -155,18 +151,19 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
-                <div className="flex_col_center w-full">        
+                {isOwnUser && <Reminders userId={userID}/>}
+                {isOwnUser && <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />}
+
+                <div className="flex_center">
                     <Calendar/>
-                    {isOwnUser && <Reminders
-                        userId={userID}
-                    />}
                 </div>
+                    
 
                 <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
                 
                 <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
 
-                    <p className="w-full text-center text-pri_navy_dark font-semibold text-lg lg:text-xl">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
+                    <p className="w-full text-center text-pri_navy_dark font-semibold text-lg">Don't count the days;<br className="hidden lg:flex"/> Make the days count</p>
 
                 </div>
 
