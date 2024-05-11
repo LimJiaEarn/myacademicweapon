@@ -7,7 +7,6 @@ declare type StudyResourceNav = {
 declare type StudyResourceNavItem = {
   id: string;
   title: string;
-  resources: string[]
 }
 
 // USER PARAMS
@@ -63,6 +62,20 @@ interface StudyResourceInterface {
 }
 
 interface StudyNotesInterface extends StudyResourceInterface {
+  title: string;
+  note: number;
+  topicNames : string[];
+}
+
+interface CreateStudyNotesInterface {
+  level: "Primary" | "Secondary" | "JC";
+  subject: string;
+  desc?: string;
+  url: string;
+  contributor?: string
+  contributorUrl?: string
+  title: string;
+  note: number;
   topicNames : string[];
 }
 
@@ -72,7 +85,6 @@ interface PracticePaperInterface extends StudyResourceInterface {
   type: "Topical" | "Yearly";
   totMarks?: number;
   score?:number;
-  date?:Date;
   workingSolution?:string; // link to working solutions 
   videoSolution?:string; // link to solution recording 
 }
@@ -118,10 +130,12 @@ interface CreatePracticePaperInterface extends CreateStudyResourcesParams {
   videoSolution?:string; // link to solution recording 
 }
 
+
 interface CreateRevisionPracticePaperParams extends CreatePracticePaperInterface {
   topicNames: string[];
   practice: number;
 }
+
 
 interface CreateTopicalPracticePaperParams extends CreatePracticePaperInterface {
   topicName: string;
@@ -136,7 +150,7 @@ interface CreateYearlyPracticePaperParams extends CreatePracticePaperInterface {
 }
 
 declare type GetStudyResourcesParams = {
-  type: "Topical" | "Yearly";
+  type: "Notes" | "Topical" | "Yearly";
   level: "Primary" | "Secondary" | "JC";
   subject: string;
 };
@@ -160,7 +174,7 @@ declare type UpdateStudyResourceParams = {
 
 declare type getStatusStudyResourceParams = {
   userID: string;
-  resourceType: "Topical" | "Yearly";
+  resourceType: "Notes" | "Topical" | "Yearly";
 }
 
 declare type updateStatusStudyResourceParams = {
@@ -174,7 +188,7 @@ declare type updateStatusStudyResourceParams = {
 
 declare type getBookmarkStudyResourceParams = {
   userID: string;
-  resourceType: "Topical" | "Yearly";
+  resourceType: "Notes" | "Topical" | "Yearly";
 }
 
 declare type updateBookmarkStudyResourceParams = {
@@ -214,4 +228,17 @@ type SelectorFieldConfig = {
   id: string; // this is the column id
   placeholder: string;
   options: string[];
+}
+
+// Reminders
+
+interface ReminderDocument extends Document {
+  userObjectId: Schema.Types.ObjectId;
+  remindersArray: Array<{reminder: string, setDate: Date, dueDate: Date}>;
+}
+
+interface ReminderItem {
+  reminder: string,
+  setDate: Date,
+  dueDate: Date,
 }

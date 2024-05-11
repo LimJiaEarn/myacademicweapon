@@ -13,6 +13,8 @@ interface StudyResourceDocument extends Document {
 }
 
 interface NotesDocument extends StudyResourceDocument {
+  title: string;
+  note: number;
   topicNames: string[];
 }
 
@@ -26,7 +28,7 @@ interface TopicalPracticePaperDocument extends StudyResourceDocument {
 
 // This is for revision sets which usually consists of multiple topics
 interface RevisionPracticePaperDocument extends StudyResourceDocument {
-  totMarks?: number;
+  totMarks: number;
   workingSolution?: string;
   videoSolution?: string;
   topicNames: string[];
@@ -34,7 +36,7 @@ interface RevisionPracticePaperDocument extends StudyResourceDocument {
 }
 
 interface YearlyPracticePaperDocument extends StudyResourceDocument {
-  totMarks?: number;
+  totMarks: number;
   workingSolution?: string;
   videoSolution?: string;
   year: number;
@@ -59,7 +61,9 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
 const StudyResource: Model<StudyResourceDocument> = models.studyresources || model<StudyResourceDocument>('studyresources', StudyResourceSchema);
 
 const NotesSchema =  new Schema<NotesDocument>({
-  topicNames: [{type: String, required: true}]
+  title: {type: String, required: true},
+  note: {type: Number, required: true}, // to differentiate same titled notes
+  topicNames: [{type: String, required: true}],
 })
 
 const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({
@@ -71,7 +75,7 @@ const TopicalPracticePaperSchema = new Schema<TopicalPracticePaperDocument>({
 });
 
 const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
-  totMarks: { type: Number, required: false },
+  totMarks: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   topicNames: [{type: String, required: true}],
@@ -80,7 +84,7 @@ const RevisionPracticePaperSchema = new Schema<RevisionPracticePaperDocument>({
 
 
 const YearlyPracticePaperSchema = new Schema<YearlyPracticePaperDocument>({
-  totMarks: { type: Number, required: false },
+  totMarks: { type: Number, default: 0 },
   workingSolution: { type: String, required: false },
   videoSolution: { type: String, required: false },
   year: { type: Number, required: true },
@@ -91,9 +95,10 @@ const YearlyPracticePaperSchema = new Schema<YearlyPracticePaperDocument>({
 
 
 // Use discriminators for sub-types
+const Notes: Model<NotesDocument> = StudyResource.discriminators?.Notes || StudyResource.discriminator<NotesDocument>('Notes', NotesSchema);
 const TopicalPracticePaper: Model<TopicalPracticePaperDocument> = StudyResource.discriminators?.Topical || StudyResource.discriminator<TopicalPracticePaperDocument>('Topical', TopicalPracticePaperSchema);
 const RevisionPracticePaper: Model<RevisionPracticePaperDocument> = StudyResource.discriminators?.Revision || StudyResource.discriminator<RevisionPracticePaperDocument>('Revision',RevisionPracticePaperSchema);
 const YearlyPracticePaper: Model<YearlyPracticePaperDocument> = StudyResource.discriminators?.Yearly || StudyResource.discriminator<YearlyPracticePaperDocument>('Yearly', YearlyPracticePaperSchema);
 
-export { StudyResource, TopicalPracticePaper, RevisionPracticePaper, YearlyPracticePaper };
+export { StudyResource, Notes, TopicalPracticePaper, RevisionPracticePaper, YearlyPracticePaper };
 

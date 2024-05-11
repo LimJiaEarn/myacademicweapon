@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { StudyResource, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
+import { StudyResource, Notes, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
@@ -40,6 +40,21 @@ export async function createPracticePaper(data : CreatePracticePaperInterface) {
 
 }
 
+export async function createNote(data : CreateStudyNotesInterface) {
+
+  try {
+
+    await connectToDatabase();
+
+    const newResource = await Notes.create(data);
+
+    return JSON.parse(JSON.stringify(newResource));
+  } catch (error) {
+    handleError(error);
+  }
+
+}
+
 /*
   Read Function with Filters:
   The getStudyResources function allows you to filter study resources
@@ -61,6 +76,9 @@ export async function getStudyResources({ type, level, subject }: GetStudyResour
     }
     else if (type==="Topical") {
       resources = await StudyResource.find(query).sort({ topicName: 1, practice: 1 });
+    }
+    else if (type === "Notes") {
+      resources = await StudyResource.find(query).sort({ title: 1, note: 1 });
     }
     else{
       resources = await StudyResource.find(query);

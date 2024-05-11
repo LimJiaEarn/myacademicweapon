@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     // Hidden in small devices as Navbar will be at bottom replacing footer
-    <footer className="hidden min-w-screen-* sm:flex_col_center bg-pri_bg_card2 py-10 px-2 md:px-4">
+    <footer className="hidden min-w-screen-* sm:flex_col_center bg-pri_bg_card2 gap-4 py-10 px-2 md:px-4">
       
       <div className="w-full flex items-start justify-evenly gap-10 md:gap-20">
 

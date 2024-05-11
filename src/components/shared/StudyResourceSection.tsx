@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/shared/DataTable";
-import { getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
+import { getNotesColumns, getYearlyColumns, getTopicalColumns} from "@/utils/tablecolumns";
 
 // Server Actions
 import { updateStatusStudyResource, updateBookmarkStudyResource, getUserActivities } from '@/lib/actions/useractivity.actions';
@@ -16,6 +16,7 @@ import { getStudyResources } from '@/lib/actions/studyresource.actions';
 
 // Toast Messages
 import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } from '../../../constants';
+import { quotes } from '../../../constants/quotes';
 
 interface StudyResourceSectionProps {
   userID : string | null;
@@ -30,6 +31,33 @@ interface StudyResourceSectionProps {
 function getRandomInt(min: number, max: number): number {
   const range = max - min + 1;
   return Math.floor(Math.random() * range) + min;
+}
+
+function getSelectorFilters(resourceType : string, tableData :StudyResourceInterface[]) : SelectorFieldConfig[]{
+
+  switch (resourceType){
+
+    case 'Yearly':
+      return [
+        {
+          id: "assessment",
+          placeholder:"Filter Assessment",
+          options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
+        },
+      ]
+    case 'Topical':
+      return [
+        {
+          id: "topicName",
+          placeholder:"Filter Topics",
+          options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
+        },
+      ]
+
+    default:
+      return [];
+  }
+
 }
 
 const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject, resourceType, searchParams } : StudyResourceSectionProps) => {
@@ -47,7 +75,6 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
 
     const [completedResources, setCompletedResources] = useState<number>(0);
 
-
     useEffect(()=>{
 
         const fetchData = async () => {
@@ -58,18 +85,25 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
         
           try {
     
-            const columns = resourceType === 'Yearly' ? getYearlyColumns(onToggleStatus, onToggleBookmark, userID) : getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
-            setTableColumns(columns);
+            if (resourceType==="Yearly"){
+              setTableColumns(getYearlyColumns(onToggleStatus, onToggleBookmark, userID));
+            }
+            else if (resourceType==="Topical"){
+              setTableColumns(getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
+            }
+            else{
+              setTableColumns(getNotesColumns(onToggleBookmark, userID))
+            }
     
             // Call a server action to get data to populate the table
             let data: StudyResourceInterface[] | undefined = await getStudyResources({
-              type: resourceType as 'Yearly' | 'Topical',
+              type: resourceType as "Notes" | "Topical" | "Yearly",
               level: resourceLevel as "Primary" | "Secondary" | "JC",
               subject: resourceSubject,
             });
         
             if (userID) {
-              const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Yearly' | 'Topical' })
+              const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({ userID, resourceType: resourceType as 'Notes' | 'Yearly' | 'Topical' })
             
               const completedResourceIDs = completedResourceObject.map((item: any) => item.resourceObjectId );
               
@@ -113,7 +147,14 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                 resource : item.topicName + " Practice " + item.practice
               }))
             }
-            // For other future types eg Notes/Summaries
+            else if (resourceType==="Notes"){
+              data = (data as StudyNotesInterface[])?.map(item=> ({
+                ...item,
+                resource: item.title,
+                topicNames : item.topicNames.join(', ')
+              }))
+            }
+            // For other future types eg Revision (not implemented)
             else{
               console.log("Other types");
             }
@@ -133,6 +174,8 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
         fetchData();
 
     }, [resourceType, resourceSubject])
+
+    const randomQuoteIndex = getRandomInt(0, quotes.length-1);
 
     // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
@@ -255,36 +298,30 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             <div className="w-full px-2 md:px-6 flex_col_center">
 
               {isLoadingData ?
-                <p className="w-full text-center">Loading {resourceSubject} {resourceType} Practice Papers...</p>
+                <p className="w-full text-center">Loading {resourceSubject} {resourceType==="Notes" ? 'Notes' : resourceType + " Practice Papers"}...</p>
                 :
                 <div className="flex_col_center gap-4 w-full"> 
+                    
+                    
+                    <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
+                      <p>{quotes[randomQuoteIndex].quote}</p>
+                      {'writer' in quotes[randomQuoteIndex] && <p className="font-semibold">- {quotes[randomQuoteIndex].writer}</p>}
+                    </div>
+                    
                     { userID && <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
                         <p className="text-sm text-pri_navy_main">You have completed {completedResources}/{tableData.length} {resourceSubject} Practices!</p>
                         <Progress value={(completedResources / tableData.length)*100} className="w-full "/>
                     </div>}
+
+
+                  
                     <DataTable
                       columns={tableColumns}
-                      toHideColumns = {["bookmark", "status", "year", "assessment", "topicName"]}
+                      toHideColumns = {resourceType==="Notes" ? [] : ["bookmark", "status", "year", "assessment", "topicName"]}
                       data={tableData}
-                      showStatusFilter = {true}
+                      showStatusFilter = {resourceType==="Notes" ? false : true}
                       showBookmarkFilter = {true}
-                      selectorFilters={ resourceType==="Yearly" ?
-                        [
-                        {
-                          id: "assessment",
-                          placeholder:"Filter Assessment",
-                          options: Array.from(new Set(tableData?.map(item => (item as any)["assessment"]))),
-                        },
-                      ]
-                      :
-                      [
-                        {
-                          id: "topicName",
-                          placeholder:"Filter Topics",
-                          options: Array.from(new Set(tableData?.map(item => (item as any)["topicName"]))),
-                        },
-                      ]
-                    }
+                      selectorFilters={getSelectorFilters(resourceType, tableData)}
                       searchFilter="resource"
                       searchPlaceholder="Search Resources ..."
                       searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"

@@ -3,7 +3,7 @@ import StudyResourceSection from '@/components/shared/StudyResourceSection'
 import { currentUser } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { Metadata } from 'next'
-
+import { quotes } from '../../../../constants/quotes';
 
 function paramsMap(str : string) : string{
 
@@ -52,12 +52,9 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
     const resourceSubject = searchParams.subject;
     const resourceType = searchParams.resourceType?.split(' ')[0];
     
-
     return (
 
         <div className="min-h-screen w-full py-2 md:py-4">
-
-
 
           <StudyResourceNav level={params.level}/>
 

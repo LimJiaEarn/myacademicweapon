@@ -24,15 +24,42 @@ export default function StudyResourceNav({level} : {level: string}) {
     <div className="rounded-md px-2 md:px-4 py-2 flex_center gap-2 font-bold">
     <NavigationMenu>
         <NavigationMenuList>
+            <NavigationMenuItem>
+
+              <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
+                <>
+                  <p className="text-pri_navy_main">Notes</p>
+                </>
+              </NavigationMenuTrigger>
+
+              <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90 text-pri_navy_main">
+                  {navBarContent.map((content) => (
+                      <ListItem
+                          key={content.id}
+                          title={content.title}
+                          
+                          href={`?${new URLSearchParams({
+                              level:level,
+                              subject:content.title,
+                              resourceType:"Notes"
+                          })}`}
+                      >
+                      {content.title}
+                      </ListItem>
+                  ))}
+                  </ul>
+              </NavigationMenuContent>
+
+            </NavigationMenuItem>
 
             <NavigationMenuItem>
 
-            <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
-              <>
-                <p className="hidden sm:inline text-pri_navy_main">Topical Practice Papers</p>
-                <p className="inline sm:hidden text-pri_navy_main">Topical Papers</p>
-              </>
-            </NavigationMenuTrigger>
+              <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
+                <>
+                  <p className="text-pri_navy_main">Topical<br className="inline sm:hidden"/> Papers</p>
+                </>
+              </NavigationMenuTrigger>
 
                 <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-slate-100 opacity-90 text-pri_navy_main">
@@ -59,8 +86,7 @@ export default function StudyResourceNav({level} : {level: string}) {
 
                 <NavigationMenuTrigger className="text-lg md:text-xl font-bold text-pri_navy_darker">
                   <>
-                    <p className="hidden sm:inline text-pri_navy_main">Yearly Practice Papers</p>
-                    <p className="inline sm:hidden text-pri_navy_main">Yearly Papers</p>
+                    <p className="text-pri_navy_main text-center">Yearly<br className="inline sm:hidden"/> Papers</p>
                   </>
                 </NavigationMenuTrigger>
 
