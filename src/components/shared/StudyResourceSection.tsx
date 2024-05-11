@@ -308,7 +308,7 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
                       {'writer' in quotes[randomQuoteIndex] && <p className="font-semibold">- {quotes[randomQuoteIndex].writer}</p>}
                     </div>
                     
-                    { userID && <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
+                    { userID && (resourceType!=="Notes") && <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
                         <p className="text-sm text-pri_navy_main">You have completed {completedResources}/{tableData.length} {resourceSubject} Practices!</p>
                         <Progress value={(completedResources / tableData.length)*100} className="w-full "/>
                     </div>}
