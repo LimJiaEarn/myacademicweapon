@@ -44,7 +44,7 @@ const createStudyResourceFormDetails : FormFieldConfig[] = [
         styles: "h-[35px]",
         title:"Topic Names (comma separated)",
         placeholder:"Algebra, Circle Properties",
-        compulsory: true,
+        compulsory: false,
       },
       {
         id:"note",
@@ -105,7 +105,7 @@ const AdminPage = async () => {
         // hardcoded values
         const level = resourceLevel as "Primary" | "Secondary" | "JC";
         const type : string = "Notes";
-        const topicNames : string[]= topicNamesToSplit.split(',');
+        const topicNames : string[]= topicNamesToSplit?.length > 0 ? topicNamesToSplit.split(',') : [];
         
         const data = {
             level,
