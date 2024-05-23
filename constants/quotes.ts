@@ -19,5 +19,7 @@ export const quotes: SubjectQuote[] = [
     { quote: "Winners don't make excuses when the other side plays the game.", writer: "Harvey Specter" },
     { quote: "The bad news is time flies. The good news is you're the pilot", writer: "Michael Altshuler" },
     { quote: "The recognition that there is a problem, is the beginning of a solution", writer: "Lee Kuan Yew" },
+    { quote: "You can make excuses or you can make progress. You choose.", writer: "Brian Tracy" },
+    { quote: "The 1st step towards getting somewhere is to decide you're not going to stay where you are.", writer: "J.P. Morgan" },
     { quote: "If you look at the people in your circle and you don't get inspired, then you don't have a circle. You have a cage.", writer: "Nipsey Hussle" },
 ];

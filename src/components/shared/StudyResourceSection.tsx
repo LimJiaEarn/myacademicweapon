@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Progress } from '@/components/ui/progress';
 
@@ -175,7 +175,9 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
 
     }, [resourceType, resourceSubject])
 
-    const randomQuoteIndex = getRandomInt(0, quotes.length-1);
+
+
+    const randomQuoteIndex = useMemo(()=>getRandomInt(0, quotes.length-1), [])
 
     // This sets the status of the study resource selected by user
     const onToggleStatus = async (studyResourceID: string, userID : string|null, date : Date, newStatus : boolean, score? : number|null) => {
