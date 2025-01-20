@@ -1,6 +1,6 @@
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
 import StudyResourceSection from '@/components/shared/StudyResourceSection'
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from '@clerk/nextjs/server'
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { Metadata } from 'next'
 import { quotes } from '../../../../constants/quotes';

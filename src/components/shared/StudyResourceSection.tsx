@@ -17,6 +17,7 @@ import { getStudyResources } from '@/lib/actions/studyresource.actions';
 // Toast Messages
 import {completedToasts, incompleteToasts, bookmarkToasts, unbookmarkToasts } from '../../../constants';
 import { quotes } from '../../../constants/quotes';
+import { Loader2 } from 'lucide-react';
 
 interface StudyResourceSectionProps {
   userID : string | null;
@@ -300,7 +301,10 @@ const StudyResourceSection = ({userID, userName, resourceLevel, resourceSubject,
             <div className="w-full px-2 md:px-6 flex_col_center">
 
               {isLoadingData ?
-                <p className="w-full text-center">Loading {resourceSubject} {resourceType==="Notes" ? 'Notes' : resourceType + " Practice Papers"}...</p>
+                <div className="w-full flex_center gap-4">
+                  <Loader2 className="h-8 w-8 animate-spin text-slate-400"/>
+                  <p className="text-center">Loading {resourceSubject} {resourceType==="Notes" ? 'Notes' : resourceType + " Practice Papers"}...</p>
+                </div>
                 :
                 <div className="flex_col_center gap-4 w-full"> 
                     

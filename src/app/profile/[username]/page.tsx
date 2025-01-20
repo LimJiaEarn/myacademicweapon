@@ -1,4 +1,5 @@
-import { currentUser, SignOutButton } from "@clerk/nextjs";
+import { currentUser } from '@clerk/nextjs/server'
+import { SignOutButton } from '@clerk/nextjs'
 import { getUserByUsername, getUserByClerkId } from '@/lib/actions/user.actions';
 import { getPopulatedUserActivities } from '@/lib/actions/useractivity.actions';
 import LinkButton from "@/components/shared/LinkButton";

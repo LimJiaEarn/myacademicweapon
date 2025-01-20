@@ -1,6 +1,6 @@
 import Form from '@/components/shared/Form';
 import { createNote } from '@/lib/actions/studyresource.actions';
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 

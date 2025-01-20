@@ -1,5 +1,4 @@
-import { clerkClient } from "@clerk/nextjs";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -68,21 +67,24 @@ export async function POST(req: Request) {
       school:"",
       level:"",
       goal: 0,
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name || "",
+      lastName: last_name || "",
       photo: image_url,
       joinDate: new Date(),
     };
 
     const newUser = await createUser(user);
 
+    
+
     // Set public metadata
     if (newUser) {
-      await clerkClient.users.updateUserMetadata(id, {
+      await (await clerkClient()).users.updateUserMetadata(id, {
         publicMetadata: {
           userId : newUser._id,
         },
       });
+
     }
 
     return NextResponse.json({ message: "OK", user: newUser });
@@ -93,8 +95,8 @@ export async function POST(req: Request) {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name || "",
+      lastName: last_name || "",
       username: username!,
       photo: image_url,
     };

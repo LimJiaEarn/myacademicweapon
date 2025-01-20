@@ -2,7 +2,7 @@
 import Form from '@/components/shared/Form';
 import { contributionFormDetails } from '../../../constants'
 import { createResourceContribution } from '@/lib/actions/resourcecontribution.actions';
-import { auth } from "@clerk/nextjs";
+import { auth } from '@clerk/nextjs/server'
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import type { Metadata } from "next";
 
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const ContributePage = async ({searchParams} : {searchParams : { [key:string]:string}}) => {
 
-    const { userId } = auth();
+    const { userId } = await auth();
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;
 

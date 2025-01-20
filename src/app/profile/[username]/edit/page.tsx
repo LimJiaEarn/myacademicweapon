@@ -1,12 +1,12 @@
-import { UserProfile } from "@clerk/nextjs";
+import { auth } from '@clerk/nextjs/server'
+import { UserProfile } from '@clerk/nextjs';
 import LinkButton from "@/components/shared/LinkButton";
-import { auth } from "@clerk/nextjs";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 
 const page = async () => {
 
-    const { userId } = auth();
+    const { userId } = await auth();
 
     console.log("auth:", userId);
 
