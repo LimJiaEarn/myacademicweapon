@@ -57,11 +57,7 @@ export async function POST(req: Request) {
   // CREATE
   if (eventType === "user.created") {
 
-    console.log("User created path")
-
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
-
-    console.log("Extracted user data from evt.data: ", id)
 
     const user = {
       clerkId: id,
@@ -79,8 +75,6 @@ export async function POST(req: Request) {
 
     const newUser = await createUser(user);
 
-    console.log("User created in MongodB: ", newUser)
-
     // Set public metadata
     if (newUser) {
       await (await clerkClient()).users.updateUserMetadata(id, {
@@ -90,8 +84,6 @@ export async function POST(req: Request) {
       });
 
     }
-
-    console.log("Updated mongodb userId on clerk")
 
     return NextResponse.json({ message: "OK", user: newUser });
   }
@@ -121,8 +113,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
+  // console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+  // console.log("Webhook body:", body);
 
   return new Response("", { status: 200 });
 }
