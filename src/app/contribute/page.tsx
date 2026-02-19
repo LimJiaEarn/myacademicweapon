@@ -11,14 +11,14 @@ export const metadata: Metadata = {
   description: "Give back to the student community & help enrich our resource hub!"
 };
 
-const ContributePage = async ({searchParams} : {searchParams : { [key:string]:string}}) => {
+const ContributePage = async ({searchParams} : {searchParams : Promise<{ [key:string]:string}>}) => {
 
     const { userId } = await auth();
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const userID = currentSignedInUserObject?._id || null;
 
-
-    const initialFormValues : { [key: string]: string } = searchParams.resourceLevel ? {'resourceLevel': searchParams.resourceLevel} : {}
+    const resolvedSearchParams = await searchParams;
+    const initialFormValues : { [key: string]: string } = resolvedSearchParams.resourceLevel ? {'resourceLevel': resolvedSearchParams.resourceLevel} : {}
 
     const handleSubmit = async (formData : {[key:string]:string}) => {
         "use server"

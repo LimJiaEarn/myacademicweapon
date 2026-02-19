@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 type Props = {
-  params: { level: string }
+  params: Promise<{ level: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -10,7 +10,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const level = capitalize(params.level);
+  const { level: levelParam } = await params;
+  const level = capitalize(levelParam);
 
   return {
     title: `${level} Resources`,

@@ -21,42 +21,47 @@ function paramsMap(str : string) : string{
 }
 
 type Props = {
-  params: { level: string }
-  searchParams: { [key: string]: string }
+  params: Promise<{ level: string }>
+  searchParams: Promise<{ [key: string]: string }>
 }
- 
+
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
 
-    const level = paramsMap(params.level)
-    
+    const { level: levelParam } = await params;
+    const resolvedSearchParams = await searchParams;
+    const level = paramsMap(levelParam)
+
     return {
-      title: searchParams.subject ? `${level} ${searchParams.subject}` : `${level} Resources`,
+      title: resolvedSearchParams.subject ? `${level} ${resolvedSearchParams.subject}` : `${level} Resources`,
 
     }
 }
 
 
-const StudyResourcePage = async ( {params, searchParams} : {params: { level: string }, searchParams : { [key:string]:string}} ) => {
+const StudyResourcePage = async ( {params, searchParams} : {params: Promise<{ level: string }>, searchParams: Promise<{ [key:string]:string}>} ) => {
 
     const user = await currentUser();
 
+    const { level: levelParam } = await params;
+    const resolvedSearchParams = await searchParams;
+
     // Get the encoded data from url
-    const resourceLevel = paramsMap(params.level);
+    const resourceLevel = paramsMap(levelParam);
 
     const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
-    
+
     const userID = currentSignedInUserObject?._id || null;
 
     const userName = currentSignedInUserObject?.username || null;
-    
-    const resourceSubject = searchParams.subject;
-    const resourceType = searchParams.resourceType?.split(' ')[0];
-    
+
+    const resourceSubject = resolvedSearchParams.subject;
+    const resourceType = resolvedSearchParams.resourceType?.split(' ')[0];
+
     return (
 
         <div className="min-h-screen w-full py-2 md:py-4">
 
-          <StudyResourceNav level={params.level}/>
+          <StudyResourceNav level={levelParam}/>
 
           <hr className="my-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_navy_dark to-transparent opacity-25" />
 
@@ -66,7 +71,7 @@ const StudyResourcePage = async ( {params, searchParams} : {params: { level: str
             resourceLevel={resourceLevel}
             resourceSubject={resourceSubject}
             resourceType={resourceType}
-            searchParams={searchParams}
+            searchParams={resolvedSearchParams}
           />
 
       </div>

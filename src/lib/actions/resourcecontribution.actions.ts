@@ -1,4 +1,4 @@
-" use server"
+"use server"
 
 import { ResourceContribution } from "@/lib/database/models/resourcecontribution.model";
 import { connectToDatabase } from "@/lib/database/mongoose";

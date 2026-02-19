@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const cardVariants = {
     offscreenTop: {
@@ -23,7 +23,7 @@ const cardVariants = {
       opacity: 1,
       transition: {
         duration: 0.9,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
 };
@@ -41,22 +41,14 @@ type ServiceCardProps = {
 
 
 const GridCard = ({ initial, header, desc, imagePath, cardStyles, headerStyles, paraStyles, variant }: ServiceCardProps) => {
-    
-    
-    const isMobile = window.innerWidth <= 768;
 
-    let motionVariant = "";
-    
-    useEffect(()=>{
-        const getInitialVariant = (initial : string) => {
-            if (isMobile) {
-                return 'offscreenLeft';
-            }
-            return initial;
-        };
-        motionVariant = getInitialVariant(initial);
-    }, [])
-    
+    const [motionVariant, setMotionVariant] = useState("");
+
+    useEffect(() => {
+        const isMobile = window.innerWidth <= 768;
+        setMotionVariant(isMobile ? 'offscreenLeft' : initial);
+    }, [initial]);
+
     return (
 
     <motion.div
