@@ -5,6 +5,7 @@ import { UserActivity } from "../database/models/useractivity.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
+import { verifyOwnership } from "@/lib/authGuard";
 
 // Utility function
 async function determineResourceType(resourceID: string): Promise<'Yearly' | 'Topical' | ''> {
@@ -34,9 +35,9 @@ async function determineResourceType(resourceID: string): Promise<'Yearly' | 'To
 // Status CRU operatons
 export async function updateStatusStudyResource(updateData: updateStatusStudyResourceParams) {
     try {
-        await connectToDatabase();
-
         const { userID, resourceType, studyResourceID, newStatus, score, date } = updateData;
+        await verifyOwnership(userID);
+        await connectToDatabase();
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
         const resourceObjectId = new mongoose.Types.ObjectId(studyResourceID);
@@ -164,9 +165,9 @@ export async function getBookmarksStudyResource(params: getBookmarkStudyResource
 // Bookmark CRU operatons
 export async function updateBookmarkStudyResource(updateData: updateBookmarkStudyResourceParams) {
     try {
-        await connectToDatabase();
-
         const { userID, studyResourceID, newBookmark } = updateData;
+        await verifyOwnership(userID);
+        await connectToDatabase();
 
         
         const userObjectId = new mongoose.Types.ObjectId(userID);
@@ -224,9 +225,9 @@ export async function updateBookmarkStudyResource(updateData: updateBookmarkStud
 
 export async function getUserActivities(params: getStatusStudyResourceParams) {
     try {
-        await connectToDatabase();
-
         const { userID, resourceType } = params;
+        await verifyOwnership(userID);
+        await connectToDatabase();
         const userObjectId = new mongoose.Types.ObjectId(userID);
 
         // Find the UserActivity document for the specified user and resource type

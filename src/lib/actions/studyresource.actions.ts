@@ -5,6 +5,7 @@ import { StudyResource, Notes, TopicalPracticePaper, YearlyPracticePaper } from 
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
+import { requireAuth } from "@/lib/authGuard";
 
 /*
 https://mongoosejs.com/docs/queries.html - Query Functions/Syntax
@@ -22,6 +23,7 @@ export async function createPracticePaper(data : CreatePracticePaperInterface) {
 
   try {
 
+    await requireAuth();
     await connectToDatabase();
 
     let newResource;
@@ -44,6 +46,7 @@ export async function createNote(data : CreateStudyNotesInterface) {
 
   try {
 
+    await requireAuth();
     await connectToDatabase();
 
     const newResource = await Notes.create(data);
@@ -126,6 +129,7 @@ export async function getStudyResourceByID(resourceId : string) {
 */
 export async function updateStudyResource(resourceId : string, updateData : UpdateStudyResourceParams) {
   try {
+    await requireAuth();
     await connectToDatabase();
 
     const updatedResource = await StudyResource.findByIdAndUpdate(resourceId, updateData, { new: true });
@@ -158,6 +162,7 @@ export async function incrementStudyResourceClicks(resourceId : string) {
 // DELETE
 export async function deleteStudyResource(resourceId : string) {
   try {
+    await requireAuth();
     await connectToDatabase();
 
     const deletedResource = await StudyResource.findByIdAndDelete(resourceId);

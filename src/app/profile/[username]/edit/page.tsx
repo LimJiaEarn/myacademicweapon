@@ -8,8 +8,6 @@ const page = async () => {
 
     const { userId } = await auth();
 
-    console.log("auth:", userId);
-
     const currentSignedInUserObject : UserObject = userId ? await getUserByClerkId(userId) : null;
     const username = currentSignedInUserObject.username;
 

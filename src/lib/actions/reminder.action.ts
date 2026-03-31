@@ -3,13 +3,15 @@
 import { Reminder } from "@/lib/database/models/reminder.model";
 import { connectToDatabase } from "../database/mongoose";
 import mongoose from 'mongoose';
+import { verifyOwnership } from "@/lib/authGuard";
 
 
 // CREATE & UPDATE & DELETE
 export async function updateRemindersByUserId({userId, remindersArrayNew} : {userId: string, remindersArrayNew: ReminderItem[]}): Promise<boolean>{
 
     try{
-        
+
+        await verifyOwnership(userId);
         await connectToDatabase();
 
         const userObjectId = new mongoose.Types.ObjectId(userId);
@@ -47,6 +49,7 @@ export async function getRemindersByUserId({userId} : {userId: string}): Promise
 
     try{
 
+        await verifyOwnership(userId);
         await connectToDatabase();
 
         const userObjectId = new mongoose.Types.ObjectId(userId);
