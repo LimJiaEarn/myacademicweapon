@@ -1,9 +1,10 @@
 import StudyResourceNav from '@/components/shared/StudyResourceNav';
-import StudyResourceSection from '@/components/shared/StudyResourceSection'
-import { currentUser } from '@clerk/nextjs/server'
+import StudyResourceDataLoader from '@/components/shared/StudyResourceDataLoader';
+import { currentUser } from '@clerk/nextjs/server';
 import { getUserByClerkId } from '@/lib/actions/user.actions';
-import { Metadata } from 'next'
-import { quotes } from '../../../../constants/quotes';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 function paramsMap(str : string) : string{
 
@@ -65,14 +66,21 @@ const StudyResourcePage = async ( {params, searchParams} : {params: Promise<{ le
 
           <hr className="my-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_navy_dark to-transparent opacity-25" />
 
-          <StudyResourceSection
-            userID={userID} 
-            userName={userName}
-            resourceLevel={resourceLevel}
-            resourceSubject={resourceSubject}
-            resourceType={resourceType}
-            searchParams={resolvedSearchParams}
-          />
+          <Suspense fallback={
+            <div className="w-full flex_center gap-4 py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+              <p className="text-center text-slate-400">Loading resources...</p>
+            </div>
+          }>
+            <StudyResourceDataLoader
+              userID={userID} 
+              userName={userName}
+              resourceLevel={resourceLevel}
+              resourceSubject={resourceSubject}
+              resourceType={resourceType}
+              searchParams={resolvedSearchParams}
+            />
+          </Suspense>
 
       </div>
 

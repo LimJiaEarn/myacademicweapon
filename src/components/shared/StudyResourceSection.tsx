@@ -18,9 +18,7 @@ import {
 import {
   updateStatusStudyResource,
   updateBookmarkStudyResource,
-  getUserActivities,
 } from "@/lib/actions/useractivity.actions";
-import { getStudyResources } from "@/lib/actions/studyresource.actions";
 
 // Toast Messages
 import {
@@ -39,6 +37,8 @@ interface StudyResourceSectionProps {
   resourceSubject: string;
   resourceType: string;
   searchParams: { [key: string]: string };
+  initialTableData: StudyResourceInterface[];
+  initialCompletedResources: number;
 }
 
 function getRandomInt(min: number, max: number): number {
@@ -84,6 +84,8 @@ const StudyResourceSection = ({
   resourceSubject,
   resourceType,
   searchParams,
+  initialTableData,
+  initialCompletedResources,
 }: StudyResourceSectionProps) => {
   const { toast } = useToast();
 
@@ -94,113 +96,9 @@ const StudyResourceSection = ({
   >([]);
 
   // The data to populate the table
-  const [tableData, setTableData] = useState<StudyResourceInterface[]>([]);
+  const [tableData, setTableData] = useState<StudyResourceInterface[]>(initialTableData);
 
-  const [isLoadingData, setIsLoadingData] = useState(false);
-
-  const [completedResources, setCompletedResources] = useState<number>(0);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!resourceType || !resourceSubject) return;
-
-      setIsLoadingData(true);
-
-      try {
-        if (resourceType === "Yearly") {
-          setTableColumns(
-            getYearlyColumns(onToggleStatus, onToggleBookmark, userID)
-          );
-        } else if (resourceType === "Topical") {
-          setTableColumns(
-            getTopicalColumns(onToggleStatus, onToggleBookmark, userID)
-          );
-        } else {
-          setTableColumns(getNotesColumns(onToggleBookmark, userID));
-        }
-
-        // Call a server action to get data to populate the table
-        let data: StudyResourceInterface[] | undefined =
-          await getStudyResources({
-            type: resourceType as "Notes" | "Topical" | "Yearly",
-            level: resourceLevel as "Primary" | "Secondary" | "JC",
-            subject: resourceSubject,
-          });
-
-        if (userID) {
-          const [bookmarkedResourceIDs, completedResourceObject] =
-            await getUserActivities({
-              userID,
-              resourceType: resourceType as "Notes" | "Yearly" | "Topical",
-            });
-
-          const completedResourceIDs = completedResourceObject.map(
-            (item: any) => item.resourceObjectId
-          );
-
-          // Filter the completedResourceIDs to include only those that exist in the current data set
-          const relevantCompletedResourceIDs = completedResourceIDs.filter(
-            (id: string) => data?.some((item) => item._id === id)
-          );
-
-          setCompletedResources(relevantCompletedResourceIDs.length);
-
-          // Update the data with status and bookmarked fields
-          data = data?.map((item) => ({
-            ...item,
-            status: completedResourceIDs.includes(item._id),
-            bookmark: bookmarkedResourceIDs.includes(item._id),
-          }));
-        } else {
-          // If user is not signed in, set all statuses and bookmarked fields to false
-          data = data?.map((item) => ({
-            ...item,
-            status: false,
-            bookmark: false,
-          }));
-        }
-
-        // Summarise the data into `resource` for the table
-        // Yearly: .year + .assessment + .schoolName + .paper
-        // Topical: topicName
-
-        if (resourceType === "Yearly") {
-          data = (data as YearlyPracticePaper[])?.map((item) => ({
-            ...item,
-            resource:
-              item.paper === 0
-                ? `${item.year} ${item.assessment} ${item.schoolName}`
-                : `${item.year} ${item.assessment} ${item.schoolName} P${item.paper}`,
-          }));
-        } else if (resourceType === "Topical") {
-          data = (data as TopicalPracticePaper[])?.map((item) => ({
-            ...item,
-            resource: item.topicName + " Practice " + item.practice,
-          }));
-        } else if (resourceType === "Notes") {
-          data = (data as StudyNotesInterface[])?.map((item) => ({
-            ...item,
-            resource: item.title,
-            topicNames:
-              item.topicNames.length > 0 ? item.topicNames.join(", ") : "",
-          }));
-        }
-        // For other future types eg Revision (not implemented)
-        else {
-          console.log("Other types");
-        }
-
-        if (data) setTableData(data);
-        else setTableData([]); // no resources in database
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoadingData(false);
-      }
-    };
-
-    fetchData();
-  }, [resourceType, resourceSubject]);
+  const [completedResources, setCompletedResources] = useState<number>(initialCompletedResources);
 
   const [randomQuoteIndex, setRandomQuoteIndex] = useState(0);
 
@@ -335,22 +233,21 @@ const StudyResourceSection = ({
     }
   };
 
+  useEffect(() => {
+    if (resourceType === "Yearly") {
+      setTableColumns(getYearlyColumns(onToggleStatus, onToggleBookmark, userID));
+    } else if (resourceType === "Topical") {
+      setTableColumns(getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
+    } else {
+      setTableColumns(getNotesColumns(onToggleBookmark, userID));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resourceType, userID]);
+
   return (
     <section className="flex flex-col items-center mb-4 p-4 min-h-screen w-full py-2 md:py-4">
       {resourceLevel && resourceSubject && resourceType ? (
         <div className="w-full px-2 md:px-6 flex_col_center">
-          {isLoadingData ? (
-            <div className="w-full flex_center gap-4">
-              <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
-              <p className="text-center">
-                Loading {resourceSubject}{" "}
-                {resourceType === "Notes"
-                  ? "Notes"
-                  : resourceType + " Practice Papers"}
-                ...
-              </p>
-            </div>
-          ) : (
             <div className="flex_col_center gap-4 w-full">
               <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
                 <p>{quotes[randomQuoteIndex].quote}</p>
@@ -399,7 +296,6 @@ const StudyResourceSection = ({
                 maxRows={15}
               />
             </div>
-          )}
         </div>
       ) : (
         // Render a CTA image
