@@ -17,18 +17,18 @@ interface StudyResourcesSectionCardProps {
 
 const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
   return (
-    <div className="relative rounded-2xl overflow-hidden group border">
+    <div className="relative rounded-2xl overflow-hidden group border border-pri_bg_card2 shadow-md hover:shadow-xl transition-shadow duration-300">
       {props.route === "" && (
-        <div className="absolute top-2 right-0 z-10 bg-red-600 text-white text-md font-semibold py-2 md:py-4 px-4 md:px-10 border-red-700 border-2 shadow-lg text-center">
+        <div className="absolute top-3 right-3 z-10 bg-pri_red_main text-white text-xs md:text-sm font-bold py-1.5 px-4 rounded-full shadow-lg">
           Coming Soon!
         </div>
       )}
 
       <img src={props.image} alt={props.title}
-        className="w-[900px] h-[240px] sm:h-[350px] object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+        className="w-[900px] h-[240px] sm:h-[350px] object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
       />
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-4 flex_col_center">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/85 via-slate-900/40 to-transparent p-5 flex_col_center">
         <h1 className="text-xl md:text-2xl font-bold text-white text-center">
           {props.title}
         </h1>
@@ -39,6 +39,11 @@ const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
           {props.desc}
         </p>
 
+        {props.route !== "" && (
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-4 py-1.5 text-sm font-bold text-white border border-white/25 group-hover:bg-white/25 transition-colors">
+            Explore <span aria-hidden>→</span>
+          </span>
+        )}
       </div>
     </div>
   );

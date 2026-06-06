@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { Progress } from "@/components/ui/progress";
 
 // Table Dependencies
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/shared/DataTable";
+import ResourceCard from "@/components/shared/ResourceCard";
 import {
   getNotesColumns,
   getYearlyColumns,
@@ -38,7 +38,6 @@ interface StudyResourceSectionProps {
   resourceType: string;
   searchParams: { [key: string]: string };
   initialTableData: StudyResourceInterface[];
-  initialCompletedResources: number;
 }
 
 function getRandomInt(min: number, max: number): number {
@@ -85,20 +84,12 @@ const StudyResourceSection = ({
   resourceType,
   searchParams,
   initialTableData,
-  initialCompletedResources,
 }: StudyResourceSectionProps) => {
   const { toast } = useToast();
 
-  // Sets the column of the table to be displayed
-  // 2 main types - Yearly & Topical
-  const [tableColumns, setTableColumns] = useState<
-    ColumnDef<StudyResourceInterface>[]
-  >([]);
-
   // The data to populate the table
-  const [tableData, setTableData] = useState<StudyResourceInterface[]>(initialTableData);
-
-  const [completedResources, setCompletedResources] = useState<number>(initialCompletedResources);
+  const [tableData, setTableData] =
+    useState<StudyResourceInterface[]>(initialTableData);
 
   const [randomQuoteIndex, setRandomQuoteIndex] = useState(0);
 
@@ -157,13 +148,11 @@ const StudyResourceSection = ({
           title: completedToasts[toastIndex].title,
           description: completedToasts[toastIndex].desc,
         });
-        setCompletedResources((prev) => prev + 1);
       } else {
         toast({
           title: incompleteToasts[toastIndex].title,
           description: incompleteToasts[toastIndex].desc,
         });
-        setCompletedResources((prev) => prev - 1);
       }
     } catch (error) {
       toast({
@@ -233,69 +222,65 @@ const StudyResourceSection = ({
     }
   };
 
-  useEffect(() => {
+  // Computed synchronously so the columns exist on first render — the DataTable
+  // reads them immediately (e.g. to restore an `?assessment=` filter from the URL).
+  const tableColumns = useMemo<ColumnDef<StudyResourceInterface>[]>(() => {
     if (resourceType === "Yearly") {
-      setTableColumns(getYearlyColumns(onToggleStatus, onToggleBookmark, userID));
+      return getYearlyColumns(onToggleStatus, onToggleBookmark, userID);
     } else if (resourceType === "Topical") {
-      setTableColumns(getTopicalColumns(onToggleStatus, onToggleBookmark, userID));
-    } else {
-      setTableColumns(getNotesColumns(onToggleBookmark, userID));
+      return getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return getNotesColumns(onToggleBookmark, userID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceType, userID]);
 
   return (
     <section className="flex flex-col items-center mb-4 p-4 min-h-screen w-full py-2 md:py-4">
       {resourceLevel && resourceSubject && resourceType ? (
         <div className="w-full px-2 md:px-6 flex_col_center">
-            <div className="flex_col_center gap-4 w-full">
-              <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
-                <p>{quotes[randomQuoteIndex].quote}</p>
-                {"writer" in quotes[randomQuoteIndex] && (
-                  <p className="font-semibold">
-                    - {quotes[randomQuoteIndex].writer}
-                  </p>
-                )}
-              </div>
-
-              {userID && resourceType !== "Notes" && (
-                <div className="px-4 py-2 flex_col_center gap-2 w-full max-w-[800px]">
-                  <p className="text-sm text-pri_navy_main">
-                    You have completed {completedResources}/{tableData.length}{" "}
-                    {resourceSubject} Practices!
-                  </p>
-                  <Progress
-                    value={(completedResources / tableData.length) * 100}
-                    className="w-full "
-                  />
-                </div>
+          <div className="flex_col_center gap-4 w-full">
+            <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
+              <p>{quotes[randomQuoteIndex].quote}</p>
+              {"writer" in quotes[randomQuoteIndex] && (
+                <p className="font-semibold">
+                  - {quotes[randomQuoteIndex].writer}
+                </p>
               )}
-
-              <DataTable
-                columns={tableColumns}
-                toHideColumns={
-                  resourceType === "Notes"
-                    ? []
-                    : ["bookmark", "status", "year", "assessment", "topicName"]
-                }
-                data={tableData}
-                showStatusFilter={resourceType === "Notes" ? false : true}
-                showBookmarkFilter={true}
-                selectorFilters={getSelectorFilters(resourceType, tableData)}
-                searchFilter="resource"
-                searchPlaceholder="Search Resources ..."
-                searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-                tableStyles="bg-pri_bg_card"
-                selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-                headerRowStyles="bg-pri_mint_dark"
-                headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
-                dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
-                nextButtonStyles="text-white bg-pri_bg_card3 hover:bg-pri_mint_light rounded-lg shadow-lg w-8 h-8 cursor-pointer transition ease-in-out duration-200"
-                displayGuide={true}
-                userName={userName}
-                maxRows={15}
-              />
             </div>
+
+            <DataTable
+              columns={tableColumns}
+              toHideColumns={
+                resourceType === "Notes"
+                  ? []
+                  : ["bookmark", "status", "year", "assessment", "topicName"]
+              }
+              data={tableData}
+              showStatusFilter={resourceType === "Notes" ? false : true}
+              showBookmarkFilter={true}
+              selectorFilters={getSelectorFilters(resourceType, tableData)}
+              searchFilter="resource"
+              searchPlaceholder="Search Resources ..."
+              searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+              tableStyles="bg-pri_bg_card"
+              selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+              headerRowStyles="bg-pri_mint_dark"
+              headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
+              dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
+              displayGuide={false}
+              userName={userName}
+              maxRows={16}
+              renderCard={(row) => (
+                <ResourceCard
+                  resource={row.original}
+                  resourceType={resourceType}
+                  userID={userID}
+                  onToggleStatus={onToggleStatus}
+                  onToggleBookmark={onToggleBookmark}
+                />
+              )}
+            />
+          </div>
         </div>
       ) : (
         // Render a CTA image

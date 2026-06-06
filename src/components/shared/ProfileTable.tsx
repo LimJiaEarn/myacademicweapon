@@ -157,7 +157,6 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                     headerCellStyles="flex justify-center items-center text-pri_navy_darker text-base font-bold"
                     dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_bg_card2"
                     dataCellStyles="align-middle text-center"
-                    nextButtonStyles="text-pri_navy_darker bg-pri_bg_card2 hover:bg-pri_mint_light rounded-lg shadow-lg w-8 h-8 cursor-pointer transition ease-in-out duration-200"
                     displayGuide={false}
                     maxRows={8}
                 />

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Study Resources — UI/UX Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  /* ============ Palette (from tailwind.config.ts) ============ */
+  :root {
+    --navy-main:    hsl(228.4, 41%, 32%);
+    --navy-light:   hsl(228.4, 41%, 42%);
+    --navy-dark:    hsl(228.4, 41%, 22%);
+    --navy-darker:  hsl(228.4, 41%, 17%);
+    --mint-main:    hsl(177.4, 76.9%, 42%);
+    --nav-color:    hsl(177.4, 76.9%, 46%);
+    --mint-dark:    hsl(177.4, 76.9%, 44%);
+    --mint-darker:  hsl(177.4, 76.9%, 35%);
+    --mint-light:   hsl(177.4, 76.9%, 55%);
+    --mint-lighter: hsl(177.4, 76.9%, 65%);
+    --gold-main:    hsl(49.3, 99%, 61%);
+    --gold-light:   hsl(49.3, 99%, 66%);
+    --red-main:     hsl(341.9, 100%, 50%);
+    --bg:           #f9fafb;
+    --card:         hsla(177.4, 76.9%, 46%, 0.10);
+    --card2:        hsla(177.4, 76.9%, 46%, 0.20);
+    --card3:        hsla(177.4, 76.9%, 46%, 0.80);
+    --shadow:       0px 4px 6px rgba(0,0,0,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Roboto', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--navy-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* mockup-only annotation banner */
+  .mock-banner {
+    background: repeating-linear-gradient(45deg, #1f2937, #1f2937 12px, #111827 12px, #111827 24px);
+    color: #fff; font-size: 12px; text-align: center; padding: 6px 12px; letter-spacing: .3px;
+  }
+  .mock-banner b { color: var(--gold-light); }
+
+  /* ============ Navbar (simplified, for context) ============ */
+  .navbar {
+    background: var(--nav-color);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px clamp(16px, 4vw, 48px);
+    box-shadow: var(--shadow);
+  }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--navy-darker); }
+  .brand .logo {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--red-main);
+    display: grid; place-items: center; font-size: 11px; color: var(--red-main); background:#fff;
+  }
+  .brand b { color: var(--red-main); }
+  .navlinks { display: flex; align-items: center; gap: clamp(14px, 3vw, 40px); }
+  .navlinks a { color: var(--navy-main); text-decoration: none; font-weight: 700; font-size: 15px; }
+  .nav-cta {
+    background: var(--navy-light); color: #fff; border-radius: 10px;
+    padding: 9px 16px; font-weight: 700; font-size: 14px;
+  }
+  @media (max-width: 700px) { .navlinks a.hide-sm { display: none; } }
+
+  /* ============ Page shell ============ */
+  .page { max-width: 1000px; margin: 0 auto; padding: clamp(16px, 3vw, 28px) clamp(14px, 4vw, 28px) 64px; }
+
+  /* ============ Breadcrumb ============ */
+  .breadcrumb {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px;
+    padding: 6px 2px 14px;
+  }
+  .crumb { position: relative; }
+  .crumb-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 8px 14px;
+    background: #fff; border: 1px solid var(--card2);
+    border-radius: 12px; cursor: pointer;
+    font-family: inherit; font-size: clamp(15px, 2.5vw, 18px); font-weight: 700;
+    color: var(--navy-main); transition: all .15s ease;
+  }
+  .crumb-btn:hover { border-color: var(--mint-main); background: var(--card); }
+  .crumb-btn .label-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--mint-darker); opacity:.85; display:block; line-height:1; margin-bottom:2px; text-align:left; }
+  .crumb-btn .label-main { display:block; line-height:1.1; text-align:left; }
+  .crumb-btn .chev { color: var(--mint-main); transition: transform .2s ease; }
+  .crumb-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .crumb-btn.placeholder .label-main { color: var(--navy-light); font-weight: 400; font-style: italic; }
+  .sep { color: var(--mint-main); font-size: 20px; font-weight: 700; padding: 0 2px; user-select: none; }
+
+  .menu {
+    position: absolute; top: calc(100% + 6px); left: 0; z-index: 30;
+    min-width: 220px; background: #fff; border: 1px solid var(--card2);
+    border-radius: 14px; box-shadow: 0 12px 30px rgba(15,23,42,.16);
+    padding: 6px; display: none;
+  }
+  .menu.open { display: block; animation: pop .14s ease; }
+  @keyframes pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  .menu button {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 15px; font-weight: 600; color: var(--navy-dark);
+    padding: 11px 12px; border-radius: 9px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .menu button:hover { background: var(--card); }
+  .menu button .tick { color: var(--mint-main); opacity: 0; }
+  .menu button[aria-current="true"] { background: var(--card); color: var(--navy-darker); }
+  .menu button[aria-current="true"] .tick { opacity: 1; }
+
+  /* ============ Quote box ============ */
+  .quote {
+    background: var(--card); border-radius: 14px; box-shadow: var(--shadow);
+    text-align: center; padding: 16px 20px; margin: 4px auto 22px; max-width: 760px;
+    color: var(--navy-main); font-size: 14px;
+  }
+  .quote .by { font-weight: 700; margin-top: 6px; }
+
+  /* ============ Toolbar ============ */
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .toolbar .search {
+    flex: 1 1 240px; min-width: 0; position: relative;
+  }
+  .toolbar .search input {
+    width: 100%; height: 44px; border: none; border-radius: 12px;
+    background: var(--mint-main); color: #fff; padding: 0 16px 0 42px;
+    font-family: inherit; font-size: 15px;
+  }
+  .toolbar .search input::placeholder { color: rgba(255,255,255,.85); }
+  .toolbar .search input:hover { background: var(--mint-dark); }
+  .toolbar .search input:focus { outline: 2px solid var(--mint-light); outline-offset: 2px; }
+  .toolbar .search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color:#fff; }
+
+  .checks { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+  .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; min-height: 44px; font-size: 14px; font-weight: 600; color: var(--navy-main); }
+  .check input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .check .box {
+    width: 22px; height: 22px; border-radius: 6px; background: #eef2f3;
+    border: 1px solid var(--card2); display: grid; place-items: center; transition: all .15s ease;
+  }
+  .check .box svg { opacity: 0; color: var(--navy-darker); }
+  .check input:checked + .box { background: var(--gold-light); border-color: var(--gold-main); }
+  .check input:checked + .box svg { opacity: 1; }
+
+  .select {
+    height: 44px; border: none; border-radius: 12px; background: var(--mint-main);
+    color: #fff; font-family: inherit; font-weight: 600; font-size: 14px; padding: 0 14px;
+    cursor: pointer; min-width: 170px;
+  }
+  .select:hover { background: var(--mint-dark); }
+
+  .help {
+    width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%;
+    border: 1px solid var(--card2); background: #fff; color: var(--mint-darker);
+    font-weight: 700; font-size: 18px; cursor: pointer; display: grid; place-items: center;
+  }
+  .help:hover { background: var(--card); }
+  .guide {
+    display: none; background: var(--card); border-left: 4px solid var(--mint-main);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; color: var(--navy-dark);
+  }
+  .guide.open { display: block; }
+  .guide ol { margin: 6px 0 0 18px; display: grid; gap: 4px; }
+
+  /* ============ Resource cards ============ */
+  .cards { display: grid; gap: 14px; }
+  @media (min-width: 920px) { .cards.two-col { grid-template-columns: 1fr 1fr; } }
+
+  .rcard {
+    background: #fff; border: 1px solid var(--card2); border-radius: 16px;
+    padding: 18px 20px; box-shadow: 0 1px 2px rgba(15,23,42,.04);
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    position: relative; overflow: hidden;
+  }
+  .rcard:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.10); border-color: var(--mint-light); }
+  .rcard.done { background: linear-gradient(0deg, var(--card), #fff 60%); }
+  .rcard.done::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--mint-main);
+  }
+
+  .rcard .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .rcard .title {
+    font-size: clamp(15px, 2.4vw, 17px); font-weight: 700; color: var(--navy-darker);
+    line-height: 1.35; cursor: pointer; text-decoration: none;
+  }
+  .rcard .title:hover { color: var(--mint-darker); text-decoration: underline; }
+  .rcard .subtitle { font-size: 13px; color: var(--navy-light); margin-top: 4px; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pill {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .2px;
+    background: var(--card); color: var(--navy-dark);
+    border: 1px solid var(--card2); border-radius: 999px; padding: 4px 10px;
+  }
+  .pill.assess { background: hsla(49.3,99%,61%,.18); border-color: hsla(49.3,99%,61%,.5); color: hsl(40,60%,28%); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 7px; min-height: 38px;
+    padding: 7px 13px; border-radius: 10px; border: 1px solid var(--card2);
+    background: #fff; color: var(--navy-dark); font-family: inherit; font-size: 13px; font-weight: 700;
+    cursor: pointer; text-decoration: none; transition: all .15s ease;
+  }
+  .link-btn:hover { background: var(--card); border-color: var(--mint-light); }
+  .link-btn svg { color: var(--mint-darker); }
+  .link-btn.primary { background: var(--mint-main); color: #fff; border-color: var(--mint-main); }
+  .link-btn.primary:hover { background: var(--mint-dark); border-color: var(--mint-dark); }
+  .link-btn.primary svg { color: #fff; }
+
+  /* icon toggle buttons (bookmark + complete), top-right of card */
+  .icon-row { display: flex; gap: 6px; flex: 0 0 auto; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--card2);
+    background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s ease; color: var(--navy-light);
+  }
+  .icon-btn:hover { background: var(--card); }
+  .icon-btn.book.on { color: var(--gold-main); border-color: var(--gold-light); background: hsla(49.3,99%,61%,.12); }
+  .icon-btn.check.on { color: #fff; background: var(--mint-main); border-color: var(--mint-main); }
+
+  .meta-right { display: flex; align-items: center; gap: 8px; }
+  .score-tag { font-size: 12px; font-weight: 700; color: var(--mint-darker); white-space: nowrap; }
+
+  /* ============ Empty state ============ */
+  .empty {
+    display: none; flex-direction: column; align-items: center; gap: 14px;
+    text-align: center; padding: 48px 16px; color: var(--navy-light);
+  }
+  .empty.show { display: flex; }
+  .empty .ring {
+    width: 150px; height: 150px; border-radius: 50%; border: 2px dashed var(--card2);
+    display: grid; place-items: center; opacity: .5; font-size: 46px;
+  }
+  .empty b { color: var(--mint-darker); }
+
+  /* ============ Section heading + landing preview ============ */
+  .divider { height: 1px; border: none; margin: 40px 0 24px;
+    background: linear-gradient(to right, transparent, rgba(35,41,61,.25), transparent); }
+  .section-eyebrow { text-align: center; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--mint-darker); font-weight: 700; }
+  .section-title { text-align: center; font-size: 20px; font-weight: 700; color: var(--navy-dark); margin: 4px 0 20px; }
+
+  .landing { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .landing { grid-template-columns: 1fr 1fr; } }
+  .lcard {
+    position: relative; border-radius: 18px; overflow: hidden; min-height: 200px;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 22px;
+    color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.5); cursor: pointer;
+    transition: transform .2s ease; box-shadow: var(--shadow);
+  }
+  .lcard:hover { transform: scale(1.015); }
+  .lcard.jc  { background: linear-gradient(160deg, #2b3a67, #495a99); }
+  .lcard.sec { background: linear-gradient(160deg, #2f6f6d, #3fa39f); }
+  .lcard.pri { background: linear-gradient(160deg, #6b7280, #9aa1ab); }
+  .lcard h3 { font-size: 22px; font-weight: 700; }
+  .lcard .lsub { font-style: italic; font-size: 13px; opacity: .95; margin: 4px 0 8px; }
+  .lcard .ldesc { font-size: 13px; opacity: .95; }
+  .lcard .soon {
+    position: absolute; top: 14px; right: 14px; background: var(--red-main); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; text-shadow: none;
+  }
+
+  .note { text-align:center; font-size: 12px; color: var(--navy-light); margin-top: 28px; }
+
+  @media (max-width: 560px) {
+    .toolbar .search { flex-basis: 100%; }
+    .select { flex: 1 1 100%; min-width: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mock-banner">STATIC MOCKUP — placeholder data, no backend. Use the <b>breadcrumb Type dropdown</b> (Notes / Topical / Yearly) to preview all three card variants. Resize to ~375px to check mobile.</div>
+
+<!-- Navbar (context only) -->
+<header class="navbar">
+  <div class="brand">
+    <span class="logo">MAW</span>
+    <span>My <b>A</b>cademic Weapon</span>
+  </div>
+  <nav class="navlinks">
+    <a class="hide-sm" href="#">Home</a>
+    <a class="hide-sm" href="#">Study Resources</a>
+    <a class="hide-sm" href="#">Contribute</a>
+    <a class="nav-cta" href="#">Sign In&nbsp;·&nbsp;Sign Up</a>
+  </nav>
+</header>
+
+<main class="page">
+
+  <!-- ============ BREADCRUMB ============ -->
+  <nav class="breadcrumb" aria-label="Resource navigation">
+    <!-- Level -->
+    <div class="crumb">
+      <button class="crumb-btn" id="btn-level" aria-expanded="false" onclick="toggleMenu('level')">
+        <span><span class="label-eyebrow">Level</span><span class="label-main" id="lbl-level">Secondary</span></span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="menu" id="menu-level">
+        <button onclick="pickLevel('Secondary')" aria-current="true">Secondary <span class="tick">✓</span></button>
+        <button onclick="pickLevel('JC')">JC <span class="tick">✓</span></button>
+      </div>
+    </div>
+
+    <span class="sep">›</span>
+
+    <!-- Subject -->
+    <div class="crumb">
+      <button class="crumb-btn" id="btn-subject" aria-expanded="false" onclick="toggleMenu('subject')">
+        <span><span class="label-eyebrow">Subject</span><span class="label-main" id="lbl-subject">E Math</span></span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="menu" id="menu-subject"></div>
+    </div>
+
+    <span class="sep">›</span>
+
+    <!-- Type -->
+    <div class="crumb">
+      <button class="crumb-btn" id="btn-type" aria-expanded="false" onclick="toggleMenu('type')">
+        <span><span class="label-eyebrow">Papers</span><span class="label-main" id="lbl-type">Yearly Papers</span></span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="menu" id="menu-type">
+        <button onclick="pickType('Notes')">Notes <span class="tick">✓</span></button>
+        <button onclick="pickType('Topical')">Topical Papers <span class="tick">✓</span></button>
+        <button onclick="pickType('Yearly')" aria-current="true">Yearly Papers <span class="tick">✓</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ QUOTE ============ -->
+  <div class="quote">
+    <p>The bad news is time flies. The good news is you're the pilot.</p>
+    <p class="by">— Michael Altshuler</p>
+  </div>
+
+  <!-- ============ TOOLBAR ============ -->
+  <div class="toolbar">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search Resources …" oninput="filterCards(this.value)" />
+    </label>
+
+    <div class="checks">
+      <label class="check">
+        <input type="checkbox" onchange="toggleFlagFilter('book', this.checked)" />
+        <span class="box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        Bookmarked
+      </label>
+      <label class="check">
+        <input type="checkbox" onchange="toggleFlagFilter('todo', this.checked)" />
+        <span class="box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        Unattempted
+      </label>
+    </div>
+
+    <select class="select" id="filter-select" onchange="filterCards(document.querySelector('.search input').value)">
+      <option value="">Filter Assessment</option>
+    </select>
+
+    <button class="help" onclick="document.getElementById('guide').classList.toggle('open')" title="How it works">?</button>
+  </div>
+
+  <div class="guide" id="guide">
+    <strong>How to use this page</strong>
+    <ol>
+      <li>Click a resource title to open the paper / notes.</li>
+      <li>Use the <b>Solutions</b> and <b>Video</b> buttons for worked answers.</li>
+      <li>Tap the <b>bookmark</b> to save, or the <b>circle</b> to mark a paper complete (and log your marks).</li>
+      <li>Visit your Profile to track progress, bookmarks and goals.</li>
+    </ol>
+  </div>
+
+  <!-- ============ CARDS ============ -->
+  <div class="cards two-col" id="cards"><!-- injected by JS --></div>
+
+  <!-- Empty state -->
+  <div class="empty" id="empty">
+    <div class="ring">📚</div>
+    <p>No resources match your filters :(<br/>Have resources to share?<br/>We'll be excited to publish them — <b>myacademicweapon@gmail.com</b></p>
+  </div>
+
+  <!-- ============ LANDING PREVIEW (restyled cards) ============ -->
+  <hr class="divider" />
+  <p class="section-eyebrow">Restyled entry page</p>
+  <p class="section-title">/study-resources landing — keep but restyle</p>
+  <div class="landing">
+    <div class="lcard jc">
+      <h3>JC Champions' Chamber</h3>
+      <p class="lsub">For JC Students</p>
+      <p class="ldesc">J1 Promos, J2 Prelims &amp; GCE A Levels Exam Prep!</p>
+    </div>
+    <div class="lcard sec">
+      <h3>Secondary Scholars Sanctum</h3>
+      <p class="lsub">For Secondary Students</p>
+      <p class="ldesc">Prelims &amp; GCE O and N Levels Exam Prep!</p>
+    </div>
+    <div class="lcard pri">
+      <span class="soon">Coming Soon!</span>
+      <h3>Primary Pupils' Pavilion</h3>
+      <p class="lsub">For Primary Students</p>
+      <p class="ldesc">Ultimate PSLE Prep!</p>
+    </div>
+  </div>
+
+  <p class="note">Mockup for review only — final version will be built with the app's real components, Tailwind tokens and server data.</p>
+</main>
+
+<script>
+  /* ---------------- Placeholder data ---------------- */
+  const SUBJECTS = {
+    Secondary: ['E Math', 'A Math'],
+    JC: ['H2 Chem', 'H2 Math'],
+  };
+
+  const DATA = {
+    Yearly: [
+      { title: '2024 O Level Prelims — Ang Mo Kio Sec', pills: ['Prelims', 'Paper 1', '100 marks'], assess: 'Prelims', sol: true, vid: true,  book: false, done: false },
+      { title: '2024 O Level Prelims — Ang Mo Kio Sec', pills: ['Prelims', 'Paper 2', '100 marks'], assess: 'Prelims', sol: true, vid: false, book: false, done: false },
+      { title: '2024 O Level Prelims — Cedar Girls Sec', pills: ['Prelims', 'Paper 1', '100 marks'], assess: 'Prelims', sol: true, vid: true,  book: true,  done: true,  score: '88%' },
+      { title: '2024 O Level Prelims — Cedar Girls Sec', pills: ['Prelims', 'Paper 2', '100 marks'], assess: 'Prelims', sol: true, vid: false, book: false, done: false },
+      { title: '2024 O Level Prelims — Fairfield Methodist', pills: ['Prelims', 'Paper 1', '90 marks'], assess: 'Prelims', sol: false, vid: false, book: false, done: false },
+      { title: '2023 MYE — Raffles Girls Sec', pills: ['Mid-Year', 'Paper 1', '80 marks'], assess: 'Mid-Year', sol: true, vid: true, book: true, done: false },
+    ],
+    Topical: [
+      { title: 'Trigonometry · Practice 1', pills: ['Topical', '25 marks'], assess: 'Trigonometry', sol: true, vid: true,  book: false, done: true, score: '21 / 25' },
+      { title: 'Trigonometry · Practice 2', pills: ['Topical', '30 marks'], assess: 'Trigonometry', sol: true, vid: false, book: true,  done: false },
+      { title: 'Quadratic Equations · Practice 1', pills: ['Topical', '20 marks'], assess: 'Quadratic Equations', sol: true, vid: true, book: false, done: false },
+      { title: 'Coordinate Geometry · Practice 1', pills: ['Topical', '28 marks'], assess: 'Coordinate Geometry', sol: false, vid: false, book: false, done: false },
+      { title: 'Differentiation · Practice 1', pills: ['Topical', '32 marks'], assess: 'Differentiation', sol: true, vid: false, book: false, done: false },
+    ],
+    Notes: [
+      { title: 'Complete Trigonometry Summary Notes', subtitle: 'Topics: Sine Rule, Cosine Rule, Bearings', sol: false, vid: false, book: true,  done: null },
+      { title: 'Quadratic Functions — Key Concepts', subtitle: 'Topics: Completing the Square, Discriminant', sol: false, vid: false, book: false, done: null },
+      { title: 'Vectors Cheat Sheet', subtitle: 'Topics: Position Vectors, Magnitude, Collinearity', sol: false, vid: false, book: false, done: null },
+    ],
+  };
+
+  let state = { level: 'Secondary', subject: 'E Math', type: 'Yearly', filters: { book: false, todo: false } };
+
+  /* ---------------- Menus ---------------- */
+  function toggleMenu(which) {
+    const menu = document.getElementById('menu-' + which);
+    const btn  = document.getElementById('btn-' + which);
+    const isOpen = menu.classList.contains('open');
+    closeAllMenus();
+    if (!isOpen) { menu.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+  }
+  function closeAllMenus() {
+    document.querySelectorAll('.menu').forEach(m => m.classList.remove('open'));
+    document.querySelectorAll('.crumb-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  }
+  document.addEventListener('click', (e) => { if (!e.target.closest('.crumb')) closeAllMenus(); });
+
+  function pickLevel(level) {
+    state.level = level;
+    state.subject = SUBJECTS[level][0];   // subject resets on level switch
+    document.getElementById('lbl-level').textContent = level;
+    setCurrent('menu-level', level);
+    buildSubjectMenu();
+    render();
+    closeAllMenus();
+  }
+  function pickSubject(sub) {
+    state.subject = sub;
+    document.getElementById('lbl-subject').textContent = sub;
+    setCurrent('menu-subject', sub);
+    render();
+    closeAllMenus();
+  }
+  function pickType(type) {
+    state.type = type;
+    const label = type === 'Notes' ? 'Notes' : (type === 'Topical' ? 'Topical Papers' : 'Yearly Papers');
+    document.getElementById('lbl-type').textContent = label;
+    document.getElementById('btn-type').querySelector('.label-eyebrow').textContent = type === 'Notes' ? 'Notes' : 'Papers';
+    setCurrent('menu-type', label);
+    render();
+    closeAllMenus();
+  }
+  function setCurrent(menuId, value) {
+    document.querySelectorAll('#' + menuId + ' button').forEach(b => {
+      b.setAttribute('aria-current', b.textContent.trim().replace('✓','').trim() === value ? 'true' : 'false');
+    });
+  }
+  function buildSubjectMenu() {
+    const menu = document.getElementById('menu-subject');
+    menu.innerHTML = SUBJECTS[state.level].map(s =>
+      `<button onclick="pickSubject('${s}')" aria-current="${s === state.subject}">${s} <span class="tick">✓</span></button>`
+    ).join('');
+    document.getElementById('lbl-subject').textContent = state.subject;
+  }
+
+  /* ---------------- Filters ---------------- */
+  function toggleFlagFilter(key, val) { state.filters[key] = val; render(); }
+  function filterCards() { render(); }
+
+  /* ---------------- Render ---------------- */
+  function render() {
+    const isNotes = state.type === 'Notes';
+    const rows = DATA[state.type];
+
+    // toolbar adjustments per type
+    const selectEl = document.getElementById('filter-select');
+    const todoCheck = document.querySelectorAll('.check')[1];
+    if (isNotes) {
+      selectEl.style.display = 'none';
+      todoCheck.style.display = 'none';
+    } else {
+      selectEl.style.display = '';
+      todoCheck.style.display = '';
+      const label = state.type === 'Topical' ? 'Filter Topics' : 'Filter Assessment';
+      const opts = [...new Set(rows.map(r => r.assess))];
+      const cur = selectEl.value;
+      selectEl.innerHTML = `<option value="">${label}</option>` + opts.map(o => `<option value="${o}">${o}</option>`).join('');
+      if ([...selectEl.options].some(o => o.value === cur)) selectEl.value = cur;
+    }
+
+    const q = (document.querySelector('.search input').value || '').toLowerCase();
+    const fSel = selectEl.value;
+
+    const visible = rows.filter(r => {
+      if (q && !r.title.toLowerCase().includes(q)) return false;
+      if (!isNotes && fSel && r.assess !== fSel) return false;
+      if (state.filters.book && !r.book) return false;
+      if (state.filters.todo && r.done) return false;
+      return true;
+    });
+
+    const wrap = document.getElementById('cards');
+    const empty = document.getElementById('empty');
+    wrap.innerHTML = visible.map((r, i) => cardHTML(r, i, isNotes)).join('');
+    empty.classList.toggle('show', visible.length === 0);
+    wrap.style.display = visible.length === 0 ? 'none' : '';
+  }
+
+  function cardHTML(r, i, isNotes) {
+    const pills = (r.pills || []).map((p, idx) =>
+      `<span class="pill ${idx === 0 ? 'assess' : ''}">${p}</span>`).join('');
+    const sub = r.subtitle ? `<p class="subtitle">${r.subtitle}</p>` : '';
+
+    const links = [];
+    // Primary: the actual question paper / notes file (every resource has a url)
+    const paperLabel = isNotes ? 'Open Notes' : 'Paper';
+    links.push(`<a class="link-btn primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${paperLabel}</a>`);
+    if (r.sol) links.push(`<a class="link-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Solutions</a>`);
+    if (r.vid) links.push(`<a class="link-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Video</a>`);
+
+    // bookmark toggle (always), complete toggle (not for notes)
+    const bookBtn = `<button class="icon-btn book ${r.book ? 'on' : ''}" onclick="flip(${i},'book')" title="Bookmark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="${r.book ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>`;
+    // circle-with-tick ("empty tick" when incomplete, filled style when done)
+    const checkBtn = isNotes ? '' : `<button class="icon-btn check ${r.done ? 'on' : ''}" onclick="flip(${i},'done')" title="${r.done ? 'Mark as incomplete' : 'Mark as complete'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${r.done ? 2.5 : 2}" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </button>`;
+
+    const scoreTag = (r.done && r.score) ? `<span class="score-tag">${r.score}</span>` : '';
+
+    return `<article class="rcard ${r.done ? 'done' : ''}">
+      <div class="top">
+        <div>
+          <a class="title">${r.title}</a>
+          ${sub}
+        </div>
+        <div class="meta-right">
+          ${scoreTag}
+          <div class="icon-row">${bookBtn}${checkBtn}</div>
+        </div>
+      </div>
+      ${pills ? `<div class="pills">${pills}</div>` : ''}
+      ${links.length ? `<div class="actions">${links.join('')}</div>` : ''}
+    </article>`;
+  }
+
+  // toggle bookmark/done on placeholder rows
+  function flip(i, key) {
+    const r = DATA[state.type][i];
+    if (key === 'done') { r.done = !r.done; if (!r.done) r.score = undefined; }
+    else r.book = !r.book;
+    render();
+  }
+
+  /* ---------------- Init ---------------- */
+  buildSubjectMenu();
+  render();
+</script>
+</body>
+</html>

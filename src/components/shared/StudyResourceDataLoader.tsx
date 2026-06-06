@@ -21,7 +21,6 @@ export default async function StudyResourceDataLoader({
 }: StudyResourceDataLoaderProps) {
 
   let data: StudyResourceInterface[] = [];
-  let completedResourcesCount = 0;
 
   if (resourceType && resourceSubject) {
     try {
@@ -41,13 +40,6 @@ export default async function StudyResourceDataLoader({
         const completedResourceIDs = completedResourceObject.map(
           (item: any) => item.resourceObjectId
         );
-
-        // Filter the completedResourceIDs to include only those that exist in the current data set
-        const relevantCompletedResourceIDs = completedResourceIDs.filter(
-          (id: string) => fetchedData?.some((item) => item._id === id)
-        );
-
-        completedResourcesCount = relevantCompletedResourceIDs.length;
 
         // Update the data with status and bookmarked fields
         fetchedData = fetchedData.map((item) => ({
@@ -103,7 +95,6 @@ export default async function StudyResourceDataLoader({
       resourceType={resourceType}
       searchParams={searchParams}
       initialTableData={data}
-      initialCompletedResources={completedResourcesCount}
     />
   );
 }

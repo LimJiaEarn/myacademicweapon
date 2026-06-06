@@ -1,4 +1,4 @@
-import StudyResourceNav from '@/components/shared/StudyResourceNav';
+import StudyBreadcrumbs from '@/components/shared/StudyBreadcrumbs';
 import StudyResourceDataLoader from '@/components/shared/StudyResourceDataLoader';
 import { currentUser } from '@clerk/nextjs/server';
 import { getUserByClerkId } from '@/lib/actions/user.actions';
@@ -62,7 +62,11 @@ const StudyResourcePage = async ( {params, searchParams} : {params: Promise<{ le
 
         <div className="min-h-screen w-full py-2 md:py-4">
 
-          <StudyResourceNav level={levelParam}/>
+          <StudyBreadcrumbs
+            level={levelParam}
+            subject={resourceSubject}
+            resourceType={resolvedSearchParams.resourceType}
+          />
 
           <hr className="my-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_navy_dark to-transparent opacity-25" />
 
