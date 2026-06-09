@@ -2,88 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Remove all default margin and padding */
-
 *,
-
 *::before,
-
 *::after {
-
   margin: 0;
-
   padding: 0;
-
-  box-sizing: border-box; /* This ensures that padding and borders are included in the total width and height of the elements */
-
+  box-sizing: border-box; /* padding + borders included in element width/height */
 }
 
 html {
-
   scroll-behavior: smooth;
-
 }
 
 :root {
-
   font-size: 16px;
-
 }
-
-
 
 body {
-  @apply bg-pri_bg_color;
+  @apply bg-canvas text-ink;
   overflow-x: hidden;
+  font-feature-settings: "ss01", "cv01", "cv02";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Faint dot-grid texture — atmosphere without noise */
+  background-image: radial-gradient(
+    hsla(228, 41%, 22%, 0.045) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  background-attachment: fixed;
 }
 
-
-/* Hiding Up down arrows */
-/* For WebKit-based browsers */
+/* Hiding number input up/down arrows (WebKit) */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-
-
-
-
 @layer utilities {
-
-  .debugger{
-
-    @apply border-4 border-red-500
-
+  .debugger {
+    @apply border-4 border-red-500;
   }
 
-  .flex_center{
-
-    @apply flex justify-center items-center 
-
+  .flex_center {
+    @apply flex justify-center items-center;
   }
 
-  .flex_between{
-
-    @apply flex justify-between items-center
-
+  .flex_between {
+    @apply flex justify-between items-center;
   }
 
-  .flex_col_center{
-
-    @apply flex flex-col justify-center items-center 
-
+  .flex_col_center {
+    @apply flex flex-col justify-center items-center;
   }
 
-  .flex_col_between{
-
-    @apply flex flex-col justify-between items-center
-
+  .flex_col_between {
+    @apply flex flex-col justify-between items-center;
   }
 
+  /* Tabular figures — align numbers in stats / table cells */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
 
+  /* Small uppercase tracked label ("eyebrow") */
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.16em];
+  }
+
+  /* GRADIENT TEXT */
   .red_grad_text {
     @apply bg-gradient-to-r text-transparent bg-clip-text from-pri_red_main via-pri_red_light to-pri_red_lighter;
   }
@@ -100,40 +90,96 @@ input[type="number"]::-webkit-outer-spin-button {
     @apply bg-gradient-to-r text-transparent bg-clip-text from-yellow-600 to-pri_gold_main;
   }
 
+  .mint_grad_text {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-pri_mint_darker via-pri_mint_dark to-pri_mint_main;
+  }
+
+  /* Mint↔gold spotlight used behind hero bands */
+  .hero-glow {
+    background-image:
+      radial-gradient(60% 90% at 12% 8%, hsla(177.4, 76.9%, 46%, 0.28), transparent 60%),
+      radial-gradient(50% 80% at 92% 0%, hsla(49.3, 99%, 61%, 0.22), transparent 55%);
+  }
+
+  /* Faint grid for dark hero panels */
+  .hero-grid {
+    background-image:
+      linear-gradient(hsla(0, 0%, 100%, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(0, 0%, 100%, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
 }
 
-/* GRADIENT FONTS */
+@layer components {
+  /* The white-card surface used across the redesign */
+  .aw-card {
+    @apply bg-white rounded-2xl border border-hairline shadow-card;
+  }
+}
 
+/* Staggered page-load reveals — set --d for delay on each element */
+@keyframes reveal-up {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-/* TOOLTIP STYLINGS */
+.reveal {
+  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
 
-/* Tooltip container */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    animation: none !important;
+  }
+}
+
+/* TOOLTIP — refreshed to match the ink system.
+   Only sets a positioning context; intentionally does NOT force `display`,
+   so flex elements (icon buttons) keep their own centering. */
 .tooltip {
   position: relative;
-  display: inline-block;
 }
 
-/* Tooltip text */
 .tooltip::after {
-  content: attr(data-tooltip); /* Use the data attribute as the content */
+  content: attr(data-tooltip);
   visibility: hidden;
   opacity: 0;
-  width: 120px;
-  background-color: black;
+  width: max-content;
+  max-width: 160px;
+  background-color: hsl(228, 45%, 13%);
   color: #fff;
   text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 5px 10px;
   position: absolute;
-  z-index: 1;
-  bottom: 100%;
+  z-index: 20;
+  bottom: calc(100% + 6px);
   left: 50%;
-  margin-left: -60px; /* Use half of the width (120px/2 = 60px) to center the tooltip */
-  transition: opacity 0.3s, visibility 0.3s; /* Smooth transition for the tooltip appearance */
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+  box-shadow: 0 8px 24px -8px rgba(16, 24, 48, 0.4);
+  pointer-events: none;
 }
 
-/* Show the tooltip when hovering over the tooltip container */
 .tooltip:hover::after {
   visibility: visible;
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }

@@ -19,27 +19,34 @@ const Tab = ({Tabs, isOwnUser, userID} : {Tabs: Tab[], isOwnUser: boolean, userI
 
   
     return (
-    <div className="w-full grid grid-rows-auto">
+    <div className="w-full">
 
-        {/* Tab Selector */}
-        <div className="row-span-1 grid grid-cols-2 w-full bg-pri_mint_main min-h-12 md:min-h-14 rounded-t-xl">
-            {Tabs.map((currTab : Tab, index) => {
-            return(
-                <div
-                    key={`${currTab.title}_${index}`}
-                    className={`m-1 rounded-xl flex_center gap-2 cursor-pointer col-span-1 ${tabSelection===index ? 'bg-pri_mint_lighter' : ''}`}
-                    onClick={()=>{
-                        setTabSelection(index);
-                    }}
-                >
-                    <Image src={currTab.titleIcon} alt="" height={22} width={22}/>
-                    <h1 className="font-semibold text-pri_navy_main text-center text-md md:text-xl">{currTab.title}</h1>
-                </div>
-            )})}
+        {/* Segmented tab selector */}
+        <div className="border-b border-hairline p-3 md:p-4">
+            <div className="grid grid-cols-2 gap-1 rounded-xl bg-canvas p-1">
+                {Tabs.map((currTab : Tab, index) => {
+                return(
+                    <button
+                        type="button"
+                        key={`${currTab.title}_${index}`}
+                        className={`flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm md:text-base font-bold transition ease-in-out duration-150 ${
+                            tabSelection===index
+                                ? 'bg-white text-ink shadow-sm'
+                                : 'text-pri_navy_light hover:text-ink'
+                        }`}
+                        onClick={()=>{
+                            setTabSelection(index);
+                        }}
+                    >
+                        <Image src={currTab.titleIcon} alt="" height={18} width={18} className={tabSelection===index ? '' : 'opacity-60'}/>
+                        {currTab.title}
+                    </button>
+                )})}
+            </div>
         </div>
-        
+
         {/* Table */}
-        <div className="mt-4">
+        <div className="p-2 md:p-4">
             <ProfilePageTable
                 tableData={tabSelection===0 ? Tabs[0].data : Tabs[1].data}
                 setTableData={tabSelection===0 ? Tabs[0].setData : Tabs[1].setData}

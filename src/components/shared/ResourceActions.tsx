@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Check, Copy } from "lucide-react";
 
 import {
   Dialog,
@@ -38,7 +38,7 @@ interface ResourceActionsProps {
 }
 
 const ICON_BTN =
-  "w-10 h-10 rounded-xl border flex_center transition ease-in-out duration-150 hover:scale-[1.04]";
+  "w-10 h-10 rounded-xl border flex_center transition ease-in-out duration-150 hover:-translate-y-0.5";
 
 /**
  * The bookmark + completion controls for a study resource, shared by the
@@ -85,8 +85,8 @@ const ResourceActions = ({
         }}
         className={`${ICON_BTN} ${
           bookmarked
-            ? "bg-pri_gold_light/20 border-pri_gold_light"
-            : "bg-white border-pri_bg_card2 hover:bg-pri_bg_card"
+            ? "bg-pri_gold_main/20 border-pri_gold_main"
+            : "bg-white border-hairline hover:border-pri_gold_main hover:bg-pri_gold_main/5"
         }`}
       >
         <Image
@@ -108,7 +108,7 @@ const ResourceActions = ({
               e.preventDefault();
               onToggleStatus(studyResourceID, userID, date, false);
             }}
-            className={`${ICON_BTN} bg-pri_mint_main border-pri_mint_main text-white`}
+            className={`${ICON_BTN} bg-pri_mint_main border-pri_mint_main text-white shadow-mint`}
           >
             <CircleCheck className="h-5 w-5" strokeWidth={2.5} />
           </button>
@@ -118,74 +118,90 @@ const ResourceActions = ({
               <button
                 type="button"
                 title="Mark as complete"
-                className={`${ICON_BTN} bg-white border-pri_bg_card2 text-pri_navy_light hover:bg-pri_bg_card hover:text-pri_mint_darker`}
+                className={`${ICON_BTN} bg-white border-hairline text-pri_navy_light hover:border-pri_mint_main hover:text-pri_mint_darker hover:bg-pri_mint_main/5`}
               >
                 <CircleCheck className="h-5 w-5" strokeWidth={2} />
               </button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[440px] rounded-2xl border-hairline">
               <DialogHeader>
                 <DialogDescription asChild>
                   <div>
-                    <p className="font-semibold text-black text-lg">Track your score?</p>
-                    <div className="grid gap-2 py-4">
-                      <div className="grid grid-cols-4 items-center gap-1 h-10">
-                        <p className="text-right col-start-1 col-span-1">Your Score:</p>
-                        <div className="col-start-2 col-span-2 flex justify-start items-center gap-2">
-                          <input
-                            type="number"
-                            className="bg-slate-100 h-8 ml-4 rounded-lg w-[50px] ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                            onChange={(e) => setScore(e.target.valueAsNumber)}
-                          />
-                          {totMarks && totMarks > 0 ? (
-                            <p className="text-xl">/ {totMarks}</p>
-                          ) : (
-                            <p className="text-xl">%</p>
-                          )}
-                        </div>
+                    <p className="font-display text-2xl font-extrabold text-ink">
+                      Mark complete
+                    </p>
+                    <p className="mt-1 text-sm text-ink_soft">
+                      Log your score to track progress — optional, and only you
+                      can see it.
+                    </p>
+
+                    {/* Score input */}
+                    <div className="mt-5 flex items-center gap-3 rounded-xl border border-hairline bg-canvas p-3">
+                      <span className="text-sm font-semibold text-pri_navy_main">
+                        Your score
+                      </span>
+                      <div className="ml-auto flex items-center gap-2">
+                        <input
+                          type="number"
+                          placeholder="0"
+                          className="h-10 w-20 rounded-lg border border-hairline bg-white text-center font-mono text-lg font-bold text-ink tnum ring-offset-background focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40 focus:border-pri_mint_main"
+                          onChange={(e) => setScore(e.target.valueAsNumber)}
+                        />
+                        <span className="font-mono text-lg font-bold text-pri_navy_light">
+                          {totMarks && totMarks > 0 ? `/ ${totMarks}` : "%"}
+                        </span>
                       </div>
                     </div>
 
-                    <p className="font-semibold text-black text-lg">Share with your friends!</p>
-                    <div className="w-4/5 flex_center gap-2 sm:gap-4 py-4">
+                    {/* Share */}
+                    <p className="mt-5 text-sm font-semibold text-pri_navy_main">
+                      Share with your friends
+                    </p>
+                    <div className="mt-2 flex items-center gap-2 rounded-xl border border-hairline bg-canvas p-1.5">
                       <input
                         defaultValue={url}
                         readOnly
-                        className="mx-2 h-4 underline text-blue-600 border-1 border-slate-200 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                        className="h-9 min-w-0 flex-1 truncate rounded-lg bg-transparent px-2 text-sm text-pri_navy_light focus:outline-none"
                       />
                       <button
+                        type="button"
                         onClick={handleCopy}
-                        className="flex_center gap-2 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-white border border-hairline px-3 py-2 text-sm font-semibold text-pri_navy_main transition hover:border-pri_mint_main hover:text-pri_mint_darker"
                       >
-                        <p className="italic text-black text-sm">{copied ? "Copied" : "Copy"}</p>
-                        <Image
-                          src={copied ? "/icons/copied.svg" : "/icons/copy.svg"}
-                          alt="icon"
-                          height={20}
-                          width={20}
-                        />
+                        {copied ? (
+                          <Check className="h-4 w-4 text-pri_mint_main" />
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                        {copied ? "Copied" : "Copy"}
                       </button>
                     </div>
                   </div>
                 </DialogDescription>
               </DialogHeader>
 
-              <DialogFooter>
+              <DialogFooter className="gap-2 sm:gap-2">
                 <DialogClose asChild>
-                  <div className="flex justify-evenly items-center gap-2">
+                  <div className="flex w-full items-center justify-end gap-2">
                     <button
-                      className="bg-green-200 rounded-lg px-2 py-1"
-                      onClick={() => onToggleStatus(studyResourceID, userID, date, true)}
+                      type="button"
+                      className="rounded-xl border border-hairline bg-white px-4 py-2.5 text-sm font-semibold text-pri_navy_main transition hover:bg-canvas"
+                      onClick={() =>
+                        onToggleStatus(studyResourceID, userID, date, true)
+                      }
                     >
-                      Save w/o marks!
+                      Save without marks
                     </button>
                     <button
-                      className="bg-emerald-300 rounded-lg px-2 py-1"
+                      type="button"
+                      className="rounded-xl bg-pri_mint_main px-4 py-2.5 text-sm font-bold text-white shadow-mint transition hover:bg-pri_mint_dark disabled:opacity-40 disabled:shadow-none"
                       disabled={!score}
-                      onClick={() => onToggleStatus(studyResourceID, userID, date, true, score)}
+                      onClick={() =>
+                        onToggleStatus(studyResourceID, userID, date, true, score)
+                      }
                     >
-                      Save my marks!
+                      Save my marks
                     </button>
                   </div>
                 </DialogClose>

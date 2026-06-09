@@ -7,11 +7,11 @@ import {
 import { getFormattedProfileData } from "@/lib/services/profile.service";
 import LinkButton from "@/components/shared/LinkButton";
 import Image from "next/image";
-import Calendar from "@/components/shared/Calendar";
 import UserAbout from "@/components/shared/UserAbout";
 import UserProfile from "@/components/shared/UserProfile";
 import { Metadata } from "next";
 import Reminders from "@/components/shared/Reminders";
+import { CalendarDays, Quote } from "lucide-react";
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -81,97 +81,119 @@ const ProfilePage = async ({
   } = await getFormattedProfileData(currentUserProfileObject._id as string);
 
   return (
-    <div className="max-w-[1600px] mx-auto w-full flex flex-col lg:flex-row justify-start gap-4 md:gap-6 px-2 md:px-4 py-2">
-      {/* Profile Page Side Bar (lg) */}
-      <section className="bg-pri_bg_card rounded-xl w-full px-6 md:px-4 py-4 md:py-6 flex flex-col justify-start gap-4 md:gap-6 lg:max-w-[340px]">
-        <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center gap-4 md:gap-6">
-          {/* Mini Profile Section */}
-          <div className="flex flex-row justify-start items-center gap-2 md:gap-4">
-            <Image
-              src={
-                currentUserProfileObject?.photo || "/images/placeholderDP.webp"
-              }
-              alt="profile pic"
-              height={100}
-              width={100}
-              className="rounded-lg"
-            />
-            <div className="">
-              <p className="text-lg font-bold leading-tight md:text-xl md:leading-relaxed text-pri_navy_dark">
-                {currentUserProfileObject?.firstName}{" "}
-                {currentUserProfileObject?.lastName}
-              </p>
-              <p className="text-sm italic leading-tight md:text-md md:leading-relaxed text-pri_navy_main">
-                joined {formattedJoinDate}
-              </p>
+    <div className="mx-auto w-full max-w-[1600px] px-2 md:px-4 py-2">
+
+      {/* ── Hero identity band ─────────────────────────────────────── */}
+      <header className="relative overflow-hidden rounded-3xl bg-pri_navy_darker text-white shadow-hero reveal">
+        <div className="pointer-events-none absolute inset-0 hero-grid opacity-50" aria-hidden />
+        <div className="pointer-events-none absolute -right-12 -top-24 h-72 w-72 rounded-full bg-pri_mint_main/30 blur-3xl" aria-hidden />
+        <div className="pointer-events-none absolute -left-12 bottom-[-7rem] h-72 w-72 rounded-full bg-pri_gold_main/20 blur-3xl" aria-hidden />
+
+        <div className="relative flex flex-col gap-5 p-6 md:p-8 sm:flex-row sm:items-center">
+          {/* Avatar with gradient ring */}
+          <div className="shrink-0">
+            <div className="rounded-2xl bg-gradient-to-br from-pri_gold_main to-pri_mint_main p-[3px] shadow-lg">
+              <Image
+                src={currentUserProfileObject?.photo || "/images/placeholderDP.webp"}
+                alt="profile pic"
+                height={112}
+                width={112}
+                className="block rounded-[14px]"
+              />
             </div>
           </div>
 
-          {/* Buttons */}
+          {/* Identity */}
+          <div className="min-w-0 flex-1">
+            <p className="eyebrow text-pri_mint_lighter">
+              {isOwnUser ? "Your profile" : "Profile"}
+            </p>
+            <h1 className="mt-1 font-display text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+              {currentUserProfileObject?.firstName} {currentUserProfileObject?.lastName}
+            </h1>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {currentUserProfileObject?.level && (
+                <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm font-semibold text-white">
+                  {currentUserProfileObject.level}
+                </span>
+              )}
+              {currentUserProfileObject?.school && (
+                <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm font-semibold text-white">
+                  {currentUserProfileObject.school}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1.5 text-sm text-white/60">
+                <CalendarDays className="h-4 w-4" /> joined {formattedJoinDate}
+              </span>
+            </div>
+          </div>
+
+          {/* Actions */}
           {isOwnUser && (
-            <div className="flex flex-row sm:flex-col lg:flex-row lg:w-full justify-center items-center gap-2 md:gap-4">
+            <div className="flex flex-row gap-2 sm:flex-col lg:flex-row">
               <LinkButton
                 buttonMsg="Edit Account"
-                buttonMsgClass="text-white text-xs md:text-sm"
-                buttonColorClass="opacity-90 bg-teal-400 hover:bg-teal-500 border-gray-300 py-1 px-4 shadow-lg"
+                buttonMsgClass="text-white text-sm font-bold"
+                buttonColorClass="bg-pri_mint_main hover:bg-pri_mint_dark px-4 py-2 shadow-mint"
                 linksTo={`/profile/${username}/edit`}
               />
 
               <SignOutButton>
                 <LinkButton
                   buttonMsg="Sign Out"
-                  buttonMsgClass="text-white text-xs md:text-sm"
-                  buttonColorClass="opacity-90 bg-rose-300 hover:bg-rose-400 border-gray-300 py-1 px-4 shadow-lg"
+                  buttonMsgClass="text-white text-sm font-bold"
+                  buttonColorClass="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2"
                   linksTo={`/`}
                 />
               </SignOutButton>
             </div>
           )}
         </div>
+      </header>
 
-        <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+      {/* ── Body: sidebar + main ───────────────────────────────────── */}
+      <div className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-5 lg:flex-row">
 
-        <UserAbout
-          isOwnUser={isOwnUser}
-          username={username}
-          currentUserProfileObject={currentUserProfileObject}
-        />
+        {/* Sidebar */}
+        <aside className="flex w-full flex-col gap-4 md:gap-5 lg:max-w-[340px]">
+          <div className="aw-card p-5 reveal" style={{ ["--d" as any]: "80ms" }}>
+            <UserAbout
+              isOwnUser={isOwnUser}
+              username={username}
+              currentUserProfileObject={currentUserProfileObject}
+            />
+          </div>
 
-        <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
+          {isOwnUser && (
+            <div className="aw-card p-5 reveal" style={{ ["--d" as any]: "140ms" }}>
+              <Reminders userId={userID} />
+            </div>
+          )}
 
-        {isOwnUser && <Reminders userId={userID} />}
-        {isOwnUser && (
-          <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" />
-        )}
+          <div className="relative overflow-hidden rounded-2xl border border-hairline bg-gradient-to-br from-pri_mint_main/[0.07] to-white p-5 shadow-card reveal" style={{ ["--d" as any]: "200ms" }}>
+            <Quote className="absolute -right-1 -top-1 h-12 w-12 text-pri_mint_main/15" aria-hidden />
+            <p className="relative font-display text-lg font-bold leading-snug text-ink">
+              Don&apos;t count the days;
+              <br /> make the days count.
+            </p>
+          </div>
+        </aside>
 
-        {/* <div className="flex_center">
-          <Calendar />
-        </div> */}
-
-        {/* <hr className="h-0.5 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pri_mint_darker to-transparent opacity-45" /> */}
-
-        <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center lg:items-start gap-4 md:gap-6">
-          <p className="w-full text-center text-pri_navy_dark font-semibold text-lg">
-            Don't count the days;
-            <br className="hidden lg:flex" /> Make the days count
-          </p>
+        {/* Main */}
+        <div className="min-w-0 flex-1">
+          <UserProfile
+            currentUserProfileObject={currentUserProfileObject}
+            isOwnUser={isOwnUser}
+            userID={userID}
+            simplifiedCompletedResourceObjects={
+              simplifiedCompletedResourceObjects
+            }
+            simplifiedBookmarkedResourceObjects={
+              simplifiedBookmarkedResourceObjects
+            }
+          />
         </div>
-      </section>
-
-      {/* Profile Page Client Components */}
-      <section className="w-full flex-grow">
-        <UserProfile
-          currentUserProfileObject={currentUserProfileObject}
-          isOwnUser={isOwnUser}
-          userID={userID}
-          simplifiedCompletedResourceObjects={
-            simplifiedCompletedResourceObjects
-          }
-          simplifiedBookmarkedResourceObjects={
-            simplifiedBookmarkedResourceObjects
-          }
-        />
-      </section>
+      </div>
     </div>
   );
 };

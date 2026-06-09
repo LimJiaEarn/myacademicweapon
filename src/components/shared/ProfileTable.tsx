@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { updateStatusStudyResource, updateBookmarkStudyResource } from '@/lib/actions/useractivity.actions';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { Inbox } from 'lucide-react';
 
 type ProfilePageTableProps = {
     tableData : ISummarisedPracticePaper[];
@@ -116,24 +116,22 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
         
   return (
 
-      <div className="w-full px-2">
-        
+      <div className="w-full">
+
         {tableData?.length > 0?
-            <div className="w-full flex_col_center pb-4">
-                {/* <p className="italic text-center">{tableData.length}</p> */}
+            <div className="w-full">
                 {isOwnUser &&
-                <div className="flex flex-col md:flex-row justify-center items-center gap-2">
-                    <div className="flex justify-center items-center gap-2">
-                        <p className="text-pri_navy_darker text-md italic">Edit Mode</p>
-                        
+                <div className="mb-3 flex flex-col items-center justify-center gap-1.5 md:flex-row md:gap-3">
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-pri_navy_main">Edit mode</span>
                         <Switch
                             checked={toggleEdit}
                             onCheckedChange={()=>{
                                 setToggleEdit((prev)=>!prev);
                             }}
-                        />                        
+                        />
                     </div>
-                    {sectionType==="Completed" && <p className="text-slate-400 text-md">Your scores are not visible to others</p>}
+                    {sectionType==="Completed" && <span className="text-xs text-pri_navy_light">Your scores are private — only you can see them.</span>}
 
                 </div>}
                 <DataTable
@@ -148,32 +146,36 @@ const ProfilePageTable = ( {tableData, setTableData, userID, sectionType, isOwnU
                         },
                         ]}
                     searchFilter="title"
-                    searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'Bookmarks' : "Completed Papers"} ...`}
+                    searchPlaceholder={`Search ${sectionType==="Bookmarks" ? 'bookmarks' : "completed papers"}…`}
                     tableStyles="w-full"
-                    selectBoxStyles="w-[180px] bg-pri_mint_dark text-pri_navy_darker ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    selectContentStyles="w-[240px] bg-pri_bg_card3"
-                    searchFilterStyles="h-10 w-full rounded-md px-4 py-2 bg-pri_mint_dark text-pri_navy_darker text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    headerRowStyles="bg-pri_mint_dark"
-                    headerCellStyles="flex justify-center items-center text-pri_navy_darker text-base font-bold"
-                    dataRowStyles="transition ease-in-out duration-200 hover:bg-pri_bg_card2"
-                    dataCellStyles="align-middle text-center"
+                    tableWrapperClassName="overflow-x-auto"
+                    headerCellStyles="flex items-center justify-start text-ink text-[12px] font-bold uppercase tracking-[0.14em]"
+                    dataCellStyles="align-middle"
                     displayGuide={false}
                     maxRows={8}
                 />
             </div>
             :
-            <div className="py-4 flex flex-col md:flex-row-reverse justify-center items-center gap-6">
-                <div className="flex_col_center gap-4">
-                    <p className="text-pri_navy_light text-lg md:text-xl">You have no {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"}!</p>
-                    <p>Get Started in our <Link className="text-blue-500 italic underline" href="/study-resources">Study Resources Collection</Link>!</p>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-hairline bg-white px-6 py-10 text-center">
+                <div className="flex_center h-14 w-14 rounded-2xl bg-pri_mint_main/10 text-pri_mint_darker">
+                    <Inbox className="h-7 w-7" />
                 </div>
-                <Image src="/images/noItems.webp" alt="empty" height={300} width={300} className="rounded-full opacity-80"/>
+                <p className="font-display text-lg font-extrabold text-ink">
+                    No {sectionType==="Bookmarks" ? "bookmarks" : "completed papers"} yet
+                </p>
+                <p className="text-sm text-ink_soft">
+                    Get started in the{" "}
+                    <Link className="font-semibold text-pri_mint_darker underline" href="/study-resources">
+                        Study Resources
+                    </Link>{" "}
+                    collection.
+                </p>
             </div>
         }
 
     </div>
 
-      
+
   )
 }
 

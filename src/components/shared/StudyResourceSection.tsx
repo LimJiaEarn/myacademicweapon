@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -28,7 +27,7 @@ import {
   unbookmarkToasts,
 } from "../../../constants";
 import { quotes } from "../../../constants/quotes";
-import { Loader2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 interface StudyResourceSectionProps {
   userID: string | null;
@@ -235,19 +234,22 @@ const StudyResourceSection = ({
   }, [resourceType, userID]);
 
   return (
-    <section className="flex flex-col items-center mb-4 p-4 min-h-screen w-full py-2 md:py-4">
+    <section className="w-full">
       {resourceLevel && resourceSubject && resourceType ? (
-        <div className="w-full px-2 md:px-6 flex_col_center">
-          <div className="flex_col_center gap-4 w-full">
-            <div className="bg-pri_bg_card p-4 rounded-lg shadow-dropdown text-center mb-2 px-4 max-w-[900px] flex_col_center gap-2 text-pri_navy_main text-sm">
-              <p>{quotes[randomQuoteIndex].quote}</p>
-              {"writer" in quotes[randomQuoteIndex] && (
-                <p className="font-semibold">
-                  - {quotes[randomQuoteIndex].writer}
-                </p>
-              )}
-            </div>
+        <div className="mx-auto w-full max-w-[1500px] px-2 md:px-6">
+          {/* Editorial epigraph */}
+          <figure className="mx-auto mb-5 max-w-[760px] text-center reveal" style={{ ["--d" as any]: "60ms" }}>
+            <blockquote className="font-display text-base md:text-lg italic leading-relaxed text-ink_soft">
+              &ldquo;{quotes[randomQuoteIndex].quote}&rdquo;
+            </blockquote>
+            {"writer" in quotes[randomQuoteIndex] && (
+              <figcaption className="mt-2 eyebrow text-pri_mint_darker">
+                — {quotes[randomQuoteIndex].writer}
+              </figcaption>
+            )}
+          </figure>
 
+          <div className="reveal" style={{ ["--d" as any]: "120ms" }}>
             <DataTable
               columns={tableColumns}
               toHideColumns={
@@ -260,13 +262,9 @@ const StudyResourceSection = ({
               showBookmarkFilter={true}
               selectorFilters={getSelectorFilters(resourceType, tableData)}
               searchFilter="resource"
-              searchPlaceholder="Search Resources ..."
-              searchFilterStyles="bg-pri_mint_main hover:bg-pri_mint_dark h-10 w-full rounded-md px-4 py-2 text-white placeholder:text-white focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-              tableStyles="bg-pri_bg_card"
-              selectBoxStyles="w-[200px] bg-pri_mint_main hover:bg-pri_mint_dark text-white ring-offset-background focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
-              headerRowStyles="bg-pri_mint_dark"
-              headerCellStyles="flex_center text-pri_navy_dark text-lg font-bold"
-              dataRowStyles="transition ease-in-out delay-125 hover:bg-pri_bg_card2"
+              searchPlaceholder="Search resources…"
+              headerCellStyles="flex items-center justify-start text-ink text-[12px] font-bold uppercase tracking-[0.14em]"
+              dataCellStyles="align-middle"
               displayGuide={false}
               userName={userName}
               maxRows={16}
@@ -283,17 +281,18 @@ const StudyResourceSection = ({
           </div>
         </div>
       ) : (
-        // Render a CTA image
-        <div className="py-4 flex_col_center gap-4">
-          <Image
-            className="rounded-full opacity-20"
-            src="/images/pickContentCTA.webp"
-            alt="icon"
-            height={300}
-            width={300}
-          />
-          <p className="text-slate-400 text-lg capitalize">
-            Select Content To Begin!
+        // Render a CTA when no subject / type chosen yet
+        <div className="mx-auto mt-6 flex max-w-[560px] flex-col items-center gap-4 rounded-2xl border border-hairline bg-white px-6 py-12 text-center shadow-card">
+          <div className="flex_center h-16 w-16 rounded-2xl bg-pri_mint_main/10 text-pri_mint_darker">
+            <BookOpen className="h-8 w-8" />
+          </div>
+          <p className="font-display text-2xl font-extrabold text-ink">
+            Pick a subject to begin
+          </p>
+          <p className="max-w-sm text-sm text-ink_soft">
+            Choose a <span className="font-semibold text-pri_navy_main">subject</span> and{" "}
+            <span className="font-semibold text-pri_navy_main">paper type</span> above to
+            browse practice papers, notes and video walkthroughs.
           </p>
         </div>
       )}

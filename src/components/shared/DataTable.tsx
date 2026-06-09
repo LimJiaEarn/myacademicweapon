@@ -8,6 +8,10 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Search,
+  Bookmark,
+  CircleDashed,
+  Inbox,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -47,9 +51,13 @@ import {
   Documentation: https://ui.shadcn.com/docs/components/data-table
 */
 
-// Minimalist pagination button — bordered white square with mint hover, faded when disabled.
+// Pagination button — bordered white square with mint hover, faded when disabled.
 const PAGE_BTN =
-  "inline-flex items-center justify-center h-9 w-9 rounded-lg border border-pri_bg_card2 bg-white text-pri_navy_main transition ease-in-out duration-150 hover:bg-pri_bg_card hover:border-pri_mint_light disabled:opacity-40 disabled:pointer-events-none";
+  "inline-flex items-center justify-center h-10 w-10 rounded-xl border border-hairline bg-white text-pri_navy_main transition ease-in-out duration-150 hover:border-pri_mint_main hover:text-pri_mint_darker hover:bg-pri_mint_main/5 disabled:opacity-40 disabled:pointer-events-none";
+
+// Filter pill toggle (Bookmarked / Unattempted) — base + on/off styles.
+const PILL_BASE =
+  "inline-flex items-center gap-1.5 h-11 px-3.5 rounded-xl border text-sm font-semibold cursor-pointer select-none transition ease-in-out duration-150";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,6 +76,8 @@ interface DataTableProps<TData, TValue> {
   headerCellStyles?: string;
   dataRowStyles?: string;
   dataCellStyles?: string;
+  /** Override the table's outer wrapper (e.g. drop the card chrome when nested). */
+  tableWrapperClassName?: string;
   displayGuide: boolean;
   userName?: string | null;
   maxRows: number;
@@ -97,6 +107,7 @@ export function DataTable<TData, TValue>({
   headerCellStyles,
   dataRowStyles,
   dataCellStyles,
+  tableWrapperClassName,
   displayGuide,
   maxRows,
   renderCard,
@@ -186,144 +197,57 @@ export function DataTable<TData, TValue>({
   }, [pageIndex]);
 
   const emptyMessage = (
-    <div className="flex_center">
-      <Image
-        className="hidden md:flex rounded-full opacity-20"
-        src="/images/noContent.webp"
-        alt="icon"
-        height={300}
-        width={300}
-      />
-      <div>
-        No resources available at the moment :(
-        <br />
-        Have any resources to share?
-        <br />
-        We'll be excited to publish them here!
-        <br />
-        Contact us at
-        <br />
-        <span className="font-bold">myacademicweapon@gmail.com</span>!
+    <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
+      <div className="flex_center h-16 w-16 rounded-2xl bg-pri_mint_main/10 text-pri_mint_darker">
+        <Inbox className="h-8 w-8" />
       </div>
+      <p className="font-display text-xl font-extrabold text-ink">
+        Nothing here yet
+      </p>
+      <p className="max-w-sm text-sm text-ink_soft">
+        Have papers or notes to share? We'd love to publish them — reach us at{" "}
+        <span className="font-semibold text-pri_mint_darker">
+          myacademicweapon@gmail.com
+        </span>
+      </p>
     </div>
   );
 
   return (
     <div className="w-full max-w-[1500px]">
-      <div className="flex_col_center sm:flex-row sm:justify-evenly sm:items-center py-4 gap-4">
-        {displayGuide && (
-          <div
-            className="tooltip flex_col_center"
-            data-tooltip={`${showGuide ? "close guide" : "show guide"}`}
-          >
-            <Image
-              src={`${
-                showGuide ? "/icons/cancelW.svg" : "/icons/helpIcon.svg"
+      {/* ── Filter toolbar ───────────────────────────────────────────── */}
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between py-4">
+        {/* Search */}
+        {columns.some((column) => "accessorKey" in column) && searchFilter && (
+          <div className="relative w-full lg:max-w-[340px]">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-pri_navy_light" />
+            <input
+              placeholder={searchPlaceholder}
+              value={
+                (table.getColumn(searchFilter)?.getFilterValue() as string) ??
+                ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn(searchFilter)
+                  ?.setFilterValue(event.target.value)
+              }
+              className={`${
+                searchFilterStyles
+                  ? searchFilterStyles
+                  : "h-11 w-full rounded-xl border border-hairline bg-white pl-10 pr-4 text-sm text-ink placeholder:text-pri_navy_light/70 focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40 focus:border-pri_mint_main transition"
               }`}
-              alt="guide"
-              height={40}
-              width={40}
-              className={`border-2 border-slate-300 ${
-                showGuide && "bg-red-400"
-              } rounded-full hover:scale-[1.05] cursor-pointer`}
-              onClick={() => {
-                setShowGuide((prev) => !prev);
-              }}
             />
           </div>
         )}
 
-        <div className="flex flex-col items-start gap-2 md:gap-4">
-          {showBookmarkFilter && (
-            <div className="flex_center gap-2">
-              <div className="inline-block relative cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showBookmarked}
-                  onChange={(e) => {
-                    e.preventDefault();
-                    table
-                      .getColumn("bookmark")
-                      ?.setFilterValue(e.target.checked ? true : null);
-                    setShowBookmarked(e.target.checked); // Update the displayed value to reflect the selection
-                  }}
-                  className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
-                />
-                <span
-                  className={`block w-6 h-6 rounded-md border-2 ${
-                    showBookmarked
-                      ? "bg-amber-300 border-amber-600"
-                      : "bg-gray-100 border-gray-300"
-                  }`}
-                ></span>
-                {showBookmarked && (
-                  <svg
-                    className="absolute top-1 left-1 w-4 h-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="6"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                )}
-              </div>
-              <label className="text-pri_navy_dark">Show Bookmarked</label>
-            </div>
-          )}
-          {showStatusFilter && (
-            <div className="flex_center gap-2">
-              <div className="inline-block relative cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showIncomplete}
-                  onChange={(e) => {
-                    e.preventDefault();
-                    table
-                      .getColumn("status")
-                      ?.setFilterValue(e.target.checked ? false : null);
-                    setShowIncomplete(e.target.checked); // Update the displayed value to reflect the selection
-                  }}
-                  className="opacity-0 absolute w-full h-full left-0 top-0 z-10 cursor-pointer"
-                />
-                <span
-                  className={`block w-6 h-6 rounded-md border-2 ${
-                    showIncomplete
-                      ? "bg-amber-300 border-amber-600"
-                      : "bg-gray-100 border-gray-300"
-                  }`}
-                ></span>
-                {showIncomplete && (
-                  <svg
-                    className="absolute top-1 left-1 w-4 h-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="6"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                )}
-              </div>
-              <label className="text-pri_navy_dark">Show Unattempted</label>
-            </div>
-          )}
-        </div>
-
-        {selectorFilters && (
-          <div className="flex_center gap-2 md:gap-4">
-            {selectorFilters.map((selectorFilter, index) => {
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+          {/* Selector dropdowns */}
+          {selectorFilters &&
+            selectorFilters.map((selectorFilter, index) => {
               return (
                 <div
-                  className="w-[200px]"
+                  className="min-w-[170px]"
                   key={selectorFilter.id + "__" + index}
                 >
                   <Select
@@ -355,7 +279,7 @@ export function DataTable<TData, TValue>({
                       className={`${
                         selectBoxStyles
                           ? selectBoxStyles
-                          : "w-[180px] bg-slate-300 text-slate-600 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                          : "h-11 w-full rounded-xl border border-hairline bg-white px-4 font-semibold text-pri_navy_main ring-offset-background focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40"
                       }`}
                     >
                       <SelectValue placeholder={selectorFilter.placeholder} />
@@ -365,7 +289,7 @@ export function DataTable<TData, TValue>({
                       className={`${
                         selectContentStyles
                           ? selectContentStyles
-                          : "w-[240px] bg-slate-100"
+                          : "w-[240px] bg-white"
                       }`}
                     >
                       {selectorFilter.options.map((option, index) => {
@@ -382,7 +306,7 @@ export function DataTable<TData, TValue>({
 
                       <SelectItem
                         value={CLEAR_FILTER_VALUE}
-                        className="text-red-500 hover:cursor-pointer"
+                        className="text-pri_red_main hover:cursor-pointer"
                       >
                         Clear Filter
                       </SelectItem>
@@ -391,36 +315,77 @@ export function DataTable<TData, TValue>({
                 </div>
               );
             })}
-          </div>
-        )}
 
-        {/* Search Filter */}
-        {columns.some((column) => "accessorKey" in column) && searchFilter && (
-          <div className="flex items-center py-4 w-[300px]">
-            <input
-              placeholder={searchPlaceholder}
-              value={
-                (table.getColumn(searchFilter)?.getFilterValue() as string) ??
-                ""
-              }
-              onChange={(event) =>
-                table
-                  .getColumn(searchFilter)
-                  ?.setFilterValue(event.target.value)
-              }
-              className={`${
-                searchFilterStyles
-                  ? searchFilterStyles
-                  : "h-10 w-full rounded-md px-4 py-2 bg-slate-200 text-pri_navy_dark text-sm ring-offset-background placeholder:text-pri_navy_darker focus:outline-none ring-offset-background focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-2"
+          {/* Bookmarked toggle */}
+          {showBookmarkFilter && (
+            <label
+              className={`${PILL_BASE} ${
+                showBookmarked
+                  ? "bg-pri_gold_main border-pri_gold_dark text-ink shadow-sm"
+                  : "bg-white border-hairline text-pri_navy_main hover:border-pri_gold_main"
               }`}
-            />
-          </div>
-        )}
-      </div>
+            >
+              <input
+                type="checkbox"
+                checked={showBookmarked}
+                onChange={(e) => {
+                  e.preventDefault();
+                  table
+                    .getColumn("bookmark")
+                    ?.setFilterValue(e.target.checked ? true : null);
+                  setShowBookmarked(e.target.checked);
+                }}
+                className="sr-only"
+              />
+              <Bookmark
+                className={`h-4 w-4 ${showBookmarked ? "fill-current" : ""}`}
+              />
+              Bookmarked
+            </label>
+          )}
 
-      {/* <div>
-          Showing {table.getRowModel().rows.length.toLocaleString()} of {table.getRowCount().toLocaleString()} papers
-        </div> */}
+          {/* Unattempted toggle */}
+          {showStatusFilter && (
+            <label
+              className={`${PILL_BASE} ${
+                showIncomplete
+                  ? "bg-pri_navy_main border-pri_navy_dark text-white shadow-sm"
+                  : "bg-white border-hairline text-pri_navy_main hover:border-pri_navy_main"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={showIncomplete}
+                onChange={(e) => {
+                  e.preventDefault();
+                  table
+                    .getColumn("status")
+                    ?.setFilterValue(e.target.checked ? false : null);
+                  setShowIncomplete(e.target.checked);
+                }}
+                className="sr-only"
+              />
+              <CircleDashed className="h-4 w-4" />
+              Unattempted
+            </label>
+          )}
+
+          {/* Guide toggle */}
+          {displayGuide && (
+            <button
+              type="button"
+              className={`${PILL_BASE} ${
+                showGuide
+                  ? "bg-pri_navy_main border-pri_navy_dark text-white"
+                  : "bg-white border-hairline text-pri_navy_main hover:border-pri_mint_main"
+              }`}
+              onClick={() => setShowGuide((prev) => !prev)}
+            >
+              {showGuide ? "Close guide" : "Guide"}
+            </button>
+          )}
+        </div>
+      </div>
 
       {showGuide && (
         <div className="inline-flex p-3">
@@ -481,93 +446,108 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      {renderCard ? (
-        // ---- Card presentation mode ----
-        table.getRowModel().rows.length > 0 ? (
-          <div className="w-full max-w-[1000px] mx-auto grid gap-4 md:grid-cols-2">
-            {table.getRowModel().rows.map((row) => (
-              <div key={row.id}>{renderCard(row)}</div>
-            ))}
-          </div>
-        ) : (
-          <div className="py-8 text-center text-lg text-slate-400">
-            {emptyMessage}
-          </div>
-        )
-      ) : (
-        <Table className={tableStyles ? tableStyles : ""}>
-          <TableHeader className="rounded-t-lg">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className={headerRowStyles ? headerRowStyles : `bg-slate-400`}
-              >
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      <div
-                        className={
-                          headerCellStyles
-                            ? headerCellStyles
-                            : `flex_center text-black text-md font-semibold`
-                        }
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </div>
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody>
-            {data.length > 0 ? (
-              table.getRowModel().rows.map((row) => (
+      {/* ── Editorial table (always rendered; hidden on mobile when cards exist) ── */}
+      <div className={renderCard ? "hidden md:block" : "block"}>
+        <div
+          className={
+            tableWrapperClassName
+              ? tableWrapperClassName
+              : "overflow-x-auto rounded-2xl border border-hairline bg-white shadow-card"
+          }
+        >
+          <Table className={tableStyles ? tableStyles : "w-full"}>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className={
-                    dataRowStyles ? dataRowStyles : `hover:bg-slate-200`
-                  }
+                  key={headerGroup.id}
+                  className={`border-b-2 border-hairline hover:bg-transparent ${
+                    headerRowStyles ? headerRowStyles : "bg-white"
+                  }`}
                 >
-                  {row.getVisibleCells().map((cell) => {
+                  {headerGroup.headers.map((header) => {
                     return (
-                      <TableCell
-                        key={cell.id}
-                        className={
-                          dataCellStyles
-                            ? dataCellStyles
-                            : "align-middle text-center"
-                        }
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+                      <TableHead key={header.id} className="h-14">
+                        <div
+                          className={
+                            headerCellStyles
+                              ? headerCellStyles
+                              : `flex_center text-ink text-[12px] font-bold uppercase tracking-[0.14em]`
+                          }
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </div>
+                      </TableHead>
                     );
                   })}
                 </TableRow>
-              ))
-            ) : (
-              // No data available
-              <TableRow className="">
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center text-lg text-slate-400"
-                >
-                  {emptyMessage}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+
+            <TableBody>
+              {data.length > 0 ? (
+                table.getRowModel().rows.map((row) => {
+                  const isComplete = (row.original as any)?.status === true;
+                  return (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      className={`border-b border-hairline last:border-0 border-l-[3px] ${
+                        isComplete
+                          ? "border-l-pri_mint_main"
+                          : "border-l-transparent"
+                      } ${dataRowStyles ? dataRowStyles : `hover:bg-pri_mint_main/5`}`}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            className={`px-4 py-3.5 ${
+                              dataCellStyles
+                                ? dataCellStyles
+                                : "align-middle text-center"
+                            }`}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })
+              ) : (
+                // No data available
+                <TableRow className="hover:bg-transparent">
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    {emptyMessage}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* ── Touch-friendly cards (mobile only) ── */}
+      {renderCard && (
+        <div className="md:hidden">
+          {table.getRowModel().rows.length > 0 ? (
+            <div className="grid gap-3.5">
+              {table.getRowModel().rows.map((row) => (
+                <div key={row.id}>{renderCard(row)}</div>
+              ))}
+            </div>
+          ) : (
+            <div className="aw-card">{emptyMessage}</div>
+          )}
+        </div>
       )}
 
       {data.length > 16 && (
@@ -591,9 +571,9 @@ export function DataTable<TData, TValue>({
             <ChevronLeft className="h-4 w-4" />
           </button>
 
-          <p className="px-1 text-sm font-medium text-pri_navy_dark whitespace-nowrap">
-            Page {table.getState().pagination.pageIndex + 1} /{" "}
-            {table.getPageCount().toLocaleString()}
+          <p className="px-2 font-mono text-sm font-semibold text-ink tnum whitespace-nowrap">
+            {table.getState().pagination.pageIndex + 1}
+            <span className="text-pri_navy_light"> / {table.getPageCount().toLocaleString()}</span>
           </p>
 
           <button
@@ -615,8 +595,8 @@ export function DataTable<TData, TValue>({
             <ChevronsRight className="h-4 w-4" />
           </button>
 
-          <div className="hidden sm:flex items-center gap-1.5 ml-1 text-sm text-pri_navy_dark">
-            <span className="font-medium">Go to</span>
+          <div className="hidden sm:flex items-center gap-2 ml-2 text-sm text-pri_navy_light">
+            <span className="font-semibold">Go to</span>
             <input
               type="number"
               defaultValue={table.getState().pagination.pageIndex + 1}
@@ -632,7 +612,7 @@ export function DataTable<TData, TValue>({
 
                 table.setPageIndex(page);
               }}
-              className="h-9 w-12 rounded-lg border border-pri_bg_card2 bg-white text-center text-pri_navy_dark focus:outline-none focus:ring-2 focus:ring-pri_mint_light focus:ring-offset-1"
+              className="h-10 w-14 rounded-xl border border-hairline bg-white text-center font-mono text-ink tnum focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40 focus:border-pri_mint_main"
             />
           </div>
         </div>

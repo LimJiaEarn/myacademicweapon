@@ -1,11 +1,11 @@
 "use client"
 
-import Image from "next/image";
 import Tab from "@/components/shared/Tab";
 import { useState } from 'react';
 import Pie from '@/components/shared/Piechart';
 import { updateUserByUserID } from '@/lib/actions/user.actions';
 import { useToast } from '../ui/use-toast';
+import { CircleCheckBig, Bookmark, Target, Layers, Check, X, Pencil } from "lucide-react";
 
 interface UserProfileProps {
   currentUserProfileObject: UserObject;
@@ -47,9 +47,13 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
 
 
     const completed = completedTableData.length;
-    const percentShade = goal===0 ? 0 : Number(Math.min(100, (completed/goal) * 100).toFixed(1)); 
+    const bookmarks = bookmarkTableData.length;
+    const percentShade = goal===0 ? 0 : Number(Math.min(100, (completed/goal) * 100).toFixed(1));
     const data : number[] = [percentShade, 100 - Number(percentShade)];
-    const colors =  ['hsl(49.3, 99%, 55%)', 'hsla(49.3, 99%, 55%, 0.1)'];
+    // Mint progress ring; gold celebration when the goal is reached.
+    const ringColors = percentShade === 100
+      ? ['hsl(49.3, 99%, 55%)', 'hsla(49.3, 99%, 55%, 0.12)']
+      : ['hsl(177.4, 76.9%, 42%)', 'hsla(177.4, 76.9%, 42%, 0.12)'];
     const radius = 70;
     const hole = 62;
 
@@ -59,67 +63,99 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
       completedRecords[paper.subject] = (completedRecords[paper.subject] || 0) + 1;
     });
 
-    const bookmarkedRecords: Record<string, number> = {};
+    const subjectCount = Object.keys(completedRecords).length;
+    const maxCompleted = Math.max(1, ...Object.values(completedRecords));
 
-    bookmarkTableData?.forEach((paper) => {
-      bookmarkedRecords[paper.subject] = (bookmarkedRecords[paper.subject] || 0) + 1;
-    });
+    const statTiles = [
+      { label: "Completed", value: String(completed), Icon: CircleCheckBig, bg: "bg-pri_mint_main/10", fg: "text-pri_mint_darker" },
+      { label: "Bookmarks", value: String(bookmarks), Icon: Bookmark, bg: "bg-pri_gold_main/20", fg: "text-yellow-600" },
+      { label: "Goal", value: goal > 0 ? `${percentShade}%` : "—", Icon: Target, bg: "bg-pri_navy_main/10", fg: "text-pri_navy_main" },
+      { label: "Subjects", value: String(subjectCount), Icon: Layers, bg: "bg-pri_mint_main/10", fg: "text-pri_mint_darker" },
+    ];
 
 
     return (
-    <div className="grid row-auto gap-4">
+    <div className="grid gap-4 md:gap-5">
 
-      <div className="grid grid-rows-auto lg:grid-cols-2 gap-4 w-full">
+      {/* ── Stat row ─────────────────────────────────────────────── */}
+      <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+        {statTiles.map(({ label, value, Icon, bg, fg }, i) => (
+          <div
+            key={label}
+            className="aw-card flex items-center gap-3 p-4 md:p-5 reveal"
+            style={{ ["--d" as any]: `${i * 70}ms` }}
+          >
+            <div className={`flex_center h-11 w-11 shrink-0 rounded-xl ${bg}`}>
+              <Icon className={`h-5 w-5 ${fg}`} />
+            </div>
+            <div className="min-w-0">
+              <p className="font-mono text-2xl md:text-3xl font-bold leading-none text-ink tnum">
+                {value}
+              </p>
+              <p className="mt-1.5 eyebrow text-pri_navy_light">{label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
 
-      <div className="bg-pri_bg_card rounded-xl col-span-1 row-span-1 flex flex-col justify-start content-evenly gap-2 md:gap-4 p-2 md:p-4 relative">
-            <h1 className="font-bold text-pri_navy_main text-center text-lg md:text-xl mb-2">Goal Tracker</h1>
-            
-            {isOwnUser && <div className="absolute top-2 right-2">
-                {editGoal ?
-                <div className="flex_center gap-2">
-                  <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={()=>{setGoal2(goal); setEditGoal(false)}}>
-                    <Image src='/icons/cancelW.svg' alt='save' height={22} width={22} />
+      {/* ── Goal ring + subject breakdown ────────────────────────── */}
+      <div className="grid gap-4 md:gap-5 lg:grid-cols-2">
+
+        {/* Goal Tracker */}
+        <div className="aw-card relative p-5 md:p-6 reveal" style={{ ["--d" as any]: "120ms" }}>
+            <div className="flex items-center justify-between">
+              <h2 className="font-display text-lg font-extrabold text-ink">Goal Tracker</h2>
+              {isOwnUser && (editGoal ?
+                <div className="flex items-center gap-2">
+                  <button
+                    className="flex_center h-8 w-8 rounded-lg border border-hairline bg-white text-pri_red_main transition hover:bg-pri_red_main/5"
+                    onClick={()=>{setGoal2(goal); setEditGoal(false)}}
+                    title="Cancel"
+                  >
+                    <X className="h-4 w-4" />
                   </button>
-                  <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={updateGoal}>
-                    <Image src='/icons/saveW.svg' alt='save' height={22} width={22} />
+                  <button
+                    className="flex_center h-8 w-8 rounded-lg bg-pri_mint_main text-white shadow-mint transition hover:bg-pri_mint_dark"
+                    onClick={updateGoal}
+                    title="Save"
+                  >
+                    <Check className="h-4 w-4" />
                   </button>
                 </div>
                 :
-                <button className="cursor-pointer hover:scale-105" onClick={()=>{setEditGoal(true)}}>
-                  <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
-                </button>}
-              </div>
-            }
-              
-            <div className="gap-4 md:gap-8 flex-grow flex flex-row justify-evenly items-center">
+                <button
+                  className="flex_center h-9 w-9 rounded-lg border border-hairline bg-white text-pri_navy_main transition hover:border-pri_mint_main hover:text-pri_mint_darker"
+                  onClick={()=>{setEditGoal(true)}}
+                  title="Edit goal"
+                >
+                  <Pencil className="h-4 w-4" />
+                </button>)
+              }
+            </div>
 
+            <div className="mt-4 flex items-center justify-center gap-6 md:gap-8">
               <div className="relative flex items-center justify-center">
-                
                 <Pie
                     data={goal > 0 ? data : [0, 100]}
-                    colors={colors}
+                    colors={ringColors}
                     radius={radius}
                     hole={hole}
                     strokeWidth={1}
                 />
-                <div className="absolute flex flex-col items-center justify-center inset-0">
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
                     {percentShade===100 ?
-                     <p className="text-center font-bold gold_grad_text_2 text-3xl">Goal<br/>Hit!</p>
+                     <p className="text-center font-display font-extrabold gold_grad_text_2 text-2xl leading-tight">Goal<br/>Hit!</p>
                     :
-                      <p className="text-center font-bold text-pri_navy_light text-2xl">{`${goal > 0 ? percentShade+"%" : '-'}`}</p>}
+                      <p className="text-center font-mono font-bold text-ink text-3xl tnum">{`${goal > 0 ? percentShade+"%" : '—'}`}</p>}
                 </div>
-    
-              
               </div>
 
-              <div className="h-full flex flex-col justify-start items-center gap-2">
-              
-                  <div className="flex_col_center gap-1">
-                    <h2 className="font-semibold text-md text-pri_navy_main">{isOwnUser && "Your "} Goal:</h2>
+              <div className="flex flex-col gap-4">
+                  <div>
+                    <p className="eyebrow text-pri_navy_light">{isOwnUser && "Your "}Goal</p>
                     {editGoal ?
-
                     <input
-                      className="bg-pri_bg_card2 rounded-xl px-1 max-w-[100px] font-semibold text-3xl text-pri_navy_lighter text-center focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      className="mt-1 w-[110px] rounded-lg border border-hairline bg-white px-2 py-1 text-center font-mono text-2xl font-bold text-ink tnum focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40 focus:border-pri_mint_main"
                       type="text"
                       pattern="[0-9]*"
                       inputMode="numeric"
@@ -131,42 +167,49 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                       value={goal2 ? goal2 : 0}
                     />
                     :
-                    <p className="font-semibold text-3xl text-pri_navy_lighter">{goal}</p>}
+                    <p className="mt-1 font-mono text-3xl font-bold text-ink tnum">{goal}</p>}
                   </div>
 
-                  <div className="flex_col_center gap-1">
-                    <h2 className="font-semibold text-md text-pri_navy_main">{isOwnUser && "Your "} Progress</h2>
-                    <p className="font-semibold text-3xl text-pri_navy_lighter">{completed}</p>
+                  <div>
+                    <p className="eyebrow text-pri_navy_light">{isOwnUser && "Your "}Progress</p>
+                    <p className="mt-1 font-mono text-3xl font-bold text-pri_mint_darker tnum">{completed}</p>
                   </div>
-              
               </div>
-
-
             </div>
         </div>
-        
-        <div className="bg-pri_bg_card rounded-xl col-span-1 row-span-1 flex flex-col justify-start items-center p-2 md:p-4">
-            <h1 className="font-bold text-pri_navy_main text-center text-lg md:text-xl mb-4">{isOwnUser && "Your "}Completed Practices</h1>
-            
-            {Object.keys(completedRecords).length === 0 ?
-                <p className="w-full text-center italic text-pri_navy_main">0 completed papers found</p>
+
+        {/* Completed practices by subject */}
+        <div className="aw-card p-5 md:p-6 reveal" style={{ ["--d" as any]: "180ms" }}>
+            <h2 className="font-display text-lg font-extrabold text-ink mb-4">{isOwnUser && "Your "}Completed Practices</h2>
+
+            {subjectCount === 0 ?
+                <div className="flex flex-col items-center justify-center gap-1 py-8 text-center">
+                  <p className="text-sm italic text-ink_soft">No completed papers yet</p>
+                  <p className="text-xs text-pri_navy_light">Mark papers done to see your breakdown here.</p>
+                </div>
                 :
-                <ul className="w-4/5 px-4 lg:px-10 text-sm md:text-md text-pri_navy_main max-w-[240]">
+                <ul className="flex flex-col gap-3.5">
                 {Object.entries(completedRecords).map(([subject, completions], index)=>{
+                    const pct = (completions / maxCompleted) * 100;
                     return(
-                        <li key={`${subject}_${completions}_${index}`} className="flex my-2">
-                            <p className="font-semibold">{subject}</p>
-                            <p className="font-bold ml-auto">{completions} <span className="italic font-normal">completed</span></p>
+                        <li key={`${subject}_${completions}_${index}`}>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="font-semibold text-ink">{subject}</span>
+                              <span className="font-mono text-pri_navy_light tnum">{completions}</span>
+                            </div>
+                            <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-pri_mint_main/10">
+                              <div className="h-full rounded-full bg-pri_mint_main" style={{ width: `${pct}%` }} />
+                            </div>
                         </li>
                     )
                 })}
-
             </ul>}
         </div>
 
       </div>
 
-      <div className=" bg-pri_bg_card rounded-xl row-auto">
+      {/* ── Tabbed ledger ────────────────────────────────────────── */}
+      <div className="aw-card overflow-hidden reveal" style={{ ["--d" as any]: "240ms" }}>
         <Tab
             Tabs={[
                 {
@@ -182,14 +225,12 @@ const UserProfile = ({currentUserProfileObject, isOwnUser, userID, simplifiedCom
                     data: bookmarkTableData,
                     setData: setBookmarkTableData,
                     sectionType: "Bookmarks",
-                    
                 },
             ]}
             isOwnUser= {isOwnUser}
             userID = {userID}
         />
       </div>
-
 
     </div>
   )

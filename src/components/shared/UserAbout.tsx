@@ -4,7 +4,7 @@ import { schools, levels } from '../../../constants/schools';
 import { useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import { updateUserByUserID } from '@/lib/actions/user.actions';
-import Image from 'next/image';
+import { Check, X, Pencil } from 'lucide-react';
 import { ComboBox } from '../ui/combobox';
 
 interface UserAboutProps {
@@ -48,7 +48,7 @@ const SearchSelectField = ({contents, displayValue, fieldValue, placeholder, inp
         setEditProfile={setEditProfile}
       />
     :
-    <p className="text-left text-sm text-pri_navy_light">{fieldValue==""? placeholder : displayValue}</p>
+    <p className="text-left text-sm text-ink_soft">{fieldValue==""? placeholder : displayValue}</p>
   }
     </div>
     
@@ -73,22 +73,22 @@ const InputField = ({displayValue, fieldValue, placeholder, inputName, editMode,
   return (
     <div className="flex justify-start items-center gap-2">
       {editMode ?
-        <div className="flex_col_center gap-1">
+        <div className="flex w-full flex-col gap-1">
           <textarea
-            className="w-full px-2 py-1 text-sm text-pri_navy_main rounded-lg bg-pri_bg_card text-left focus:outline-none ring-offset-background focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full rounded-lg border border-hairline bg-canvas px-2 py-1.5 text-left text-sm text-ink focus:outline-none focus:ring-2 focus:ring-pri_mint_main/40 focus:border-pri_mint_main"
             value={fieldValue === "" ? "" : fieldValue}
             name={inputName}
             onChange={handleInputChange}
             maxLength={30}
           />
           {showMaxLengthWarning ?
-            <p className="text-xs text-red-500">character limit reached.</p>
+            <p className="text-xs text-pri_red_main">character limit reached.</p>
           :
-            <p className="text-xs text-slate-400">30 character limit</p>
+            <p className="text-xs text-pri_navy_light">30 character limit</p>
           }
         </div>
       :
-        <p className="text-left text-sm text-pri_navy_light">{fieldValue === "" ? placeholder : displayValue}</p>
+        <p className="text-left text-sm text-ink_soft">{fieldValue === "" ? placeholder : displayValue}</p>
       }
     </div>
   );
@@ -158,35 +158,33 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
   };
 
   return (
-    <div className="flex_col_center w-full">
-      <div className="flex justify-center items-end gap-2 w-full relative">
-        <h2 className="text-lg font-bold md:text-md text-pri_navy_dark text-start">
-            About {isOwnUser ? 'You' : username}
+    <div className="w-full">
+      <div className="relative flex w-full items-center justify-between gap-2">
+        <h2 className="font-display text-lg font-extrabold text-ink">
+            About {isOwnUser ? 'you' : username}
         </h2>
         {isOwnUser && (
           editMode ?
-          <div className="absolute top-0 right-0 w-[50] flex_center gap-2">
-          <button className="cursor-pointer hover:bg-red-600 bg-red-500 rounded-lg p-1" onClick={handleCancel}>
-            <Image src='/icons/cancelW.svg' alt='save' height={22} width={22} />
-          </button>
-          <button className="cursor-pointer hover:bg-blue-600 bg-blue-500 rounded-lg p-1" onClick={handleSave}>
-            <Image src='/icons/saveW.svg' alt='save' height={22} width={22} />
-          </button>
-          
+          <div className="flex items-center gap-2">
+            <button className="flex_center h-8 w-8 rounded-lg border border-hairline bg-white text-pri_red_main transition hover:bg-pri_red_main/5" onClick={handleCancel} title="Cancel">
+              <X className="h-4 w-4" />
+            </button>
+            <button className="flex_center h-8 w-8 rounded-lg bg-pri_mint_main text-white shadow-mint transition hover:bg-pri_mint_dark" onClick={handleSave} title="Save">
+              <Check className="h-4 w-4" />
+            </button>
           </div>
-          
           :
-          <button className="cursor-pointer hover:scale-105 absolute top-0 right-0" onClick={handleEdit}>
-            <Image src='/icons/edit.svg' alt='edit' height={30} width={30} />
+          <button className="flex_center h-9 w-9 rounded-lg border border-hairline bg-white text-pri_navy_main transition hover:border-pri_mint_main hover:text-pri_mint_darker" onClick={handleEdit} title="Edit profile">
+            <Pencil className="h-4 w-4" />
           </button>
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mt-2 grid-rows-auto">
+      <div className="grid grid-cols-3 gap-x-3 gap-y-3.5 mt-4 grid-rows-auto">
 
 
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">School:</p>
+        <p className="col-span-1 flex items-center justify-start text-sm font-bold text-pri_navy_main">School:</p>
         <div className="col-span-2">
           <SearchSelectField
             contents={schools}
@@ -199,7 +197,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           />
         </div>
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Level:</p>
+        <p className="col-span-1 flex items-center justify-start text-sm font-bold text-pri_navy_main">Level:</p>
         <div className="col-span-2">
           <SearchSelectField
             contents={levels}
@@ -212,7 +210,7 @@ function UserAbout({isOwnUser, username, currentUserProfileObject} : UserAboutPr
           />
         </div>
 
-        <p className="col-span-1 text-left text-md font-semibold text-pri_navy_main flex justify-start items-center">Bio:</p>
+        <p className="col-span-1 flex items-center justify-start text-sm font-bold text-pri_navy_main">Bio:</p>
         <div className="col-span-2">
           <InputField
             displayValue={profile.bio}

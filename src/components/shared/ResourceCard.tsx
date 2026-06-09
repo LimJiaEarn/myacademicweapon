@@ -44,12 +44,12 @@ const ResourceCard = ({
   const completed = resource.status as boolean;
 
   const linkBtn =
-    "inline-flex items-center gap-2 min-h-[38px] px-3 py-2 rounded-lg border text-sm font-bold transition ease-in-out duration-150";
+    "inline-flex items-center justify-center gap-2 min-h-[44px] px-3.5 py-2 rounded-xl border text-sm font-bold transition ease-in-out duration-150";
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border p-4 md:p-5 shadow-sm transition ease-in-out duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:border-pri_mint_light
-        ${completed ? "border-pri_bg_card2 bg-gradient-to-t from-pri_bg_card to-white" : "border-pri_bg_card2 bg-white"}`}
+      className={`group relative overflow-hidden rounded-2xl border p-4 shadow-card transition ease-in-out duration-150 active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-card_hover
+        ${completed ? "border-pri_mint_main/30 bg-gradient-to-br from-pri_mint_main/[0.06] to-white" : "border-hairline bg-white"}`}
     >
       {completed && (
         <span className="absolute left-0 top-0 bottom-0 w-1 bg-pri_mint_main" aria-hidden />
@@ -61,12 +61,17 @@ const ResourceCard = ({
           <button
             type="button"
             onClick={() => handleOpenStudyResourceLink(resource._id, resource.url)}
-            className="text-left text-[15px] md:text-[17px] font-bold leading-snug text-pri_navy_darker hover:text-pri_mint_darker hover:underline cursor-pointer"
+            className="block text-left text-[16px] font-extrabold leading-snug text-ink hover:text-pri_mint_darker hover:underline cursor-pointer"
           >
             {title}
           </button>
           {isNotes && topicNames.length > 0 && (
-            <p className="mt-1 text-[13px] italic text-pri_navy_light">Topics: {topicNames}</p>
+            <p className="mt-1.5 text-[13px] italic text-pri_navy_light">Topics: {topicNames}</p>
+          )}
+          {!isNotes && totMarks && totMarks > 0 && (
+            <span className="mt-2.5 flex w-fit items-center rounded-md border border-hairline bg-canvas px-2 py-0.5 font-mono text-[11px] font-semibold text-pri_navy_main tnum">
+              {totMarks} marks
+            </span>
           )}
         </div>
 
@@ -79,33 +84,24 @@ const ResourceCard = ({
         />
       </div>
 
-      {/* Meta pills */}
-      {!isNotes && totMarks && totMarks > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full border border-pri_bg_card2 bg-pri_bg_card px-2.5 py-1 text-[11.5px] font-bold text-pri_navy_dark">
-            {totMarks} marks
-          </span>
-        </div>
-      )}
-
       {/* Action buttons: Paper / Solutions / Video */}
-      <div className="mt-3.5 flex flex-wrap items-center gap-2">
+      <div className="mt-4 grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={() => handleOpenStudyResourceLink(resource._id, resource.url)}
-          className={`${linkBtn} bg-pri_mint_main border-pri_mint_main text-white hover:bg-pri_mint_dark`}
+          className={`${linkBtn} ${workingSolution || videoSolution ? "" : "col-span-2"} bg-pri_mint_main border-pri_mint_main text-white shadow-mint hover:bg-pri_mint_dark`}
         >
-          <FileText className="h-[15px] w-[15px]" />
-          {isNotes ? "Open Notes" : "Paper"}
+          <FileText className="h-4 w-4" />
+          {isNotes ? "Open Notes" : "Open Paper"}
         </button>
 
         {workingSolution && (
           <button
             type="button"
             onClick={() => openExternal(workingSolution)}
-            className={`${linkBtn} bg-white border-pri_bg_card2 text-pri_navy_dark hover:bg-pri_bg_card`}
+            className={`${linkBtn} bg-white border-hairline text-pri_navy_main hover:border-pri_mint_main hover:text-pri_mint_darker`}
           >
-            <Lightbulb className="h-[15px] w-[15px] text-pri_mint_darker" />
+            <Lightbulb className="h-4 w-4 text-pri_mint_darker" />
             Solutions
           </button>
         )}
@@ -114,9 +110,9 @@ const ResourceCard = ({
           <button
             type="button"
             onClick={() => openExternal(videoSolution)}
-            className={`${linkBtn} bg-white border-pri_bg_card2 text-pri_navy_dark hover:bg-pri_bg_card`}
+            className={`${linkBtn} bg-white border-hairline text-pri_navy_main hover:border-pri_mint_main hover:text-pri_mint_darker`}
           >
-            <Video className="h-[15px] w-[15px] text-pri_mint_darker" />
+            <Video className="h-4 w-4 text-pri_mint_darker" />
             Video
           </button>
         )}

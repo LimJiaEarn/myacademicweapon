@@ -50,17 +50,75 @@ const actionsCell = (info: CellContext<any, any>, onToggleBookmark: ToggleBookma
 
 
 const headerCell = (column : Column<any, any>, headerTitle : string, withSort : boolean) => {
+    if (!withSort) {
+        return (
+            <div className="flex items-center justify-start">
+                <span>{headerTitle}</span>
+            </div>
+        );
+    }
     return (
-        <div className="flex_center">
-            <p>{headerTitle}</p>
-            {withSort &&
-                <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </button>
-            }   
+        <div className="flex items-center justify-start">
+            <button
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="group inline-flex items-center gap-1.5 transition-colors hover:text-pri_mint_darker"
+            >
+                <span>{headerTitle}</span>
+                <ArrowUpDown className="h-3.5 w-3.5 opacity-50 transition-opacity group-hover:opacity-100" />
+            </button>
         </div>
     )
 }
+
+// Shared rich "resource" cell: bold link title + optional marks pill + solution/video tags.
+const ResourceTitleCell = ({
+    id,
+    url,
+    title,
+    totMarks,
+    workingSolution,
+    videoSolution,
+    subtitle,
+}: {
+    id: string;
+    url: string;
+    title: string;
+    totMarks?: number;
+    workingSolution?: string | null;
+    videoSolution?: string | null;
+    subtitle?: string | null;
+}) => {
+    const hasMeta = (totMarks && totMarks > 0) || workingSolution || videoSolution;
+    return (
+        <div className="flex flex-col items-start gap-1.5 text-left" key={id + "_resource"}>
+            <button
+                type="button"
+                onClick={() => handleOpenStudyResourceLink(id, url)}
+                className="text-left text-[15px] font-semibold leading-snug text-ink transition-colors hover:text-pri_mint_darker hover:underline cursor-pointer"
+            >
+                {title}
+            </button>
+            {subtitle && (
+                <p className="text-xs italic text-pri_navy_light">{subtitle}</p>
+            )}
+            {hasMeta && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                    {totMarks && totMarks > 0 && (
+                        <span className="rounded-md border border-hairline bg-canvas px-2 py-0.5 font-mono text-[11px] font-semibold text-pri_navy_main tnum">
+                            {totMarks} marks
+                        </span>
+                    )}
+                    {workingSolution && (
+                        <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution} />
+                    )}
+                    {videoSolution && (
+                        <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution} />
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
 
 export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID: string|null): ColumnDef<StudyResourceInterface>[] =>
     [
@@ -70,22 +128,30 @@ export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID
             header: ({ column }) => headerCell(column, "Bookmarks", false),
             cell: (info : CellContext<any, any>) => {
                 const studyResourceID = info.row.original._id;
-                const bookmarked = info.row.original.bookmark as boolean; 
+                const bookmarked = info.row.original.bookmark as boolean;
                 return(
-                    <div className="flex_center">
-                        <Image
-                            src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
-                            alt="bookmark"
-                            height={30}
-                            width={30}
+                    <div className="flex items-center justify-start">
+                        <button
+                            type="button"
+                            title={bookmarked ? "Remove bookmark" : "Bookmark"}
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent row click event
                                 e.preventDefault();
-                                onToggleBookmark(studyResourceID, userID, !bookmarked); 
+                                onToggleBookmark(studyResourceID, userID, !bookmarked);
                             }}
-                            className="hover:cursor-pointer hover:rotate-6 hover:scale-[1.30]"
-                            
-                        />
+                            className={`w-10 h-10 rounded-xl border flex_center transition ease-in-out duration-150 hover:-translate-y-0.5 ${
+                                bookmarked
+                                    ? "bg-pri_gold_main/20 border-pri_gold_main"
+                                    : "bg-white border-hairline hover:border-pri_gold_main hover:bg-pri_gold_main/5"
+                            }`}
+                        >
+                            <Image
+                                src={`${bookmarked ? '/icons/bookmarked.svg' : '/icons/bookmark.svg'}`}
+                                alt="bookmark"
+                                height={20}
+                                width={20}
+                            />
+                        </button>
                     </div>)
             },
         },
@@ -94,21 +160,17 @@ export const getNotesColumns = (onToggleBookmark: ToggleBookmarkFunction, userID
             accessorKey: "resource",
             header: ({ column }) => headerCell(column, "Notes", true),
             cell: info => {
+                const row = info.row.original as any;
+                const topicNames = ('topicNames' in row && (row.topicNames as string).length > 0)
+                    ? `Topics: ${row.topicNames as string}`
+                    : null;
                 return (
-                <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
-                    <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex flex-col items-start justify-center">
-    
-                    {
-                        'resource' in info.row.original &&
-                        <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
-                    }
-                    {
-                        'topicNames' in info.row.original && (info.row.original.topicNames as string).length > 0 &&
-                        <p className="text-sm text-pri_navy_main text-left italic">Topics: {info.row.original.topicNames as string}</p>
-                    }
-                    </div>
-                    
-                </div>
+                    <ResourceTitleCell
+                        id={row._id}
+                        url={row.url}
+                        title={row.resource as string}
+                        subtitle={topicNames}
+                    />
                 );
             },
         },
@@ -160,31 +222,22 @@ export const getYearlyColumns = (onToggleStatus: ToggleStatusFunction, onToggleB
         accessorKey: "resource",
         header: ({ column }) => headerCell(column, "Resource", true),
         cell: info => {
+            const row = info.row.original as any;
             let videoSolution = null;
             let workingSolution = null;
-            if (isYearlyPracticePaper(info.row.original)) {
-                workingSolution = info.row.original.workingSolution;
-                videoSolution = info.row.original.videoSolution;
+            if (isYearlyPracticePaper(row)) {
+                workingSolution = row.workingSolution;
+                videoSolution = row.videoSolution;
             }
             return (
-            <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
-                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-
-                {
-                    'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
-                }
-                {
-                    workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
-                }
-                {
-                    videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
-                }
-                </div>
-                
-            </div>
+                <ResourceTitleCell
+                    id={row._id}
+                    url={row.url}
+                    title={row.resource as string}
+                    totMarks={row.totMarks as number | undefined}
+                    workingSolution={workingSolution}
+                    videoSolution={videoSolution}
+                />
             );
         },
     },
@@ -221,32 +274,22 @@ export const getTopicalColumns = (onToggleStatus: ToggleStatusFunction, onToggle
         accessorKey: "resource",
         header: ({ column }) => headerCell(column, "Resource", true),
         cell: info => {
-
+            const row = info.row.original as any;
             let videoSolution = null;
             let workingSolution = null;
-            if (isTopicalPracticePaper(info.row.original)) {
-                workingSolution = info.row.original.workingSolution;
-                videoSolution = info.row.original.videoSolution;
+            if (isTopicalPracticePaper(row)) {
+                workingSolution = row.workingSolution;
+                videoSolution = row.videoSolution;
             }
             return (
-            <div className="grid grid-cols-3" key={info.row.original._id+"_resource"}>
-                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-
-                {
-                    'resource' in info.row.original &&
-                    <p className="hover:text-blue-600 hover:scale-[1.01] underline text-base text-pri_navy_dark text-left cursor-pointer transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.row.original.resource as string}</p>
-                }
-                {
-                    workingSolution &&
-                    <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
-                }
-                {
-                    videoSolution &&
-                    <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
-                }
-                </div>
-                
-            </div>
+                <ResourceTitleCell
+                    id={row._id}
+                    url={row.url}
+                    title={row.resource as string}
+                    totMarks={row.totMarks as number | undefined}
+                    workingSolution={workingSolution}
+                    videoSolution={videoSolution}
+                />
             );
         },
     },
@@ -267,24 +310,31 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
         header: ({ column }) => headerCell(column, "Completed Practices", true),
         cell: info => {
 
+            const row = info.row.original as any;
             let workingSolution  = null;
             let videoSolution = null;
             let date = null;
 
-            if ('workingSolution' in info.row.original){
-                workingSolution = info.row.original.workingSolution as string;
+            if ('workingSolution' in row){
+                workingSolution = row.workingSolution as string;
             }
-            if ('videoSolution' in info.row.original){
-                videoSolution = info.row.original.videoSolution as string;
+            if ('videoSolution' in row){
+                videoSolution = row.videoSolution as string;
             }
-            if ('date' in info.row.original){
-                const currDate = info.row.original.date as Date;
+            if ('date' in row){
+                const currDate = row.date as Date;
                 date = ("0" + currDate.getDate()).slice(-2) + "/" + ("0"+(currDate.getMonth()+1)).slice(-2) + "/" + ("0" + currDate.getFullYear()).slice(-2);
             }
             return (
-            <div className="grid grid-rows-2 grid-cols-3 gap-1" key={info.row.original._id+"_assessmentC"}>
-                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_darker text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.getValue() as string}</p>
+            <div className="flex flex-col items-start gap-1 text-left" key={row._id+"_assessmentC"}>
+                <div className="flex flex-wrap items-center gap-1.5">
+                    <button
+                        type="button"
+                        onClick={() => {handleOpenStudyResourceLink(row._id, row.url)}}
+                        className="text-left text-[15px] font-semibold leading-snug text-ink transition-colors hover:text-pri_mint_darker hover:underline cursor-pointer"
+                    >
+                        {info.getValue() as string}
+                    </button>
                     {
                         workingSolution &&
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
@@ -293,9 +343,8 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
                         videoSolution &&
                         <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
                     }
-                    
                 </div>
-                <div className="row-span-1 col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 italic text-pri_navy_dark text-left">{`(completed ${date})`}</div>
+                <p className="font-mono text-[11px] uppercase tracking-wide text-pri_navy_light">completed {date}</p>
             </div>
             );
         },
@@ -305,11 +354,18 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
         accessorKey: "scorePercent",
         header: ({ column }: { column: Column<any, any> }) => headerCell(column, "Score (%)", true),
         cell: (info: CellContext<any, any>) => {
-            
-            if (info.getValue()<0) return "-";
+
+            if (info.getValue()<0) return <span className="text-pri_navy_light">—</span>;
 
             const score = Number(info.getValue()) * 100;
-            return <p className="font-medium text-pri_navy_main text-sm md:text-base" key={info.row.original._id+"_scoreC"}>{score.toFixed(1)+"%"}</p> // round to 1dp
+            return (
+                <span
+                    key={info.row.original._id+"_scoreC"}
+                    className="inline-flex items-center rounded-lg bg-pri_mint_main/10 px-2.5 py-1 font-mono text-sm font-bold text-pri_mint_darker tnum"
+                >
+                    {score.toFixed(1)}%
+                </span>
+            );
         },
     }] : []),
     // Edit
@@ -321,46 +377,39 @@ export const getProfileCompletedColumns = (onToggleStatus: ToggleStatusFunction,
             const date = new Date();
             return (
             <div className="w-full flex justify-center" key={studyResourceID+"_editC"}>
-                <div className="tooltip" data-tooltip="remove">
-
                 <Dialog>
                     <DialogTrigger asChild>
-                        <div>
-                        <Image
-                            src='/icons/remove.svg'
-                            alt='remove'
-                            height={25}
-                            width={25}
-                            className="hover:cursor-pointer"
-                        />
-                        </div>
-                        
+                        <button
+                            type="button"
+                            title="Remove"
+                            className="tooltip flex_center h-9 w-9 rounded-lg border border-hairline bg-white text-pri_navy_light transition hover:border-pri_red_main hover:text-pri_red_main hover:bg-pri_red_main/5"
+                            data-tooltip="remove"
+                        >
+                            <Image src='/icons/remove.svg' alt='remove' height={18} width={18} />
+                        </button>
                     </DialogTrigger>
 
-                    <DialogContent className="sm:max-w-[425px]">
-
+                    <DialogContent className="sm:max-w-[425px] rounded-2xl border-hairline">
                         <DialogHeader>
-                            <DialogTitle>Confirm remove?</DialogTitle>
-                            <DialogDescription>
-                                <p>Progress cannot be restored!</p>
+                            <DialogTitle className="font-display text-xl font-extrabold text-ink">Remove this paper?</DialogTitle>
+                            <DialogDescription className="text-ink_soft">
+                                Your logged progress for it can't be restored.
                             </DialogDescription>
                         </DialogHeader>
-                        <DialogFooter>
+                        <DialogFooter className="gap-2 sm:gap-2">
                             <DialogClose asChild>
-                                <div className="flex_center gap-2">
-                                    <button className="text-red-900 bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg" onClick={()=>onToggleStatus(studyResourceID, userID, date, false)}>
-                                        Confirm
+                                <div className="flex w-full items-center justify-end gap-2">
+                                    <button className="rounded-xl border border-hairline bg-white px-4 py-2.5 text-sm font-semibold text-pri_navy_main transition hover:bg-canvas">
+                                        Cancel
+                                    </button>
+                                    <button className="rounded-xl bg-pri_red_main px-4 py-2.5 text-sm font-bold text-white transition hover:bg-pri_red_dark" onClick={()=>onToggleStatus(studyResourceID, userID, date, false)}>
+                                        Remove
                                     </button>
                                 </div>
                             </DialogClose>
                         </DialogFooter>
-
                     </DialogContent>
-
                 </Dialog>
-                </div>
-        
-                
             </div>
             );
         },
@@ -379,30 +428,24 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
         header: ({ column }) => headerCell(column, "Bookmarks", true),
         cell: info => {
 
+            const row = info.row.original as any;
             let workingSolution  = null;
             let videoSolution = null;
 
-            if ('workingSolution' in info.row.original){
-                workingSolution = info.row.original.workingSolution as string;
+            if ('workingSolution' in row){
+                workingSolution = row.workingSolution as string;
             }
-            if ('videoSolution' in info.row.original){
-                videoSolution = info.row.original.videoSolution as string;
+            if ('videoSolution' in row){
+                videoSolution = row.videoSolution as string;
             }
             return (
-            <div className="grid grid-cols-3" key={info.row.original._id+"_resourceB"}>
-                <div className="col-start-1 col-span-3 sm:col-start-2 sm:col-span-2 flex justify-start items-center">
-                    <p className="hover:text-blue-600 underline cursor-pointer text-pri_navy_main text-left text-sm md:text-base transition-colors duration-100 ease-in" onClick={() => {handleOpenStudyResourceLink(info.row.original._id, info.row.original.url)}}>{info.getValue() as string}</p>
-                    {
-                        workingSolution &&
-                        <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution}/>
-                    }
-                    {
-                        videoSolution &&
-                        <Tag icon="/icons/videoIcon.svg" tooltip="video solutions!" onClickUrl={videoSolution}/>
-                    }
-                    
-                </div>
-            </div>
+                <ResourceTitleCell
+                    id={row._id}
+                    url={row.url}
+                    title={info.getValue() as string}
+                    workingSolution={workingSolution}
+                    videoSolution={videoSolution}
+                />
             );
         },
     },
@@ -414,45 +457,39 @@ export const getProfileBookmarkedColumns = (onToggleBookmark: ToggleBookmarkFunc
             const studyResourceID = info.row.original._id; // Access the id of the row
             return (
             <div className="w-full flex justify-center" key={studyResourceID+"_editB"}>
-                <div className="tooltip" data-tooltip="remove">
                 <Dialog>
                     <DialogTrigger asChild>
-                        <div>
-                        <Image
-                            src='/icons/remove.svg'
-                            alt='remove'
-                            height={25}
-                            width={25}
-                            className="hover:cursor-pointer"
-                        />
-                        </div>
+                        <button
+                            type="button"
+                            title="Remove bookmark"
+                            className="tooltip flex_center h-9 w-9 rounded-lg border border-hairline bg-white text-pri_navy_light transition hover:border-pri_red_main hover:text-pri_red_main hover:bg-pri_red_main/5"
+                            data-tooltip="remove"
+                        >
+                            <Image src='/icons/remove.svg' alt='remove' height={18} width={18} />
+                        </button>
                     </DialogTrigger>
 
-                    <DialogContent className="sm:max-w-[425px]">
-
+                    <DialogContent className="sm:max-w-[425px] rounded-2xl border-hairline">
                         <DialogHeader>
-                            <DialogTitle>Confirm remove?</DialogTitle>
-                            <DialogDescription>
-                                <p>You can still add it back in Study Resources!</p>
+                            <DialogTitle className="font-display text-xl font-extrabold text-ink">Remove bookmark?</DialogTitle>
+                            <DialogDescription className="text-ink_soft">
+                                You can always add it back from Study Resources.
                             </DialogDescription>
                         </DialogHeader>
-                        <DialogFooter>
+                        <DialogFooter className="gap-2 sm:gap-2">
                             <DialogClose asChild>
-                                <div className="flex_center gap-2">
-                                    <button className="text-red-900 bg-red-400 hover:bg-red-500 px-4 py-2 rounded-lg" onClick={()=>onToggleBookmark(studyResourceID, userID, false)}>
-                                        Confirm
+                                <div className="flex w-full items-center justify-end gap-2">
+                                    <button className="rounded-xl border border-hairline bg-white px-4 py-2.5 text-sm font-semibold text-pri_navy_main transition hover:bg-canvas">
+                                        Cancel
+                                    </button>
+                                    <button className="rounded-xl bg-pri_red_main px-4 py-2.5 text-sm font-bold text-white transition hover:bg-pri_red_dark" onClick={()=>onToggleBookmark(studyResourceID, userID, false)}>
+                                        Remove
                                     </button>
                                 </div>
                             </DialogClose>
                         </DialogFooter>
-
                     </DialogContent>
-
                 </Dialog>
-                    
-                </div>
-        
-                
             </div>
             );
         },

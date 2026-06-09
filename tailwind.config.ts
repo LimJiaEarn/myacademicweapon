@@ -18,8 +18,19 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-sans)", "ui-sans-serif", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
       colors: {
 
+        // "Academic Weapon" structural tokens (additive — nothing existing renamed)
+        'ink': 'hsl(228, 45%, 13%)',          // deep near-black navy — headings / strong text
+        'ink_soft': 'hsl(228, 30%, 30%)',     // muted ink — secondary text
+        'canvas': 'hsl(220, 33%, 97%)',       // page background (white cards pop against it)
+        'hairline': 'hsla(228, 41%, 22%, 0.10)', // navy @ 10% — borders / rules
+        'mint_electric': 'hsl(172, 82%, 45%)',// punchier mint for accents/CTAs
 
         // Main Colors
         'pri_navy_main' : 'hsl(228.4, 41%, 32%)',
@@ -96,6 +107,25 @@ const config: Config = {
       boxShadow: {
         // Custom shadow for dropdown
         'dropdown': '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        // Layered soft shadows for the white-card system
+        'card': '0 1px 2px rgba(16, 24, 48, 0.04), 0 8px 24px -12px rgba(16, 24, 48, 0.12)',
+        'card_hover': '0 2px 4px rgba(16, 24, 48, 0.06), 0 18px 40px -16px rgba(16, 24, 48, 0.22)',
+        'hero': '0 30px 80px -40px rgba(16, 24, 48, 0.55)',
+        'mint': '0 10px 30px -12px hsla(177.4, 76.9%, 42%, 0.55)',
+      },
+      keyframes: {
+        "reveal-up": {
+          "0%": { opacity: "0", transform: "translateY(14px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "pop-in": {
+          "0%": { opacity: "0", transform: "scale(0.94)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+      },
+      animation: {
+        "reveal-up": "reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "pop-in": "pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

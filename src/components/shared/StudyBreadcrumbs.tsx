@@ -58,15 +58,15 @@ function CrumbDropdown({
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="inline-flex items-center gap-2 min-h-[44px] px-3.5 py-2 bg-white border border-pri_bg_card2 rounded-xl font-bold text-pri_navy_main hover:border-pri_mint_main hover:bg-pri_bg_card transition ease-in-out duration-150"
+          className="inline-flex items-center gap-2 min-h-[46px] px-3.5 py-2 bg-white border border-hairline rounded-xl text-ink shadow-sm hover:border-pri_mint_main hover:bg-pri_mint_main/5 transition ease-in-out duration-150"
         >
           <span className="flex flex-col items-start leading-none">
-            <span className="text-[10px] font-bold tracking-wider uppercase text-pri_mint_darker/90 mb-0.5">
+            <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-pri_mint_darker/90 mb-0.5">
               {eyebrow}
             </span>
             <span
               className={`text-[15px] md:text-lg leading-tight text-left ${
-                isPlaceholder ? "font-normal italic text-pri_navy_light" : "font-bold"
+                isPlaceholder ? "font-normal italic text-pri_navy_light" : "font-bold text-ink"
               }`}
             >
               {label}
@@ -76,15 +76,15 @@ function CrumbDropdown({
         </button>
       </PopoverTrigger>
 
-      <PopoverContent align="start" className="w-56 p-1.5">
+      <PopoverContent align="start" className="w-56 p-1.5 rounded-xl border-hairline shadow-card">
         <div className="flex flex-col">
           {options.map((opt) => (
             <Link
               key={opt.href}
               href={opt.href}
               onClick={() => setOpen(false)}
-              className={`flex items-center justify-between gap-2.5 rounded-lg px-3 py-2.5 text-[15px] font-semibold text-pri_navy_dark hover:bg-pri_bg_card transition-colors ${
-                opt.active ? "bg-pri_bg_card" : ""
+              className={`flex items-center justify-between gap-2.5 rounded-lg px-3 py-2.5 text-[15px] font-semibold text-ink hover:bg-pri_mint_main/5 transition-colors ${
+                opt.active ? "bg-pri_mint_main/10" : ""
               }`}
             >
               <span>{opt.label}</span>
