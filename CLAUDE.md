@@ -13,6 +13,7 @@ A full-stack study resource platform for Singaporean students (Primary / Seconda
 | Styling | Tailwind CSS | 3.x (NOT v4) |
 | UI Components | Shadcn/UI + Radix UI | Latest |
 | Animations | framer-motion | 12.x |
+| Typography | next/font — Bricolage Grotesque · Hanken Grotesk · JetBrains Mono | — |
 | Deployment | Vercel | — |
 
 ## Key File Paths
@@ -21,7 +22,7 @@ A full-stack study resource platform for Singaporean students (Primary / Seconda
 src/
 ├── middleware.ts                    # Clerk auth — route protection (kept as middleware, NOT proxy)
 ├── app/
-│   ├── layout.tsx                   # Root layout — ClerkProvider, Navbar, Footer
+│   ├── layout.tsx                   # Root layout — ClerkProvider, Navbar, Footer, next/font (3 fonts → CSS vars)
 │   ├── page.tsx                     # Landing page (HeroParallax)
 │   ├── (auth)/sign-in|sign-up/      # Clerk hosted auth pages
 │   ├── api/webhooks/clerk/route.ts  # Clerk webhook: user.created/updated/deleted → MongoDB
@@ -45,7 +46,7 @@ src/
 ├── utils/                           # cn.ts, tablecolumns.tsx, toggles.tsx
 └── assets/                          # SVG backgrounds
 next.config.js                       # Image remotePatterns for img.clerk.com
-tailwind.config.ts                   # Custom color palette (pri_navy_*, pri_mint_*, etc.)
+tailwind.config.ts                   # fontFamily (display/sans/mono), color tokens (ink, canvas, hairline, pri_*), shadows
 .npmrc                               # legacy-peer-deps=true (react-day-picker v8 runtime-compatible with React 19)
 ```
 
@@ -113,9 +114,22 @@ const headerPayload = await headers()  // must await!
 
 ## Styling Conventions
 
+The UI follows a bold **"Academic Weapon"** performance-dashboard design system — crisp white canvas, deep-navy ink, electric mint + gold accents, big type. Applied site-wide in the June 2026 redesign. Match it when building/restyling any surface.
+
 - Tailwind v3 — do **not** upgrade to v4 (requires full config migration)
-- Custom color tokens defined in `tailwind.config.ts`: `pri_navy_*`, `pri_mint_*`, `pri_gold_*`, `pri_red_*`, `pri_bg_card`, etc.
-- Custom utility classes defined in `src/app/globals.css`: `flex_center`, `flex_col_center`, `gold_grad_text`, `red_grad_text`, `gold_grad_text_2`, `red_grad_text_2`
+- **Fonts** (loaded in `src/app/layout.tsx` via `next/font/google`, exposed as CSS vars, wired into Tailwind `fontFamily`):
+  - `font-display` → Bricolage Grotesque (titles, headings, big stat numbers)
+  - `font-sans` → Hanken Grotesk (body default — replaced Roboto)
+  - `font-mono` → JetBrains Mono (stats / scores / years / marks; pair with `.tnum` for tabular figures)
+- **Color tokens** in `tailwind.config.ts`:
+  - Structural (added in redesign): `ink` (deep-navy headings), `ink_soft` (secondary text), `canvas` (page bg), `hairline` (navy@10% borders), `mint_electric`
+  - Brand palette (kept): `pri_navy_*`, `pri_mint_*`, `pri_gold_*`, `pri_red_*`, `pri_bg_card*`. Semantics: **mint** = primary/active/completion, **gold** = achievement, **red** = destructive only
+  - Custom shadows: `shadow-card`, `shadow-card_hover`, `shadow-hero`, `shadow-mint`
+- **Utility classes** in `src/app/globals.css`:
+  - Layout: `flex_center`, `flex_col_center`, `flex_between`, `flex_col_between`
+  - Design system: `.aw-card` (standard white surface = rounded-2xl + hairline border + shadow-card), `.eyebrow` (uppercase tracked label), `.tnum` (tabular figures), `.mint_grad_text` / `gold_grad_text(_2)` / `red_grad_text(_2)`, `.hero-glow` + `.hero-grid` (atmosphere behind dark hero bands), `.reveal` (staggered page-load animation — set inline `--d` for per-element delay; respects `prefers-reduced-motion`)
+- Body background = `bg-canvas` + a faint dot-grid texture (set on `body` in `globals.css`)
+- **`.tooltip` gotcha**: it only sets `position: relative` (so it won't override an element's own `display`). For a centered icon button, pair it with a flex utility (`inline-flex items-center justify-center` or `flex_center`) — `.tooltip` alone will NOT center the contents.
 - Shadcn config: `components.json` — style `"default"`, base color `"slate"`, **no** CSS variables (`cssVariables: false`)
 
 ## framer-motion 12 Note
@@ -147,3 +161,4 @@ npm audit        # Check for vulnerabilities
 - **Server actions** live in `src/lib/actions/` with `"use server"` directive (no leading space)
 - **`next.config.js`** is the single config file (the empty `.mjs` was deleted — it was silently overriding the `.js` and breaking Clerk image loading)
 - **`.npmrc`** sets `legacy-peer-deps=true` because `react-day-picker@8` doesn't declare React 19 in its peer deps (but works fine at runtime)
+- **Shared `DataTable`** (`src/components/shared/DataTable.tsx`, TanStack Table) drives both the study-resources and profile tables. It renders a real `<table>` on `md+` and `renderCard` touch cards on mobile (`hidden md:block` / `md:hidden`). Pass `tableWrapperClassName="overflow-x-auto"` to drop the card chrome when nesting it inside another card (e.g. profile tabs). Per-column styling is supplied via props from the call sites (`StudyResourceSection`, `ProfileTable`); cell renderers live in `src/utils/tablecolumns.tsx`.
