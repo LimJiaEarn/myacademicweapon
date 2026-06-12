@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { StudyResource, Notes, TopicalPracticePaper, YearlyPracticePaper } from "@/lib/database/models/studyresource.model";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "../utils";
@@ -35,6 +35,8 @@ export async function createPracticePaper(data : CreatePracticePaperInterface) {
       newResource = await StudyResource.create(data);
     }
 
+    updateTag("study-resources");
+
     return JSON.parse(JSON.stringify(newResource));
   } catch (error) {
     handleError(error);
@@ -50,6 +52,8 @@ export async function createNote(data : CreateStudyNotesInterface) {
     await connectToDatabase();
 
     const newResource = await Notes.create(data);
+
+    updateTag("study-resources");
 
     return JSON.parse(JSON.stringify(newResource));
   } catch (error) {
@@ -75,23 +79,36 @@ export async function getStudyResources({ type, level, subject }: GetStudyResour
     let resources: any[];
 
     if (type === 'Yearly') {
-      resources = await StudyResource.find(query).sort({ year: -1, schoolName: 1 });
+      resources = await StudyResource.find(query).sort({ year: -1, schoolName: 1 }).lean();
     }
     else if (type==="Topical") {
-      resources = await StudyResource.find(query).sort({ topicName: 1, practice: 1 });
+      resources = await StudyResource.find(query).sort({ topicName: 1, practice: 1 }).lean();
     }
     else if (type === "Notes") {
-      resources = await StudyResource.find(query).sort({ title: 1, note: 1 });
+      resources = await StudyResource.find(query).sort({ title: 1, note: 1 }).lean();
     }
     else{
-      resources = await StudyResource.find(query);
+      resources = await StudyResource.find(query).lean();
     }
 
-    return resources.map(resource => JSON.parse(JSON.stringify(resource)));
+    return JSON.parse(JSON.stringify(resources));
   }
   catch (error) {
     handleError(error);
   }
+}
+
+/*
+  Cached read of the (effectively static) resource catalogue. Keyed per
+  level/subject/type; invalidated by the create/update/delete actions below
+  via the "study-resources" tag, with a 1h revalidate as a safety net.
+*/
+export async function getCachedStudyResources(params: GetStudyResourcesParams) {
+  return unstable_cache(
+    () => getStudyResources(params),
+    ["study-resources", params.level, params.subject, params.type],
+    { revalidate: 3600, tags: ["study-resources"] }
+  )();
 }
 
 export async function getStudyResourceByID(resourceId : string) {
@@ -121,11 +138,8 @@ export async function getStudyResourceByID(resourceId : string) {
 /*
   Update and Delete Functions:
   These functions are straightforward.
-  They find a resource by its ID and then update or delete it, respectively
-  The deleteStudyResource function also calls revalidatePath to trigger
-  revalidation of the list of resources on the frontend,
-  assuming you're using Next.js ISR (Incremental Static Regeneration)
-  or a similar strategy for data fetching and rendering.
+  They find a resource by its ID and then update or delete it, respectively,
+  then expire the cached catalogue via updateTag("study-resources").
 */
 export async function updateStudyResource(resourceId : string, updateData : UpdateStudyResourceParams) {
   try {
@@ -133,8 +147,10 @@ export async function updateStudyResource(resourceId : string, updateData : Upda
     await connectToDatabase();
 
     const updatedResource = await StudyResource.findByIdAndUpdate(resourceId, updateData, { new: true });
-    
+
     if (!updatedResource) throw new Error("StudyResource update failed");
+
+    updateTag("study-resources");
 
     return JSON.parse(JSON.stringify(updatedResource));
   } catch (error) {
@@ -168,7 +184,7 @@ export async function deleteStudyResource(resourceId : string) {
     const deletedResource = await StudyResource.findByIdAndDelete(resourceId);
     if (!deletedResource) throw new Error("StudyResource not found");
 
-    revalidatePath("/resources");
+    updateTag("study-resources");
 
     return JSON.parse(JSON.stringify(deletedResource));
   } catch (error) {

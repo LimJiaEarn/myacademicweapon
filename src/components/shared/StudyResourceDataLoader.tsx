@@ -1,19 +1,26 @@
-import { getStudyResources } from "@/lib/actions/studyresource.actions";
-import { getUserActivities } from "@/lib/actions/useractivity.actions";
+import { getCachedStudyResources } from "@/lib/actions/studyresource.actions";
+import { getSessionUserActivities } from "@/lib/actions/useractivity.actions";
+import { quotes } from "../../../constants/quotes";
 import StudyResourceSection from "./StudyResourceSection";
 
 interface StudyResourceDataLoaderProps {
-  userID: string | null;
-  userName: string | null;
   resourceLevel: string;
   resourceSubject: string;
   resourceType: string;
   searchParams: { [key: string]: string };
 }
 
+function buildResourceLabel(resourceType: string, item: any): string {
+  if (resourceType === "Yearly")
+    return item.paper === 0
+      ? `${item.year} ${item.assessment} ${item.schoolName}`
+      : `${item.year} ${item.assessment} ${item.schoolName} P${item.paper}`;
+  if (resourceType === "Topical")
+    return `${item.topicName} Practice ${item.practice}`;
+  return item.title; // Notes
+}
+
 export default async function StudyResourceDataLoader({
-  userID,
-  userName,
   resourceLevel,
   resourceSubject,
   resourceType,
@@ -21,65 +28,37 @@ export default async function StudyResourceDataLoader({
 }: StudyResourceDataLoaderProps) {
 
   let data: StudyResourceInterface[] = [];
+  let userID: string | null = null;
+  let userName: string | null = null;
 
+  // The CTA state ("pick a subject to begin") needs no data at all
   if (resourceType && resourceSubject) {
     try {
-      // Call a server action to get data to populate the table
-      let fetchedData: StudyResourceInterface[] | undefined = await getStudyResources({
-        type: resourceType as "Notes" | "Topical" | "Yearly",
-        level: resourceLevel as "Primary" | "Secondary" | "JC",
-        subject: resourceSubject,
-      });
+      // Catalogue (cached, shared by all visitors) + per-user state in parallel
+      const [fetchedData, activities] = await Promise.all([
+        getCachedStudyResources({
+          type: resourceType as "Notes" | "Topical" | "Yearly",
+          level: resourceLevel as "Primary" | "Secondary" | "JC",
+          subject: resourceSubject,
+        }),
+        getSessionUserActivities(resourceType as "Notes" | "Yearly" | "Topical"),
+      ]);
 
-      if (userID && fetchedData) {
-        const [bookmarkedResourceIDs, completedResourceObject] = await getUserActivities({
-          userID,
-          resourceType: resourceType as "Notes" | "Yearly" | "Topical",
-        });
+      userID = activities?.userID ?? null;
+      userName = activities?.userName ?? null;
 
-        const completedResourceIDs = completedResourceObject.map(
-          (item: any) => item.resourceObjectId
-        );
+      const completedSet = new Set(activities?.completedResourceIDs ?? []);
+      const bookmarkSet = new Set(activities?.bookmarkedResourceIDs ?? []);
 
-        // Update the data with status and bookmarked fields
-        fetchedData = fetchedData.map((item) => ({
-          ...item,
-          status: completedResourceIDs.includes(item._id),
-          bookmark: bookmarkedResourceIDs.includes(item._id),
-        }));
-      } else if (fetchedData) {
-        // If user is not signed in, set all statuses and bookmarked fields to false
-        fetchedData = fetchedData.map((item) => ({
-          ...item,
-          status: false,
-          bookmark: false,
-        }));
-      }
-
-      // Summarise the data into `resource` for the table
-      if (resourceType === "Yearly" && fetchedData) {
-        fetchedData = (fetchedData as YearlyPracticePaper[]).map((item) => ({
-          ...item,
-          resource:
-            item.paper === 0
-              ? `${item.year} ${item.assessment} ${item.schoolName}`
-              : `${item.year} ${item.assessment} ${item.schoolName} P${item.paper}`,
-        }));
-      } else if (resourceType === "Topical" && fetchedData) {
-        fetchedData = (fetchedData as TopicalPracticePaper[]).map((item) => ({
-          ...item,
-          resource: item.topicName + " Practice " + item.practice,
-        }));
-      } else if (resourceType === "Notes" && fetchedData) {
-        fetchedData = (fetchedData as StudyNotesInterface[]).map((item) => ({
-          ...item,
-          resource: item.title,
-          topicNames:
-            item.topicNames.length > 0 ? item.topicNames.join(", ") : "",
-        }));
-      }
-
-      data = fetchedData || [];
+      data = (fetchedData ?? []).map((item: any) => ({
+        ...item,
+        status: completedSet.has(item._id),
+        bookmark: bookmarkSet.has(item._id),
+        resource: buildResourceLabel(resourceType, item),
+        ...(resourceType === "Notes" && {
+          topicNames: item.topicNames?.length ? item.topicNames.join(", ") : "",
+        }),
+      }));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -95,6 +74,7 @@ export default async function StudyResourceDataLoader({
       resourceType={resourceType}
       searchParams={searchParams}
       initialTableData={data}
+      quote={quotes[Math.floor(Math.random() * quotes.length)]}
     />
   );
 }

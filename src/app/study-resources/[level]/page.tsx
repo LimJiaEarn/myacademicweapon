@@ -1,7 +1,5 @@
 import StudyBreadcrumbs from '@/components/shared/StudyBreadcrumbs';
 import StudyResourceDataLoader from '@/components/shared/StudyResourceDataLoader';
-import { currentUser } from '@clerk/nextjs/server';
-import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -28,8 +26,7 @@ type Props = {
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
 
-    const { level: levelParam } = await params;
-    const resolvedSearchParams = await searchParams;
+    const [{ level: levelParam }, resolvedSearchParams] = await Promise.all([params, searchParams]);
     const level = paramsMap(levelParam)
 
     return {
@@ -41,19 +38,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 
 const StudyResourcePage = async ( {params, searchParams} : {params: Promise<{ level: string }>, searchParams: Promise<{ [key:string]:string}>} ) => {
 
-    const user = await currentUser();
-
-    const { level: levelParam } = await params;
-    const resolvedSearchParams = await searchParams;
+    const [{ level: levelParam }, resolvedSearchParams] = await Promise.all([params, searchParams]);
 
     // Get the encoded data from url
     const resourceLevel = paramsMap(levelParam);
-
-    const currentSignedInUserObject : UserObject = user ? await getUserByClerkId(user?.id) : null;
-
-    const userID = currentSignedInUserObject?._id || null;
-
-    const userName = currentSignedInUserObject?.username || null;
 
     const resourceSubject = resolvedSearchParams.subject;
     const resourceType = resolvedSearchParams.resourceType?.split(' ')[0];
@@ -107,8 +95,6 @@ const StudyResourcePage = async ( {params, searchParams} : {params: Promise<{ le
               </div>
             }>
               <StudyResourceDataLoader
-                userID={userID}
-                userName={userName}
                 resourceLevel={resourceLevel}
                 resourceSubject={resourceSubject}
                 resourceType={resourceType}

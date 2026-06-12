@@ -1,4 +1,4 @@
-interface SubjectQuote {
+export interface SubjectQuote {
     quote: string;
     writer?: string;
 }

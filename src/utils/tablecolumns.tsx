@@ -88,26 +88,27 @@ const ResourceTitleCell = ({
     videoSolution?: string | null;
     subtitle?: string | null;
 }) => {
-    const hasMeta = (totMarks && totMarks > 0) || workingSolution || videoSolution;
     return (
         <div className="flex flex-col items-start gap-1.5 text-left" key={id + "_resource"}>
-            <button
-                type="button"
-                onClick={() => handleOpenStudyResourceLink(id, url)}
-                className="text-left text-[15px] font-semibold leading-snug text-ink transition-colors hover:text-pri_mint_darker hover:underline cursor-pointer"
-            >
-                {title}
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+                <button
+                    type="button"
+                    onClick={() => handleOpenStudyResourceLink(id, url)}
+                    className="text-left text-[15px] font-semibold leading-snug text-ink transition-colors hover:text-pri_mint_darker hover:underline cursor-pointer"
+                >
+                    {title}
+                </button>
+                {totMarks && totMarks > 0 ? (
+                    <span className="rounded-md border border-hairline bg-canvas px-2 py-0.5 font-mono text-[11px] font-semibold text-pri_navy_main tnum">
+                        {totMarks} marks
+                    </span>
+                ) : null}
+            </div>
             {subtitle && (
                 <p className="text-xs italic text-pri_navy_light">{subtitle}</p>
             )}
-            {hasMeta && (
+            {(workingSolution || videoSolution) && (
                 <div className="flex flex-wrap items-center gap-1.5">
-                    {totMarks && totMarks > 0 && (
-                        <span className="rounded-md border border-hairline bg-canvas px-2 py-0.5 font-mono text-[11px] font-semibold text-pri_navy_main tnum">
-                            {totMarks} marks
-                        </span>
-                    )}
                     {workingSolution && (
                         <Tag icon="/icons/solutionsIcon.svg" tooltip="solutions!" onClickUrl={workingSolution} />
                     )}

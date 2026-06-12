@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { studyResourcesNav } from '../../../constants';
 import type { Metadata } from "next";
 
@@ -13,6 +14,7 @@ interface StudyResourcesSectionCardProps {
   desc: string;
   image: string;
   route:string;
+  priority: boolean;
 }
 
 const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
@@ -24,7 +26,11 @@ const StudyResourcesSectionCard = (props: StudyResourcesSectionCardProps) => {
         </div>
       )}
 
-      <img src={props.image} alt={props.title}
+      <Image src={props.image} alt={props.title}
+        width={900}
+        height={350}
+        priority={props.priority}
+        sizes="(max-width: 940px) 100vw, 900px"
         className="w-[900px] h-[240px] sm:h-[350px] object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
       />
 
@@ -81,7 +87,7 @@ const StudyResourcesPage = () => {
         </div>
         
         <div className="flex_col_center gap-4">
-          {studyResourcesNav.map((studyResource) => {
+          {studyResourcesNav.map((studyResource, index) => {
 
           return (
             <Link href={studyResource.route} key={studyResource.id} prefetch={true}>
@@ -89,8 +95,9 @@ const StudyResourcesPage = () => {
                 title={studyResource.title}
                 desc={studyResource.desc}
                 descShort={studyResource.descShort}
-                image={studyResource.image}  
+                image={studyResource.image}
                 route={studyResource.route}
+                priority={index === 0}
               />
           </Link>
           );

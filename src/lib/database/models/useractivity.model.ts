@@ -22,6 +22,9 @@ const UserActivitySchema = new Schema<UserActivityDocument>({
   completedArray: [CompletedItemSchema],
 });
 
+// Covers the per-user lookup on every study-resources page load
+UserActivitySchema.index({ userObjectId: 1, type: 1 });
+
 const UserActivity = models?.UserActivity || model<UserActivityDocument>('UserActivity', UserActivitySchema);
 
 export {UserActivity};

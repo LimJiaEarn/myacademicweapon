@@ -52,7 +52,7 @@ const Navbar = () => {
         <div className="hidden sm:flex_center">
           <Link href="/" className="flex items-center justify-center gap-2">
             <div className="w-30 md:w-40"> 
-              <Image src="/images/BigLogo.svg" alt="logo" width={160} height={120}/>
+              <Image src="/images/BigLogo.png" alt="logo" width={160} height={90} priority/>
             </div>
           </Link>
 
@@ -67,10 +67,10 @@ const Navbar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li key={link.id} className={`flex w-full mr-4 transition-all hover:text-text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
-                    <Link href={link.route} className="flex gap-2 hover:opacity-75">
-                      <Image src={link.icon} alt="icon" height={24} width={24}/>
-                      <p className="font-bold">{link.label}</p>
+                  <li key={link.id} className={`flex shrink-0 mr-4 transition-all hover:text-text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
+                    <Link href={link.route} className="flex items-center gap-2 hover:opacity-75">
+                      <Image src={link.icon} alt="icon" height={24} width={24} className="h-6 w-6"/>
+                      <p className="font-bold whitespace-nowrap">{link.label}</p>
                     </Link>
                   </li>
                   )
@@ -93,12 +93,12 @@ const Navbar = () => {
                   const isActive = link.route === pathname;
 
                   return (
-                    <li key={link.id} className={`flex w-full px-4 transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
-                      <Link href={link.route} className="flex gap-2 hover:opacity-75">
-                        <Image src={link.icon} alt="icon" height={24} width={24} />
-                        <p className="text-md font-bold">{link.label}</p>
+                    <li key={link.id} className={`flex shrink-0 px-4 transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
+                      <Link href={link.route} className="flex items-center gap-2 hover:opacity-75">
+                        <Image src={link.icon} alt="icon" height={24} width={24} className="h-6 w-6" />
+                        <p className="text-md font-bold whitespace-nowrap">{link.label}</p>
                       </Link>
-                    </li>                  
+                    </li>                
                     )
                 })}
 
@@ -110,7 +110,7 @@ const Navbar = () => {
                       
                       <Link href="/sign-in">
                         <div className="flex pr-6">
-                          <Image src="/icons/sign-up-banner.svg" height={15} width={15} alt="icon"/>
+                          <Image src="/icons/sign-up-banner.svg" height={15} width={15} alt="icon" className="h-[15px] w-[15px]"/>
                           <p className="text-md whitespace-nowrap space-x-5 pl-4 pr-2 text-white hover:text-pri_mint_lighter transition duration-125 text-center">Sign In</p>
                         </div>
                       </Link>
@@ -154,7 +154,7 @@ const Navbar = () => {
                 <div className="flex flex-col items-center justify-center">
 
                   <Link href="/" className="flex items-center justify-center gap-2 mb-10">
-                    <Image src="/images/BigLogo.svg" alt="menu" height={160} width={160}/>
+                    <Image src="/images/BigLogo.png" alt="menu" height={90} width={160}/>
                   </Link>
 
                   <SignedIn>
@@ -167,7 +167,7 @@ const Navbar = () => {
                           <li key={link.id} className={`flex w-full transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                             <SheetClose asChild>
                               <Link href={link.route} className="flex gap-2">
-                                <Image src={link.icon} alt="icon" height={24} width={24}/>
+                                <Image src={link.icon} alt="icon" height={24} width={24} className="h-6 w-6"/>
                                 <p className="font-bold">{link.label}</p>
                               </Link>
                             </SheetClose>
@@ -189,7 +189,7 @@ const Navbar = () => {
                             <li key={link.id} className={`flex w-full px-4 transition-all hover:text-pri_navy_main ${isActive? 'text-pri_navy_main' : 'text-pri_navy_main'}`}>
                               <SheetClose asChild>
                                 <Link href={link.route} className="flex gap-2">
-                                  <Image src={link.icon} alt="icon" height={24} width={24}/>
+                                  <Image src={link.icon} alt="icon" height={24} width={24} className="h-6 w-6"/>
                                   <p className="font-bold">{link.label}</p>
                                 </Link>
                               </SheetClose>
@@ -227,7 +227,7 @@ const Navbar = () => {
                 return (
                   <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main bg-pri_gold_light rounded-full p-2' : 'text-pri_navy_main'}`}>
                   <Link href={link.route} className="flex_col_center gap-1">
-                    <Image src={link.icon} alt="icon" height={28} width={28} />
+                    <Image src={link.icon} alt="icon" height={28} width={28} className="h-7 w-7" />
                     {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
                   </Link>
                 </li>   
@@ -261,7 +261,7 @@ const Navbar = () => {
                   return (
                     <li key={link.id} className={`flex hover:text-pri_navy_main ${isActive? 'text-pri_navy_main bg-pri_gold_light rounded-full p-2' : 'text-pri_navy_main'}`}>
                       <Link href={link.route} className="flex_col_center gap-1">
-                        <Image src={link.icon} alt="icon" height={28} width={28} />
+                        <Image src={link.icon} alt="icon" height={28} width={28} className="h-7 w-7" />
                         {/* <p className="font-bold text-center w-[90px]">{link.label}</p> */}
                       </Link>
                     </li>                  

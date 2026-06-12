@@ -45,8 +45,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       {/* scroll-pt offsets in-page/route scroll targets so they clear the fixed navbar
-        (top on sm+, where it has ~7.5rem clearance; bottom on mobile, so just pt-4). */}
-      <html lang="en" className="scroll-pt-4 sm:scroll-pt-[7.5rem]">
+        (top on sm+, where it has ~7.5rem clearance; bottom on mobile, so just pt-4).
+        data-scroll-behavior lets Next 16 disable the CSS smooth scrolling during route
+        transitions; `relative` gives framer-motion's useScroll a positioned page
+        container to measure offsets against. */}
+      <html
+        lang="en"
+        className="relative scroll-pt-4 sm:scroll-pt-[7.5rem]"
+        data-scroll-behavior="smooth"
+      >
         <head>
           {/* Google Verification */}
           <meta

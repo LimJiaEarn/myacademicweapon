@@ -1,7 +1,9 @@
 "use server";
 
+import { auth } from '@clerk/nextjs/server';
 import { StudyResource } from "../database/models/studyresource.model";
 import { UserActivity } from "../database/models/useractivity.model";
+import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import mongoose from 'mongoose';
@@ -231,10 +233,10 @@ export async function getUserActivities(params: getStatusStudyResourceParams) {
         const userObjectId = new mongoose.Types.ObjectId(userID);
 
         // Find the UserActivity document for the specified user and resource type
-        const userResourceInteraction = await UserActivity.findOne({
+        const userResourceInteraction: any = await UserActivity.findOne({
             userObjectId,
             type : resourceType,
-        });
+        }).lean();
         
         // Handle case where there is no document found for the user and resource type
         // This could mean the user has not completed any resources of this type
@@ -258,6 +260,46 @@ export async function getUserActivities(params: getStatusStudyResourceParams) {
     catch (error) {
         handleError(error);
         return [[], []];; // Return an empty array or suitable error response
+    }
+}
+
+/*
+  Session-based variant of getUserActivities: derives the user from the Clerk
+  session instead of trusting a passed-in userID, and returns the user's
+  identity alongside their activities. Lets callers fetch resources and
+  user state fully in parallel (no prior getUserByClerkId round trip).
+  Returns null for signed-out visitors.
+*/
+export async function getSessionUserActivities(resourceType: "Notes" | "Yearly" | "Topical") {
+    try {
+        const { userId: clerkId } = await auth();
+        if (!clerkId) return null;
+
+        await connectToDatabase();
+
+        const user: any = await User.findOne({ clerkId }).select('_id username').lean();
+        if (!user) return null;
+
+        const userResourceInteraction: any = await UserActivity.findOne({
+            userObjectId: user._id,
+            type: resourceType,
+        }).lean();
+
+        return {
+            userID: user._id.toString(),
+            userName: user.username as string,
+            bookmarkedResourceIDs: (userResourceInteraction?.bookmarkedArray ?? []).map(
+                (id: mongoose.Types.ObjectId) => id.toString()
+            ) as string[],
+            completedResourceIDs: (userResourceInteraction?.completedArray ?? []).map(
+                (item: any) => item.resourceObjectId.toString()
+            ) as string[],
+        };
+    }
+    catch (error) {
+        // Degrade to the signed-out experience rather than failing the page
+        console.error(error);
+        return null;
     }
 }
 

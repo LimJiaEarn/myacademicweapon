@@ -13,11 +13,11 @@ const Features = () => {
 
                 <div className="flex-grow relative w-full flex justify-center items-center gap-2 min-h-[330px]">
                     <div className="absolute h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
-                        <Image src="/images/feature1.png" alt="f2" fill={true}
+                        <Image src="/images/feature1.png" alt="f2" fill={true} sizes="(min-width: 1280px) 420px, 320px"
                             className="rounded-lg object-cover object-top md:-translate-x-20 lg:-translate-x-40 -translate-y-12 -rotate-2 group-hover:-rotate-12 md:group-hover:-translate-x-24 lg:group-hover:-translate-x-48 group-hover:-translate-y-16 duration-300 ease-in-out"/>
                     </div>
                     <div className="absolute z-10 h-[200px] w-[320px] xl:h-[300px] xl:w-[420px]">
-                        <Image src="/images/feature1.1.png" alt="f2" fill={true} quality={100}
+                        <Image src="/images/feature1.1.png" alt="f2" fill={true} quality={100} sizes="(min-width: 1280px) 420px, 320px"
                             className="rounded-lg object-cover object-top md:translate-x-24 lg:translate-x-40 translate-y-16 md:translate-y-8 rotate-6 group-hover:rotate-12 md:group-hover:translate-x-28 lg:group-hover:translate-x-48 group-hover:translate-y-12 duration-300 ease-in-out"/>
                     </div>
                 </div>
@@ -30,7 +30,7 @@ const Features = () => {
                 <div className="flex flex-col justify-start items-center h-full gap-8 lg:gap-12">
                     <p className={`${baseParaStyle} w-full text-left px-4`}>Keep tabs on your performance and celebrate milestones as you climb to the top!</p>
                     <div className="relative flex justify-center items-center gap-2 w-3/5 lg:w-full h-[400px] lg:h-[600px]">
-                        <Image src="/images/feature2.png" alt="f2" fill={true} quality={100}
+                        <Image src="/images/feature2.png" alt="f2" fill={true} quality={100} sizes="(min-width: 1024px) 33vw, 60vw"
                             className="absolute rounded-lg object-cover object-top -rotate-6 lg:rotate-2 lg:group-hover:object-bottom duration-300 ease-linear"
                         />
                     </div>
@@ -42,7 +42,7 @@ const Features = () => {
                 <h2 className={`${baseHeadingStyle} col-span-full row-span-1`}>Unlimited Bookmarks</h2>
 
                 <Image src="/images/feature3.png" alt="f4" width={280} height={250} 
-                    className="rounded-lg mx-auto skew-x-1 group-hover:skew-x-0 -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
+                    className="w-[280px] h-[250px] object-cover rounded-lg mx-auto skew-x-1 group-hover:skew-x-0 -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 group-hover:scale-[1.1] duration-200 ease-in-out"/>
 
                 <p className={`${baseParaStyle} `}>Pin your favourite resources and revisit them anytime you want! It's like your academic playlist!</p>
             </div>
@@ -52,22 +52,22 @@ const Features = () => {
                 <p className={`${baseParaStyle}`}>Download our resources to practice/review them offline. No limits, just learning!</p>
                 <div className="relative w-full flex justify-center items-center min-h-[250px]">
                     <div className="absolute transition-transform duration-300 ease-in-out transform -translate-x-12 rotate-[-12deg] group-hover:-translate-x-24 group-hover:rotate-[-24deg]">
-                        <Image src="/images/heroImg14.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg14.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[9] transition-transform duration-300 ease-in-out transform -translate-x-6 rotate-[-6deg] group-hover:-translate-x-12 group-hover:rotate-[-12deg]">
-                        <Image src="/images/heroImg12.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg12.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[10] transition-transform duration-300 ease-in-out transform translate-x-3 rotate-3 group-hover:translate-x-6 group-hover:rotate-6">
-                        <Image src="/images/heroImg10.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg10.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[11] transition-transform duration-300 ease-in-out transform -translate-x-3 rotate-[-3deg] group-hover:-translate-x-6 group-hover:rotate-[-6deg]">
-                        <Image src="/images/heroImg13.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg13.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[12] transition-transform duration-300 ease-in-out transform translate-x-6 rotate-6 group-hover:translate-x-12 group-hover:rotate-12">
-                        <Image src="/images/heroImg11.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg11.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                     <div className="absolute z-[13] transition-transform duration-300 ease-in-out transform translate-x-12 rotate-12 group-hover:translate-x-24 group-hover:rotate-24">
-                        <Image src="/images/heroImg9.png" alt="f4" width={160} height={240} className="rounded-sm object-cover object-top"/>
+                        <Image src="/images/heroImg9.png" alt="f4" width={160} height={240} className="w-40 h-60 rounded-sm object-cover object-top"/>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ const Features = () => {
                 <div className="relative w-full flex justify-center items-center gap-2 h-[170px]">
                     <div className="absolute w-40 h-40">
                         <Image src="/images/feature5.png" alt="f4" width={160} height={160} 
-                            className="rounded-lg -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
+                            className="w-40 h-40 object-cover rounded-lg -translate-x-4 translate-y-2 -rotate-6 group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-4 duration-100 ease-in-out"/>
                     </div>
                     <div className="absolute w-40 h-40 z-10">
                         <Image src="/images/feature5.1.webp" alt="f4" width={160} height={160} 
@@ -95,11 +95,11 @@ const Features = () => {
                     
                     <div className="relative left-14 lg:left-10 -top-8 lg:top-8 w-full flex justify-center items-center gap-2 min-w-[200px] min-h-[200px] md:min-h-[220px]">
                         <div className="absolute h-[230px] w-[230px] md:h-[280px] md:w-[280px]">
-                            <Image src="/images/heroImg22.png" alt="f4" fill={true}
+                            <Image src="/images/heroImg22.png" alt="f4" fill={true} sizes="(min-width: 768px) 280px, 230px"
                                 className="rounded-lg object-cover object-top -translate-x-4 -translate-y-2 -rotate-2 group-hover:rotate-4 group-hover:-translate-x-10 group-hover:-translate-y-4 duration-100 ease-in-out"/>
                         </div>
                         <div className="absolute z-10 h-[230px] w-[230px] md:h-[280px] md:w-[280px]">
-                            <Image src="/images/heroImg17.png" alt="f4" fill={true} quality={100}
+                            <Image src="/images/heroImg17.png" alt="f4" fill={true} quality={100} sizes="(min-width: 768px) 280px, 230px"
                                 className="rounded-lg object-cover object-top translate-y-2 rotate-6 group-hover:rotate-12 group-hover:translate-x-10 group-hover:translate-y-4 duration-100 ease-in-out"/>
                         </div>
                     </div>

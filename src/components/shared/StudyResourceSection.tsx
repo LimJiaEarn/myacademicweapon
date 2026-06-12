@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 // Table Dependencies
@@ -26,7 +26,7 @@ import {
   bookmarkToasts,
   unbookmarkToasts,
 } from "../../../constants";
-import { quotes } from "../../../constants/quotes";
+import type { SubjectQuote } from "../../../constants/quotes";
 import { BookOpen } from "lucide-react";
 
 interface StudyResourceSectionProps {
@@ -37,6 +37,7 @@ interface StudyResourceSectionProps {
   resourceType: string;
   searchParams: { [key: string]: string };
   initialTableData: StudyResourceInterface[];
+  quote: SubjectQuote;
 }
 
 function getRandomInt(min: number, max: number): number {
@@ -83,6 +84,7 @@ const StudyResourceSection = ({
   resourceType,
   searchParams,
   initialTableData,
+  quote,
 }: StudyResourceSectionProps) => {
   const { toast } = useToast();
 
@@ -90,136 +92,136 @@ const StudyResourceSection = ({
   const [tableData, setTableData] =
     useState<StudyResourceInterface[]>(initialTableData);
 
-  const [randomQuoteIndex, setRandomQuoteIndex] = useState(0);
-
-  useEffect(() => {
-    setRandomQuoteIndex(getRandomInt(0, quotes.length - 1));
-  }, []);
-
   // This sets the status of the study resource selected by user
-  const onToggleStatus = async (
-    studyResourceID: string,
-    userID: string | null,
-    date: Date,
-    newStatus: boolean,
-    score?: number | null
-  ) => {
-    // Only signed in users are allowed
-    if (!userID) {
-      toast({
-        title: "Oops! You are not signed in",
-        description: "Sign in/up to use this feature!",
-      });
-      return;
-    }
+  const onToggleStatus = useCallback(
+    async (
+      studyResourceID: string,
+      userID: string | null,
+      date: Date,
+      newStatus: boolean,
+      score?: number | null
+    ) => {
+      // Only signed in users are allowed
+      if (!userID) {
+        toast({
+          title: "Oops! You are not signed in",
+          description: "Sign in/up to use this feature!",
+        });
+        return;
+      }
 
-    try {
-      const response = await updateStatusStudyResource({
-        userID,
-        studyResourceID,
-        resourceType,
-        newStatus,
-        date,
-        score: score ?? -1,
-      });
+      try {
+        const response = await updateStatusStudyResource({
+          userID,
+          studyResourceID,
+          resourceType,
+          newStatus,
+          date,
+          score: score ?? -1,
+        });
 
-      if (!response) {
+        if (!response) {
+          toast({
+            title: "Oh No!",
+            description: "Failed to update status, please try again later!",
+          });
+          return;
+        }
+
+        // If the update is successful, toggle the status in the UI
+        setTableData((prevData) =>
+          prevData.map((item) => {
+            if (item._id === studyResourceID) {
+              return { ...item, status: newStatus } as PracticePaperInterface;
+            }
+            return item;
+          })
+        );
+        const toastIndex = getRandomInt(0, 3);
+
+        if (newStatus) {
+          toast({
+            title: completedToasts[toastIndex].title,
+            description: completedToasts[toastIndex].desc,
+          });
+        } else {
+          toast({
+            title: incompleteToasts[toastIndex].title,
+            description: incompleteToasts[toastIndex].desc,
+          });
+        }
+      } catch (error) {
         toast({
           title: "Oh No!",
           description: "Failed to update status, please try again later!",
         });
         return;
       }
+    },
+    [resourceType, toast]
+  );
 
-      // If the update is successful, toggle the status in the UI
-      setTableData((prevData) =>
-        prevData.map((item) => {
-          if (item._id === studyResourceID) {
-            return { ...item, status: newStatus } as PracticePaperInterface;
-          }
-          return item;
-        })
-      );
-      const toastIndex = getRandomInt(0, 3);
-
-      if (newStatus) {
+  const onToggleBookmark = useCallback(
+    async (
+      studyResourceID: string,
+      userID: string | null,
+      newBookmark: boolean
+    ) => {
+      // Only signed in users are allowed
+      if (!userID) {
         toast({
-          title: completedToasts[toastIndex].title,
-          description: completedToasts[toastIndex].desc,
-        });
-      } else {
-        toast({
-          title: incompleteToasts[toastIndex].title,
-          description: incompleteToasts[toastIndex].desc,
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Oh No!",
-        description: "Failed to update status, please try again later!",
-      });
-      return;
-    }
-  };
-
-  const onToggleBookmark = async (
-    studyResourceID: string,
-    userID: string | null,
-    newBookmark: boolean
-  ) => {
-    // Only signed in users are allowed
-    if (!userID) {
-      toast({
-        title: "Oops! You are not signed in",
-        description: "Sign in/up to use this feature!",
-      });
-      return;
-    }
-
-    try {
-      const response = await updateBookmarkStudyResource({
-        userID,
-        studyResourceID,
-        newBookmark,
-      });
-
-      if (!response) {
-        toast({
-          description: "Failed to update bookmark, try again later!",
+          title: "Oops! You are not signed in",
+          description: "Sign in/up to use this feature!",
         });
         return;
       }
 
-      // If the update is successful, toggle the status in the UI
-      setTableData((prevData) =>
-        prevData.map((item) => {
-          if (item._id === studyResourceID) {
-            return { ...item, bookmark: newBookmark } as PracticePaperInterface;
-          }
-          return item;
-        })
-      );
+      try {
+        const response = await updateBookmarkStudyResource({
+          userID,
+          studyResourceID,
+          newBookmark,
+        });
 
-      const toastIndex = getRandomInt(0, 3);
-      if (newBookmark) {
+        if (!response) {
+          toast({
+            description: "Failed to update bookmark, try again later!",
+          });
+          return;
+        }
+
+        // If the update is successful, toggle the status in the UI
+        setTableData((prevData) =>
+          prevData.map((item) => {
+            if (item._id === studyResourceID) {
+              return { ...item, bookmark: newBookmark } as PracticePaperInterface;
+            }
+            return item;
+          })
+        );
+
+        const toastIndex = getRandomInt(0, 3);
+        if (newBookmark) {
+          toast({
+            title: bookmarkToasts[toastIndex].title,
+            description: bookmarkToasts[toastIndex].desc,
+          });
+        } else {
+          toast({
+            title: unbookmarkToasts[toastIndex].title,
+            description: unbookmarkToasts[toastIndex].desc,
+          });
+        }
+      } catch (error) {
         toast({
-          title: bookmarkToasts[toastIndex].title,
-          description: bookmarkToasts[toastIndex].desc,
+          title: "Oh No!",
+          description: "Failed to update bookmark, please try again later!",
         });
-      } else {
-        toast({
-          title: unbookmarkToasts[toastIndex].title,
-          description: unbookmarkToasts[toastIndex].desc,
-        });
+        return;
       }
-    } catch (error) {
-      toast({
-        title: "Oh No!",
-        description: "Failed to update bookmark, please try again later!",
-      });
-      return;
-    }
-  };
+    },
+    [toast]
+  );
 
   // Computed synchronously so the columns exist on first render — the DataTable
   // reads them immediately (e.g. to restore an `?assessment=` filter from the URL).
@@ -230,8 +232,12 @@ const StudyResourceSection = ({
       return getTopicalColumns(onToggleStatus, onToggleBookmark, userID);
     }
     return getNotesColumns(onToggleBookmark, userID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resourceType, userID]);
+  }, [resourceType, userID, onToggleStatus, onToggleBookmark]);
+
+  const selectorFilters = useMemo(
+    () => getSelectorFilters(resourceType, tableData),
+    [resourceType, tableData]
+  );
 
   return (
     <section className="w-full">
@@ -240,11 +246,11 @@ const StudyResourceSection = ({
           {/* Editorial epigraph */}
           <figure className="mx-auto mb-5 max-w-[760px] text-center reveal" style={{ ["--d" as any]: "60ms" }}>
             <blockquote className="font-display text-base md:text-lg italic leading-relaxed text-ink_soft">
-              &ldquo;{quotes[randomQuoteIndex].quote}&rdquo;
+              &ldquo;{quote.quote}&rdquo;
             </blockquote>
-            {"writer" in quotes[randomQuoteIndex] && (
+            {quote.writer && (
               <figcaption className="mt-2 eyebrow text-pri_mint_darker">
-                — {quotes[randomQuoteIndex].writer}
+                — {quote.writer}
               </figcaption>
             )}
           </figure>
@@ -260,7 +266,7 @@ const StudyResourceSection = ({
               data={tableData}
               showStatusFilter={resourceType === "Notes" ? false : true}
               showBookmarkFilter={true}
-              selectorFilters={getSelectorFilters(resourceType, tableData)}
+              selectorFilters={selectorFilters}
               searchFilter="resource"
               searchPlaceholder="Search resources…"
               headerCellStyles="flex items-center justify-start text-ink text-[12px] font-bold uppercase tracking-[0.14em]"

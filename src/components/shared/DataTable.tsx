@@ -14,7 +14,6 @@ import {
   Inbox,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 import {
@@ -58,6 +57,22 @@ const PAGE_BTN =
 // Filter pill toggle (Bookmarked / Unattempted) — base + on/off styles.
 const PILL_BASE =
   "inline-flex items-center gap-1.5 h-11 px-3.5 rounded-xl border text-sm font-semibold cursor-pointer select-none transition ease-in-out duration-150";
+
+// Tracks the md (768px) breakpoint so only one presentation (table OR cards)
+// stays mounted after hydration. Returns null during SSR + the first client
+// frame, where the CSS-only dual render keeps first paint correct on both
+// form factors; reacts to live resizes/rotation across the breakpoint.
+function useIsDesktop(query = "(min-width: 768px)") {
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    setIsDesktop(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [query]);
+  return isDesktop;
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -112,12 +127,28 @@ export function DataTable<TData, TValue>({
   maxRows,
   renderCard,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isDesktop = useIsDesktop();
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  // Restore selector filters from the URL (e.g. ?assessment=Prelims) as initial
+  // state — no setFilterValue calls during render.
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() =>
+    (selectorFilters ?? [])
+      .map((filter) => ({
+        id: filter.id,
+        value: searchParams.get(filter.id) || "",
+      }))
+      .filter((filter) => filter.value)
+  );
+
+  // Hide Status, Bookmark columns; hide Year & Assessment columns for Yearly.
+  // toHideColumns is fixed per resourceType (the section remounts via key),
+  // so initial state suffices — no post-mount effect.
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() =>
+    Object.fromEntries(toHideColumns.map((columnId) => [columnId, false]))
+  );
 
   const [showGuide, setShowGuide] = useState(false);
 
@@ -131,6 +162,9 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    initialState: {
+      pagination: { pageSize: maxRows },
+    },
     state: {
       sorting,
       columnFilters,
@@ -138,31 +172,29 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // Selector states
+  // Selector states — initial map mirrors the URL-restored filters above
   const [filterSelectorValue, setFilterSelectorValue] = useState<{
     [key: string]: string;
-  }>(() => {
-    const initialFilterValues: { [key: string]: string } = {};
-    selectorFilters?.forEach((filter) => {
-      const currentValue = searchParams.get(filter.id) || "";
-      if (currentValue) {
-        // Use find() rather than getColumn() — getColumn console.errors when the
-        // column isn't present yet, whereas find() quietly no-ops.
-        const col = table.getAllColumns().find((c) => c.id === filter.id);
-        col?.setFilterValue(currentValue);
-        if (col) initialFilterValues[filter.id] = currentValue;
-      }
-    });
-    return initialFilterValues;
-  });
+  }>(() =>
+    Object.fromEntries(
+      (selectorFilters ?? []).map((filter) => [
+        filter.id,
+        searchParams.get(filter.id) || "",
+      ])
+    )
+  );
 
+  // Shallow URL sync — TanStack has already filtered client-side, so use the
+  // History API (no RSC refetch); replaceState keeps browser history clean.
   const updateSearchParams = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      router.push(pathname + "?" + params.toString());
+      const params = new URLSearchParams(window.location.search);
+      if (value) params.set(name, value);
+      else params.delete(name);
+      const qs = params.toString();
+      window.history.replaceState(null, "", qs ? `${pathname}?${qs}` : pathname);
     },
-    [searchParams]
+    [pathname]
   );
 
   // Status states
@@ -170,16 +202,6 @@ export function DataTable<TData, TValue>({
   const [showIncomplete, setShowIncomplete] = useState(false);
 
   const CLEAR_FILTER_VALUE = "CLEAR_FILTER";
-
-  // Hide Status, Bookmark columns
-  // Hide Year & Assessment columns for Yearly
-  useEffect(() => {
-    table.getAllColumns().map((column) => {
-      if (toHideColumns.includes(column.id)) column.toggleVisibility(false);
-      else column.toggleVisibility(true);
-    });
-    table.setPageSize(maxRows);
-  }, [toHideColumns]);
 
   // Bring the user back to the top whenever the page changes, so they read the new
   // page from the start. Done in an effect (after the new page has committed) rather
@@ -446,8 +468,12 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      {/* ── Editorial table (always rendered; hidden on mobile when cards exist) ── */}
-      <div className={renderCard ? "hidden md:block" : "block"}>
+      {/* ── Editorial table ──
+          Before hydration (isDesktop === null) both presentations render with
+          the CSS classes deciding visibility — correct first paint on any
+          device. After hydration only the active one stays mounted. */}
+      {(!renderCard || isDesktop !== false) && (
+      <div className={renderCard && isDesktop === null ? "hidden md:block" : "block"}>
         <div
           className={
             tableWrapperClassName
@@ -534,10 +560,11 @@ export function DataTable<TData, TValue>({
           </Table>
         </div>
       </div>
+      )}
 
       {/* ── Touch-friendly cards (mobile only) ── */}
-      {renderCard && (
-        <div className="md:hidden">
+      {renderCard && isDesktop !== true && (
+        <div className={isDesktop === null ? "md:hidden" : undefined}>
           {table.getRowModel().rows.length > 0 ? (
             <div className="grid gap-3.5">
               {table.getRowModel().rows.map((row) => (

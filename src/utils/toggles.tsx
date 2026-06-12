@@ -2,7 +2,7 @@ import { incrementStudyResourceClicks } from '@/lib/actions/studyresource.action
 
 
 
-export const handleOpenStudyResourceLink = async (resourceId : string, resourceUrl : string)=> {
+export const handleOpenStudyResourceLink = (resourceId : string, resourceUrl : string)=> {
 
     try {
         const parsed = new URL(resourceUrl);
@@ -11,5 +11,6 @@ export const handleOpenStudyResourceLink = async (resourceId : string, resourceU
 
     window.open(resourceUrl, '_blank', 'noopener,noreferrer');
 
-    const result = await incrementStudyResourceClicks(resourceId);
+    // Fire-and-forget analytics — never block or fail the open
+    void incrementStudyResourceClicks(resourceId).catch(() => {});
 }

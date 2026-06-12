@@ -56,6 +56,10 @@ const StudyResourceSchema = new Schema<StudyResourceDocument>({
   clicks: { type: Number, default: 0 }
 }, { discriminatorKey: 'type' });
 
+// Compound indexes covering the catalogue query (find({ level, subject, type }))
+// plus the most common sorts — without these every page load is a COLLSCAN.
+StudyResourceSchema.index({ level: 1, subject: 1, type: 1, year: -1, schoolName: 1 });
+StudyResourceSchema.index({ level: 1, subject: 1, type: 1, topicName: 1, practice: 1 });
 
 // Export this initialized model
 const StudyResource: Model<StudyResourceDocument> = models.studyresources || model<StudyResourceDocument>('studyresources', StudyResourceSchema);
