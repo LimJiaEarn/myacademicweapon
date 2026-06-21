@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!currentUserProfileObject) {
     return {
       title: "Invalid User",
+      robots: { index: false },
     };
   }
   const currentSignedInUserObject: UserObject = user
@@ -41,6 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ? "Your Profile"
         : currentUserProfileObject?.firstName + "'s Profile"
     }`,
+    robots: { index: false },
   };
 }
 

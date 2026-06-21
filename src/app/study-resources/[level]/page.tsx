@@ -29,10 +29,25 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const [{ level: levelParam }, resolvedSearchParams] = await Promise.all([params, searchParams]);
     const level = paramsMap(levelParam)
 
-    return {
-      title: resolvedSearchParams.subject ? `${level} ${resolvedSearchParams.subject}` : `${level} Resources`,
-
+    if (level === "Invalid") {
+      return { title: "Resources Not Found", robots: { index: false } };
     }
+
+    const exam = levelParam === "jc" ? "A-Level" : "O-Level";
+    const subject = resolvedSearchParams.subject;
+    // Filters share one dataset — point every variant at the clean level URL.
+    const canonical = `/study-resources/${levelParam}`;
+
+    return {
+      title: subject
+        ? `${level} ${subject} Practice Papers & Notes`
+        : `${level} Resources`,
+      description: subject
+        ? `Free ${level} ${subject} resources for Singapore students — ${exam} prelim papers, topical practice papers and study notes.`
+        : `Free ${level} study resources — ${exam} prelim papers, topical practice papers and study notes for Singapore students.`,
+      alternates: { canonical },
+      openGraph: { url: canonical },
+    };
 }
 
 

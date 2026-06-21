@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Privacy Policy",
+    description: "How My Academic Weapon collects, uses and protects your personal information.",
+    alternates: { canonical: "/privacypolicy" },
+};
+
 const PrivacyPolicyPage = () => {
     const sectionHeaderStyles = "text-pri_navy_dark text-lg md:text-xl font-semibold my-4";
     const sectionParaStyles = "text-base text-pri_navy_lighter leading-relaxed";

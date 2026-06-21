@@ -1,12 +1,39 @@
+import type { Metadata } from 'next';
 import { HeroParallax } from '@/components/ui/hero-parallax';
 import { heroImages } from '../../constants';
 import Features from '@/components/shared/Features';
+import { SITE_URL, SITE_NAME } from '@/lib/seo';
 
+export const metadata: Metadata = {
+  title: {
+    absolute: "My Academic Weapon — Free O-Level & A-Level Prelim Papers, Notes & Practice Papers",
+  },
+  description: "Build your academic arsenal: free Secondary and JC prelim papers, topical practice papers and study notes for Singapore students. Track progress, bookmark papers, study smarter.",
+  alternates: { canonical: "/" },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/images/BigLogo.png`,
+    },
+  ],
+};
 
 const HomePage = () => {
 
   return (
     <div className="flex_col_center w-full overflow-hidden">
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
 
       <section className="w-full px-2 sm:px-4 md:px-6">
         <HeroParallax products={heroImages} />

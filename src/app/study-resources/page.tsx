@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Explore Study Resources",
-  description: "Our comprehensive collection of practice papers and study notes tailored for each academic levels. Empower your learning journey with these essential study resources!"
+  description: "Browse free Secondary (O-Level) and JC (A-Level) study resources for Singapore students — yearly and topical practice papers plus study notes, organised by level and subject.",
+  alternates: { canonical: "/study-resources" },
 };
 
 interface StudyResourcesSectionCardProps {

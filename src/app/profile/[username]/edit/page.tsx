@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { auth } from '@clerk/nextjs/server'
 import { UserProfile } from '@clerk/nextjs';
 import LinkButton from "@/components/shared/LinkButton";
 import { getUserByClerkId } from '@/lib/actions/user.actions';
+
+export const metadata: Metadata = {
+    title: "Edit Profile",
+    robots: { index: false, follow: false },
+};
 
 
 const page = async () => {

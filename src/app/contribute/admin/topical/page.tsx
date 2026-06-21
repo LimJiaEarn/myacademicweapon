@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Form from '@/components/shared/Form';
 import { createPracticePaper } from '@/lib/actions/studyresource.actions';
 import { currentUser } from'@clerk/nextjs/server'
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+    title: "Admin — Topical Papers",
+    robots: { index: false, follow: false },
+};
 
 
 

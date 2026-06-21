@@ -20,7 +20,7 @@ A full-stack study resource platform for Singaporean students (Primary / Seconda
 
 ```
 src/
-├── middleware.ts                    # Clerk auth — route protection (kept as middleware, NOT proxy)
+├── proxy.ts                         # Clerk auth — route protection (Next 16 proxy convention, renamed from middleware.ts June 2026)
 ├── app/
 │   ├── layout.tsx                   # Root layout — ClerkProvider, Navbar, Footer, next/font (3 fonts → CSS vars)
 │   ├── page.tsx                     # Landing page (HeroParallax)
@@ -64,7 +64,7 @@ WEBHOOK_SECRET=whsec_...   # Svix webhook signing secret from Clerk Dashboard
 
 ## Authentication Patterns
 
-**Middleware** — `src/middleware.ts` uses `clerkMiddleware`. Public routes are explicitly listed; everything else requires auth. Do NOT rename this file to `proxy.ts` — the edge runtime is required for Clerk and is not supported in Next.js 16's new `proxy` convention.
+**Proxy (middleware)** — `src/proxy.ts` uses `clerkMiddleware` under Next 16's `proxy` file convention (renamed from `middleware.ts` in June 2026 to clear the deprecation warning; @clerk/nextjs ≥6.39 fully supports Next 16 / the Node.js proxy runtime). Public routes are explicitly listed; everything else requires auth.
 
 **Server components** — use `currentUser()` or `auth()` from `@clerk/nextjs/server`:
 ```ts

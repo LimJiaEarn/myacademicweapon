@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, GOOGLE_SITE_VERIFICATION } from "@/lib/seo";
 import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -33,9 +34,24 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Academic Weapon",
-  description: "Build Your Academic Arsenal & Empower Your Study Sessions!",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "My Academic Weapon — Free Prelim Papers & Study Notes for Singapore Students",
+    template: "%s | My Academic Weapon",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_SG",
+    url: "/",
+  },
+  twitter: { card: "summary_large_image" },
+  verification: { google: GOOGLE_SITE_VERIFICATION },
 };
+
+export const viewport: Viewport = { themeColor: "#19BDB6" };
 
 export default function RootLayout({
   children,
@@ -54,13 +70,6 @@ export default function RootLayout({
         className="relative scroll-pt-4 sm:scroll-pt-[7.5rem]"
         data-scroll-behavior="smooth"
       >
-        <head>
-          {/* Google Verification */}
-          <meta
-            name="google-site-verification"
-            content="fgFblIdD-kvYb-XjhGf0B57bu3JMY-gwpIHFH0xY2K4"
-          />
-        </head>
         <body
           className={`${bricolage.variable} ${hanken.variable} ${jetbrains.variable} font-sans antialiased`}
         >
